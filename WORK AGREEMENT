@@ -1,0 +1,61 @@
+# Team Working Agreement
+
+## Team and project
+
+* **Team name:** Team 1
+* **Project working title:** TBD (will update after we pick an idea)
+* **Date agreed:** 2026-09-09
+
+## Members, strengths, and availability
+
+| Student         | Strengths or experience to use      | Regular availability / known conflicts |
+| --------------- | ----------------------------------- | -------------------------------------- |
+| Galan Bishal    | Organizing tasks, coding            | Available most afternoon and midnight  |
+| Bal Raju        | Brainstorming, testing              | Flexible, works well in the afternoon  |
+| Ansh Sharma     | Writing code, debugging             | Free on weekends and evenings          |
+| Buddha Raj Giri | Documentation, design, presentation | Available most weeknights              |
+
+## Roles for the first sprint
+
+| Role                          | Student         | What this person is responsible for                                                                                                |
+| ----------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Project / board coordinator   | Galan Bishal    | Keep Issues, owners, deadlines, and next actions current. Help coordinate the team's overall progress.                             |
+| Research / brainstorming lead | Bal Raju        | Help develop project ideas, research requirements, and support testing and evaluation of the project.                              |
+| Build / quality lead          | Ansh Sharma     | Lead coding and debugging tasks. Keep the main demo path working and make sure technical issues are identified and fixed.          |
+| Documentation / design lead   | Buddha Raj Giri | Manage project documentation, organize evidence and reports, and help maintain the project's UI/design and presentation materials. |
+
+## Communication and meetings
+
+* **Main communication channel:** Messenger group chat
+* **Normal response expectation:** Usually within a few hours, definitely by the end of the day.
+* **Regular meeting or work time:** Mostly during class, with additional check-ins on Messenger when the team needs to coordinate.
+* **How we will record decisions and action items:** Major decisions and important action items will be recorded in GitHub Issues so the team has a clear record.
+* **How we will tell the team about an absence or delayed task:** Members should notify the Messenger group as early as possible if they will be absent or unable to complete a task on time.
+
+## How we work
+
+* We create or update a GitHub Issue before starting significant work.
+* Each task should have an owner and a clear, manageable Definition of Done.
+* We link relevant proof, documents, and implementation evidence in GitHub.
+* Substantial changes should be reviewed by another team member before merging.
+* We communicate respectfully and give feedback about the work, not the person.
+* We assume good intent and help each other when someone is blocked.
+* We follow the Project Work Policy for privacy, attribution, and responsible use of AI.
+
+## If work or communication breaks down
+
+1. Raise the concern privately and respectfully with the teammate as soon as possible.
+2. Clearly identify the missed or blocked task, the evidence, and a realistic next step in the relevant Issue or team note.
+3. Agree on a recovery plan and review the progress at the next team meeting.
+4. If the issue remains unresolved, or someone cannot safely raise the concern with the team, contact the instructor through the course-designated channel and provide the relevant GitHub links.
+
+## Agreement
+
+By signing, each member agrees to follow this plan, communicate problems early, contribute fairly to the project, and update the agreement when circumstances change.
+
+| Student         | Signature or GitHub confirmation | Date       |
+| --------------- | -------------------------------- | ---------- |
+| Galan Bishal    | @bishal482 (confirmed)           | 2026-09-09 |
+| Bal Raju        | @CoderRaaju (confirmed)          | 2026-09-09 |
+| Ansh Sharma     | @---------- (confirmed)          | 2026-09-09 |
+| Buddha Raj Giri | @__________ (confirmed)          | 2026-09-09 |
