@@ -28,10 +28,10 @@ Each student records their preferred idea and one concern after class.
 
 | Student | Preferred idea | One concern | Evidence link |
 |---|---|---|---|
-| Galan Bishal | Student Life Hub | Managing multiple features such as schedules, assignments, reminders, and student accounts without making the system too complicated. | TBD |
-| Bal Raju | Campus Food & Restaurant Finder | Keeping restaurant information, menus, prices, and opening hours accurate and up to date. | TBD |
-| Ansh Sharma | Movie & Series Discovery PWA | Finding a reliable movie API and handling API limits while providing fast search and recommendations. | TBD |
-| Buddha Raj Giri | Student Part-Time Job Finder | Keeping job information accurate and designing an easy-to-use interface for both students and employers. | TBD |
+| Galan Bishal | Student Life Hub | Managing multiple features such as schedules, assignments, reminders, and student accounts without making the system too complicated. | [link](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/c2ae97fe828329e207fb4bde660237fbc5e2dac1/five-project-ideas.md) |
+| Bal Raju | Campus Food & Restaurant Finder | Keeping restaurant information, menus, prices, and opening hours accurate and up to date. | [link](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/c2ae97fe828329e207fb4bde660237fbc5e2dac1/five-project-ideas.md) |
+| Ansh Sharma | Movie & Series Discovery PWA | Finding a reliable movie API and handling API limits while providing fast search and recommendations. | [link](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/c2ae97fe828329e207fb4bde660237fbc5e2dac1/five-project-ideas.md) |
+| Buddha Raj Giri | Student Part-Time Job Finder | Keeping job information accurate and designing an easy-to-use interface for both students and employers. | [link](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/c2ae97fe828329e207fb4bde660237fbc5e2dac1/five-project-ideas.md) |
 
 ## Ready for Week 2
 
