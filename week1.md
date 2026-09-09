@@ -9,7 +9,7 @@ This is the Week 1 report. It replaces the standard Weekly Report for this week.
 
 | Check | Evidence link | Confirmed by |
 |---|---|---|
-| Team repository exists | gh repo clone CapstoneDesign-Fall2026-UlsanCollege/Team1  | Bishal482 |
+| Team repository exists | @Team1  | Bishal482 |
 | Project board exists |  | Bishal482 |
 | Every member has access | YES | Bishal482 |
 | One planning Issue or document exists |  | Bishal482 |
