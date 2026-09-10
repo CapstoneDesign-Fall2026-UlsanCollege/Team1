@@ -18,8 +18,8 @@ What project decision could this answer change?
 
 | Option | What it would look like | Main benefit | Main concern |
 |---|---|---|---|
-| Option A |  |  |  |
-| Option B |  |  |  |
+| Option A | Student's Friend | Basically, it will make the student life easier as they can get to know the required information needed during their student life. | As it is the combination of 4 different projects, it might become bigger and harder to handle. |
+| Option B | Cinema library | Public/Users can easily see the ratings of the show or movies and decide weather to watch the movie or not. | The api might be outdated.  |
 
 ## Evidence
 
