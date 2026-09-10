@@ -57,5 +57,5 @@ By signing, each member agrees to communicate problems early, contribute fairly,
 |---|---|---|
 | Galan Bishal | @bishal482 (confirmed) | 2026-09-09 |
 | Bal Raju | @CoderRaaju (confirmed) | 2026-09-09 |
-| Ansh Sharma | @---------- (confirmed) | 2026-09-09 |
-| Buddha Raj Giri | @__________ (confirmed) | 2026-09-09 |
+| Ansh Sharma | @anshsharma123 (confirmed) | 2026-09-09 |
+| Buddha Raj Giri | @budhaRajgiri (confirmed) | 2026-09-09 |
