@@ -10,9 +10,9 @@ This is the Week 1 report. It replaces the standard Weekly Report for this week.
 | Check | Evidence link | Confirmed by |
 |---|---|---|
 | Team repository exists | @Team1  | Bishal482 |
-| Project board exists |  | Bishal482 |
+| Project board exists | [Board](https://github.com/orgs/CapstoneDesign-Fall2026-UlsanCollege/projects/5/views/1?layout=board) | Bishal482 |
 | Every member has access | YES | Bishal482 |
-| One planning Issue or document exists |  | Bishal482 |
+| One planning Issue or document exists | [Issue](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/1) | Bishal482 |
 | Team Working Agreement is complete | [WORK AGREEMENT](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/a83bd5d83497d19a93f1efca8db88394d7354423/WORK%20AGREEMENT) | Bishal482 |
 
 ## Five candidate project ideas
