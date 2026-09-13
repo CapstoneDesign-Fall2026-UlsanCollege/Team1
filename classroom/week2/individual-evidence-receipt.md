@@ -22,6 +22,6 @@
 ## Receipt 3, optional
 
 - **What I did:** Created GitHub Issues for the project planning documents.
-- **Evidence link:** [issue1](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/5#issue-5441866260), [issue2](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/6#issue-5441872176)
+- **Evidence link:** [issue1](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/5#issue-5441866260), [issue2](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/6#issue-5441872176), [issue3](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/7#issue-5442133939)
 - **How I checked it:** Checked that the tasks, owners, and Definition of Done were clearly written.
 - **What I learned or changed:** Learned how to track team tasks and contributions using GitHub Issues.
