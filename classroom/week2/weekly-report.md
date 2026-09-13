@@ -22,8 +22,8 @@ If it is not linked, it does not count.
 
 | Evidence | Link |
 |---|---|
-| Issue(s) | [design_doc_issue](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/5#issue-5441866260), [idea_selection_issue](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/6#issue-5441872176) |
-| PR(s) / commits | TBD |
+| Issue(s) | [design_doc_issue](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/5#issue-5441866260), [idea_selection_issue](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/6#issue-5441872176) , [confirmation](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/7#issue-5442133939)|
+| PR(s) / commits | [bishal](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/c5fd1cf2d9733d2827585ac2ac110b9101b30b4b/classroom/week2/individual-evidence-receipt.md), [#2](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/7#issuecomment-5655567853) |
 | Screenshot / demo | TBD |
 | Test/check note | [check_note](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/49b38d38a2d85ef8d739d3f70191981b8eceeb29/classroom/week2/check_note.md) |
 | Document update | [design-docs](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/e5f3ddcab17faf33861add1452c4fa12375338ea/classroom/week2/design-doc-v1.md) |
