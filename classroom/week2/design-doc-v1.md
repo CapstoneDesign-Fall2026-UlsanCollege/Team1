@@ -27,7 +27,7 @@ A PWA where students can view their study information, find nearby restaurants, 
 
 `Start → Open Student Life Hub → Choose a service → Search or browse → View useful information`
 
-Evidence / sketch link: TBD
+Evidence / sketch link: [sketch](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/7a3a3412765bb2ab0f66a49634ec541a2a6012b8/classroom/week2/benko%20ss.png)
 
 ## 4. In scope
 
