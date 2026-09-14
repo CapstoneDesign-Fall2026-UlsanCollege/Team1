@@ -65,12 +65,12 @@ Our final demo will prove:
 
 | Feature | Required for MVP? | Owner | Issue link |
 |---|---|---|---|
-| Study / Student Life Hub | Yes | Galan Bishal | TBD |
+| Study / Student Life Hub | Yes | Galan Bishal | [link](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/8#issue-5443792750) |
 | Food / Restaurant Search | Yes | Bal Raju | TBD |
 | Part-time Job Search | Yes | Buddha Raj Giri | TBD |
 | Housing Search | Yes | Ansh Sharma | TBD |
 | Search & Filters | Yes | All members | TBD |
-| Responsive PWA Design | Yes | All members | TBD |
+| Responsive PWA Design | Yes | All members | [link](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/8#issue-5443792750) |
 | Favorites / Saved Items | No | TBD | TBD |
 | Roommate Matching | No | Ansh Sharma | TBD |
 
