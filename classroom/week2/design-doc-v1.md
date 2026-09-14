@@ -86,6 +86,6 @@ Our final demo will prove:
 
 ## 10. Evidence links
 
-- Planning Issue: TBD
-- Weekly Report: TBD
-- Demo/proof links: TBD
+- Planning Issue: [idea](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/5bd1bedba6aa95d7eac4d8207dbd81e306b81d80/classroom/week2/idea-selection-table.md)
+- Weekly Report: [week2](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/5bd1bedba6aa95d7eac4d8207dbd81e306b81d80/classroom/week2/weekly-report.md)
+- Demo/proof links: [design](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/5bd1bedba6aa95d7eac4d8207dbd81e306b81d80/classroom/week2/design-doc-v1.md)
