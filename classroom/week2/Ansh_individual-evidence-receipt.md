@@ -20,7 +20,7 @@
 
 ## Receipt 2
 
-- **What I did:**  
+- **What I did:*[[link](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/10#issue-5470130662)***  
   Compared two possible designs for Uni Stay: separate **Find a Room** and **Find a Roommate** sections versus one combined housing search.
 
 - **Evidence link:**  
