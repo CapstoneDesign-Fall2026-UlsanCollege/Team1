@@ -8,7 +8,7 @@ Post 2–3 receipts per week when contribution tracking matters.
 
 Receipt 1
 What I did: Investigated how the Student Part-Time Work feature could be integrated into the Student Life Hub alongside Study, Food, and Housing.
-Evidence link:**
+Evidence link:**https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/11#issue-5470922511**
 How I checked it: Reviewed the proposed features and considered how Part-Time Work could fit into the Hub's navigation and overall purpose.
 What I learned or changed: I learned that Part-Time Work can be a useful core feature of Student Life Hub. I recommended prioritizing it alongside Study and Food, while simplifying or postponing Housing if necessary.
 Receipt 2
