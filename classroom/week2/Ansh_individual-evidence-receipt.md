@@ -10,8 +10,7 @@
 - **What I did:**  
   Investigated the main structure of the Uni Stay feature and identified the two main functions: finding a room and finding a roommate.
 
-- **Evidence link:**  
-  Student Hub / Uni Stay user-flow diagram.
+- **Evidence link:[link](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/10#issue-5470130662)**  
 
 - **How I checked it:**  
   I reviewed the existing Student Hub flow and broke down the Housing section into the main actions a student would need.
