@@ -40,7 +40,7 @@
 - **Evidence link:**  
   Uni Stay user-flow sketch/diagram.
 
-- **How I checked it:**  
+- **How I checked it:*[link]https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/10#issuecomment-5693181143*  
   I mapped the flow from Student Hub → Uni Stay → Find a Room / Find a Roommate → Search + Filters → Results → Details/Profile.
 
 - **What I learned or changed:**  
