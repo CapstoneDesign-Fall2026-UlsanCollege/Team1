@@ -1,111 +1,103 @@
-# Sprint 0: Define Uni Stay MVP Scope and Candidate Vertical Slice
+# Sprint 0 Report — Launch and Scope
 
-## Goal
+**Team:** 1  
+**Sprint:** Sprint 0 — Launch and Scope  
+**Date:** 2026-09-21  
+**Status:** [ ] Ready to close [ ] Ready with an explicitly owned exception
 
-Define the MVP scope and basic user journey for the Uni Stay feature within the Student Hub PWA.
+## Sprint 0 outcome
 
-Uni Stay will help students find accommodation and potential roommates.
+Our team has defined the initial direction of the Student Hub MVP, which will include Student Life Hub, Campus Eats, Student Part-Time Work, and Uni Stay.
 
-## Background
+For Uni Stay, we have identified the main user journey for finding rooms and roommates and proposed a room-search vertical slice for the initial implementation.
 
-In Week 2, we investigated whether Uni Stay should use separate sections for room searching and roommate searching.
+## Project snapshot
 
-We recommended separate sections because finding a room and finding a roommate require different information, filters, and user goals.
+| Field | Current answer | Evidence link |
+|---|---|---|
+| Project purpose | Student Hub is a PWA and MVP platform that provides useful student services, including student life information, campus food, part-time work, and housing. | Student Hub project documentation |
+| Target user | University students who need access to student services, accommodation information, food options, and part-time work opportunities. | Project scope documentation |
+| In-scope boundary | Student Life Hub, Campus Eats, Student Part-Time Work, and Uni Stay. Uni Stay includes room searching, roommate searching, filtering, listings, and useful details. | Student Hub user-flow diagram |
+| Out-of-scope boundary | Advanced payment systems, contract management, background verification, advanced matching algorithms, and other features not required for the initial MVP. | MVP scope issue |
+| Possible midterm demo sentence | Our midterm demo will show students accessing Student Hub, selecting Uni Stay, searching for rooms, applying basic filters, and viewing room details. | Candidate vertical slice documentation |
 
-## Proposed MVP Features
+## Sprint 0 exit evidence
 
-### 1. Find a Room
+| Requirement | Evidence link | Status or short note |
+|---|---|---|
+| Team repository and Project board work | [Add repository and Project board link] | Confirm with team |
+| Team Working Agreement is linked and current | [Add Working Agreement link] | Confirm with team |
+| Six to ten next-work Issues exist | [Add Issues link] | Confirm issue count |
+| Important Issues have first owners | [Add Project board link] | Confirm owners |
+| At least three Issues have a checkable Definition of Done | [Add issue links] | Confirm with team |
+| Tech stack comparison is recorded | [Add tech stack comparison link] | Confirm with team |
+| Rough wireframe placeholders are linked | [Add wireframe link] | Student Hub and Uni Stay flow available |
+| Rough architecture placeholder is linked | [Add architecture link] | Confirm with team |
+| Candidate vertical slice is linked | [Add vertical slice issue link] | Uni Stay room search proposed |
+| Sprint 0 Quality Quick Checks are complete | [Add quality checklist link] | Confirm with team |
+| Week 3 Weekly Report is complete | [Add Weekly Report link] | Confirm with team |
 
-- Browse available room listings.
-- Search and filter rooms.
-- Filter by location, rent, room type, and availability.
-- View room details.
-- View contact/request information.
+## Candidate vertical slice
 
-### 2. Find a Roommate
+- **User or actor:**  
+  A student looking for accommodation.
 
-- Browse roommate profiles.
-- Search and filter potential roommates.
-- View basic student profile information.
-- View roommate preferences.
-- Contact or send a request.
+- **Start state:**  
+  The student is logged in and has opened Student Hub.
 
-## Candidate Vertical Slice
+- **Smallest end-to-end path:**
 
-### User or actor
+  ```text
+  Login / Sign up
+        ↓
+  Student Hub
+        ↓
+  Housing / Uni Stay
+        ↓
+  Find a Room
+        ↓
+  Search and Apply Filters
+        ↓
+  View Search Results
+        ↓
+  View Room Details
+  ```
 
-A student looking for accommodation.
+- **What the demo should prove:**  
+  A student can access Uni Stay, search or browse room listings, apply basic filters, and view useful room information.
 
-### Start state
+- **What is deliberately out of scope:**  
+  Online rent payment, contract management, background verification, advanced roommate matching, real-time chat, and a complete booking system.
 
-The student is logged in and has opened Student Hub.
+- **Evidence link:**  
+  [Add Uni Stay user-flow diagram and vertical slice issue link]
 
-### Smallest end-to-end path
+## Risks and owned exceptions
 
-```text
-Login / Sign up
-      ↓
-Student Hub
-      ↓
-Housing / Uni Stay
-      ↓
-Find a Room
-      ↓
-Search and Apply Filters
-      ↓
-View Search Results
-      ↓
-View Room Details
-```
+| Risk or exception | Owner | Next action | Due or review point |
+|---|---|---|---|
+| The team still needs to confirm the final MVP feature priorities. | Team 1 | Review the proposed MVP scope and agree on the first vertical slice. | Week 4 |
+| Room and roommate data requirements may change during implementation. | Uni Stay owner | Identify the minimum required fields for rooms and roommate profiles. | Week 4 |
+| Some team-wide Sprint 0 evidence links may be missing. | Assigned team member | Add repository, Project board, architecture, and Working Agreement links. | Before Sprint 0 closure |
 
-### What the demo should prove
+## Bridge into Week 4 and Sprint 1
 
-The demo should show that a student can:
+- **Week 4 Chuseok Checkpoint Issue:**  
+  [Add Week 4 Chuseok Checkpoint Issue link]
 
-1. Open Uni Stay from Student Hub.
-2. Select Find a Room.
-3. Search or browse available room listings.
-4. Apply basic filters.
-5. Open a room listing.
-6. View useful room information.
+- **Rough sketch or photo link:**  
+  [Add Uni Stay user-flow diagram link]
 
-## Out of Scope for the MVP
+- **One blocker or question for Week 5:**  
+  What minimum room and roommate information should be included in the MVP, and how will the team store and display the listings?
 
-The following features are not part of the initial vertical slice:
+- **First action after the break:**  
+  Review the Uni Stay MVP scope with the team, confirm the room-search vertical slice, and begin creating the basic room listing and search interface.
 
-- Online rent payment.
-- Contract management.
-- Background verification.
-- Automatic roommate compatibility scoring.
-- Real-time chat.
-- Full booking and reservation system.
-- Advanced recommendation algorithms.
+## Final check
 
-These features may be considered in future development.
-
-## Evidence
-
-- Student Hub overall user-flow diagram.
-- Uni Stay detailed user-flow diagram.
-- Week 2 investigation: Room Search vs Roommate Search Structure.
-- Uni Stay MVP feature notes.
-
-## Definition of Done
-
-- [ ] Uni Stay MVP features are documented.
-- [ ] Room search and roommate search are clearly separated.
-- [ ] A candidate vertical slice is documented.
-- [ ] MVP in-scope and out-of-scope features are listed.
-- [ ] Basic user flow is reviewed by the team.
-- [ ] Evidence links or attachments are added.
-- [ ] A teammate reviews the proposed scope.
-
-## Teammate Response
-
-Please review the proposed Uni Stay MVP scope and candidate vertical slice.
-
-Do you agree that room searching should be the first vertical slice, or should we start with roommate searching?
-
-**Response link or summary:**
-
-Waiting for teammate feedback.
+- [ ] Every evidence link resolves for a reader with team-repository access.
+- [ ] The team can explain the project purpose, target user, scope boundary, and candidate slice.
+- [ ] The next work is represented by small Issues with owners and checkable completion criteria.
+- [ ] The team has not posted personal data, secrets, or unapproved real-user data.
+- [ ] This report is linked from the team's Week 3 evidence or Weekly Report.
