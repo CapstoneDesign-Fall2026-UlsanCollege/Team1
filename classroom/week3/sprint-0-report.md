@@ -27,17 +27,17 @@ In one or two sentences, what is your team now ready to build next?
 
 | Requirement | Evidence link | Status or short note |
 |---|---|---|
-| Team repository and Project board work |  | Complete / exception:  |
-| Team Working Agreement is linked and current |  | Complete / exception:  |
-| Six to ten next-work Issues exist |  | Complete / exception:  |
-| Important Issues have first owners |  | Complete / exception:  |
-| At least three Issues have a checkable Definition of Done |  | Complete / exception:  |
-| Tech stack comparison is recorded |  | Complete / exception:  |
-| Rough wireframe placeholders are linked |  | Complete / exception:  |
-| Rough architecture placeholder is linked |  | Complete / exception:  |
-| Candidate vertical slice is linked |  | Complete / exception:  |
-| Sprint 0 Quality Quick Checks are complete |  | Complete / exception:  |
-| Week 3 Weekly Report is complete |  | Complete / exception:  |
+| Team repository and Project board work |  | Complete |
+| Team Working Agreement is linked and current |  | Complete  |
+| Six to ten next-work Issues exist |  | Complete |
+| Important Issues have first owners |  | Complete |
+| At least three Issues have a checkable Definition of Done |  | Complete  |
+| Tech stack comparison is recorded |  | Complete |
+| Rough wireframe placeholders are linked |  | Complete  |
+| Rough architecture placeholder is linked |  | Complete  |
+| Candidate vertical slice is linked |  | Complete  |
+| Sprint 0 Quality Quick Checks are complete |  | Complete |
+| Week 3 Weekly Report is complete |  | Complete |
 
 ## Candidate vertical slice
 
