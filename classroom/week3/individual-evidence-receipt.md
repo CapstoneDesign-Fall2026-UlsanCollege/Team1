@@ -28,7 +28,7 @@ This is supporting evidence, not a separate weekly report. Use it only when a we
 - **How I checked it:** Compared the two proposed stacks based on what we need to build, what we need to learn, midterm demo feasibility, and possible risks.
 - **What I learned or changed:** Chose TypeScript across the frontend and backend and MySQL for persistent relational data.
 
-  ## Receipt 4, optional
+## Receipt 4, optional
 
 - **What I did:** Defined the basic user flow for the Student Life MVP from authentication to selecting and viewing a Student Life slice.
 - **Evidence link:** [image](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/50b705b255038608f412801825b7efb6dccd411a/classroom/week3/benweek3.png)
