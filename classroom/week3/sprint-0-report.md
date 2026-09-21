@@ -1,6 +1,6 @@
 # Sprint 0 Report — Launch and Scope
 
-**Team:**  1
+**Team:** 1
 **Sprint:** Sprint 0 — Launch and Scope  
 **Date:**  
 **Status:** [ ] Ready to close  [ ] Ready with an explicitly owned exception
