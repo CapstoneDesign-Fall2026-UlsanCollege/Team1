@@ -27,8 +27,15 @@ Our midterm demo will show:
 ## One blocker or question for Week 5
 
 - How should we connect the five independently developed slices to the Node.js + TypeScript backend and MySQL database without making the MVP too large?
+- **Semester slice handoff:** Bal Raju documented the smallest proposed API and data contract for the Semester slice so backend integration can start with one agreed response shape. See [Raju's Week 4 integration contract](raju-semester-integration-contract.md).
 
 ## Optional: easiest first screen or interaction
 
 - Student Life Dashboard with five simple navigation cards.
 - First interaction: select a category and open its corresponding slice.
+
+## Individual contribution evidence
+
+- **Bal Raju:** Defined the Semester slice's proposed API response, storage fields,
+  error cases, and Week 5 acceptance checks in
+  [the Semester integration contract](raju-semester-integration-contract.md).
