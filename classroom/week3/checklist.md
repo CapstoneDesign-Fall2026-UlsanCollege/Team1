@@ -67,21 +67,21 @@ The first five Issues are the main Student Life feature work. The remaining Issu
 
 ## 4. Compare possible technology choices
 
-| Question | Option A — React | Option B — Vanilla HTML/CSS/JavaScript |
+| Question | Option A — Vue + TypeScript | Option B — React + JavaScript |
 |---|---|---|
-| What is it good at? | Building reusable and interactive UI components | Building simple web pages with basic technologies |
-| What does the team already know? | The team can learn and use component-based development | HTML, CSS and JavaScript are straightforward to understand |
-| What could slow us down? | React setup and component structure may require additional learning | Larger projects can become harder to organize as features increase |
+| What is it good at? | Building reusable and interactive UI components with the selected TypeScript stack | Building reusable and interactive UI components with a widely used ecosystem |
+| What does the team already know? | The team can learn and use Vue and TypeScript together | The team would need to learn React and JavaScript conventions |
+| What could slow us down? | Vue, TypeScript, and API integration may require additional learning | Switching to JavaScript would create a less consistent stack with the backend |
 | Best first test | Build the Student Life Dashboard and one feature screen | Build the Student Life Dashboard and one feature screen |
-| Decision | **Choose React** | Alternative |
+| Decision | **Choose Vue + TypeScript** | Alternative |
 
 ### Decision sentence
 
-> We choose **React** for the first Student Life slice because it supports reusable components and makes it easier to organize the five Student Life features as the project grows.
+> We choose **Vue + TypeScript** for the first Student Life slice because it supports reusable components and keeps the frontend and backend language consistent as the five Student Life features grow.
 
 ### Remaining uncertainty Issue
 
-> Can the team successfully build and preview the first Student Life slice using React and keep the five feature components simple enough to develop independently?
+> Can the team successfully build and preview the first Student Life slice using Vue + TypeScript and keep the five feature components simple enough to develop independently?
 
 ---
 
