@@ -162,7 +162,7 @@ Prove a small Student Life path and reduce the biggest scope, technology, design
 | Student | What they did | Evidence link |
 |---|---|---|
 | Galan Bishal | Coordinated the Student Life scope and worked on the Student Profile feature. | [Issue 16](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/16) |
-| Bal Raju | Worked on the Semester feature and contributed to the Student Life feature structure. | [Student Life slice Issue](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/13) |
+| Bal Raju | Worked on the Semester feature, contributed to the Student Life feature structure, and documented the integration handoff. | [individual receipt](raju_individual-evidence-receipt.md) / [Student Life slice Issue](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/13) |
 | Ansh Sharma | Worked on the Course feature and contributed to the technology/backend discussion. | [Tech stack comparison](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/week3/tech-stack-comparison.md) |
 | Buddha Raj Giri | Organized documentation and worked on the Student Job and feature-slice planning. | [Weekly report](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/week3/weekly-report.md) |
 
