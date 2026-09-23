@@ -1,8 +1,8 @@
 # Individual Evidence Receipt
 
-**Student:** Bal Raju  
-**Team:** 1  
-**Week:** 3  
+**Student:** Bal Raju
+**Team:** 1
+**Week:** 3
 **Date:** 2026-09-23
 
 This receipt records my individual Week 3 contribution to the Student Life MVP.
