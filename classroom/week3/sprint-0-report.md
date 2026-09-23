@@ -15,27 +15,27 @@ For Uni Stay, we have identified the main user journey for finding rooms and roo
 
 | Field | Current answer | Evidence link |
 |---|---|---|
-| Project purpose | Student Hub is a PWA and MVP platform that provides useful student services, including student life information, campus food, part-time work, and housing. | Student Hub project documentation |
+| Project purpose | Student Hub is a PWA and MVP platform that provides useful student services, including student life information, campus food, part-time work, and housing. | Student Hub project doc[...] |
 | Target user | University students who need access to student services, accommodation information, food options, and part-time work opportunities. | Project scope documentation |
-| In-scope boundary | Student Life Hub, Campus Eats, Student Part-Time Work, and Uni Stay. Uni Stay includes room searching, roommate searching, filtering, listings, and useful details. | Student Hub user-flow diagram |
+| In-scope boundary | Student Life Hub, Campus Eats, Student Part-Time Work, and Uni Stay. Uni Stay includes room searching, roommate searching, filtering, listings, and useful details. | Student Hub [...] |
 | Out-of-scope boundary | Advanced payment systems, contract management, background verification, advanced matching algorithms, and other features not required for the initial MVP. | MVP scope issue |
-| Possible midterm demo sentence | Our midterm demo will show students accessing Student Hub, selecting Uni Stay, searching for rooms, applying basic filters, and viewing room details. | Candidate vertical slice documentation |
+| Possible midterm demo sentence | Our midterm demo will show students accessing Student Hub, selecting Uni Stay, searching for rooms, applying basic filters, and viewing room details. | Candidate ver[...] |
 
 ## Sprint 0 exit evidence
 
 | Requirement | Evidence link | Status or short note |
 |---|---|---|
-| Team repository and Project board work | [Add repository and Project board link] | Confirm with team |
-| Team Working Agreement is linked and current | [Add Working Agreement link] | Confirm with team |
-| Six to ten next-work Issues exist | [Add Issues link] | Confirm issue count |
-| Important Issues have first owners | [Add Project board link] | Confirm owners |
-| At least three Issues have a checkable Definition of Done | [Add issue links] | Confirm with team |
-| Tech stack comparison is recorded | [Add tech stack comparison link] | Confirm with team |
-| Rough wireframe placeholders are linked | [Add wireframe link] | Student Hub and Uni Stay flow available |
-| Rough architecture placeholder is linked | [Add architecture link] | Confirm with team |
-| Candidate vertical slice is linked | [Add vertical slice issue link] | Uni Stay room search proposed |
-| Sprint 0 Quality Quick Checks are complete | [Add quality checklist link] | Confirm with team |
-| Week 3 Weekly Report is complete | [Add Weekly Report link] | Confirm with team |
+| Team repository and Project board work | [Repository](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1) and [Issues / project board](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues) | Complete |
+| Team Working Agreement is linked and current | [Working Agreement](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/week1/WORK%20AGREEMENT.md) | Current |
+| Six to ten next-work Issues exist | [Issue list](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues) | 6+ issues identified |
+| Important Issues have first owners | [Issue list with owners](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues) | Owners assigned in the issue set |
+| At least three Issues have a checkable Definition of Done | [Issue #13](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/13), [Issue #15](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/15), [Issue #16](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/16) | DoD included |
+| Tech stack comparison is recorded | [Tech stack comparison](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/week3/tech-stack-comparison.md) | Recorded |
+| Rough wireframe placeholders are linked | [Wireframe notes](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/week3/wireframe-notes.md) | Student Hub and Uni Stay flow available |
+| Rough architecture placeholder is linked | [Architecture sketch](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/week3/architecture-sketch.md) | Recorded |
+| Candidate vertical slice is linked | [Uni Stay Sprint 0 issue](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/21) | Room-search vertical slice defined |
+| Sprint 0 Quality Quick Checks are complete | [Checklist](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/week3/checklist.md) | Complete |
+| Week 3 Weekly Report is complete | [Weekly Report](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/week3/weekly-report.md) | Complete |
 
 ## Candidate vertical slice
 
@@ -70,7 +70,7 @@ For Uni Stay, we have identified the main user journey for finding rooms and roo
   Online rent payment, contract management, background verification, advanced roommate matching, real-time chat, and a complete booking system.
 
 - **Evidence link:**  
-  [Add Uni Stay user-flow diagram and vertical slice issue link]
+  [Uni Stay candidate vertical slice issue](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/21)
 
 ## Risks and owned exceptions
 
