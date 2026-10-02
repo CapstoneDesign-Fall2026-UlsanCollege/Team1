@@ -33,7 +33,7 @@ Finalize the project scope for the Student Life MVP and prepare the team for Spr
 | Student | What they did | Evidence link |
 |---|---|---|
 | Galan Bishal | Coordinated the project scope, feature-slice discussion, feature ideas. |  |
-| Bal Raju | Contributed to the Student Life feature scope and feature ideas. |  |
+| Bal Raju | Owned the Semester feature, contributed to the Student Life feature structure, and documented the integration handoff. | [individual receipt](raju_individual-evidence-receipt.md) |
 | Ansh Sharma | Contributed to the feature structure and backend/integration discussion. |  |
 | Buddha Raj Giri | Contributed to documentation and project-scope organization. |  |
 
