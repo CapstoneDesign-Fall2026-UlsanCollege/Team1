@@ -1,0 +1,6 @@
+import type { Pool, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
+export type Semester = { id: number; name: string; academic_year: number; start_date: string; end_date: string };
+export async function listSemesters(pool: Pool) { const [rows] = await pool.query<RowDataPacket[]>('SELECT id,name,academic_year,start_date,end_date FROM semesters ORDER BY academic_year DESC,start_date DESC'); return rows as Semester[]; }
+export async function addSemester(pool: Pool, value: Omit<Semester, 'id'>) { const [result] = await pool.execute<ResultSetHeader>('INSERT INTO semesters (name,academic_year,start_date,end_date) VALUES (?,?,?,?)',[value.name,value.academic_year,value.start_date,value.end_date]); return result.insertId; }
+export async function assignedSemesters(pool: Pool, userId: number) { const [rows] = await pool.execute<RowDataPacket[]>('SELECT s.id,s.name,s.academic_year,s.start_date,s.end_date FROM semesters s JOIN student_semesters ss ON ss.semester_id=s.id WHERE ss.student_user_id=? ORDER BY s.start_date DESC',[userId]); return rows as Semester[]; }
+export async function assignSemester(pool: Pool, studentUserId: number, semesterId: number) { await pool.execute('INSERT INTO student_semesters (student_user_id,semester_id) VALUES (?,?)',[studentUserId,semesterId]); }

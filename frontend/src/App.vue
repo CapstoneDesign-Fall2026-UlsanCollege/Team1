@@ -1,0 +1,118 @@
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import CreateStudent from './components/CreateStudent.vue'
+import StudentManager from './components/StudentManager.vue'
+import CreateSemester from './components/CreateSemester.vue'
+import AssignSemester from './components/AssignSemester.vue'
+import CourseBoard from './components/CourseBoard.vue'
+import ScheduleManager from './components/ScheduleManager.vue'
+import StudentLife from './components/StudentLife.vue'
+type User = { id: number; login_id: string; role: 'admin' | 'student' }
+const user = ref<User | null>(null)
+const loginId = ref('')
+const password = ref('')
+const error = ref('')
+const busy = ref(false)
+const loading = ref(true)
+const creatingStudent = ref(false)
+const editingStudent = ref(false)
+const studentRevision = ref(0)
+const semesterRevision = ref(0)
+function sessionExpired() {
+  user.value = null
+  error.value = 'Your session has expired. Please log in again.'
+}
+
+async function api(path: string, body?: object) {
+  const response = await fetch('/api' + path, {
+    method: body ? 'POST' : 'GET',
+    headers: body ? { 'Content-Type': 'application/json', 'X-StudentHub': '1' } : {},
+    ...(body ? { body: JSON.stringify(body) } : {}),
+  })
+  const data = await response.json().catch(() => ({ message: 'Backend unavailable. Make sure the API is running.' }))
+  if (!response.ok) throw Object.assign(new Error(data.message || 'Request failed.'), { status: response.status })
+  return data
+}
+async function openHome(account: User) {
+  await api('/' + account.role + '/home')
+  user.value = account
+}
+async function login() {
+  busy.value = true; error.value = ''
+  try {
+    const data = await api('/auth/login', { login_id: loginId.value, password: password.value })
+    await openHome(data.user)
+  } catch (e) { error.value = e instanceof Error ? e.message : 'Unable to log in.' }
+  finally { password.value = ''; busy.value = false }
+}
+async function logout() {
+  busy.value = true; error.value = ''
+  try { await api('/auth/logout', {}); user.value = null }
+  catch (e) { error.value = e instanceof Error ? e.message : 'Unable to log out.' }
+  finally { busy.value = false }
+}
+onMounted(async () => {
+  try { const data = await api('/auth/me'); await openHome(data.user) }
+  catch (e) {
+    if ((e as { status?: number }).status !== 401)
+      error.value = 'Cannot reach the backend. Start it and try logging in.'
+  } finally { loading.value = false }
+})
+</script>
+
+<template>
+  <StudentLife v-if="user?.role === 'student'" :login-id="user.login_id" :busy="busy" :error="error" @logout="logout" />
+  <template v-else>
+  <header><a class="brand" href="/">S<span>StudentHub</span></a><span class="tag">Your campus, connected.</span></header>
+  <main>
+    <p v-if="loading" role="status">Checking your session…</p>
+    <section v-else-if="!user" class="login-layout">
+      <div class="intro">
+        <p class="eyebrow">STUDENT LIFE, SIMPLIFIED</p>
+        <h1>A little more organized.<br>A lot more possible.</h1>
+        <p class="description">Your courses, timetable, and student life in one place.</p>
+        <div class="feature"><span>01</span><div><h3>Know your week</h3><p>Keep your classes and academic schedule together.</p></div></div>
+        <div class="feature"><span>02</span><div><h3>Make room for opportunity</h3><p>Build toward finding work that fits your study time.</p></div></div>
+      </div>
+      <form class="card" @submit.prevent="login">
+        <p class="eyebrow">WELCOME BACK</p><h2>Log in to StudentHub</h2>
+        <p class="muted">Use the account provided by your administrator.</p>
+        <label for="login">Student ID or admin username</label>
+        <input id="login" v-model="loginId" autocomplete="username" maxlength="50" required placeholder="Enter your login ID" :disabled="busy">
+        <label for="password">Password</label>
+        <input id="password" v-model="password" autocomplete="current-password" type="password" required placeholder="Enter your password" :disabled="busy">
+        <p v-if="error" class="error" role="alert">{{ error }}</p>
+        <button :disabled="busy">{{ busy ? 'Logging in…' : 'Log in →' }}</button>
+        <p class="help">Need an account or a password reset? Contact your administrator.</p>
+      </form>
+    </section>
+    <section v-else class="dashboard">
+      <div class="dashboard-heading"><div><p class="eyebrow">{{ user.role }} WORKSPACE</p><h1>Welcome, {{ user.login_id }}.</h1></div><button class="secondary" :disabled="busy || creatingStudent || editingStudent" @click="logout">Log out</button></div>
+      <p v-if="error" class="error" role="alert">{{ error }}</p>
+      <p class="description">Manage student accounts, semesters, course assignments, and class timetables.</p>
+      <template v-if="user.role === 'admin'">
+        <nav class="dashboard-links" aria-label="Admin sections">
+          <a href="#create-student">Create student</a>
+          <a href="#student-directory">Student list</a>
+          <a href="#manage-semesters">Semesters</a>
+          <a href="#assign-students">Assign students</a>
+          <a href="#plan-courses">Courses & professors</a>
+          <a href="#class-timetable">Timetable</a>
+        </nav>
+        <div id="create-student" class="admin-section" tabindex="-1"><CreateStudent :revision="semesterRevision" @expired="sessionExpired" @saving="creatingStudent = $event" @created="studentRevision++" /></div>
+        <div id="student-directory" class="admin-section" tabindex="-1"><StudentManager :revision="studentRevision" @saving="editingStudent = $event" /></div>
+        <div id="manage-semesters" class="admin-section" tabindex="-1"><CreateSemester @created="semesterRevision++; studentRevision++" /></div>
+        <div id="assign-students" class="admin-section" tabindex="-1"><AssignSemester :revision="semesterRevision" @assigned="studentRevision++" /></div>
+        <div id="plan-courses" class="admin-section" tabindex="-1"><CourseBoard /></div>
+        <div id="class-timetable" class="admin-section" tabindex="-1"><ScheduleManager /></div>
+      </template>
+    </section>
+  </main>
+  <footer>StudentHub · Student Life Platform</footer>
+  </template>
+</template>
+
+<style scoped>
+.dashboard-links{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 28px}.dashboard-links a{padding:11px 16px;border:1px solid #c5d7ce;border-radius:8px;background:#f4f8f6;color:#2d5748;text-decoration:none;font-size:14px;font-weight:600}.dashboard-links a:hover{background:#e6f0eb}.dashboard-links a:focus-visible{outline:3px solid #518cbe;outline-offset:3px}.admin-section{scroll-margin-top:20px}
+</style>
+

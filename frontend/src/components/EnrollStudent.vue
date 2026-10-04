@@ -1,0 +1,6 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+const login=ref('');const offering=ref<number>();const message=ref('');const error=ref('');const busy=ref(false)
+async function submit(){busy.value=true;message.value='';error.value='';try{const r=await fetch('/api/admin/enrollments',{method:'POST',headers:{'Content-Type':'application/json','X-StudentHub':'1'},body:JSON.stringify({login_id:login.value,offering_id:offering.value})});const d=await r.json();if(!r.ok)throw new Error(d.message);message.value=d.message;login.value=''}catch(e){error.value=e instanceof Error?e.message:'Unable to enroll'}finally{busy.value=false}}
+</script>
+<template><section class="card semester-create"><p class="eyebrow">ENROLLMENTS</p><h2>Enroll student in course</h2><p class="muted">Use the student login ID and course offering ID.</p><form @submit.prevent="submit"><label>Student login ID<input v-model="login" required placeholder="2412061"></label><label>Course offering ID<input v-model.number="offering" type="number" min="1" required></label><p v-if="error" class="error">{{error}}</p><p v-if="message" class="success">{{message}}</p><button :disabled="busy">{{busy?'Saving…':'Enroll student'}}</button></form></section></template>
