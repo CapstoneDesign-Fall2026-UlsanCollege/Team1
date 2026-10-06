@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { apiFetch } from './api'
 import { onMounted, ref } from 'vue'
 import CreateStudent from './components/CreateStudent.vue'
 import StudentManager from './components/StudentManager.vue'
@@ -24,7 +25,7 @@ function sessionExpired() {
 }
 
 async function api(path: string, body?: object) {
-  const response = await fetch('/api' + path, {
+  const response = await apiFetch('/api' + path, {
     method: body ? 'POST' : 'GET',
     headers: body ? { 'Content-Type': 'application/json', 'X-StudentHub': '1' } : {},
     ...(body ? { body: JSON.stringify(body) } : {}),

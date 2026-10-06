@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { apiFetch } from '../api'
 import { computed, ref } from 'vue'
 import StudentIcon from './StudentIcon.vue'
 import StudentTimetable from './StudentTimetable.vue'
@@ -28,7 +29,7 @@ async function loadProfile() {
   if (profileLoading.value) return
   profileLoading.value = true; profileError.value = ''; profile.value = null
   try {
-    const response = await fetch('/api/student/profile')
+    const response = await apiFetch('/api/student/profile')
     const data = await response.json()
     if (!response.ok) throw new Error(response.status === 401 ? 'Your session expired. Log out and log in again.' : data.message || 'Unable to load your profile.')
     const loaded = data.profile as Profile
@@ -41,7 +42,7 @@ async function loadProfile() {
 async function saveProfile() {
   saving.value = true; profileError.value = ''
   try {
-    const response = await fetch('/api/student/profile/contact', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-StudentHub': '1' }, body: JSON.stringify(editForm.value) })
+    const response = await apiFetch('/api/student/profile/contact', { method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-StudentHub': '1' }, body: JSON.stringify(editForm.value) })
     const data = await response.json()
     if (!response.ok) throw new Error(data.message || 'Unable to update profile.')
     editing.value = false; await loadProfile()
@@ -59,8 +60,8 @@ const title = computed(() => sections.find(item => item.page === page.value)?.ti
 const inLife = computed(() => page.value !== 'home' && page.value !== 'settings')
 function displayDate(value: string) { return new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) }
 function go(next: Page) { page.value = next; menu.value = false; if (next === 'profile') void loadProfile(); if (next === 'semester') void loadSemesters(); if (next === 'course') void loadCourses() }
-async function loadSemesters(){ semesterLoading.value=true; try { const r=await fetch('/api/student/semesters'); const d=await r.json(); if(r.ok) semesters.value=d.semesters } finally { semesterLoading.value=false } }
-async function loadCourses(){ courseLoading.value=true; try { const r=await fetch('/api/student/courses'); const d=await r.json(); if(r.ok) courses.value=d.courses } finally { courseLoading.value=false } }
+async function loadSemesters(){ semesterLoading.value=true; try { const r=await apiFetch('/api/student/semesters'); const d=await r.json(); if(r.ok) semesters.value=d.semesters } finally { semesterLoading.value=false } }
+async function loadCourses(){ courseLoading.value=true; try { const r=await apiFetch('/api/student/courses'); const d=await r.json(); if(r.ok) courses.value=d.courses } finally { courseLoading.value=false } }
 </script>
 
 <template>

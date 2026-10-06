@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { apiFetch } from '../api'
 import { onMounted, reactive, ref, watch } from 'vue'
 import { scheduleApi, type Semester } from '../schedules'
 const props = defineProps<{ revision?: number }>()
@@ -45,7 +46,7 @@ async function submit() {
   }
   saving.value = true; emit('saving', true)
   try {
-    const response = await fetch('/api/admin/students', {
+    const response = await apiFetch('/api/admin/students', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-StudentHub': '1' },
       body: JSON.stringify(form),

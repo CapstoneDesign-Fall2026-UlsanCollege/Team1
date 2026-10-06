@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { apiFetch } from '../api'
 import { computed, nextTick, onMounted, onBeforeUnmount, ref } from 'vue'
 type Course = { id: number; course_code: string; course_name: string; credits: number }
 type Offering = Course & { offering_id: number; semester_id: number; major: string | null; professor: string | null; section: string }
@@ -62,7 +63,7 @@ async function saveProfessor(offering: Offering) {
 }
 
 async function api(path: string, method = 'GET', body?: object) {
-  const response = await fetch('/api/admin/' + path, {
+  const response = await apiFetch('/api/admin/' + path, {
     method,
     headers: method === 'GET' ? {} : { 'Content-Type': 'application/json', 'X-StudentHub': '1' },
     ...(body ? { body: JSON.stringify(body) } : {}),

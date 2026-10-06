@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import { randomBytes } from 'node:crypto';
 import { validateStudent, type NewStudent, type StudentProfile } from './students.js';
@@ -21,15 +22,25 @@ export type Accounts = {
 export function createApp(accounts: Accounts, addStudent?: (student: NewStudent) => Promise<number>, readProfile?: (id: number) => Promise<StudentProfile | undefined>, updateContact?: (id: number, input: { email: string | null; phone_number: string | null; address: string | null }) => Promise<void>, readSemesters?: (studentId?: number) => Promise<Semester[]>, addSemester?: (value: Omit<Semester, 'id'>) => Promise<number>, assignSemester?: (studentId: number, semesterId: number) => Promise<void>, addOffering?: (value: {course_code:string;course_name:string;credits:number;semester_id:number;professor:string;section:string}) => Promise<number>, readCourses?: (studentId:number)=>Promise<Course[]>, enroll?: (studentId:number, offeringId:number)=>Promise<void>, catalog?: ()=>Promise<unknown[]>, assignCourse?: (courseId:number,semesterId:number,professor:string)=>Promise<number>, removeCourse?: (courseId:number,semesterId:number)=>Promise<void>) {
   const app = express();
   app.disable('x-powered-by');
+  const frontendOrigin = process.env.FRONTEND_ORIGIN;
+  app.use('/api', (req, res, next) => {
+    const origin = req.get('Origin');
+    if (origin && origin !== frontendOrigin && origin !== `${req.protocol}://${req.get('host')}`) {
+      res.status(403).json({ message: 'Website origin is not allowed.' }); return;
+    }
+    next();
+  });
+  if (frontendOrigin) app.use('/api', cors({ origin: frontendOrigin, credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], allowedHeaders: ['Content-Type', 'X-StudentHub'] }));
   app.use(express.json({ limit: '4kb' }));
   const sessions = new Map<string, { id: number; expires: number }>();
   const attempts = new Map<string, { count: number; expires: number }>();
   const dummyHash = bcrypt.hashSync(randomBytes(24).toString('hex'), 12);
   const cookie = (token: string, maxAge: number) =>
-    'studenthub_session=' + token + '; HttpOnly; SameSite=Strict; Path=/api; Max-Age=' + maxAge +
-    (process.env.NODE_ENV === 'production' ? '; Secure' : '');
+    'studenthub_session=' + token + '; HttpOnly; SameSite=' + (frontendOrigin ? 'None' : 'Strict') + '; Path=/api; Max-Age=' + maxAge +
+    (frontendOrigin || process.env.NODE_ENV === 'production' ? '; Secure' : '');
   const publicUser = (u: Account) => ({ id: u.id, login_id: u.login_id, role: u.role });
-  // Cross-site forms cannot supply this header. API is used through Vite's same-origin proxy.
+  // Mutations require a custom header, with browser origins checked above.
   app.use('/api', (req, res, next) => {
     res.setHeader('Cache-Control', 'no-store');
     if (req.method !== 'GET' && req.get('X-StudentHub') !== '1') {
