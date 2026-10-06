@@ -36,6 +36,13 @@ Our midterm demo will show:
 
 ## Individual contribution evidence
 
-- **Bal Raju:** Defined the Semester slice's proposed API response, storage fields,
-  error cases, and Week 5 acceptance checks in
-  [the Semester integration contract](raju-semester-integration-contract.md).
+- **Bal Raju (`CoderRaaju`):** Defined and personally confirmed the Semester
+  slice's proposed API response, storage fields, error cases, and Week 5
+  acceptance checks.
+
+  Evidence:
+  - [Semester Integration Contract](raju-semester-integration-contract.md)
+  - [Week 4 Semester PR #22](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/pull/22)
+
+  Backend approval status: proposed and awaiting explicit backend-owner
+  confirmation before Week 5 integration.
