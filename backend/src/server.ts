@@ -40,7 +40,7 @@ const app = createApp(
   (courseId, semesterId) => removeCourse(pool, courseId, semesterId)
 );
 const port = Number(process.env.PORT ?? 3000);
-const server = app.listen(port, '127.0.0.1');
+const server = app.listen(port, '0.0.0.0');
 server.on('listening', () => console.log('StudentHub API: http://127.0.0.1:' + port));
 server.on('error', (error: NodeJS.ErrnoException) => {
   console.error(error.code === 'EADDRINUSE'
