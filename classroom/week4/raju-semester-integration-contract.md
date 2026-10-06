@@ -81,3 +81,28 @@ needed for the MVP.
 This document is my Week 4 individual evidence. In Week 5, I will confirm the
 contract with the backend owner, implement or connect the Semester screen, and
 attach a screenshot or test result showing the acceptance checks.
+
+## Ownership confirmation
+
+This Semester Integration Contract is my individual Week 4 contribution.
+
+- **Student:** Bal Raju
+- **Canonical GitHub login:** `CoderRaaju`
+- **Evidence PR:** #22
+- **Feature:** Semester slice
+
+I personally reviewed and confirmed this contract as the Semester feature owner.
+
+## Backend approval status
+
+The proposed API contract has been shared for backend-owner review.
+
+Current status:
+
+- [x] Semester API/data contract proposed
+- [x] Week 5 acceptance checks documented
+- [x] Ownership confirmed by `CoderRaaju`
+- [ ] Endpoint and field names approved by backend owner
+- [ ] Week 5 acceptance checks approved by backend owner
+
+Implementation will continue after the backend contract is confirmed.
