@@ -28,7 +28,7 @@ If it is not linked, it does not count.
 | Issue(s) | [Add the URLs of the deployment and verification issues] |
 | Frontend/backend integration commit | [Connect published frontend to Railway API](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/c15cf3d) |
 | Deployment workflow | [GitHub Pages workflow](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/.github/workflows/deploy-frontend.yml) |
-| Public frontend demo | [StudentHub website](https://capstonedesign-fall2026-ulsancollege.github.io/Team1/) |
+| Public frontend demo | [StudentHub website](https://team1-production.up.railway.app/) |
 | Backend configuration | [Server and database connection](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/backend/src/server.ts) |
 | Test/check note | Frontend build and all 16 existing backend tests passed; [attach the result output or screenshot] |
 | Database migration evidence | Import completed and `SHOW TABLES FROM railway;` returned application tables; [attach a screenshot without credentials] |
