@@ -25,13 +25,13 @@ If it is not linked, it does not count.
 
 | Evidence | Link |
 |---|---|
-| Issue(s) | [Add the URLs of the deployment and verification issues] |
+| Issue(s) | [[#1](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/40#issue-5732731474), [#2](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/39#issue-5732727175), [#3](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/38#issue-5732722670), [#4](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/37#issue-5732718688)], [#5](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/32#issue-5732673302), [#6](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/41#issue-5732736372), [#7](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/35#issue-5732696585) |
 | Frontend/backend integration commit | [Connect published frontend to Railway API](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/c15cf3d) |
 | Deployment workflow | [GitHub Pages workflow](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/.github/workflows/deploy-frontend.yml) |
 | Public frontend demo | [StudentHub website](https://team1-production.up.railway.app/) |
 | Backend configuration | [Server and database connection](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/backend/src/server.ts) |
-| Test/check note | Frontend build and all 16 existing backend tests passed; [attach the result output or screenshot] |
-| Database migration evidence | Import completed and `SHOW TABLES FROM railway;` returned application tables; [attach a screenshot without credentials] |
+| Test/check note | Frontend build and all 16 existing backend tests passed; [check](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/65028d3777788dd37ab0328bbd2da539e3f2529f/classroom/admin%20dashboard/good.png) |
+| Database migration evidence | Import completed and `SHOW TABLES FROM railway;` returned application tables; [check](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/1d08b6b8cadb1abe7b2ae7418b3eadf328fa6804/classroom/admin%20dashboard/railwayshow.png) |
 | Document update | [Project README](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/README.md) |
 
 ## Individual contribution entries — one row per student
@@ -62,7 +62,7 @@ Record only decisions that change scope, approach, ownership, or the next plan.
 | Host the frontend on GitHub Pages | Provides a public interface and automated deployment from GitHub | Team 1 | [Deployment workflow](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/.github/workflows/deploy-frontend.yml) |
 | Host the backend and MySQL database on Railway | Allows the public application to run without depending on a developer's computer | Team 1 | [Backend configuration](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/backend/src/server.ts) |
 | Connect the frontend through a shared API helper | Keeps the API address and credential settings consistent across features | Team 1 | [API helper](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/frontend/src/api.ts) |
-| Verify deployed workflows before closing integration work | Successful builds alone do not confirm permissions and database updates work online | Team 1 | [Add verification issue URL] |
+| Verify deployed workflows before closing integration work | Successful builds alone do not confirm permissions and database updates work online | Team 1 | [[#1](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/40#issue-5732731474), [#2](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/39#issue-5732727175), [#3](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/38#issue-5732722670), [#4](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/37#issue-5732718688)] |
 
 ## Next week's bridge task
 
