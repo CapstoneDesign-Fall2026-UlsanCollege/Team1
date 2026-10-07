@@ -1,0 +1,22 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE",
+    "watchPatterns": [
+      "backend/src/**",
+      "backend/package.json",
+      "backend/package-lock.json",
+      "backend/tsconfig.json",
+      "frontend/src/**",
+      "frontend/public/**",
+      "frontend/index.html",
+      "frontend/package.json",
+      "frontend/package-lock.json",
+      "frontend/tsconfig*.json",
+      "frontend/vite.config.ts",
+      "Dockerfile",
+      ".dockerignore",
+      "railway.json"
+    ]
+  }
+}
