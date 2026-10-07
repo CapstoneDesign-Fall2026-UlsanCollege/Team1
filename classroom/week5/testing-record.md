@@ -173,7 +173,7 @@ Do not mark this issue resolved until the deployed operation succeeds and the ca
 | Backend tests | [Test files](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/tree/main/backend/tests) |
 | Frontend/backend integration | [Integration commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/c15cf3d) |
 | GitHub Pages workflow | [Deployment workflow](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/.github/workflows/deploy-frontend.yml) |
-| Manual test screenshots | Add issue or attachment links after testing |
+| Manual test screenshots | [Admin dashboard screenshots folder](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/tree/main/classroom/admin%20dashboard) • [1](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/1.png) • [2](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/2.png) • [3](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/3.png) • [4](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/4.png) • [5](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/5.png) • [7](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/7.png) • [8](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/8.png) • [9](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/9.png) |
 | Timetable investigation issue | Add issue link after creating it |
 
 ## Recording New Results
