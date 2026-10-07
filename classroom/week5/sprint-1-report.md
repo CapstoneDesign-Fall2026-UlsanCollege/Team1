@@ -1,11 +1,11 @@
-# Sprint 0 Report — Launch and Scope
+# Sprint 1 Report — Launch and Scope
 
 **Team:** 1  
-**Sprint:** Sprint 0 — Launch and Scope  
+**Sprint:** Sprint 1 — Launch and Scope  
 **Date:** 2026-10-07  
 **Status:** [ ] Ready to close [ ] Ready with an explicitly owned exception
 
-## Sprint 0 outcome
+## Sprint 1 outcome
 
 Our team defined the initial Student Hub MVP direction and, by Week 5, moved the project from local development to a public deployment. The application now includes a live StudentHub frontend, a Railway-hosted backend API, and a migrated MySQL database, proving the product can run in a cloud-based environment outside a developer machine.
 
