@@ -1,4 +1,5 @@
 import express from 'express';
+import { resolve } from 'node:path';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import { randomBytes } from 'node:crypto';
@@ -22,7 +23,9 @@ export type Accounts = {
 export function createApp(accounts: Accounts, addStudent?: (student: NewStudent) => Promise<number>, readProfile?: (id: number) => Promise<StudentProfile | undefined>, updateContact?: (id: number, input: { email: string | null; phone_number: string | null; address: string | null }) => Promise<void>, readSemesters?: (studentId?: number) => Promise<Semester[]>, addSemester?: (value: Omit<Semester, 'id'>) => Promise<number>, assignSemester?: (studentId: number, semesterId: number) => Promise<void>, addOffering?: (value: {course_code:string;course_name:string;credits:number;semester_id:number;professor:string;section:string}) => Promise<number>, readCourses?: (studentId:number)=>Promise<Course[]>, enroll?: (studentId:number, offeringId:number)=>Promise<void>, catalog?: ()=>Promise<unknown[]>, assignCourse?: (courseId:number,semesterId:number,professor:string)=>Promise<number>, removeCourse?: (courseId:number,semesterId:number)=>Promise<void>) {
   const app = express();
   app.disable('x-powered-by');
-  const frontendOrigin = process.env.FRONTEND_ORIGIN;
+  const serveFrontend = process.env.SERVE_FRONTEND === 'true';
+  if (process.env.NODE_ENV === 'production') app.set('trust proxy', 1);
+  const frontendOrigin = serveFrontend ? undefined : process.env.FRONTEND_ORIGIN;
   app.use('/api', (req, res, next) => {
     const origin = req.get('Origin');
     if (origin && origin !== frontendOrigin && origin !== `${req.protocol}://${req.get('host')}`) {
@@ -204,6 +207,9 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
     });
   }
   app.use('/api', (_req, res) => { res.status(404).json({ message: 'Endpoint not found.' }); });
+  if (serveFrontend) {
+    app.use(express.static(resolve(__dirname, '../../frontend/dist')));
+  }
   app.use((error: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     if (error instanceof ScheduleError) { res.status(error.status).json({ message: error.message }); return; }
     if (error instanceof SyntaxError) {
