@@ -1,12 +1,14 @@
 <script setup lang="ts">
+import StudentIcon from './StudentIcon.vue'
 import { onMounted, ref, watch } from 'vue'
 import { scheduleApi, type Semester } from '../schedules'
 const props = defineProps<{ revision?: number }>()
 const emit = defineEmits<{ assigned: [] }>()
+const students = ref<{ login_id: string; full_name: string }[]>([])
 const semesters = ref<Semester[]>([]), loading = ref(false), loadError = ref('')
 async function load() {
   loading.value = true; loadError.value = ''
-  try { semesters.value = (await scheduleApi('admin/semesters')).semesters; if (!semesters.value.some(s => s.id === semester.value)) semester.value = undefined }
+  try { const [terms, directory] = await Promise.all([scheduleApi('admin/semesters'), scheduleApi('admin/students')]); semesters.value = terms.semesters; students.value = directory.students; if (!semesters.value.some(s => s.id === semester.value)) semester.value = undefined }
   catch(e) { loadError.value = e instanceof Error ? e.message : 'Unable to load semesters.' }
   finally { loading.value = false }
 }
@@ -17,14 +19,14 @@ async function submit(){if(busy.value||loading.value||loadError.value||!semester
 </script>
 <template>
   <section class="card semester-create">
-    <p class="eyebrow">ENROLLMENT</p><h2>Assign student to semester</h2><p class="muted">Enter the student login ID and choose a semester.</p>
+    <p class="eyebrow">ENROLLMENT</p><h2>Assign student to semester</h2><p class="muted">Choose a student and semester. Search the student list by name or login ID.</p>
     <form @submit.prevent="submit">
-      <label>Student login ID<input v-model="student" required maxlength="50" :disabled="busy"></label>
+      <label>Student login ID<input v-model="student" list="assignment-students" required maxlength="50" :disabled="busy" placeholder="Search by name or login ID"><datalist id="assignment-students"><option v-for="account in students" :key="account.login_id" :value="account.login_id">{{ account.full_name }}</option></datalist></label>
       <label>Semester<select v-model="semester" required :disabled="busy || loading || !!loadError"><option disabled :value="undefined">{{ loading ? 'Loading semesters…' : 'Choose a semester' }}</option><option v-for="term in semesters" :key="term.id" :value="term.id">{{ term.name }} {{ term.academic_year }}</option></select></label>
-      <p v-if="loadError" class="error" role="alert">{{ loadError }}</p><p v-else-if="!loading && !semesters.length" class="muted">Create a semester above to assign students.</p>
-      <button type="button" class="secondary refresh" :disabled="busy || loading" @click="load">Refresh semesters</button>
+      <p v-if="loadError" class="error" role="alert">{{ loadError }}</p><p v-else-if="!loading && !semesters.length" class="muted">Create a semester in this section to assign students.</p>
+      <button type="button" class="secondary refresh" :disabled="busy || loading" @click="load"><StudentIcon name="refresh" />Refresh semesters</button>
       <p v-if="error" class="error" role="alert">{{error}}</p><p v-if="success" class="success" role="status">{{success}}</p>
-      <button :disabled="busy || loading || !!loadError || !semester">{{busy?'Assigning…':'Assign student'}}</button>
+      <button :disabled="busy || loading || !!loadError || !semester"><StudentIcon name="add" />{{busy?'Assigning…':'Assign student'}}</button>
     </form>
   </section>
 </template>

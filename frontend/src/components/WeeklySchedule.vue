@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import StudentIcon from './StudentIcon.vue'
 import { days, type Meeting } from '../schedules'
 defineProps<{ meetings: Meeting[]; editable?: boolean; busy?: boolean }>()
 defineEmits<{ edit: [meeting: Meeting]; remove: [meeting: Meeting] }>()
@@ -12,7 +13,7 @@ defineEmits<{ edit: [meeting: Meeting]; remove: [meeting: Meeting] }>()
         <strong class="time">{{ m.start_time.slice(0,5) }} – {{ m.end_time.slice(0,5) }}</strong>
         <h4>{{ m.course_code }} · {{ m.course_name }}</h4>
         <p>{{ m.location }} · Section {{ m.section }}</p><p>{{ m.professor || 'Professor not assigned' }}</p>
-        <div v-if="editable" class="actions"><button type="button" :disabled="busy" @click="$emit('edit', m)" :aria-label="'Edit ' + m.course_code + ' on ' + day">Edit</button><button type="button" class="remove" :disabled="busy" @click="$emit('remove', m)" :aria-label="'Remove ' + m.course_code + ' on ' + day">Remove</button></div>
+        <div v-if="editable" class="actions"><button title="Edit" type="button" :disabled="busy" @click="$emit('edit', m)" :aria-label="'Edit ' + m.course_code + ' on ' + day"><StudentIcon name="edit" /></button><button title="Remove" type="button" class="remove" :disabled="busy" @click="$emit('remove', m)" :aria-label="'Remove ' + m.course_code + ' on ' + day"><StudentIcon name="remove" /></button></div>
       </article>
     </section>
   </div>

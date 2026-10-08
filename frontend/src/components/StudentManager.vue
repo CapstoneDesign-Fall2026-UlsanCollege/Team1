@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import StudentIcon from './StudentIcon.vue'
 import { onMounted, ref, watch } from 'vue'
 import { scheduleApi, type Semester } from '../schedules'
 type Student = { id:number; login_id:string; full_name:string; university:string; major:string|null; year_of_study:number|null; email:string|null; phone_number:string|null; address:string|null; is_active:boolean; semester_ids:number[] }
@@ -37,7 +38,7 @@ watch(()=>props.revision,()=>{void load()})
   <section class="card student-manager">
     <p class="eyebrow">STUDENT DIRECTORY</p><h2>Student list & editing</h2>
     <p class="muted">Find a student, update their profile, or change account access.</p>
-    <form class="search-bar" @submit.prevent="load"><label for="student-search">Name or login ID<input id="student-search" v-model="search" type="search" maxlength="150" placeholder="Search students" :disabled="loading||busy||!!draft"></label><button :disabled="loading||busy||!!draft">Search / refresh</button></form>
+    <form class="search-bar" @submit.prevent="load"><label for="student-search">Name or login ID<input id="student-search" v-model="search" type="search" maxlength="150" placeholder="Search students" :disabled="loading||busy||!!draft"></label><button :disabled="loading||busy||!!draft"><StudentIcon name="search" />Search / refresh</button></form>
     <p v-if="error" class="error" role="alert">{{error}}</p><p v-if="message" class="success" role="status">{{message}}</p>
     <form v-if="draft" class="editor" @submit.prevent="save">
       <h3>Edit {{draft.login_id}}</h3><p class="muted">Update the profile and choose which semesters this student belongs to.</p>
@@ -58,11 +59,11 @@ watch(()=>props.revision,()=>{void load()})
         <p v-if="!draft.semester_ids.length" class="muted">No semesters selected. This student will have no semester courses or timetable.</p>
       </fieldset>
       <p v-if="!draft.is_active" class="muted">This student will be unable to log in or continue using their current session after saving.</p>
-      <div class="actions"><button>{{busy?'Saving…':'Save changes'}}</button><button type="button" class="secondary" @click="draft=null;error=''">Cancel</button></div></fieldset>
+      <div class="actions"><button><StudentIcon name="save" />{{busy?'Saving…':'Save changes'}}</button><button type="button" class="secondary" @click="draft=null;error=''"><StudentIcon name="cancel" />Cancel</button></div></fieldset>
     </form>
     <p v-if="loading" role="status">Loading students…</p>
     <template v-else><p class="muted">{{students.length}} results · Up to 100 shown. Search to narrow the list.</p><p v-if="!students.length&&!error">No matching students.</p>
-      <div class="student-rows"><article v-for="student in students" :key="student.id" class="student-row"><div><strong>{{student.full_name}}</strong><p>{{student.login_id}} · {{student.major || 'Major not provided'}}</p></div><span class="status" :class="{disabled:!student.is_active}">{{student.is_active?'Enabled':'Disabled'}}</span><button class="secondary" :disabled="busy||!!draft" :aria-label="'Edit '+student.full_name" @click="edit(student)">Edit</button></article></div>
+      <div class="student-rows"><article v-for="student in students" :key="student.id" class="student-row"><div><strong>{{student.full_name}}</strong><p>{{student.login_id}} · {{student.major || 'Major not provided'}}</p></div><span class="status" :class="{disabled:!student.is_active}">{{student.is_active?'Enabled':'Disabled'}}</span><button title="Edit" class="secondary" :disabled="busy||!!draft" :aria-label="'Edit '+student.full_name" @click="edit(student)"><StudentIcon name="edit" /></button></article></div>
     </template>
   </section>
 </template>

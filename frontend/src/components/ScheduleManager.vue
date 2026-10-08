@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import StudentIcon from './StudentIcon.vue'
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { days, scheduleApi, type Meeting, type Semester } from '../schedules'
 import WeeklySchedule from './WeeklySchedule.vue'
+const props = defineProps<{ revision?: number }>()
+watch(() => props.revision, () => { if (!busy.value && !editing.value) void load() })
 type Offering = { offering_id: number; semester_id: number; major: string | null; course_code: string; course_name: string; professor: string | null; section: string }
 const majors = ref<string[]>([]), major = ref<string | null>('')
 const terms = ref<Semester[]>([]), offerings = ref<Offering[]>([]), meetings = ref<Meeting[]>([])
@@ -56,7 +59,7 @@ onMounted(load)
 </script>
 <template>
   <section class="card planner" :class="{ expanded }" @keydown.esc="expanded = false">
-    <div class="toolbar"><div><p class="eyebrow">WEEKLY PLANNING</p><h2>Class timetable</h2></div><div class="buttons"><button type="button" class="secondary" :aria-pressed="expanded" @click="expanded = !expanded">{{ expanded ? 'Exit large view' : 'Large view' }}</button><button type="button" class="secondary" :disabled="busy || loading" @click="load">Refresh</button></div></div>
+    <div class="toolbar"><div><p class="eyebrow">WEEKLY PLANNING</p><h2>Class timetable</h2></div><div class="buttons"><button type="button" class="secondary" :aria-pressed="expanded" @click="expanded = !expanded"><StudentIcon name="expand" />{{ expanded ? 'Exit large view' : 'Large view' }}</button><button type="button" class="secondary" :disabled="busy || loading" @click="load"><StudentIcon name="refresh" />Refresh</button></div></div>
     <p class="muted">Choose a semester and major to plan that group's timetable. Different majors can have classes at the same time.</p>
     <p v-if="loading" role="status">Loading timetable…</p><p v-if="error" class="error" role="alert">{{ error }}</p><p v-if="message" class="success" role="status">{{ message }}</p>
     <template v-if="!loading && terms.length">
@@ -67,7 +70,7 @@ onMounted(load)
         <p v-if="!choices.length">Assign courses to this major and semester in Course Planning first, then press Refresh here.</p>
         <fieldset v-else :disabled="busy"><div class="fields"><label>Course<select v-model="form.course_offering_id" required :disabled="editing !== null"><option v-for="o in choices" :key="o.offering_id" :value="o.offering_id">{{ o.course_code }} · {{ o.course_name }} · Section {{ o.section }}</option></select></label><label>Weekday<select id="meeting-day" v-model="form.day_of_week"><option v-for="(day,i) in days" :key="day" :value="i+1">{{ day }}</option></select></label><label>Starts<input v-model="form.start_time" type="time" required></label><label>Ends<input v-model="form.end_time" type="time" required></label><label>Room / location<input v-model="form.location" maxlength="150" required placeholder="e.g. Building A, Room 302"></label></div>
         <p class="muted">{{ professor || 'Professor not assigned' }} · Campus local time</p><div v-if="overlaps" class="warning" role="status"><strong>Overlapping class in this semester:</strong><p v-for="conflict in conflicts" :key="conflict.id">{{ conflict.course_code }} · {{ conflict.course_name }} — {{ days[conflict.day_of_week - 1] }}, {{ conflict.start_time.slice(0,5) }}–{{ conflict.end_time.slice(0,5) }}</p></div><p v-else-if="form.start_time && form.end_time && !validTimes" class="warning">End time must be after start time.</p>
-        <div class="buttons"><button :disabled="overlaps || !validTimes || !form.course_offering_id">{{ busy ? 'Saving…' : editing ? 'Save changes' : 'Add meeting' }}</button><button v-if="editing" type="button" class="secondary" @click="cancel">Cancel edit</button></div></fieldset>
+        <div class="buttons"><button :disabled="overlaps || !validTimes || !form.course_offering_id"><StudentIcon name="edit" />{{ busy ? 'Saving…' : editing ? 'Save changes' : 'Add meeting' }}</button><button v-if="editing" type="button" class="secondary" @click="cancel"><StudentIcon name="cancel" />Cancel edit</button></div></fieldset>
       </form>
       <div class="summary"><strong>{{ visible.length }} weekly meetings</strong><span>Overlapping times are blocked automatically.</span></div><WeeklySchedule :meetings="visible" editable :busy="busy" @edit="edit" @remove="remove" />
     </template><p v-else-if="!loading && !error">Create a semester to start planning classes.</p>

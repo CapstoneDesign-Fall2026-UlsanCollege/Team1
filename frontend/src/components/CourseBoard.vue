@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import StudentIcon from './StudentIcon.vue'
 import { apiFetch } from '../api'
-import { computed, nextTick, onMounted, onBeforeUnmount, ref } from 'vue'
+import { computed, nextTick, onMounted, onBeforeUnmount, ref, watch } from 'vue'
+const props = defineProps<{ revision?: number }>()
+const emit = defineEmits<{ changed: [] }>()
+watch(() => props.revision, () => { if (!busy.value && editingId.value === null) void load() })
 type Course = { id: number; course_code: string; course_name: string; credits: number }
 type Offering = Course & { offering_id: number; semester_id: number; major: string | null; professor: string | null; section: string }
 type Semester = { id: number; name: string; academic_year: number }
@@ -70,6 +74,7 @@ async function api(path: string, method = 'GET', body?: object) {
   })
   const data = await response.json().catch(() => ({ message: 'Backend unavailable. Please try again.' }))
   if (!response.ok) throw new Error(data.message || 'Request failed.')
+  if (method !== 'GET') emit('changed')
   return data
 }
 async function load() {
@@ -130,13 +135,13 @@ async function remove(offering: Offering) {
     <p class="eyebrow">COURSE PLANNING</p>
     <h2>Plan courses by major</h2>
     <p class="muted">Choose a semester and course, then tap Add to major. You can also drag catalog courses into a major.</p>
-    <div class="board-controls"><button type="button" class="secondary" :disabled="loading || busy || editingId !== null" @click="load">Refresh board</button><button type="button" class="secondary" :aria-pressed="expanded" @click="toggleLargeView">{{ expanded ? 'Exit large view' : 'Large view' }}</button><span v-if="expanded">Press Esc to exit</span></div>
+    <div class="board-controls"><button type="button" class="secondary" :disabled="loading || busy || editingId !== null" @click="load"><StudentIcon name="refresh" />Refresh board</button><button type="button" class="secondary" :aria-pressed="expanded" @click="toggleLargeView"><StudentIcon name="expand" />{{ expanded ? 'Exit large view' : 'Large view' }}</button><span v-if="expanded">Press Esc to exit</span></div>
     <label>Professor for the next course assignment
       <input v-model="professor" maxlength="150" :disabled="busy" placeholder="Professor Lee">
     </label>
     <label>Semester<select v-model="semesterId" :disabled="busy || loading || editingId !== null"><option disabled :value="0">Choose a semester</option><option v-for="term in semesters" :key="term.id" :value="term.id">{{term.name}} {{term.academic_year}}</option></select></label>
     <label>Course to assign<select v-model="chosenCourse" :disabled="busy || loading"><option disabled :value="0">Choose a course</option><option v-for="course in catalog" :key="course.id" :value="course.id">{{course.course_code}} · {{course.course_name}}</option></select></label>
-    <form class="board-controls" @submit.prevent="addMajor"><label>Another major<input v-model="newMajor" maxlength="150" placeholder="Exact major name used in student profiles" :disabled="busy"></label><button class="secondary" :disabled="busy || !newMajor.trim()">Add major column</button><small>A new column is saved when you add its first course.</small></form>
+    <form class="board-controls" @submit.prevent="addMajor"><label>Another major<input v-model="newMajor" maxlength="150" placeholder="Exact major name used in student profiles" :disabled="busy"></label><button class="secondary" :disabled="busy || !newMajor.trim()"><StudentIcon name="add" />Add major column</button><small>A new column is saved when you add its first course.</small></form>
     <p v-if="error" class="error" role="alert">{{ error }} Use Refresh board to reload saved data.</p>
     <p v-if="message" class="success" role="status">{{ message }}</p>
     <p v-if="loading" role="status">Loading courses and saved assignments…</p>
@@ -150,7 +155,7 @@ async function remove(offering: Offering) {
       </div>
       <div v-for="major in majors" :key="major" class="semester-drop" @dragover.prevent @drop.prevent="drop(major, $event)">
         <h3>{{ major }}</h3><small>{{selectedSemester?.name}} {{selectedSemester?.academic_year}}</small>
-        <button type="button" class="secondary" :disabled="busy || !chosenCourse || !semesterId || !professor.trim()" @click="assignToMajor(major, chosenCourse)">Add to {{major}}</button>
+        <button type="button" class="secondary" :disabled="busy || !chosenCourse || !semesterId || !professor.trim()" @click="assignToMajor(major, chosenCourse)"><StudentIcon name="add" />Add to {{major}}</button>
         <p v-if="!offerings.some(o => o.semester_id === semesterId && o.major === major)" class="muted">No courses assigned. Drop a course here.</p>
         <article v-for="offering in offerings.filter(o => o.semester_id === semesterId && o.major === major)" :key="offering.offering_id" class="course-chip placed">
           <strong>{{ offering.course_code }}</strong><span>{{ offering.course_name }}</span>
@@ -159,14 +164,14 @@ async function remove(offering: Offering) {
             <label :for="'professor-' + offering.offering_id">Professor name</label>
             <input :id="'professor-' + offering.offering_id" v-model="professorDraft" required maxlength="150" :disabled="busy" @keydown.esc="!busy && (editingId = null)">
             <p v-if="editError" class="error" role="alert">{{ editError }}</p>
-            <div class="professor-actions"><button :disabled="busy || !professorDraft.trim()">{{ busy ? 'Saving…' : 'Save professor' }}</button><button type="button" class="secondary" :disabled="busy" @click="editingId = null">Cancel</button></div>
+            <div class="professor-actions"><button :disabled="busy || !professorDraft.trim()"><StudentIcon name="save" />{{ busy ? 'Saving…' : 'Save professor' }}</button><button type="button" class="secondary" :disabled="busy" @click="editingId = null"><StudentIcon name="cancel" />Cancel</button></div>
           </form>
-          <div v-else class="professor-actions"><button type="button" class="secondary" :disabled="busy || editingId !== null" :aria-label="'Edit professor for ' + offering.course_name + ' in ' + major" @click="editProfessor(offering)">{{ offering.professor ? 'Edit professor' : 'Assign professor' }}</button><button type="button" class="remove-course" :disabled="busy || editingId !== null" :aria-label="'Remove ' + offering.course_name + ' from ' + major" @click="remove(offering)">Remove</button></div>
+          <div v-else class="professor-actions"><button type="button" class="secondary" :disabled="busy || editingId !== null" :aria-label="'Edit professor for ' + offering.course_name + ' in ' + major" @click="editProfessor(offering)"><StudentIcon name="edit" />{{ offering.professor ? 'Edit professor' : 'Assign professor' }}</button><button title="Remove" type="button" class="remove-course" :disabled="busy || editingId !== null" :aria-label="'Remove ' + offering.course_name + ' from ' + major" @click="remove(offering)"><StudentIcon name="remove" /></button></div>
         </article>
       </div>
       <p v-if="!semesters.length" class="muted">Create a semester first, then refresh this board.</p>
     </div>
-    <section v-if="unassigned.length"><h3>Existing courses needing a major</h3><p>Their saved class times are retained. Select a major to make them available to its students.</p><label>Major<select v-model="legacyMajor"><option disabled value="">Choose a major</option><option v-for="major in majors" :key="major">{{major}}</option></select></label><article v-for="o in unassigned" :key="o.offering_id" class="course-chip"><strong>{{o.course_code}} · {{o.course_name}}</strong><button :disabled="busy || !legacyMajor" @click="classify(o)">Assign major</button></article></section>
+    <section v-if="unassigned.length"><h3>Existing courses needing a major</h3><p>Their saved class times are retained. Select a major to make them available to its students.</p><label>Major<select v-model="legacyMajor"><option disabled value="">Choose a major</option><option v-for="major in majors" :key="major">{{major}}</option></select></label><article v-for="o in unassigned" :key="o.offering_id" class="course-chip"><strong>{{o.course_code}} · {{o.course_name}}</strong><button :disabled="busy || !legacyMajor" @click="classify(o)"><StudentIcon name="add" />Assign major</button></article></section>
   </section>
 </template>
 <style scoped>

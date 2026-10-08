@@ -19,3 +19,6 @@ input:focus{outline:2px solid #21896f;outline-offset:2px}button{border:0;border-
 .course-board{margin-top:28px}.board{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:20px}.catalog,.semester-drop{padding:16px;border:1px dashed #b5c5d8;border-radius:10px;min-height:180px;background:#f8fbff}.course-chip{display:flex;flex-direction:column;gap:4px;padding:12px;margin-top:10px;background:#fff;border:1px solid #b8c8dc;border-radius:8px;cursor:grab}.course-chip span,.course-chip small{color:#687990;font-size:13px}.course-chip.placed{cursor:default;background:#eaf2fd}.board h3{margin:0;font-size:15px}@media(max-width:700px){.board{grid-template-columns:1fr}}
 .catalog{max-height:330px;overflow-y:auto}.catalog .course-chip{min-height:74px}@media(min-width:1100px){.course-board{max-width:1100px}.board{grid-template-columns:1fr 1fr 1fr;gap:22px}.catalog{max-height:330px}}
 .remove-course{align-self:flex-start;background:#fbeceb;color:#9d3d35;padding:6px 10px;font-size:12px;margin-top:5px}
+
+/* Shared action icons keep text labels readable and touch targets usable. */
+button > svg{width:20px;height:20px;vertical-align:middle;flex-shrink:0}button > svg:not(:last-child){margin-right:8px}button[title="Edit"],button[title="Remove"]{min-width:44px;min-height:44px;padding:10px}

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import StudentIcon from './StudentIcon.vue'
 import { apiFetch } from '../api'
 import { onMounted, reactive, ref, watch } from 'vue'
 import { scheduleApi, type Semester } from '../schedules'
@@ -93,7 +94,7 @@ async function submit() {
           <div><label for="student-major">Major *</label><input id="student-major" v-model="form.major" required maxlength="150"></div>
           <div><label for="student-year">Year of study *</label><input id="student-year" v-model.number="form.year_of_study" type="number" required min="1" max="255" step="1"></div>
           <div class="full-width"><label for="initial-semester">Semester</label>
-            <div class="semester-control"><select id="initial-semester" v-model="form.semester_id" :disabled="semesterLoading || !!semesterError"><option :value="null">Assign later</option><option v-for="term in semesters" :key="term.id" :value="term.id">{{term.name}} {{term.academic_year}}</option></select><button type="button" class="secondary" :disabled="semesterLoading" @click="loadSemesters">{{semesterLoading ? 'Refreshing…' : 'Refresh list'}}</button></div>
+            <div class="semester-control"><select id="initial-semester" v-model="form.semester_id" :disabled="semesterLoading || !!semesterError"><option :value="null">Assign later</option><option v-for="term in semesters" :key="term.id" :value="term.id">{{term.name}} {{term.academic_year}}</option></select><button type="button" class="secondary" :disabled="semesterLoading" @click="loadSemesters"><StudentIcon name="refresh" />{{semesterLoading ? 'Refreshing…' : 'Refresh list'}}</button></div>
             <small>The student receives this semester’s courses and timetable automatically.</small>
             <p v-if="semesterLoading" role="status">Loading semesters…</p><p v-else-if="semesterError" class="error" role="alert">{{semesterError}}</p><p v-else-if="!semesters.length" class="muted">Create a semester below, or choose Assign later.</p>
             <p v-if="semesterStatus" class="semester-status" role="status">{{semesterStatus}}</p>
@@ -109,7 +110,7 @@ async function submit() {
         </div>
       </fieldset>
       <p v-if="error" class="error" role="alert">{{ error }}</p>
-      <div class="create-actions"><span>Account and semester assignment save together.</span><button :disabled="saving || semesterLoading || (!!semesterError && form.semester_id !== null)">{{ saving ? 'Creating student…' : 'Create student' }}</button></div>
+      <div class="create-actions"><span>Account and semester assignment save together.</span><button :disabled="saving || semesterLoading || (!!semesterError && form.semester_id !== null)"><StudentIcon name="save" />{{ saving ? 'Creating student…' : 'Create student' }}</button></div>
     </form>
   </section>
 </template>
