@@ -8,15 +8,19 @@ import AssignSemester from './components/AssignSemester.vue'
 import CourseBoard from './components/CourseBoard.vue'
 import ScheduleManager from './components/ScheduleManager.vue'
 import StudentIcon from './components/StudentIcon.vue'
+import PasswordReset from './components/PasswordReset.vue'
 import StudentLife from './components/StudentLife.vue'
 type User = { id: number; login_id: string; role: 'admin' | 'student' }
 const adminSection = ref('dashboard')
+const resetPage = ref(false)
+const resetCount = ref(0)
 const studentPanel = ref('directory')
 const adminSections = [
   { id: 'dashboard', title: 'Dashboard', icon: 'home', detail: 'Choose an area to get started.' },
   { id: 'students', title: 'Students', icon: 'profile', detail: 'Create accounts and update student information.' },
   { id: 'semesters', title: 'Semesters', icon: 'semester', detail: 'Create semesters and assign students.' },
   { id: 'courses', title: 'Courses', icon: 'course', detail: 'Assign courses and professors by major.' },
+  { id: 'requests', title: 'Requests', icon: 'settings', detail: 'Review password reset requests.' },
   { id: 'timetable', title: 'Timetable', icon: 'schedule', detail: 'Plan weekly class meetings.' },
 ]
 const user = ref<User | null>(null)
@@ -87,7 +91,8 @@ onMounted(async () => {
         <div class="feature"><span>01</span><div><h3>Know your week</h3><p>Keep your classes and academic schedule together.</p></div></div>
         <div class="feature"><span>02</span><div><h3>Make room for opportunity</h3><p>Build toward finding work that fits your study time.</p></div></div>
       </div>
-      <form class="card" @submit.prevent="login">
+      <PasswordReset v-if="resetPage" @back="resetPage = false" />
+      <form v-else class="card" @submit.prevent="login">
         <p class="eyebrow">WELCOME BACK</p><h2>Log in to StudentHub</h2>
         <p class="muted">Use the account provided by your administrator.</p>
         <label for="login">Student ID or admin username</label>
@@ -96,7 +101,7 @@ onMounted(async () => {
         <input id="password" v-model="password" autocomplete="current-password" type="password" required placeholder="Enter your password" :disabled="busy">
         <p v-if="error" class="error" role="alert">{{ error }}</p>
         <button :disabled="busy">{{ busy ? 'Logging in…' : 'Log in →' }}</button>
-        <p class="help">Need an account or a password reset? Contact your administrator.</p>
+        <p class="help"><button type="button" class="help-link" :disabled="busy" @click="resetPage = true; error = ''">Forgot password?</button><br>Need an account? Contact your administrator.</p>
       </form>
     </section>
     <section v-else class="dashboard">
@@ -105,7 +110,7 @@ onMounted(async () => {
       <p class="description">Manage student accounts, semesters, course assignments, and class timetables.</p>
       <template v-if="user.role === 'admin'">
         <nav class="admin-nav" aria-label="Admin navigation">
-          <button v-for="section in adminSections" :key="section.id" type="button" :class="{ selected: adminSection === section.id }" :aria-current="adminSection === section.id ? 'page' : undefined" @click="adminSection = section.id"><StudentIcon :name="section.icon" />{{ section.title }}</button>
+          <button v-for="section in adminSections" :key="section.id" type="button" :class="{ selected: adminSection === section.id }" :aria-current="adminSection === section.id ? 'page' : undefined" @click="adminSection = section.id"><StudentIcon :name="section.icon" />{{ section.title }}<span v-if="section.id === 'requests' && resetCount" class="badge">{{ resetCount }}</span></button>
         </nav>
         <section v-show="adminSection === 'dashboard'" class="admin-overview">
           <h2>What would you like to manage?</h2>
@@ -117,6 +122,7 @@ onMounted(async () => {
         <div v-show="adminSection === 'students' && studentPanel === 'directory'" id="student-directory" class="admin-section" tabindex="-1"><StudentManager :revision="studentRevision" @saving="editingStudent = $event" /></div>
         <div v-show="adminSection === 'semesters'" id="manage-semesters" class="admin-section" tabindex="-1"><CreateSemester @created="semesterRevision++; studentRevision++" /></div>
         <div v-show="adminSection === 'semesters'" id="assign-students" class="admin-section" tabindex="-1"><AssignSemester :revision="semesterRevision + studentRevision" @assigned="studentRevision++" /></div>
+        <div v-show="adminSection === 'requests'"><PasswordReset admin @count="resetCount = $event" /></div>
         <div v-show="adminSection === 'courses'" id="plan-courses" class="admin-section" tabindex="-1"><CourseBoard :revision="semesterRevision" @changed="courseRevision++" /></div>
         <div v-show="adminSection === 'timetable'" id="class-timetable" class="admin-section" tabindex="-1"><ScheduleManager :revision="semesterRevision + courseRevision" /></div>
       </template>
@@ -132,5 +138,5 @@ onMounted(async () => {
 
 
 <style scoped>
-.student-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.admin-nav{display:flex;gap:8px;position:sticky;top:0;z-index:5;padding:12px 0;background:#f4f7f5;border-bottom:1px solid #dce5df;flex-wrap:wrap}.admin-nav button{display:flex;align-items:center;gap:8px;background:white;color:#36594d;border:1px solid #c5d7ce;padding:12px 16px}.admin-nav button.selected{background:#126653;color:white;border-color:#126653}.admin-nav svg,.dashboard-heading button svg{width:20px;height:20px;flex-shrink:0}.dashboard-heading button{display:flex;align-items:center;gap:8px}.admin-nav button:focus-visible,.admin-shortcuts button:focus-visible{outline:3px solid #518cbe;outline-offset:3px}.admin-overview{padding:24px 0}.admin-shortcuts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.admin-shortcuts button{text-align:left;background:white;color:#172f2e;border:1px solid #c5d7ce;padding:24px;display:grid;grid-template-columns:28px 1fr;gap:12px}.admin-shortcuts svg{width:26px;height:26px;color:#126653}.admin-shortcuts span{grid-column:2;font-size:14px;font-weight:400;line-height:1.6;color:#60736e}@media(max-width:600px){.admin-nav{gap:6px}.admin-nav button{flex:1 1 28%;justify-content:center;padding:10px 8px;font-size:13px}.admin-shortcuts{grid-template-columns:1fr}}
+.help-link{width:auto;margin:0;padding:0;background:transparent;color:#126653;text-decoration:underline;font-size:14px;min-height:44px}.student-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.admin-nav{display:flex;gap:8px;position:sticky;top:0;z-index:5;padding:12px 0;background:#f4f7f5;border-bottom:1px solid #dce5df;flex-wrap:wrap}.admin-nav button{display:flex;align-items:center;gap:8px;background:white;color:#36594d;border:1px solid #c5d7ce;padding:12px 16px}.admin-nav button.selected{background:#126653;color:white;border-color:#126653}.admin-nav svg,.dashboard-heading button svg{width:20px;height:20px;flex-shrink:0}.dashboard-heading button{display:flex;align-items:center;gap:8px}.admin-nav button:focus-visible,.admin-shortcuts button:focus-visible{outline:3px solid #518cbe;outline-offset:3px}.admin-overview{padding:24px 0}.admin-shortcuts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.admin-shortcuts button{text-align:left;background:white;color:#172f2e;border:1px solid #c5d7ce;padding:24px;display:grid;grid-template-columns:28px 1fr;gap:12px}.admin-shortcuts svg{width:26px;height:26px;color:#126653}.admin-shortcuts span{grid-column:2;font-size:14px;font-weight:400;line-height:1.6;color:#60736e}@media(max-width:600px){.admin-nav{gap:6px}.admin-nav button{flex:1 1 28%;justify-content:center;padding:10px 8px;font-size:13px}.admin-shortcuts{grid-template-columns:1fr}}
 </style>

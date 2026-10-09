@@ -1,4 +1,6 @@
 import 'dotenv/config';
+import { createSeoulJobs } from './jobs.js';
+import { mysqlResets, resetSchema } from './password-resets.js';
 import { majorPlanningRouter } from './major-planning.js';
 import { mysqlStudentAdmin } from './student-admin.js';
 import { mysqlSchedules } from './schedules.js';
@@ -23,7 +25,7 @@ async function find(column: 'id' | 'login_id', value: number | string) {
   return rows[0] as Account | undefined;
 }
 const app = createApp(
-  { byLogin: login => find('login_id', login), byId: id => find('id', id), majorPlanning: majorPlanningRouter(pool),
+  { jobs: createSeoulJobs(), resets: mysqlResets(pool), byLogin: login => find('login_id', login), byId: id => find('id', id), majorPlanning: majorPlanningRouter(pool),
     courseAssignments: () => courseAssignments(pool), removeOffering: id => removeOffering(pool, id), schedules: mysqlSchedules(pool),
     updateProfessor: (id, professor) => updateOfferingProfessor(pool, id, professor), studentAdmin: mysqlStudentAdmin(pool) },
   student => createStudent(pool, student),
@@ -40,13 +42,16 @@ const app = createApp(
   (courseId, semesterId) => removeCourse(pool, courseId, semesterId)
 );
 const port = Number(process.env.PORT ?? 3000);
-const server = app.listen(port, '0.0.0.0');
-server.on('listening', () => console.log('StudentHub API: http://127.0.0.1:' + port));
-server.on('error', (error: NodeJS.ErrnoException) => {
-  console.error(error.code === 'EADDRINUSE'
-    ? `Port ${port} is already in use. Stop the existing backend before starting this version.`
-    : `Backend failed to start: ${error.message}`);
-  process.exitCode = 1;
-  void pool.end();
-});
-
+async function start() {
+  await pool.query(resetSchema);
+  const server = app.listen(port, '0.0.0.0');
+  server.on('listening', () => console.log('StudentHub API: http://127.0.0.1:' + port));
+  server.on('error', (error: NodeJS.ErrnoException) => {
+    console.error(error.code === 'EADDRINUSE'
+      ? `Port ${port} is already in use. Stop the existing backend before starting this version.`
+      : `Backend failed to start: ${error.message}`);
+    process.exitCode = 1;
+    void pool.end();
+  });
+}
+void start().catch(error => { console.error('Database initialization failed:', error.message); process.exitCode = 1; void pool.end(); });

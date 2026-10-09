@@ -1,4 +1,6 @@
 import express from 'express';
+import { jobsRouter, type JobService } from './jobs.js';
+import { resetRouter, type ResetStore } from './password-resets.js';
 import { resolve } from 'node:path';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
@@ -11,6 +13,8 @@ import { studentAdminRouter, type StudentAdminStore } from './student-admin.js';
 
 export type Account = { id: number; login_id: string; password_hash: string; role: 'admin' | 'student'; is_active: number };
 export type Accounts = {
+  jobs?: JobService;
+  resets?: ResetStore;
   majorPlanning?: express.Router;
   studentAdmin?: StudentAdminStore;
   schedules?: ScheduleStore;
@@ -53,6 +57,8 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
   });
   const tokenFrom = (req: express.Request) =>
     req.headers.cookie?.split(';').map(v => v.trim()).find(v => v.startsWith('studenthub_session='))?.slice(19);
+  const invalidate = (id: number) => { for (const [token, session] of sessions) if (session.id === id) sessions.delete(token); };
+  if (accounts.resets) app.use('/api', resetRouter(accounts.resets, invalidate, true));
   app.post('/api/auth/login', async (req, res) => {
     const { login_id, password } = req.body ?? {};
     if (typeof login_id !== 'string' || !login_id.trim() || login_id.length > 50 ||
@@ -102,6 +108,8 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
     res.locals.user = publicUser(account);
     next();
   });
+  if (accounts.resets) app.use('/api', resetRouter(accounts.resets, invalidate));
+  if (accounts.jobs) app.use('/api', jobsRouter(accounts.jobs));
   app.get('/api/auth/me', (_req, res) => { res.json({ user: res.locals.user }); });
   if (accounts.majorPlanning) app.use('/api', accounts.majorPlanning);
   if (accounts.schedules) app.use('/api', scheduleRouter(accounts.schedules));
