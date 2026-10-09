@@ -52,7 +52,7 @@ async function toggleFavourite(job: Job) {
 async function loadTimetable() {
  timetableError.value = ''
  try {
-  const [schedules,semesters] = await Promise.all([scheduleApi('student/schedules'),scheduleApi('student/semesters')]); meetings.value=schedules.schedules;terms.value=semesters.semesters
+  const [schedules,semesters] = await Promise.all([scheduleApi('student/schedule'),scheduleApi('student/semesters')]); meetings.value=schedules.schedules;terms.value=semesters.semesters
   if (!terms.value.some(term=>term.id===semester.value)) semester.value=terms.value[0]?.id??0
   if (!canCompare.value) fitsTimetable.value=false
  } catch { timetableError.value='Your timetable could not be loaded. Try refreshing.'; fitsTimetable.value=false }
