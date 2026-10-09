@@ -47,3 +47,13 @@ export function scheduleLabel(schedule: JobSchedule) {
   const format = (value: number) => String(Math.floor(value / 60)).padStart(2, '0') + ':' + String(value % 60).padStart(2, '0');
   return days + ' · ' + (schedule.start === null || schedule.end === null ? 'Hours unknown' : format(schedule.start) + '–' + format(schedule.end) + (schedule.end < schedule.start ? ' (overnight)' : ''));
 }
+
+export type ClassMeeting = { day_of_week: number; start_time: string; end_time: string; semester_id: number };
+export function timetableStatus(schedule: JobSchedule, meetings: ClassMeeting[]): 'unknown' | 'conflict' | 'clear' {
+  if (!schedule.days || schedule.start === null || schedule.end === null) return 'unknown';
+  for (const day of schedule.days) {
+    const segments = schedule.end > schedule.start ? [[day, schedule.start, schedule.end]] : [[day, schedule.start,1440],[(day+1)%7,0,schedule.end]];
+    for (const [shiftDay,start,end] of segments) if (meetings.some(meeting => meeting.day_of_week-1===shiftDay && timeMinutes(meeting.start_time)<end! && timeMinutes(meeting.end_time)>start!)) return 'conflict';
+  }
+  return 'clear';
+}

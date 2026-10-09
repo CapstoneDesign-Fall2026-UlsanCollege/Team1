@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import ts from 'typescript';
 const source=readFileSync(new URL('../src/job-schedules.ts',import.meta.url),'utf8');
 const js=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText;
-const {parseJobSchedule:parse,matchesSchedule:matches}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));
+const {parseJobSchedule:parse,matchesSchedule:matches,timetableStatus:status}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));
 test('Korean schedules parse conservatively',()=>{
 assert.deepEqual(parse('평일 : (오전) 8시 00분 ~ (오후) 5시 00분, 주 5일 근무'),{days:[0,1,2,3,4],start:480,end:1020});
 assert.deepEqual(parse('주말 09:00 ~ 13:00'),{days:[5,6],start:540,end:780});
@@ -21,4 +21,13 @@ assert.equal(matches(weekday,{...filter,days:[0]}),false);assert.equal(matches(w
 assert.equal(matches(parse('시간 협의'),filter),false);assert.equal(matches(parse('시간 협의'),{...filter,includeUnknown:true}),true);
 assert.equal(matches(weekend,{...filter,includeUnknown:true}),false);assert.equal(matches(weekend,{...filter,days:[5,6],start:'',end:''}),true);
 assert.equal(matches(parse('월~금 22:00~06:00'),{...filter,days:[0,1,2,3,4,5,6],start:'21:00',end:'07:00'}),true);assert.equal(matches(parse('월~금 22:00~06:00'),filter),false);
+});
+
+test('class conflicts include overnight spillover and boundary times',()=>{
+const classes=[{semester_id:1,day_of_week:1,start_time:'10:00:00',end_time:'12:00:00'}];
+assert.equal(status(parse('월~금 09:00~18:00'),classes),'conflict');
+assert.equal(status(parse('월~금 12:00~18:00'),classes),'clear');
+assert.equal(status(parse('근무시간 협의'),classes),'unknown');
+assert.equal(status(parse('주말 22:00~11:00'),classes),'conflict');
+assert.equal(status(parse('주말 22:00~06:00'),classes),'clear');
 });

@@ -1,34 +1,40 @@
-# Seoul Job Finder
+# Student Job Finder
 
-The student **Student Job** section reads recruitment information from Seoul Open Data through `GET /api/student/jobs?page=1`. Listings show company, title, location, salary, experience, and closing date. Expand a listing to see its description, working hours, qualifications, application methods, required documents, and contact phone.
+Students open **Student Job** to browse Seoul Open Data recruitment listings. The provider returns general jobs, including locations outside Seoul. Check qualifications, location, hours, and closing date with the employer before applying.
 
-These are general recruitment listings, not verified student-only or part-time jobs. The provider also returns locations outside Seoul. Closing dates and availability must be checked with the employer. The API does not provide a direct application URL in the verified sample; StudentHub displays supplied application instructions instead of inventing a link.
+## Features
 
-## Configuration
+- **All jobs / Favourites:** heart buttons save and remove job details in MySQL for the signed-in student. Favourites work across devices. They are dated snapshots, not proof that a listing is still available. Up to 200 jobs can be saved.
+- **Remembered filters:** selected days, times, unknown-schedule choice, submitted keyword, timetable choice, and semester are stored on this browser separately for each login ID. Private browsing or blocked browser storage may prevent persistence. These preferences do not sync across devices.
+- **Keyword search:** a backend catalogue searches company, title, location, and description across provider batches, then paginates the matches. Catalogue downloads use batches of 1,000 with three concurrent workers, are shared between requests, and cached for ten minutes. The first search may take longer. Catalogues above 100,000 records are refused with an error rather than silently searched partially. Failed downloads can retry after one minute.
+- **Availability filters:** known workdays and the whole shift must fit the chosen days/hours. These filters apply to the displayed result page or saved favourites. Leave both times empty for any hours. Earlier end times mean overnight availability.
+- **Fits my timetable:** choose a semester. Known work schedules are compared with saved classes in campus time, including overnight spillover. Conflicts are labeled and excluded when enabled. Unknown schedules remain clearly labeled and can be excluded using the unknown toggle. No saved classes or a failed timetable load makes comparison unavailable. Travel time is not included.
+- **Application actions:** display employer-supplied application instructions, documents, and contact details. Valid phone numbers get a tap-to-call link. There is no invented application URL or automated application submission.
 
-Set `SEOUL_API_KEY` on Railway's **Team1 backend service** and deploy. Never put the key in frontend code, public build variables, committed files, or browser requests. Production requires a personal key; it does not silently fall back to `sample`.
+## Schedule interpretation
 
-Provider service: `recMntList`, JSON format. The backend uses the documented `http://openapi.seoul.go.kr:8088` endpoint; HTTPS probes were unsuccessful during verification. Although browser users never receive the key, the upstream request uses HTTP. Assess this provider transport limitation before wider production use.
+Only explicit patterns in the working-hours field are interpreted: clear weekday ranges, weekday/five-day schedules, weekend schedules, and one unambiguous pair of times (including Korean AM/PM). Negotiable/rotating schedules, conflicting workdays, multiple time ranges, or missing data remain unknown. No overlap detected is an estimate, not a guarantee that a job fits.
 
-Each page requests 30 records. Search filters only the current page and says so in the interface. Previous/Next browse the provider's result set. Pages are cached for five minutes (maximum 20 pages); concurrent requests for one page share an upstream request. Requests time out after ten seconds. Provider errors are sanitized so the key and upstream URL are not shown in responses or error logs. Job text is rendered as text, not HTML.
+## API and storage
+
+- `GET /api/student/jobs?page=1&q=developer`
+- `GET /api/student/job-favourites`
+- `POST /api/student/job-favourites` with a job snapshot
+- `DELETE /api/student/job-favourites/:id`
+
+Only signed-in students can use these endpoints. Favourite ownership always comes from the session, never a submitted student ID. Job identifiers are server-generated fingerprints of company, title, location, posted/closing dates, and work address because the sample provider response has no stable listing identifier. Identical fingerprints are deduplicated. Changed identity fields can produce a new snapshot; saved listings are not automatically updated.
+
+Set `SEOUL_API_KEY` only on the Railway backend service. No key is sent to the browser or saved in GitHub. Provider service: `recMntList`, JSON format. The backend uses the documented HTTP endpoint on port 8088; HTTPS probes were unsuccessful. This is an upstream transport limitation. Ordinary pages have a five-minute cache and individual requests time out after ten seconds. Errors do not expose the key or request URL. Job content is rendered as text.
+
+The backend creates the additive `job_favourites` table at startup. The database account needs CREATE permission. Equivalent migration: `database/migrations/005_job_favourites.sql`.
 
 Source: https://data.seoul.go.kr/dataList/OA-13341/A/1/datasetView.do
-API guide: https://data.seoul.go.kr/together/guide/useGuide.do
+Guide: https://data.seoul.go.kr/together/guide/useGuide.do
 
 ## Verification on 2026-10-10
 
-- All 21 backend tests passed, including authorization, pagination validation, provider response mapping, caching, concurrent requests, failure recovery, empty results, and key privacy.
+- 23 backend tests passed, including search beyond the first provider batch, shared caching, favourite ownership, normalized identifiers, duplicate saves, and cross-account deletion protection.
+- 3 frontend parser/filter tests passed, including overnight timetable conflicts and exact class boundary times.
 - Frontend TypeScript and production build passed.
-- Browser smoke checks passed with mocked API: listing cards, page search and empty state, expandable details, escaped HTML, pagination, error/retry, and 390px mobile layout.
-- The backend adapter successfully normalized five live public sample records. This confirmed the provider response contract, not the personal Railway key.
-- After deployment, sign in as a student, open **Student Job**, and verify live listings. Use an administrator account to check the separate password-reset Requests flow.
-
-## Availability filters
-
-Students can select weekdays, weekends, or individual available days and optionally enter available start/end times. A known shift must fit entirely inside the chosen availability. Earlier end times represent overnight availability; known overnight jobs also require availability on the next calendar day. Leave both times empty for any hours.
-
-The parser reads only explicit patterns in the employer's working-hours field. It recognizes clear weekday ranges, weekday/five-day schedules, weekend schedules, and a single unambiguous pair of times including Korean AM/PM. Shift rotations, negotiable schedules, conflicting days, multiple time ranges, and missing information remain unknown. Unknown listings are included by default and visibly labeled; students can exclude them. These estimates are not a guarantee of compatibility. Timetable comparison is not implemented yet.
-
-Filters apply only to the current provider page. Clear filters restores all listings on that page.
-
-Verification: `node --test frontend/tests/job-schedules.test.mjs` passed both parser/filter tests. Frontend production build passed. Browser checks passed for weekend filtering, unknown exclusion, full-shift containment, clearing filters, and 390px mobile layout with mocked listings.
+- Browser checks with mocked API passed: hearts, favourites, removal, remembered filters after reload, timetable conflict filtering, keyword search, phone link, and 390px mobile layout.
+- Earlier provider sample contract check returned five real records. Full catalogue search with the personal Railway key and MySQL persistence across devices still need live authenticated verification after deployment.

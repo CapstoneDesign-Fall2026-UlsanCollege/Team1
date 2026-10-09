@@ -1,4 +1,5 @@
 import express from 'express';
+import { favouritesRouter, type FavouriteStore } from './job-favourites.js';
 import { jobsRouter, type JobService } from './jobs.js';
 import { resetRouter, type ResetStore } from './password-resets.js';
 import { resolve } from 'node:path';
@@ -13,6 +14,7 @@ import { studentAdminRouter, type StudentAdminStore } from './student-admin.js';
 
 export type Account = { id: number; login_id: string; password_hash: string; role: 'admin' | 'student'; is_active: number };
 export type Accounts = {
+  favourites?: FavouriteStore;
   jobs?: JobService;
   resets?: ResetStore;
   majorPlanning?: express.Router;
@@ -39,6 +41,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
   });
   if (frontendOrigin) app.use('/api', cors({ origin: frontendOrigin, credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], allowedHeaders: ['Content-Type', 'X-StudentHub'] }));
+  app.use('/api/student/job-favourites', express.json({ limit: '200kb' }));
   app.use(express.json({ limit: '4kb' }));
   const sessions = new Map<string, { id: number; expires: number }>();
   const attempts = new Map<string, { count: number; expires: number }>();
@@ -109,6 +112,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
     next();
   });
   if (accounts.resets) app.use('/api', resetRouter(accounts.resets, invalidate));
+  if (accounts.favourites) app.use('/api', favouritesRouter(accounts.favourites));
   if (accounts.jobs) app.use('/api', jobsRouter(accounts.jobs));
   app.get('/api/auth/me', (_req, res) => { res.json({ user: res.locals.user }); });
   if (accounts.majorPlanning) app.use('/api', accounts.majorPlanning);

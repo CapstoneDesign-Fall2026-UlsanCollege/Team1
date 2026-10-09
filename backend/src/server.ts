@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { mysqlFavourites, favouritesSchema } from './job-favourites.js';
 import { createSeoulJobs } from './jobs.js';
 import { mysqlResets, resetSchema } from './password-resets.js';
 import { majorPlanningRouter } from './major-planning.js';
@@ -25,7 +26,7 @@ async function find(column: 'id' | 'login_id', value: number | string) {
   return rows[0] as Account | undefined;
 }
 const app = createApp(
-  { jobs: createSeoulJobs(), resets: mysqlResets(pool), byLogin: login => find('login_id', login), byId: id => find('id', id), majorPlanning: majorPlanningRouter(pool),
+  { favourites: mysqlFavourites(pool), jobs: createSeoulJobs(), resets: mysqlResets(pool), byLogin: login => find('login_id', login), byId: id => find('id', id), majorPlanning: majorPlanningRouter(pool),
     courseAssignments: () => courseAssignments(pool), removeOffering: id => removeOffering(pool, id), schedules: mysqlSchedules(pool),
     updateProfessor: (id, professor) => updateOfferingProfessor(pool, id, professor), studentAdmin: mysqlStudentAdmin(pool) },
   student => createStudent(pool, student),
@@ -44,6 +45,7 @@ const app = createApp(
 const port = Number(process.env.PORT ?? 3000);
 async function start() {
   await pool.query(resetSchema);
+  await pool.query(favouritesSchema);
   const server = app.listen(port, '0.0.0.0');
   server.on('listening', () => console.log('StudentHub API: http://127.0.0.1:' + port));
   server.on('error', (error: NodeJS.ErrnoException) => {
