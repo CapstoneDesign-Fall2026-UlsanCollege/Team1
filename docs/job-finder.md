@@ -22,3 +22,13 @@ API guide: https://data.seoul.go.kr/together/guide/useGuide.do
 - Browser smoke checks passed with mocked API: listing cards, page search and empty state, expandable details, escaped HTML, pagination, error/retry, and 390px mobile layout.
 - The backend adapter successfully normalized five live public sample records. This confirmed the provider response contract, not the personal Railway key.
 - After deployment, sign in as a student, open **Student Job**, and verify live listings. Use an administrator account to check the separate password-reset Requests flow.
+
+## Availability filters
+
+Students can select weekdays, weekends, or individual available days and optionally enter available start/end times. A known shift must fit entirely inside the chosen availability. Earlier end times represent overnight availability; known overnight jobs also require availability on the next calendar day. Leave both times empty for any hours.
+
+The parser reads only explicit patterns in the employer's working-hours field. It recognizes clear weekday ranges, weekday/five-day schedules, weekend schedules, and a single unambiguous pair of times including Korean AM/PM. Shift rotations, negotiable schedules, conflicting days, multiple time ranges, and missing information remain unknown. Unknown listings are included by default and visibly labeled; students can exclude them. These estimates are not a guarantee of compatibility. Timetable comparison is not implemented yet.
+
+Filters apply only to the current provider page. Clear filters restores all listings on that page.
+
+Verification: `node --test frontend/tests/job-schedules.test.mjs` passed both parser/filter tests. Frontend production build passed. Browser checks passed for weekend filtering, unknown exclusion, full-shift containment, clearing filters, and 390px mobile layout with mocked listings.
