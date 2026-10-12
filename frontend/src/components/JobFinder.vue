@@ -16,6 +16,8 @@ const submittedSearch = ref(''), fitsTimetable = ref(false), meetings = ref<Clas
 const termMeetings = computed(() => meetings.value.filter(meeting => meeting.semester_id === semester.value))
 const canCompare = computed(() => !!semester.value && termMeetings.value.length > 0 && !timetableError.value)
 watch(canCompare, value => { if(!value) fitsTimetable.value=false })
+const daysLabel = computed(() => !availableDays.value.length ? 'Any day' : availableDays.value.length === 7 ? 'Every day' : availableDays.value.map(day => weekdays[day]).join(', '))
+const comparisonTerm = computed(() => terms.value.find(term => term.id === semester.value))
 const favouriteIds = computed(() => new Set(favourites.value.map(job => job.id)))
 const preferenceKey = 'studenthub-job-filters:' + props.loginId
 function restoreFilters() {
@@ -53,7 +55,10 @@ async function loadTimetable() {
  timetableError.value = ''
  try {
   const [schedules,semesters] = await Promise.all([scheduleApi('student/schedule'),scheduleApi('student/semesters')]); meetings.value=schedules.schedules;terms.value=semesters.semesters
-  if (!terms.value.some(term=>term.id===semester.value)) semester.value=terms.value[0]?.id??0
+  const today = new Date().toLocaleDateString('en-CA', {timeZone:'Asia/Seoul'})
+  const dateOnly = (value:string) => value.slice(0,10)
+  const current = terms.value.find(term => dateOnly(term.start_date) <= today && today <= dateOnly(term.end_date))
+  semester.value = (current ?? terms.value.find(term => meetings.value.some(meeting => meeting.semester_id === term.id)) ?? terms.value[0])?.id ?? 0
   if (!canCompare.value) fitsTimetable.value=false
  } catch { timetableError.value='Your timetable could not be loaded. Try refreshing.'; fitsTimetable.value=false }
 }
@@ -85,22 +90,22 @@ onMounted(() => { restoreFilters(); void load(); void loadFavourites(); void loa
     <p v-if="favouriteError" class="error" role="alert">{{ favouriteError }} <button type="button" class="secondary" @click="loadFavourites">Retry favourites</button></p>
     <form class="catalogue-search" @submit.prevent="submitSearch"><label class="job-search">Search jobs<div><StudentIcon name="search" /><input v-model="search" type="search" maxlength="100" placeholder="Company, job title, or location" aria-describedby="job-search-help"></div></label><button :disabled="loading">Search</button></form>
     <small id="job-search-help">Keyword search checks the provider catalogue (cached for 10 minutes). Availability filters apply to the returned page. The first search may take longer. Filters are remembered on this device for your account.</small>
-    <fieldset class="schedule-filters"><legend>Your availability</legend>
-      <p class="filter-help">Select the days you can work. A known schedule must fit entirely within your selected days and hours.</p>
-      <div class="day-presets"><button type="button" class="secondary" @click="availableDays = [0,1,2,3,4]">Weekdays</button><button type="button" class="secondary" @click="availableDays = [5,6]">Weekends</button><button type="button" class="secondary" @click="availableDays = []">Any day</button></div>
-      <div class="day-options"><label v-for="(day,index) in weekdays" :key="day"><input v-model="availableDays" type="checkbox" :value="index">{{ day }}</label></div>
-      <div class="availability-hours"><label>Available from<input v-model="availableStart" type="time"></label><label>Available until<input v-model="availableEnd" type="time"></label></div>
-      <p class="filter-help">Leave both times empty for any hours. An end time earlier than the start means overnight availability.</p>
+    <div class="schedule-filters" aria-label="Job availability filters">
+      <div class="compact-filter-row">
+        <div class="days-filter"><span class="filter-label">Days</span><details class="days-dropdown"><summary>{{ daysLabel }}</summary><div class="days-menu">
+          <div class="day-presets"><button type="button" class="secondary" @click="availableDays=[0,1,2,3,4]">Weekdays</button><button type="button" class="secondary" @click="availableDays=[5,6]">Weekends</button><button type="button" class="secondary" @click="availableDays=[]">Any day</button></div>
+          <label v-for="(day,index) in weekdays" :key="day"><input v-model="availableDays" type="checkbox" :value="index">{{day}}</label>
+        </div></details></div>
+        <label class="time-filter">From<input v-model="availableStart" type="time"></label>
+        <label class="time-filter">Until<input v-model="availableEnd" type="time"></label>
+        <label class="timetable-toggle" :title="canCompare ? 'Compare with '+comparisonTerm?.name : 'Add classes to your timetable to use this filter'"><input v-model="fitsTimetable" type="checkbox" :disabled="!canCompare">Fits my timetable</label>
+      </div>
+      <div class="filter-footer"><label class="unknown-toggle"><input v-model="includeUnknown" type="checkbox">Include unknown schedules</label><button type="button" class="secondary clear-filter" :disabled="loading || (!filtersActive && includeUnknown)" @click="clearFilters">Clear filters</button></div>
       <p v-if="invalidTime" class="error" role="alert">Enter both times with different start and end times, or clear both.</p>
-      <label class="unknown-toggle"><input v-model="includeUnknown" type="checkbox">Include listings with unknown days or hours</label>
-      <p class="filter-help">Schedules are estimated from the employer's text. Unknown listings are not confirmed matches; check details with the employer.</p>
-      <label>Compare with semester<select v-model.number="semester"><option :value="0">Choose a semester</option><option v-for="term in terms" :key="term.id" :value="term.id">{{term.name}} {{term.academic_year}}</option></select></label>
-      <label class="unknown-toggle"><input v-model="fitsTimetable" type="checkbox" :disabled="!canCompare">Fits my timetable</label>
-      <p v-if="timetableError" class="error" role="alert">{{timetableError}}</p><p v-else-if="!canCompare" class="filter-help">No saved classes for this semester. Timetable matching is unavailable.</p>
-      <button type="button" class="secondary" @click="loadTimetable">Refresh timetable</button>
-      <p class="filter-help">Comparison uses campus time and checks class overlaps, including overnight work. Travel time is not included. Unknown schedules are not confirmed fits.</p>
-      <button type="button" class="secondary" :disabled="loading || (!filtersActive && includeUnknown)" @click="clearFilters">Clear filters</button>
-    </fieldset>
+      <p v-if="timetableError" class="error" role="alert">{{timetableError}} <button type="button" class="secondary" @click="loadTimetable">Retry</button></p>
+      <p v-else-if="!canCompare" class="filter-help">Add scheduled classes to your timetable to enable matching.</p>
+      <details class="filter-details"><summary>How filters work<span v-if="canCompare"> · {{comparisonTerm?.name}}</span></summary><p class="filter-help">Leave times empty for any hours. An earlier Until time means overnight. Known shifts must fit your selected days and hours. Timetable matching uses your current assigned semester, or your latest semester with classes. It checks class overlaps in campus time; travel time is not included. Unknown schedules need checking with the employer.</p><button type="button" class="secondary" @click="loadTimetable">Refresh timetable</button></details>
+    </div>
     <p v-if="loading" role="status">{{submittedSearch ? 'Searching the provider catalogue… The first search may take longer.' : 'Loading job listings…'}}</p>
     <div v-if="error && tab==='all'"><p class="error" role="alert">{{ error }}</p><button type="button" :disabled="loading" @click="load()">Try again</button></div>
     <template v-else-if="!loading || tab==='favourites'">
@@ -126,5 +131,7 @@ onMounted(() => { restoreFilters(); void load(); void loadFavourites(); void loa
   </section>
 </template>
 <style scoped>
+.compact-filter-row{display:grid;grid-template-columns:minmax(150px,1.2fr) minmax(125px,1fr) minmax(125px,1fr) auto;gap:12px;align-items:end}.compact-filter-row label,.filter-label{font-size:14px;font-weight:600;margin:0}.filter-label{display:block;margin-bottom:6px}.time-filter input{display:block;width:100%;min-width:0;margin-top:6px;box-sizing:border-box}.days-filter{min-width:0}.days-dropdown{position:relative}.days-dropdown>summary{border:1px solid #c5d7ce;border-radius:8px;padding:12px;font-size:14px;font-weight:400;min-height:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-sizing:border-box}.days-menu{position:absolute;top:calc(100% + 6px);left:0;z-index:5;width:260px;max-width:calc(100vw - 80px);padding:12px;background:white;border:1px solid #c5d7ce;border-radius:10px;box-shadow:0 6px 20px #263b3220}.days-menu label{display:flex;align-items:center;gap:8px;min-height:36px}.days-menu input,.timetable-toggle input{width:18px;height:18px;flex-shrink:0}.timetable-toggle{display:flex;align-items:center;gap:8px;min-height:46px;white-space:nowrap}.filter-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}.clear-filter{padding:8px 12px;font-size:13px}.filter-details>summary{font-size:13px;font-weight:400;min-height:0;padding:4px 0}.filter-details .filter-help{margin:8px 0}.filter-footer .unknown-toggle{min-height:36px;margin:0;font-size:13px}.schedule-filters .filter-help{margin:8px 0}@media(max-width:700px){.compact-filter-row{grid-template-columns:repeat(2,minmax(0,1fr))}.timetable-toggle{white-space:normal}.filter-footer{flex-wrap:wrap}}
+
 .job-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.catalogue-search button{width:auto}.schedule-filters select{display:block;width:100%;padding:12px;margin-top:8px;border:1px solid #c5d7ce;border-radius:8px;font:inherit}.favourite-heart{float:right;min-height:44px;min-width:44px;padding:10px;background:#f9eef0;color:#a32d50;margin-left:10px}.favourite-heart svg{width:24px;height:24px}.fit-label{font-size:13px;line-height:1.5}.fit-label.conflict{color:#a22f24}.fit-label.clear{color:#126653}.fit-label.unknown,.fit-label.unavailable{color:#60736e}.apply-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;font-size:14px;line-height:1.6}.apply-actions a{display:inline-block;padding:12px;background:#126653;color:white;border-radius:8px;text-decoration:none}.schedule-filters{margin:22px 0;padding:16px;border:1px solid #c5d7ce;border-radius:12px;background:white}.schedule-filters legend{font-weight:700}.filter-help{font-size:13px;line-height:1.6;color:#60736e}.day-presets,.day-options{display:flex;flex-wrap:wrap;gap:8px}.day-presets button{padding:10px 12px;font-size:13px}.day-options label,.unknown-toggle{display:flex;gap:8px;align-items:center;margin:8px 0;min-height:44px}.day-options label{padding:6px 10px;border:1px solid #dce5df;border-radius:8px}.day-options input,.unknown-toggle input{width:18px;height:18px;flex-shrink:0}.availability-hours{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.availability-hours label{margin:12px 0}.availability-hours input{display:block;margin-top:6px}.schedule-label{font-size:13px;color:#36594d;background:#eef4f0;padding:10px;border-radius:8px;overflow-wrap:anywhere}.job-finder{color:#263b32}.job-heading{display:flex;justify-content:space-between;align-items:center;gap:16px}.job-heading h2{margin:0}.job-heading p,.job-note,.job-source,small{color:#60736e;font-size:14px;line-height:1.6}.job-heading button{flex-shrink:0}.job-note{padding:12px;background:#eef4f0;border-radius:8px}.job-search{margin:20px 0 6px}.job-search>div{display:flex;align-items:center;gap:10px;margin-top:8px}.job-search svg{width:22px;height:22px;flex-shrink:0}.job-search input{min-width:0}.job-count{font-size:14px}.job-card{background:white;border:1px solid #dce5df;border-radius:12px;padding:20px;margin:14px 0}.job-company{color:#126653;font-weight:600;margin:0 0 8px}.job-card h3{font-size:18px;line-height:1.5}dl{margin:12px 0}dl>div{display:grid;grid-template-columns:115px minmax(0,1fr);gap:12px;padding:6px 0;font-size:14px;line-height:1.6}dt{font-weight:600}dd{margin:0;overflow-wrap:anywhere}summary{cursor:pointer;color:#126653;font-weight:600;padding:12px 0;min-height:44px}.job-description{white-space:pre-wrap;line-height:1.7;font-size:14px;overflow-wrap:anywhere}.job-pages{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:24px}.job-pages span{font-size:14px}.job-source a{color:#126653}.job-source{overflow-wrap:anywhere}.job-empty{padding:24px;background:white;border-radius:12px}@media(max-width:600px){.job-heading{flex-wrap:wrap}.job-card{padding:16px}dl>div{grid-template-columns:90px minmax(0,1fr)}.job-pages button{padding:12px}.job-pages span{text-align:center}}
 </style>
