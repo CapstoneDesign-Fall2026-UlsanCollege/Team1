@@ -82,7 +82,7 @@ Student dashboard evidence images:
 
 - Student timetable: https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/student%20dashboard/pic3.png
 - Compact job filters: https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/student%20dashboard/pic8.png
-- Favourites (saved jobs): https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/student%20dashboard/pic7.png
+- Favourites (saved jobs): https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/student%20dashboard/pic9.png
 
 Additional reference images:
 
