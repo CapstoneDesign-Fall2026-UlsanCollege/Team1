@@ -5,7 +5,7 @@
 
 ## What this project does
 
-StudentHub helps students view their profile, assigned semesters, courses, and weekly timetable in one place. Administrators manage accounts and academic information and review password reset requests. Students can also search job listings from Seoul Open Data, filter by availability, compare jobs with their timetable, and save favourites.
+StudentHub helps students view their profile, assigned semesters, courses, and weekly timetable in one place. Administrators manage accounts and academic information and review password reset reque[...]
 
 ## Requirements
 
@@ -31,7 +31,7 @@ Use PowerShell in the cloned Team1 repository root. On this development laptop, 
    npm.cmd ci --prefix frontend
    ```
 
-2. If `backend/.env` does not exist, copy `backend/.env.example` to it. Set your database host, port, username, password, and database name. The example uses port 3307; use the port of your own MySQL server. Obtain the base database schema from the team and apply the SQL migrations in `database/migrations` in numerical order; the migrations alone are not a complete fresh database setup. Obtain an administrator account from the team. Keep credentials private.
+2. If `backend/.env` does not exist, copy `backend/.env.example` to it. Set your database host, port, username, password, and database name. The example uses port 3307; use the port of your own MySQL [...]
 3. Start the backend and frontend in separate PowerShell terminals, both from the repository root:
 
    ```powershell
@@ -54,11 +54,11 @@ npm.cmd run build --prefix frontend
 node --test frontend/tests/job-schedules.test.mjs
 ```
 
-> We checked the backend using its automated tests. Expected result: all tests pass. Actual result: 23 tests passed on October 10. Proof: [backend test files](../backend/tests/) and [verification record](job-finder.md#verification-on-2026-10-10). A screenshot of terminal output can be added as presentation evidence.
+> We checked the backend using its automated tests. Expected result: all tests pass. Actual result: 23 tests passed on October 10. Proof: [backend test files](../backend/tests/) and [verification reco[...] 
 
-> We checked the updated mobile time inputs by building the frontend and opening the interface at 320, 390, and 430 pixels wide with a test API. Expected result: smaller editable From/Until boxes with no horizontal overflow. Actual result: the build and browser checks passed on October 14. Proof: [mobile sizing change](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/ef89214). The deployed stylesheet was also checked for the new sizing.
+> We checked the updated mobile time inputs by building the frontend and opening the interface at 320, 390, and 430 pixels wide with a test API. Expected result: smaller editable From/Until boxes with[...] 
 
-For a live demonstration, log in as a student, open the timetable, search for a job, save it with the heart, and check Favourites after reloading. Administrator checks should include creating a clearly named test student and checking a valid password reset request. Record expected and actual results with screenshots; live database persistence across devices still needs verification.
+For a live demonstration, log in as a student, open the timetable, search for a job, save it with the heart, and check Favourites after reloading. Administrator checks should include creating a clearl[...]
 
 ## Known problems
 
@@ -77,3 +77,17 @@ For a live demonstration, log in as a student, open the timetable, search for a 
 - [Live StudentHub](https://team1-production.up.railway.app/)
 - [Team1 GitHub repository](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1)
 - Suggested screenshots: administrator dashboard, student timetable, compact job filters, and Favourites. Hide passwords, API keys, and personal student information.
+
+The uploaded screenshot files are available in the repository. Use these links when preparing presentations or reports (do not include any sensitive data in the images):
+
+- Administrator dashboard — overview: https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/1.png
+- Administrator dashboard — students list: https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/2.png
+- Student timetable: https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/3.png
+- Compact job filters: https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/a.png
+- Favourites (saved jobs): https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/b.png
+
+Additional evidence images:
+
+- Admin verification check: https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/good.png
+- Railway database verification: https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/railwayshow.png
+
