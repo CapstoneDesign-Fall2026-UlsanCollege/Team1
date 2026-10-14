@@ -22,7 +22,7 @@
 
 - **Expected result:** The administrator can successfully navigate between Dashboard, Students, Semesters, and Courses. Each section should display its corresponding page, and the selected navigation item should be clearly highlighted.
 
-- **Actual result:** [After testing, record whether each section opened correctly, whether the active navigation indicator changed, and any unexpected behavior.]
+- **Actual result:** The test was successful. Dashboard and, after selecting the major five events, its basic details were displayed correctly.
 
 - **Proof link / screenshot:** [Week 6 Admin Navigation Verification — Issue #44](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/44)
 
