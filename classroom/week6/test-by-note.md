@@ -30,7 +30,8 @@
 
 ## Problems found
 
-[Record any navigation problems found during testing. If all checks pass, state that no navigation problems were observed.]
+No problems were reported during the October 14 repeat test after testing each part separately.
+
 
 Database operations, student information updates, and other administrator functions are outside the scope of this test.
 
