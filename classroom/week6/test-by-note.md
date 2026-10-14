@@ -36,8 +36,8 @@ Database operations, student information updates, and other administrator functi
 
 ## Repeat test
 
-- **Tested by:** [GitHub login of another teammate]
-- **Date:** [Date of repeat test]
+- **Tested by:** CoderRaaju
+- **Date:** 2026/10/14
 - **What I did:** Repeated the navigation steps by opening the administrator Dashboard and selecting Students, Semesters, and Courses without additional guidance.
 - **Expected result:** All three sections should open correctly, and the active navigation indicator should update according to the selected section.
 - **Actual result:** [Record the outcome of the independent repeat test.]
