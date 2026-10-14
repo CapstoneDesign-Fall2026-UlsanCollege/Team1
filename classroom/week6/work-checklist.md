@@ -37,7 +37,7 @@
 - [x] [Implementation Issue #43](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/43) and [verification Issue #44](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/44). Current verification status still needs updating.
 - [x] [Administrator navigation commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/c7ad189).
 - [ ] Completed Tested-By Note with actual results and proof.
-- [ ] Screenshot or short video supporting the teammate’s test result.
+- [x] Screenshot or short video supporting the teammate’s test result, with private information hidden: [Admin dashboard evidence](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/admin%20dashboard/good.png).
 - [ ] Published shared Weekly Report with confirmed entries from every member.
 - [ ] Individual Evidence Receipt from each student.
 - [ ] Any bug or blocker Issue with an owner and next action.
