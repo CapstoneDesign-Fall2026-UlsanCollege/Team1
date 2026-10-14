@@ -1,52 +1,65 @@
+
 # Tested-By Note
 
 ## What we checked
 
-- Behavior / related Issue: Dashboard → Students → Semesters → Courses / Week 6 Admin Navigation Verification
-- Tested by (a teammate other than the behavior’s author): [GitHub login]
-- Date: [date tested]
+- **Behavior / related Issue:** Dashboard → Students → Semesters → Courses / Week 6 Admin Navigation Verification
+- **Tested by (a teammate other than the behavior's author):** CoderRaaju
+- **Date:** 2026-10-14
+- **Project:** StudentHub — Team 1
 
 ## Check steps
 
-1. Start the StudentHub project or open the team-approved test environment.
-2. Sign in using a team-approved administrator test account.
-3. Confirm the Dashboard is displayed.
-4. Select **Students** from the administrator navigation.
-5. Check that the Students section appears and Students is identified as selected.
-6. Select **Semesters**.
-7. Check that the Semesters section appears and Semesters is identified as selected.
-8. Select **Courses**.
-9. Check that the Courses section appears and Courses is identified as selected.
+1. Start the StudentHub project and open the administrator login page.
+2. Sign in using the team-approved administrator test account.
+3. Confirm that the Dashboard loads successfully and the navigation menu is visible.
+4. Click **Students** and check whether the Students section opens with the correct active navigation indicator.
+5. Click **Semesters** and verify that the Semesters section appears and is highlighted as selected.
+6. Click **Courses** and confirm that the Courses section opens correctly.
+7. Navigate between Students, Semesters, and Courses again to check whether the navigation works consistently.
 
 ## Result
 
-- Expected result: The administrator can open Students, Semesters, and Courses from the Dashboard navigation. Each destination displays its matching section, and the selected navigation item is clearly identified.
-- Actual result: [Record what happened, including any step that failed or behaved unexpectedly.]
-- Proof link / screenshot: [Add a link to the evidence.]
+- **Expected result:** The administrator can successfully navigate between Dashboard, Students, Semesters, and Courses. Each section should display its corresponding page, and the selected navigation item should be clearly highlighted.
+
+- **Actual result:** [After testing, record whether each section opened correctly, whether the active navigation indicator changed, and any unexpected behavior.]
+
+- **Proof link / screenshot:** [Week 6 Admin Navigation Verification — Issue #44](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/44)
+
+- **Proof description:** Screenshots should show the administrator Dashboard and the Students, Semesters, and Courses sections with their corresponding navigation items highlighted. Attach the screenshots to Issue #44 to demonstrate the tested navigation behavior.
 
 ## Problems found
 
-[Record any problems observed. If none were observed, say so only after completing the test.]
+[Record any navigation problems found during testing. If all checks pass, state that no navigation problems were observed.]
+
+Database operations, student information updates, and other administrator functions are outside the scope of this test.
 
 ## Repeat test
 
-- Tested by: [GitHub login]
-- Date: [date]
-- Actual result: [Record what happened when the test was repeated.]
-- Proof link / screenshot: [Add a link to the evidence.]
+- **Tested by:** [GitHub login of another teammate]
+- **Date:** [Date of repeat test]
+- **What I did:** Repeated the navigation steps by opening the administrator Dashboard and selecting Students, Semesters, and Courses without additional guidance.
+- **Expected result:** All three sections should open correctly, and the active navigation indicator should update according to the selected section.
+- **Actual result:** [Record the outcome of the independent repeat test.]
+- **Proof link/screenshot:** [Add repeat-test evidence here.]
 
 ## Current data limitation
 
-This test checks only navigation between Dashboard, Students, Semesters, and Courses, and whether the selected section is identified. It does not verify that student, semester, or course changes persist; timetable permissions; mobile layout; accessibility; or deployment reliability.
+This test verifies only the administrator navigation between Dashboard, Students, Semesters, and Courses and whether the selected section is clearly identified.
+
+It does not verify student data persistence, semester or course modifications, timetable permissions, mobile responsiveness, accessibility, or deployment reliability.
 
 ## Related Issue
 
-[Week 6 Verification: Admin Navigation — Issue #44](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/44)
+- [Issue #44 — Week 6 Verification: Admin Navigation](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/44)
+- [Issue #43 — Admin Navigation Implementation](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/43)
 
-The earlier implementation Issue #43 is closed and is not evidence that this Week 6 test passed.
+Issue #43 covers the earlier implementation work, while Issue #44 tracks independent navigation verification.
 
 ## Next action
 
-- Update Issue #44 and the Week 6 report to match the actual test result.
-- If a check fails, record the failing step and agree on an owner and follow-up.
-- Keep untested behavior listed as unverified.
+- Complete the navigation test and record the actual results in Issue #44.
+- Attach screenshots showing the Dashboard, Students, Semesters, and Courses navigation states.
+- Have another teammate independently repeat the written test steps.
+- Update Issue #44 and the Week 6 report with verified results and evidence.
+- Keep database operations and other untested administrator functions listed as unverified.
