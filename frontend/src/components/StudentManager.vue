@@ -4,7 +4,7 @@ import { onMounted, ref, watch } from 'vue'
 import { scheduleApi, type Semester } from '../schedules'
 type Student = { id:number; login_id:string; full_name:string; university:string; major:string|null; year_of_study:number|null; email:string|null; phone_number:string|null; address:string|null; is_active:boolean; semester_ids:number[] }
 const semesters=ref<Semester[]>([])
-const props=defineProps<{ revision:number }>()
+const props=defineProps<{ revision:number; selectedLogin?:string }>()
 const emit=defineEmits<{saving:[value:boolean]}>()
 const students=ref<Student[]>([]), search=ref(''), draft=ref<Student|null>(null)
 const loading=ref(false), busy=ref(false), error=ref(''), message=ref('')
@@ -31,6 +31,7 @@ async function save(){
   }catch(e){error.value=e instanceof Error?e.message:'Unable to save student.'}
   finally{busy.value=false;emit('saving',false)}
 }
+watch(()=>props.selectedLogin,async login=>{if(!login||busy.value||draft.value)return;search.value=login;await load()})
 onMounted(load)
 watch(()=>props.revision,()=>{void load()})
 </script>

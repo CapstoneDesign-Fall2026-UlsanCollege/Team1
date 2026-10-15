@@ -18,6 +18,7 @@ export type Accounts = {
   jobs?: JobService;
   resets?: ResetStore;
   majorPlanning?: express.Router;
+  semesterDetails?: express.Router;
   studentAdmin?: StudentAdminStore;
   schedules?: ScheduleStore;
   courseAssignments?: () => Promise<Course[]>;
@@ -115,6 +116,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
   if (accounts.favourites) app.use('/api', favouritesRouter(accounts.favourites));
   if (accounts.jobs) app.use('/api', jobsRouter(accounts.jobs));
   app.get('/api/auth/me', (_req, res) => { res.json({ user: res.locals.user }); });
+  if (accounts.semesterDetails) app.use('/api', accounts.semesterDetails);
   if (accounts.majorPlanning) app.use('/api', accounts.majorPlanning);
   if (accounts.schedules) app.use('/api', scheduleRouter(accounts.schedules));
   if (accounts.studentAdmin) app.use('/api', studentAdminRouter(accounts.studentAdmin));

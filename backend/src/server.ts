@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { semesterDetailsRouter } from './semester-details.js';
 import { mysqlFavourites, favouritesSchema } from './job-favourites.js';
 import { createSeoulJobs } from './jobs.js';
 import { mysqlResets, resetSchema } from './password-resets.js';
@@ -26,7 +27,7 @@ async function find(column: 'id' | 'login_id', value: number | string) {
   return rows[0] as Account | undefined;
 }
 const app = createApp(
-  { favourites: mysqlFavourites(pool), jobs: createSeoulJobs(), resets: mysqlResets(pool), byLogin: login => find('login_id', login), byId: id => find('id', id), majorPlanning: majorPlanningRouter(pool),
+  { semesterDetails: semesterDetailsRouter(pool), favourites: mysqlFavourites(pool), jobs: createSeoulJobs(), resets: mysqlResets(pool), byLogin: login => find('login_id', login), byId: id => find('id', id), majorPlanning: majorPlanningRouter(pool),
     courseAssignments: () => courseAssignments(pool), removeOffering: id => removeOffering(pool, id), schedules: mysqlSchedules(pool),
     updateProfessor: (id, professor) => updateOfferingProfessor(pool, id, professor), studentAdmin: mysqlStudentAdmin(pool) },
   student => createStudent(pool, student),

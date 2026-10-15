@@ -3,7 +3,8 @@ import StudentIcon from './StudentIcon.vue'
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { days, scheduleApi, type Meeting, type Semester } from '../schedules'
 import WeeklySchedule from './WeeklySchedule.vue'
-const props = defineProps<{ revision?: number }>()
+const props = defineProps<{ revision?: number; selectedSemester?:number; selectedMajor?:string|null }>()
+watch(() => props.selectedSemester, id => { if(id && !busy.value && !editing.value){semester.value=id;if(props.selectedMajor!==undefined)major.value=props.selectedMajor} })
 watch(() => props.revision, () => { if (!busy.value && !editing.value) void load() })
 type Offering = { offering_id: number; semester_id: number; major: string | null; course_code: string; course_name: string; professor: string | null; section: string }
 const majors = ref<string[]>([]), major = ref<string | null>('')

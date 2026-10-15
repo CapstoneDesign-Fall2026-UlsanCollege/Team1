@@ -2,8 +2,9 @@
 import StudentIcon from './StudentIcon.vue'
 import { apiFetch } from '../api'
 import { computed, nextTick, onMounted, onBeforeUnmount, ref, watch } from 'vue'
-const props = defineProps<{ revision?: number }>()
+const props = defineProps<{ revision?: number; selectedSemester?:number }>()
 const emit = defineEmits<{ changed: [] }>()
+watch(() => props.selectedSemester, id => { if(id && !busy.value && editingId.value === null) semesterId.value=id })
 watch(() => props.revision, () => { if (!busy.value && editingId.value === null) void load() })
 type Course = { id: number; course_code: string; course_name: string; credits: number }
 type Offering = Course & { offering_id: number; semester_id: number; major: string | null; professor: string | null; section: string }

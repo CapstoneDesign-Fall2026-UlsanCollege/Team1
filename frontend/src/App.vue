@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { apiFetch } from './api'
-import { onMounted, ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
 import CreateStudent from './components/CreateStudent.vue'
 import StudentManager from './components/StudentManager.vue'
+import SemesterDetails from './components/SemesterDetails.vue'
 import CreateSemester from './components/CreateSemester.vue'
 import AssignSemester from './components/AssignSemester.vue'
 import CourseBoard from './components/CourseBoard.vue'
@@ -33,6 +34,10 @@ const creatingStudent = ref(false)
 const editingStudent = ref(false)
 const studentRevision = ref(0)
 const semesterRevision = ref(0)
+const linkedStudent = ref(''), linkedSemester = ref(0), linkedMajor = ref<string|null>(null)
+async function openSemesterStudent(login:string){linkedStudent.value='';await nextTick();linkedStudent.value=login;studentPanel.value='directory';adminSection.value='students'}
+async function openSemesterTimetable(id:number,major:string|null){linkedMajor.value=major;await openSemesterArea(id,'timetable')}
+async function openSemesterArea(id:number,area:string){linkedSemester.value=0;await nextTick();linkedSemester.value=id;adminSection.value=area}
 const courseRevision = ref(0)
 function sessionExpired() {
   user.value = null
@@ -119,12 +124,12 @@ onMounted(async () => {
         </section>
         <div v-show="adminSection === 'students'" class="student-tabs" role="group" aria-label="Student actions"><button type="button" :class="{ secondary: studentPanel !== 'directory' }" :aria-pressed="studentPanel === 'directory'" @click="studentPanel = 'directory'"><StudentIcon name="profile" />Student list</button><button type="button" :class="{ secondary: studentPanel !== 'create' }" :aria-pressed="studentPanel === 'create'" @click="studentPanel = 'create'"><StudentIcon name="add" />Create student</button></div>
         <div v-show="adminSection === 'students' && studentPanel === 'create'" id="create-student" class="admin-section" tabindex="-1"><CreateStudent :revision="semesterRevision" @expired="sessionExpired" @saving="creatingStudent = $event" @created="studentRevision++" /></div>
-        <div v-show="adminSection === 'students' && studentPanel === 'directory'" id="student-directory" class="admin-section" tabindex="-1"><StudentManager :revision="studentRevision" @saving="editingStudent = $event" /></div>
-        <div v-show="adminSection === 'semesters'" id="manage-semesters" class="admin-section" tabindex="-1"><CreateSemester @created="semesterRevision++; studentRevision++" /></div>
+        <div v-show="adminSection === 'students' && studentPanel === 'directory'" id="student-directory" class="admin-section" tabindex="-1"><StudentManager :selected-login="linkedStudent" :revision="studentRevision" @saving="editingStudent = $event" /></div>
+        <div v-show="adminSection === 'semesters'" id="manage-semesters" class="admin-section" tabindex="-1"><SemesterDetails :revision="semesterRevision + studentRevision + courseRevision" @student="openSemesterStudent" @courses="openSemesterArea($event, 'courses')" @timetable="openSemesterTimetable" @changed="semesterRevision++; studentRevision++" /><CreateSemester @created="semesterRevision++; studentRevision++" /></div>
         <div v-show="adminSection === 'semesters'" id="assign-students" class="admin-section" tabindex="-1"><AssignSemester :revision="semesterRevision + studentRevision" @assigned="studentRevision++" /></div>
         <div v-show="adminSection === 'requests'"><PasswordReset admin @count="resetCount = $event" /></div>
-        <div v-show="adminSection === 'courses'" id="plan-courses" class="admin-section" tabindex="-1"><CourseBoard :revision="semesterRevision" @changed="courseRevision++" /></div>
-        <div v-show="adminSection === 'timetable'" id="class-timetable" class="admin-section" tabindex="-1"><ScheduleManager :revision="semesterRevision + courseRevision" /></div>
+        <div v-show="adminSection === 'courses'" id="plan-courses" class="admin-section" tabindex="-1"><CourseBoard :selected-semester="linkedSemester" :revision="semesterRevision" @changed="courseRevision++" /></div>
+        <div v-show="adminSection === 'timetable'" id="class-timetable" class="admin-section" tabindex="-1"><ScheduleManager :selected-major="linkedMajor" :selected-semester="linkedSemester" :revision="semesterRevision + courseRevision" /></div>
       </template>
     </section>
   </main>

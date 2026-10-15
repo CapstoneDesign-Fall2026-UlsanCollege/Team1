@@ -1,0 +1,11 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import bcrypt from 'bcryptjs';
+import {createApp} from '../dist/app.js';
+import {semesterDetailsRouter} from '../dist/semester-details.js';
+test('semester details restrict access, list all linked students, and guard deletion',async()=>{
+ const hash=await bcrypt.hash('test-password',4),users=[{id:1,login_id:'admin',role:'admin',is_active:1,password_hash:hash},{id:2,login_id:'student',role:'student',is_active:1,password_hash:hash}];
+ let linked=true;const calls=[];const pool={execute:async(sql,args)=>{calls.push([sql,args]);if(sql.startsWith('DELETE')){assert.match(sql,/NOT EXISTS.*student_semesters.*NOT EXISTS.*course_offerings/);assert.deepEqual(args,[1,1,1]);return [{affectedRows:linked?0:1}];}if(sql.includes('FROM student_semesters ss'))return [Array.from({length:105},(_,id)=>({id,login_id:'s'+id,full_name:'Student '+id}))];if(sql.includes('FROM course_offerings co'))return [[{offering_id:1,meeting_count:2}]];return [[{id:1,name:'Fall',academic_year:2026}]];}};
+ const server=createApp({byLogin:async login=>users.find(u=>u.login_id===login),byId:async id=>users.find(u=>u.id===id),semesterDetails:semesterDetailsRouter(pool)}).listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));const base='http://127.0.0.1:'+server.address().port;
+ try{const login=async name=>(await fetch(base+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json','X-StudentHub':'1'},body:JSON.stringify({login_id:name,password:'test-password'})})).headers.get('set-cookie').split(';')[0];const url=base+'/api/admin/semesters/1';assert.equal((await fetch(url)).status,401);const student=await login('student'),admin=await login('admin');assert.equal((await fetch(url,{headers:{Cookie:student}})).status,403);const data=await (await fetch(url,{headers:{Cookie:admin}})).json();assert.equal(data.students.length,105);assert.equal(data.offerings[0].meeting_count,2);assert.equal((await fetch(base+'/api/admin/semesters/no',{headers:{Cookie:admin}})).status,400);const remove=()=>fetch(url,{method:'DELETE',headers:{Cookie:admin,'X-StudentHub':'1'}});assert.equal((await remove()).status,409);linked=false;assert.equal((await remove()).status,200);}finally{server.closeAllConnections();await new Promise(r=>server.close(r));}
+});
