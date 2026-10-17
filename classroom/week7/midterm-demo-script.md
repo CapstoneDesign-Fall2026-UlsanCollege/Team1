@@ -32,7 +32,7 @@ Prepare screenshot backups in case the external job provider is unavailable.
 
 ## What does not work yet
 
-- Campus Eat and Room Finder are planned and have not been implemented.
+- Campus Eat for students and Room Finder for administrator classroom availability are planned and have not been implemented.
 - Password-reset email delivery is manual.
 - Timetable matching cannot confirm unclear working hours and does not include travel time.
 
@@ -48,6 +48,7 @@ Prepare screenshot backups in case the external job provider is unavailable.
 - **Demo/proof:** [Live StudentHub](https://team1-production.up.railway.app/)
 - **Implementation and check notes:** [Job Finder documentation](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/docs/job-finder.md)
 - **Important Issues:**
+  - [Issue #51 — Administrator Room Finder: available classrooms](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/51)
   - [Issue #43 — Administrator navigation implementation](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/43)
   - [Issue #44 — Administrator navigation verification](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/44)
 - **Important commits:**
@@ -69,6 +70,13 @@ Each member must confirm their own entry. Replace the placeholders with actual c
 ## Next steps after midterm
 
 - **Campus Eat:** Build a small list-and-details view for food options near campus, including price range, opening hours, and location.
-- **Room Finder:** Build a small accommodation list with rent, deposit, distance from campus, and contact information.
-- Confirm suitable data sources and assign implementation Issues before starting either feature.
-- Complete remaining live workflow checks and attach independent teammate test evidence.
+- **Room Finder:** Help administrators select a semester, date or weekday, and time range to find classrooms without conflicting recorded class meetings and view their details. This replaces the earlier student-accommodation idea.
+- Confirm Campus Eat's data source and Room Finder's classroom inventory. Link class meetings to consistent room identifiers and check room conflicts across all majors. The first Room Finder version is read-only and does not book rooms or detect live occupancy.
+
+- Attach independent teammate evidence for any remaining checks.
+
+### Closing speech
+
+Our next phase adds Campus Eat for students and Room Finder for administrators. Campus Eat will help students explore food options near campus. Room Finder will help administrators find available classrooms for a selected time using recorded class schedules. We will start by confirming the food data source and classroom inventory, then build a simple list-and-details view for each feature.
+
+Thank you for listening.
