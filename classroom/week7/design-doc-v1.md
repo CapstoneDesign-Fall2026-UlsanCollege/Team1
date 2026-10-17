@@ -114,8 +114,10 @@ The job API is an implemented core feature above. The following are specific ope
 
 - Room Finder scope: [#51 — administrator classroom availability](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/51). [#10](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/10) is the historical accommodation investigation and no longer defines this feature.
 - Planning Issue: [Design planning #5](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/5), [midterm preparation #46](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/46)
-- Weekly Report: [Week 6 shared report](../week6/weekly_report.md); add the Week 7–8 report when published.
+- Weekly Report: [Week 7 shared report](weekly-report.md).
 - Demo/proof: [Live StudentHub](https://team1-production.up.railway.app/), [midterm demo script](../week7/midterm-demo-script.md)
 - Job integration and checks: [Job Finder notes](../../docs/job-finder.md), [implementation commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/cba8f7b)
 - Semester details: [implementation commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/292d96b)
 - Verification records: [Week 6 Tested-By note](../week6/test-by-note.md); distinguish written results and proof from incomplete checklist claims.
+
+- Current test evidence: [Test Report](../testing/test-report.md), [backend screenshot — 24 passed, 0 failed](../testing/test_result.png).

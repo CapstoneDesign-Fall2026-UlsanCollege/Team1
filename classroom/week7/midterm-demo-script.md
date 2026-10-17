@@ -35,10 +35,12 @@ Prepare screenshot backups in case the external job provider is unavailable.
 - Campus Eat and Room Finder are planned and have not been implemented.
 - Password-reset email delivery is manual.
 - Timetable matching cannot confirm unclear working hours and does not include travel time.
-- Independent teammate verification and live cross-device favourite persistence still need recorded evidence.
-- Live semester deletion remains unverified.
 
 ## Evidence links
+
+- **Test result and passed check records:** [Test Report](../testing/test-report.md)
+- **Screenshot — 24 tests passed:** [Backend result](../testing/test_result.png)
+- **Week 7 shared report:** [Weekly Report](weekly-report.md)
 
 - **Repository:** [Team1 GitHub repository](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1)
 - **Weekly Report:** [Week 6 shared report](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/week6/weekly_report.md)
