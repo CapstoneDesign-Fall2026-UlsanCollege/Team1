@@ -11,6 +11,7 @@ const availableDays = ref<number[]>([]), availableStart = ref(''), availableEnd 
 const invalidTime = computed(() => (!!availableStart.value !== !!availableEnd.value) || (!!availableStart.value && availableStart.value === availableEnd.value))
 const filtersActive = computed(() => !!search.value || !!submittedSearch.value || fitsTimetable.value || !!availableDays.value.length || !!availableStart.value || !!availableEnd.value)
 function clearFilters() { search.value = ''; submittedSearch.value = ''; availableDays.value = []; availableStart.value = ''; availableEnd.value = ''; includeUnknown.value = true; fitsTimetable.value=false; if(tab.value==='all') void load(1) }
+function refreshJobs() { clearFilters(); if(tab.value==='favourites') void loadFavourites() }
 const favourites = ref<(Job & {savedAt?: string})[]>([]), tab = ref('all'), saving = ref<string[]>([]), favouriteError = ref('')
 const submittedSearch = ref(''), fitsTimetable = ref(false), meetings = ref<ClassMeeting[]>([]), terms = ref<{id:number;name:string;academic_year:number;start_date:string;end_date:string}[]>([]), semester = ref(0), timetableError = ref('')
 const termMeetings = computed(() => meetings.value.filter(meeting => meeting.semester_id === semester.value))
@@ -89,7 +90,7 @@ onMounted(() => { restoreFilters(); void load(); void loadFavourites(); void loa
 </script>
 <template>
   <section class="job-finder">
-    <div class="job-heading"><div><h2>Find a job</h2><p>Recruitment listings from Seoul Open Data, including locations outside Seoul.</p></div><button type="button" class="secondary" :disabled="loading" @click="load()"><StudentIcon name="refresh" />Refresh</button></div>
+    <div class="job-heading"><div><h2>Find a job</h2><p>Recruitment listings from Seoul Open Data, including locations outside Seoul.</p></div><button type="button" class="secondary" :disabled="loading" @click="refreshJobs"><StudentIcon name="refresh" />Refresh</button></div>
     <p class="job-note">These are general listings. Check the location, closing date, qualifications, and working hours before applying.</p>
     <div class="job-tabs" role="group" aria-label="Job views"><button type="button" :aria-pressed="tab==='all'" :class="{secondary:tab!=='all'}" :disabled="loading" @click="switchTab('all')">All jobs</button><button type="button" :aria-pressed="tab==='favourites'" :class="{secondary:tab!=='favourites'}" :disabled="loading" @click="switchTab('favourites')">Favourites ({{ favourites.length }})</button></div>
     <p v-if="tab==='favourites'" class="job-note">Saved copies keep their names and details even if the provider removes them. All-jobs availability filters do not hide favourites. Check with the employer before applying.</p>

@@ -16,7 +16,7 @@ function mount(api, stored = {}) {
  const scope = vue.effectScope();
  const names = ['computed','ref','watch','onMounted','defineProps','localStorage','scheduleApi',...Object.keys(schedules)];
  const values = [vue.computed,vue.ref,vue.watch,()=>{},()=>({loginId:'test'}),{getItem:()=>JSON.stringify(stored),setItem:()=>{}},api,...Object.values(schedules)];
- const factory = new Function(...names, js + '\nreturn {search,submittedSearch,restoreFilters,submitSearch,switchTab,clearFilters,availableDays,availableStart,availableEnd,includeUnknown,favourites,visible,jobs,load,loading,total,page};');
+ const factory = new Function(...names, js + '\nreturn {search,submittedSearch,restoreFilters,submitSearch,switchTab,clearFilters,refreshJobs,availableDays,availableStart,availableEnd,includeUnknown,favourites,visible,jobs,load,loading,total,page};');
  return { state:scope.run(()=>factory(...values)), stop:()=>scope.stop() };
 }
 test('old stored keyword is ignored and clearing the input reloads unfiltered jobs',async()=>{
@@ -28,6 +28,17 @@ test('old stored keyword is ignored and clearing the input reloads unfiltered jo
   s.search.value='';await vue.nextTick();await Promise.resolve();
   assert.equal(s.submittedSearch.value,'');assert.match(calls.at(-1),/page=1&q=$/);
  } finally {app.stop();}
+});
+test('Refresh clears a submitted keyword and availability and returns to the full first page',async()=>{
+ const calls=[]; const app=mount(async path=>{calls.push(path);return page([job]);});
+ try {
+  const s=app.state;s.search.value='Developer';await s.submitSearch();
+  s.availableDays.value=[5,6];s.availableStart.value='09:00';s.availableEnd.value='15:00';s.includeUnknown.value=false;s.page.value=3;
+  s.refreshJobs();await vue.nextTick();await Promise.resolve();
+  assert.equal(s.search.value,'');assert.equal(s.submittedSearch.value,'');assert.deepEqual(s.availableDays.value,[]);
+  assert.equal(s.availableStart.value,'');assert.equal(s.availableEnd.value,'');assert.equal(s.includeUnknown.value,true);
+  assert.equal(calls.at(-1),'student/jobs?page=1&q=');assert.equal(s.page.value,1);assert.equal(s.total.value,60);
+ } finally { app.stop(); }
 });
 test('favourites show saved details without the catalogue keyword or availability restrictions',async()=>{
  const app=mount(async()=>({jobs:[job]}));
