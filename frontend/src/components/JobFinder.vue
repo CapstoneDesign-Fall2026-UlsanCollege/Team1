@@ -9,7 +9,7 @@ const jobs = ref<Job[]>([]), page = ref(1), total = ref(0), pageSize = ref(30), 
 const loading = ref(false), error = ref(''), search = ref('')
 const availableDays = ref<number[]>([]), availableStart = ref(''), availableEnd = ref(''), includeUnknown = ref(true)
 const invalidTime = computed(() => (!!availableStart.value !== !!availableEnd.value) || (!!availableStart.value && availableStart.value === availableEnd.value))
-const filtersActive = computed(() => !!submittedSearch.value || fitsTimetable.value || !!availableDays.value.length || !!availableStart.value || !!availableEnd.value)
+const filtersActive = computed(() => !!search.value || !!submittedSearch.value || fitsTimetable.value || !!availableDays.value.length || !!availableStart.value || !!availableEnd.value)
 function clearFilters() { search.value = ''; submittedSearch.value = ''; availableDays.value = []; availableStart.value = ''; availableEnd.value = ''; includeUnknown.value = true; fitsTimetable.value=false; if(tab.value==='all') void load(1) }
 const favourites = ref<(Job & {savedAt?: string})[]>([]), tab = ref('all'), saving = ref<string[]>([]), favouriteError = ref('')
 const submittedSearch = ref(''), fitsTimetable = ref(false), meetings = ref<ClassMeeting[]>([]), terms = ref<{id:number;name:string;academic_year:number;start_date:string;end_date:string}[]>([]), semester = ref(0), timetableError = ref('')
@@ -28,12 +28,11 @@ function restoreFilters() {
   availableStart.value = typeof value.start === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(value.start) ? value.start : ''
   availableEnd.value = typeof value.end === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(value.end) ? value.end : ''
   includeUnknown.value = value.unknown !== false
-  search.value = typeof value.search === 'string' ? value.search.slice(0,100) : ''; submittedSearch.value = search.value
   fitsTimetable.value = value.fits === true; semester.value = Number.isSafeInteger(value.semester) ? value.semester : 0
  } catch { /* Storage may be unavailable in private browsing. */ }
 }
-watch([availableDays,availableStart,availableEnd,includeUnknown,submittedSearch,fitsTimetable,semester], () => {
- try { localStorage.setItem(preferenceKey,JSON.stringify({days:availableDays.value,start:availableStart.value,end:availableEnd.value,unknown:includeUnknown.value,search:submittedSearch.value,fits:fitsTimetable.value,semester:semester.value})) } catch { /* Filters still work without storage. */ }
+watch([availableDays,availableStart,availableEnd,includeUnknown,fitsTimetable,semester], () => {
+ try { localStorage.setItem(preferenceKey,JSON.stringify({days:availableDays.value,start:availableStart.value,end:availableEnd.value,unknown:includeUnknown.value,fits:fitsTimetable.value,semester:semester.value})) } catch { /* Filters still work without storage. */ }
 }, {deep:true})
 function fitStatus(job: Job) { return canCompare.value ? timetableStatus(parseJobSchedule(job.hours),termMeetings.value) : 'unavailable' }
 function fitLabel(job: Job) { return {unknown:'Schedule unknown — check with employer',conflict:'Overlaps your classes',clear:'No class overlap detected',unavailable:'Timetable comparison unavailable'}[fitStatus(job)] }
@@ -62,22 +61,29 @@ async function loadTimetable() {
   if (!canCompare.value) fitsTimetable.value=false
  } catch { timetableError.value='Your timetable could not be loaded. Try refreshing.'; fitsTimetable.value=false }
 }
-async function submitSearch() { if(loading.value) return; submittedSearch.value=search.value.trim(); if(tab.value==='all') await load(1) }
+async function submitSearch() { submittedSearch.value=search.value.trim(); if(tab.value==='all') await load(1) }
+watch(search, value => { if (!value.trim() && submittedSearch.value) void submitSearch() })
+function switchTab(value: string) {
+ tab.value=value; search.value=''; submittedSearch.value=''; error.value=''
+ if(value==='all') void load(1); else void loadFavourites()
+}
 const pages = computed(() => Math.max(1, Math.ceil(total.value / pageSize.value)))
 const visible = computed(() => {
-  if (invalidTime.value) return []
+  if (tab.value==='all' && invalidTime.value) return []
   const query = submittedSearch.value.toLocaleLowerCase()
-  return (tab.value==='favourites' ? favourites.value : jobs.value).filter(job => (!query || [job.title, job.company, job.location, job.description].some(value => value.toLocaleLowerCase().includes(query))) && matchesSchedule(parseJobSchedule(job.hours), { days: availableDays.value, start: availableStart.value, end: availableEnd.value, includeUnknown: includeUnknown.value }) && (!fitsTimetable.value || (canCompare.value && (fitStatus(job)==='clear' || (includeUnknown.value && fitStatus(job)==='unknown')))))
+  return (tab.value==='favourites' ? favourites.value : jobs.value).filter(job => (!query || [job.title, job.company, job.location, job.description].some(value => value.toLocaleLowerCase().includes(query))) && (tab.value==='favourites' || (matchesSchedule(parseJobSchedule(job.hours), { days: availableDays.value, start: availableStart.value, end: availableEnd.value, includeUnknown: includeUnknown.value }) && (!fitsTimetable.value || (canCompare.value && (fitStatus(job)==='clear' || (includeUnknown.value && fitStatus(job)==='unknown')))))))
 })
 
+let latestRequest = 0
 async function load(target = page.value) {
-  if (loading.value) return
+  const request = ++latestRequest
   loading.value = true; error.value = ''
   try {
     const data = await scheduleApi('student/jobs?page=' + target + '&q=' + encodeURIComponent(submittedSearch.value))
+    if(request !== latestRequest) return
     jobs.value = data.jobs; page.value = data.page; total.value = data.total; pageSize.value = data.pageSize; fetchedAt.value = data.fetchedAt
-  } catch (e) { error.value = e instanceof Error ? e.message : 'Unable to load jobs.' }
-  finally { loading.value = false }
+  } catch (e) { if(request === latestRequest) error.value = e instanceof Error ? e.message : 'Unable to load jobs.' }
+  finally { if(request === latestRequest) loading.value = false }
 }
 onMounted(() => { restoreFilters(); void load(); void loadFavourites(); void loadTimetable() })
 </script>
@@ -85,12 +91,12 @@ onMounted(() => { restoreFilters(); void load(); void loadFavourites(); void loa
   <section class="job-finder">
     <div class="job-heading"><div><h2>Find a job</h2><p>Recruitment listings from Seoul Open Data, including locations outside Seoul.</p></div><button type="button" class="secondary" :disabled="loading" @click="load()"><StudentIcon name="refresh" />Refresh</button></div>
     <p class="job-note">These are general listings. Check the location, closing date, qualifications, and working hours before applying.</p>
-    <div class="job-tabs" role="group" aria-label="Job views"><button type="button" :aria-pressed="tab==='all'" :class="{secondary:tab!=='all'}" :disabled="loading" @click="tab='all'; load(1)">All jobs</button><button type="button" :aria-pressed="tab==='favourites'" :class="{secondary:tab!=='favourites'}" :disabled="loading" @click="tab='favourites'; loadFavourites()">Favourites ({{ favourites.length }})</button></div>
-    <p v-if="tab==='favourites'" class="job-note">Saved copies of job details. Listings may have changed or closed; check with the employer before applying.</p>
+    <div class="job-tabs" role="group" aria-label="Job views"><button type="button" :aria-pressed="tab==='all'" :class="{secondary:tab!=='all'}" :disabled="loading" @click="switchTab('all')">All jobs</button><button type="button" :aria-pressed="tab==='favourites'" :class="{secondary:tab!=='favourites'}" :disabled="loading" @click="switchTab('favourites')">Favourites ({{ favourites.length }})</button></div>
+    <p v-if="tab==='favourites'" class="job-note">Saved copies keep their names and details even if the provider removes them. All-jobs availability filters do not hide favourites. Check with the employer before applying.</p>
     <p v-if="favouriteError" class="error" role="alert">{{ favouriteError }} <button type="button" class="secondary" @click="loadFavourites">Retry favourites</button></p>
     <form class="catalogue-search" @submit.prevent="submitSearch"><label class="job-search">Search jobs<div><StudentIcon name="search" /><input v-model="search" type="search" maxlength="100" placeholder="Company, job title, or location" aria-describedby="job-search-help"></div></label><button :disabled="loading">Search</button></form>
-    <small id="job-search-help">Keyword search checks the provider catalogue (cached for 10 minutes). Availability filters apply to the returned page. The first search may take longer. Filters are remembered on this device for your account.</small>
-    <div class="schedule-filters" aria-label="Job availability filters">
+    <small id="job-search-help">Keyword search checks the provider catalogue (cached for 10 minutes). Availability filters apply to the returned page. The first search may take longer. Availability preferences are remembered on this device. Keywords reset when you change views or reopen Job Search.</small>
+    <div v-if="tab==='all'" class="schedule-filters" aria-label="Job availability filters">
       <div class="compact-filter-row">
         <div class="days-filter"><span class="filter-label">Days</span><details class="days-dropdown"><summary>{{ daysLabel }}</summary><div class="days-menu">
           <div class="day-presets"><button type="button" class="secondary" @click="availableDays=[0,1,2,3,4]">Weekdays</button><button type="button" class="secondary" @click="availableDays=[5,6]">Weekends</button><button type="button" class="secondary" @click="availableDays=[]">Any day</button></div>
@@ -100,12 +106,13 @@ onMounted(() => { restoreFilters(); void load(); void loadFavourites(); void loa
         <label class="time-filter">Until<input v-model="availableEnd" type="time"></label>
         <label class="timetable-toggle" :title="canCompare ? 'Compare with '+comparisonTerm?.name : 'Add classes to your timetable to use this filter'"><input v-model="fitsTimetable" type="checkbox" :disabled="!canCompare">Fits my timetable</label>
       </div>
-      <div class="filter-footer"><label class="unknown-toggle"><input v-model="includeUnknown" type="checkbox">Include unknown schedules</label><button type="button" class="secondary clear-filter" :disabled="loading || (!filtersActive && includeUnknown)" @click="clearFilters">Clear filters</button></div>
+      <div class="filter-footer"><label class="unknown-toggle"><input v-model="includeUnknown" type="checkbox">Include unknown schedules</label><button type="button" class="secondary clear-filter" :disabled="!filtersActive && includeUnknown" @click="clearFilters">Clear filters</button></div>
       <p v-if="invalidTime" class="error" role="alert">Enter both times with different start and end times, or clear both.</p>
       <p v-if="timetableError" class="error" role="alert">{{timetableError}} <button type="button" class="secondary" @click="loadTimetable">Retry</button></p>
       <p v-else-if="!canCompare" class="filter-help">Add scheduled classes to your timetable to enable matching.</p>
       <details class="filter-details"><summary>How filters work<span v-if="canCompare"> · {{comparisonTerm?.name}}</span></summary><p class="filter-help">Leave times empty for any hours. An earlier Until time means overnight. Known shifts must fit your selected days and hours. Timetable matching uses your current assigned semester, or your latest semester with classes. It checks class overlaps in campus time; travel time is not included. Unknown schedules need checking with the employer.</p><button type="button" class="secondary" @click="loadTimetable">Refresh timetable</button></details>
     </div>
+    <nav v-if="tab==='all'" class="job-pages" aria-label="Job pages above results"><button type="button" class="secondary" :disabled="loading || page <= 1" @click="load(page - 1)">Previous</button><span>Page {{ page }} of {{ pages }}</span><button type="button" class="secondary" :disabled="loading || page >= pages" @click="load(page + 1)">Next</button></nav>
     <p v-if="loading" role="status">{{submittedSearch ? 'Searching the provider catalogue… The first search may take longer.' : 'Loading job listings…'}}</p>
     <div v-if="error && tab==='all'"><p class="error" role="alert">{{ error }}</p><button type="button" :disabled="loading" @click="load()">Try again</button></div>
     <template v-else-if="!loading || tab==='favourites'">
@@ -114,7 +121,7 @@ onMounted(() => { restoreFilters(); void load(); void loadFavourites(); void loa
       <article v-for="job in visible" :key="job.id" class="job-card">
         <button type="button" class="favourite-heart" :aria-pressed="favouriteIds.has(job.id)" :aria-label="(favouriteIds.has(job.id) ? 'Remove favourite: ' : 'Save favourite: ') + job.title" :title="favouriteIds.has(job.id) ? 'Remove favourite' : 'Save favourite'" :disabled="saving.includes(job.id)" @click="toggleFavourite(job)"><svg viewBox="0 0 24 24" :fill="favouriteIds.has(job.id) ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21 3 12C-2 5 7 0 12 6 17 0 26 5 21 12Z" /></svg></button>
         <p class="job-company">{{ job.company || 'Company not provided' }}</p><h3>{{ job.title || 'Job title not provided' }}</h3>
-        <dl><div><dt>Location</dt><dd>{{ job.location || 'Not provided' }}</dd></div><div><dt>Pay</dt><dd>{{ job.salary || 'Not provided' }}</dd></div><div><dt>Experience</dt><dd>{{ job.career || 'Not provided' }}</dd></div><div><dt>Closing date</dt><dd>{{ job.closes || 'Check with employer' }}</dd></div></dl>
+        <p v-if="job.address" class="job-address">{{ job.address }}</p><dl><div><dt>Location</dt><dd>{{ job.location || 'Not provided' }}</dd></div><div><dt>Pay</dt><dd>{{ job.salary || 'Not provided' }}</dd></div><div><dt>Experience</dt><dd>{{ job.career || 'Not provided' }}</dd></div><div><dt>Closing date</dt><dd>{{ job.closes || 'Check with employer' }}</dd></div></dl>
         <p v-if="job.savedAt" class="job-note">Saved {{new Date(job.savedAt).toLocaleDateString()}} · Confirm this listing is still open.</p>
         <p class="fit-label" :class="fitStatus(job)">{{ fitLabel(job) }}</p>
         <p class="schedule-label">{{ scheduleLabel(parseJobSchedule(job.hours)) }}</p>
