@@ -118,6 +118,15 @@ npm.cmd test
 - Student passwords are stored as bcrypt hashes.
 - Students cannot create accounts or use administrator endpoints.
 - GitHub Pages can host the built frontend, but it cannot run the Express backend or MySQL database. A public full application needs separate hosting for the API and database.
+- Railway backend deployment requires an organization administrator to approve/install the Railway GitHub App for `CapstoneDesign-Fall2026-UlsanCollege/Team1` before the repository can be connected.
+
+### Railway backend deployment unblock steps
+
+1. Ask an organization administrator to approve the Railway GitHub App for the `CapstoneDesign-Fall2026-UlsanCollege` organization (or directly for the `Team1` repository).
+2. In Railway, connect the `CapstoneDesign-Fall2026-UlsanCollege/Team1` repository to the backend service.
+3. Configure backend environment variables in Railway (for example, database host/user/password/name and session-related settings).
+4. Deploy from the connected repository and verify backend health/API endpoints.
+5. Update the frontend runtime API base URL to the deployed backend URL and re-test login/data flows.
 
 ## Development workflow
 
