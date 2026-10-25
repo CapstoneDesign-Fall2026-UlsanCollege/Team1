@@ -1,7 +1,9 @@
 # C0 test note — Canteen-head workspace and account access
 
-**Date:** October 25, 2026  
-**Related issue:** [#61](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/61)  
+**Date:** October 25, 2026
+
+**Related issue:** [#61](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/61)
+
 **Checked by:** Coding assistant through automated tests and a local browser. This is not independent teammate testing.
 
 ## Expected behaviour
@@ -38,3 +40,5 @@ This browser check did not create a real account. Provisioning, password hashing
 ## Limits and next action
 
 No real production canteen-head account was created for these checks. Full Railway account provisioning and a non-author teammate walkthrough still need their own recorded result. Menu publication remains #54, not completed work in this slice.
+
+After implementation commit `fa1be1a` was pushed, the public Railway URL returned HTTP 404 with `Application not found`. The private Railway project page required login, so deployment/startup could not be inspected. This does not identify a cause or prove the new code deployed. Next action: sign in to Railway, inspect service/domain and deployment status, then perform the live role check with an approved test account.
