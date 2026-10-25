@@ -11,6 +11,13 @@ The implementation slices are tracked in the repository's **Issues** section. Th
 - [#57 — R1 — Manage classrooms and link class meetings to rooms](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/57)
 - [#58 — R2 — Find classrooms without recorded class conflicts](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/58)
 - [#59 — R3 — Prevent overlapping class meetings in the same room](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/59)
+- [#62 — T1 — Teacher directory and stable teacher records](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/62)
+- [#63 — T2 — Teacher details, assigned subjects and weekly timetable](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/63)
+- [#64 — T3 — Find available teachers and prevent subject-assignment conflicts](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/64)
 - [#60 — V1 — Independently verify and release the new workflows](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/60)
 
-All eight issues are planned and incomplete. Start with C0, then C1. Campus Eat covers the campus canteen only. The canteen head manages menus, prices, hours and availability in a separate workspace. Administrators only create or disable the canteen-head account. Students view published canteen information. Room Finder covers administrator classroom availability.
+C0 (#61) is implemented and locally verified; live Railway verification remains pending. The remaining slices are planned. See each GitHub Issue for current status and evidence.
+
+Campus Eat covers the campus canteen only. The canteen head manages menus, prices, hours and availability in a separate workspace. Administrators only create or disable the canteen-head account. Students view published canteen information. Room Finder covers administrator classroom availability.
+
+The Teachers section is administrator-only: T1 records teacher identities, T2 shows their assigned subjects and weekly timetables, and T3 checks subject assignments against recorded teaching conflicts across majors. A slot without a recorded class is not a guarantee of personal availability. Implement T1 before T2 and T3; these slices do not require classroom search to be finished.
