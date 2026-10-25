@@ -1,34 +1,15 @@
-# Week 8 — Campus Eat and Room Finder slices
+# Week 8 — StudentHub
 
-**Team:** Team 1 — StudentHub  
-**Planning date:** October 25, 2026  
-**Status:** Planned; implementation has not started.
+The implementation slices are tracked in the repository's **Issues** section. This folder is reserved for Week 8 reports and evidence.
 
-These are Markdown issue plans stored in the Week 8 folder. They are not separate GitHub Issues. This is the next-phase backlog, not a promise to finish every slice in Week 8.
+## Planned slices
 
-## Implementation order
+- [#54 — C1 — Publish and view the daily campus canteen menu](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/54)
+- [#55 — C2 — Show campus canteen hours and location](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/55)
+- [#56 — C3 — Mark canteen menu items available or sold out](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/56)
+- [#57 — R1 — Manage classrooms and link class meetings to rooms](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/57)
+- [#58 — R2 — Find classrooms without recorded class conflicts](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/58)
+- [#59 — R3 — Prevent overlapping class meetings in the same room](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/59)
+- [#60 — V1 — Independently verify and release the new workflows](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/60)
 
-| Slice | User-visible outcome | Depends on |
-|---|---|---|
-| [C1 — Daily canteen menu](issue-c1-daily-canteen-menu.md) | Administrator publishes a dated menu; students see today's menu and prices. | Existing login and roles |
-| [C2 — Canteen hours and location](issue-c2-canteen-information.md) | Administrator updates canteen information; students see it with the menu. | C1 |
-| [C3 — Item availability](issue-c3-menu-availability.md) | Administrator marks an item sold out; students see its current status. | C1 |
-| [R1 — Classroom inventory](issue-r1-classroom-inventory.md) | Administrator manages rooms and links existing class meetings to them. | Existing timetable |
-| [R2 — Available-room search](issue-r2-available-room-search.md) | Administrator finds rooms without recorded class conflicts for a selected time. | R1 |
-| [R3 — Prevent room conflicts](issue-r3-room-conflict-prevention.md) | Administrator cannot schedule overlapping classes in the same room across majors. | R1, R2 |
-| [V1 — Verification and release](issue-v1-verification-and-release.md) | A non-author repeats both workflows; the team links evidence and verifies deployment. | C1–C3, R1–R3 |
-
-Start with C1. Complete and check each slice before moving to the next. Each slice requires its own tests and evidence; V1 adds the combined independent check.
-
-## Agreed scope
-
-- Campus Eat covers the **campus canteen only**, using administrator-entered information. No external restaurant catalogue, ordering, delivery, or payments.
-- Room Finder serves **administrators finding available classrooms**. No housing, room reservations, automatic allocation, or live occupancy detection.
-- Use clearly labelled fictional records until the team confirms real canteen information and classroom records.
-- Implementation ownership and independent testers must be confirmed before starting; these plans do not claim contributions for any member.
-
-## Existing planning
-
-- [#11 — Original Campus Eat investigation](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/11). The canteen-only scope above replaces its broader food-directory proposal.
-- [#51 — Administrator classroom availability](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/51).
-- [#40 — Existing timetable](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/40).
+All seven issues are planned and incomplete. Start with C1. Campus Eat covers the campus canteen only; Room Finder covers administrator classroom availability.
