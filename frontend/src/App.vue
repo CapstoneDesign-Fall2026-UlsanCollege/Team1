@@ -11,14 +11,16 @@ import ScheduleManager from './components/ScheduleManager.vue'
 import StudentIcon from './components/StudentIcon.vue'
 import PasswordReset from './components/PasswordReset.vue'
 import StudentLife from './components/StudentLife.vue'
-type User = { id: number; login_id: string; role: 'admin' | 'student' }
+import CanteenWorkspace from './components/CanteenWorkspace.vue'
+import CanteenAccounts from './components/CanteenAccounts.vue'
+type User = { id: number; login_id: string; role: 'admin' | 'student' | 'canteen_head' }
 const adminSection = ref('dashboard')
 const resetPage = ref(false)
 const resetCount = ref(0)
 const studentPanel = ref('directory')
 const adminSections = [
   { id: 'dashboard', title: 'Dashboard', icon: 'home', detail: 'Choose an area to get started.' },
-  { id: 'students', title: 'Students', icon: 'profile', detail: 'Create accounts and update student information.' },
+  { id: 'students', title: 'Accounts', icon: 'profile', detail: 'Manage student information and canteen staff access.' },
   { id: 'semesters', title: 'Semesters', icon: 'semester', detail: 'Create semesters and assign students.' },
   { id: 'courses', title: 'Courses', icon: 'course', detail: 'Assign courses and professors by major.' },
   { id: 'requests', title: 'Requests', icon: 'settings', detail: 'Review password reset requests.' },
@@ -32,6 +34,7 @@ const busy = ref(false)
 const loading = ref(true)
 const creatingStudent = ref(false)
 const editingStudent = ref(false)
+const savingStaff = ref(false)
 const studentRevision = ref(0)
 const semesterRevision = ref(0)
 const linkedStudent = ref(''), linkedSemester = ref(0), linkedMajor = ref<string|null>(null)
@@ -55,7 +58,8 @@ async function api(path: string, body?: object) {
   return data
 }
 async function openHome(account: User) {
-  await api('/' + account.role + '/home')
+  if(!['admin','student','canteen_head'].includes(account.role)) throw new Error('This account role is not supported.')
+  await api('/' + (account.role==='canteen_head'?'canteen':account.role) + '/home')
   adminSection.value = 'dashboard'
   user.value = account
 }
@@ -84,6 +88,7 @@ onMounted(async () => {
 
 <template>
   <StudentLife v-if="user?.role === 'student'" :login-id="user.login_id" :busy="busy" :error="error" @logout="logout" />
+  <CanteenWorkspace v-else-if="user?.role === 'canteen_head'" :login-id="user.login_id" :busy="busy" :error="error" @logout="logout" />
   <template v-else>
   <header><a class="brand" href="/">S<span>StudentHub</span></a><span class="tag">Your campus, connected.</span></header>
   <main>
@@ -100,7 +105,7 @@ onMounted(async () => {
       <form v-else class="card" @submit.prevent="login">
         <p class="eyebrow">WELCOME BACK</p><h2>Log in to StudentHub</h2>
         <p class="muted">Use the account provided by your administrator.</p>
-        <label for="login">Student ID or admin username</label>
+        <label for="login">Login ID</label>
         <input id="login" v-model="loginId" autocomplete="username" maxlength="50" required placeholder="Enter your login ID" :disabled="busy">
         <label for="password">Password</label>
         <input id="password" v-model="password" autocomplete="current-password" type="password" required placeholder="Enter your password" :disabled="busy">
@@ -110,9 +115,9 @@ onMounted(async () => {
       </form>
     </section>
     <section v-else class="dashboard">
-      <div class="dashboard-heading"><div><p class="eyebrow">{{ user.role }} WORKSPACE</p><h1>Welcome, {{ user.login_id }}.</h1></div><button class="secondary" :disabled="busy || creatingStudent || editingStudent" @click="logout"><StudentIcon name="logout" />Log out</button></div>
+      <div class="dashboard-heading"><div><p class="eyebrow">{{ user.role }} WORKSPACE</p><h1>Welcome, {{ user.login_id }}.</h1></div><button class="secondary" :disabled="busy || creatingStudent || editingStudent || savingStaff" @click="logout"><StudentIcon name="logout" />Log out</button></div>
       <p v-if="error" class="error" role="alert">{{ error }}</p>
-      <p class="description">Manage student accounts, semesters, course assignments, and class timetables.</p>
+      <p class="description">Manage accounts, semesters, course assignments, and class timetables.</p>
       <template v-if="user.role === 'admin'">
         <nav class="admin-nav" aria-label="Admin navigation">
           <button v-for="section in adminSections" :key="section.id" type="button" :class="{ selected: adminSection === section.id }" :aria-current="adminSection === section.id ? 'page' : undefined" @click="adminSection = section.id"><StudentIcon :name="section.icon" />{{ section.title }}<span v-if="section.id === 'requests' && resetCount" class="badge">{{ resetCount }}</span></button>
@@ -122,7 +127,8 @@ onMounted(async () => {
           <p class="muted">Choose a section. Your unfinished forms stay in place when you switch sections.</p>
           <div class="admin-shortcuts"><button v-for="section in adminSections.slice(1)" :key="section.id" type="button" @click="adminSection = section.id"><StudentIcon :name="section.icon" /><strong>{{ section.title }}</strong><span>{{ section.detail }}</span></button></div>
         </section>
-        <div v-show="adminSection === 'students'" class="student-tabs" role="group" aria-label="Student actions"><button type="button" :class="{ secondary: studentPanel !== 'directory' }" :aria-pressed="studentPanel === 'directory'" @click="studentPanel = 'directory'"><StudentIcon name="profile" />Student list</button><button type="button" :class="{ secondary: studentPanel !== 'create' }" :aria-pressed="studentPanel === 'create'" @click="studentPanel = 'create'"><StudentIcon name="add" />Create student</button></div>
+        <div v-show="adminSection === 'students'" class="student-tabs" role="group" aria-label="Account actions"><button type="button" :class="{ secondary: studentPanel !== 'directory' }" :aria-pressed="studentPanel === 'directory'" @click="studentPanel = 'directory'"><StudentIcon name="profile" />Student list</button><button type="button" :class="{ secondary: studentPanel !== 'create' }" :aria-pressed="studentPanel === 'create'" @click="studentPanel = 'create'"><StudentIcon name="add" />Create student</button><button type="button" :class="{secondary:studentPanel!=='canteen'}" :aria-pressed="studentPanel==='canteen'" @click="studentPanel='canteen'">Canteen staff</button></div>
+        <div v-show="adminSection==='students' && studentPanel==='canteen'" class="admin-section"><CanteenAccounts @saving="savingStaff=$event" /></div>
         <div v-show="adminSection === 'students' && studentPanel === 'create'" id="create-student" class="admin-section" tabindex="-1"><CreateStudent :revision="semesterRevision" @expired="sessionExpired" @saving="creatingStudent = $event" @created="studentRevision++" /></div>
         <div v-show="adminSection === 'students' && studentPanel === 'directory'" id="student-directory" class="admin-section" tabindex="-1"><StudentManager :selected-login="linkedStudent" :revision="studentRevision" @saving="editingStudent = $event" /></div>
         <div v-show="adminSection === 'semesters'" id="manage-semesters" class="admin-section" tabindex="-1"><SemesterDetails :revision="semesterRevision + studentRevision + courseRevision" @student="openSemesterStudent" @courses="openSemesterArea($event, 'courses')" @timetable="openSemesterTimetable" @changed="semesterRevision++; studentRevision++" /><CreateSemester @created="semesterRevision++; studentRevision++" /></div>

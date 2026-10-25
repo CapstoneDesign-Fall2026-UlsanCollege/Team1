@@ -11,9 +11,11 @@ import type { Semester } from './semesters.js';
 import type { Course } from './courses.js';
 import { scheduleRouter, ScheduleError, type ScheduleStore } from './schedules.js';
 import { studentAdminRouter, type StudentAdminStore } from './student-admin.js';
+import { canteenAccountsRouter, type CanteenAccountStore } from './canteen-accounts.js';
 
-export type Account = { id: number; login_id: string; password_hash: string; role: 'admin' | 'student'; is_active: number };
+export type Account = { id: number; login_id: string; password_hash: string; role: 'admin' | 'student' | 'canteen_head'; is_active: number };
 export type Accounts = {
+  canteenAccounts?: CanteenAccountStore;
   favourites?: FavouriteStore;
   jobs?: JobService;
   resets?: ResetStore;
@@ -112,6 +114,14 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
     res.locals.user = publicUser(account);
     next();
   });
+  // Enforce workspace boundaries before individual routers, including future canteen routes.
+  for (const [prefix, role] of [['admin','admin'],['student','student'],['canteen','canteen_head']] as const) {
+    app.use('/api/' + prefix, (_req,res,next) => {
+      if(res.locals.user.role !== role) {res.status(403).json({message:'You do not have access to this workspace.'}); return;}
+      next();
+    });
+  }
+  if (accounts.canteenAccounts) app.use('/api', canteenAccountsRouter(accounts.canteenAccounts,invalidate));
   if (accounts.resets) app.use('/api', resetRouter(accounts.resets, invalidate));
   if (accounts.favourites) app.use('/api', favouritesRouter(accounts.favourites));
   if (accounts.jobs) app.use('/api', jobsRouter(accounts.jobs));
@@ -212,12 +222,12 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
       throw error;
     }
   });
-  for (const role of ['admin', 'student']) {
-    app.get('/api/' + role + '/home', (_req, res) => {
+  for (const role of ['admin', 'student', 'canteen_head']) {
+    app.get('/api/' + (role === 'canteen_head' ? 'canteen' : role) + '/home', (_req, res) => {
       if (res.locals.user.role !== role) {
         res.status(403).json({ message: 'You do not have access to this page.' }); return;
       }
-      res.json({ user: res.locals.user, message: role === 'admin' ? 'Admin access verified.' : 'Student access verified.' });
+      res.json({ user: res.locals.user, message: 'Workspace access verified.' });
     });
   }
   app.use('/api', (_req, res) => { res.status(404).json({ message: 'Endpoint not found.' }); });
