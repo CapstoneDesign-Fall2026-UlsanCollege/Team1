@@ -1,0 +1,6 @@
+Checked: 2026-10-28 (Asia/Seoul)
+Checked by: coding assistant
+URL: https://team1-production.up.railway.app/
+HTTP status: 404
+Body: {"status":"error","code":404,"message":"Application not found","request_id":"tnWd2J64QTOwTe700_TJvA"}
+Scope: public HTTP response only; cause and private deployment state not determined.

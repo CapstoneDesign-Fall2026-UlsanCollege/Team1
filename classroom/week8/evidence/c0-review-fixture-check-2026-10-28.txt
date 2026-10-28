@@ -1,0 +1,27 @@
+Date: 2026-10-28 (Asia/Seoul)
+Actor: coding assistant, not an independent teammate
+Source: published Team1 origin/main snapshot 7387145 plus the C0 local review fixture
+Dependencies: existing installed packages reused for this rehearsal; not a clean-install claim
+Environment: isolated in-memory loopback server; no MySQL or Railway accounts
+
+PASS: Anonymous session rejected — expected 401, actual 401
+PASS: Canteen-head workspace — expected 200, actual 200
+PASS: Canteen-head session restore — expected 200, actual 200
+PASS: Canteen head denied academic access — expected 403, actual 403
+PASS: Canteen head denied student profile — expected 403, actual 403
+PASS: Student denied staff accounts — expected 403, actual 403
+PASS: Administrator denied canteen workspace — expected 403, actual 403
+PASS: Student denied canteen workspace — expected 403, actual 403
+PASS: Role injection rejected — expected 400, actual 400
+PASS: Administrator creates fictional staff account — expected 201, actual 201
+PASS: Duplicate login rejected — expected 409, actual 409
+PASS: Disable fictional staff account — expected 200, actual 200
+PASS: Disabled existing session rejected — expected 401, actual 401
+PASS: Disabled new login rejected — expected 401, actual 401
+PASS: Enable fictional staff account — expected 200, actual 200
+PASS: Old revoked session stays rejected — expected 401, actual 401
+PASS: Fresh canteen-head login after enable — expected 200, actual 200
+PASS: Logout — expected 200, actual 200
+PASS: Logged-out session rejected — expected 401, actual 401
+
+Result: fixture API rehearsal passed. This is assistant-run, not the independent test or a live deployment result.
