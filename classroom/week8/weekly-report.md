@@ -74,7 +74,7 @@ The original student/admin academic and job workflows have implementation and hi
 | Checked results | [C0 assistant-run note](c0-test-note.md) |
 | October 28 bounded checks | [Public HTTP result](evidence/railway-http-check-2026-10-28.txt), [assistant-run local fixture rehearsal](evidence/c0-review-fixture-check-2026-10-28.txt) |
 | Confirmed hosting blocker | [Trial-expired dashboard](evidence/railway-trial-expired-2026-10-28.png), [deployment recovery record](deployment-recovery.md) |
-| Galan's supporting receipt | [Week 8 Individual Evidence Receipt](individual-evidence-receipt.md), prepared with coding assistance for personal review |
+| Galan's supporting receipt | [Week 8 Individual Evidence Receipt](INDIVIDUAL_EVIDENCE_RECEIPT.MD), prepared with coding assistance for personal review |
 | Independent test | [Procedure and pending result](c0-independent-test.md) — not a passed result |
 | Week 8 documentation | [Work checklist](work-checklist.md), [this shared report](weekly-report.md) |
 | Live URL | [Railway](https://team1-production.up.railway.app/) — HTTP 404 at the October 28 check; use repository proof for review until restored |

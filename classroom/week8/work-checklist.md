@@ -14,7 +14,7 @@ Source: [Instructor feedback: target and Team 1](https://github.com/CapstoneDesi
 - [x] Record MVP status as **still has a gap**, with the limits stated.
 - [x] Choose one Week 9 release milestone with owner `bishal482` in [#65](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/65).
 - [x] Include an evidence inventory row for all four canonical logins and clarify `Junior Coder` / `CoderRaaju`.
-- [x] Prepare [Galan's supporting receipt](individual-evidence-receipt.md) with linked work and explicit assistant-run evidence limits.
+- [x] Prepare [Galan's supporting receipt](INDIVIDUAL_EVIDENCE_RECEIPT.MD) with linked work and explicit assistant-run evidence limits.
 - [x] Identify the Railway hosting blocker and link the [recovery record](deployment-recovery.md) and dashboard evidence.
 - [ ] Each member personally writes or confirms their shared-report contribution, lesson and next action.
 - [ ] A non-author teammate runs the C0 procedure and records actual results and proof.
