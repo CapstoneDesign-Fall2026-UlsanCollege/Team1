@@ -1,0 +1,16 @@
+Observed: October 28, 2026 (Asia/Seoul)
+Observer: coding assistant using the authenticated Railway browser page
+Project/service: incredible-compassion / Team1
+Page: https://railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8
+
+Observed UI text:
+- Trial expired
+- Limited Access
+- Your trial has expired. Please select a plan to continue using Railway.
+- Service offline
+- There is no active deployment for this service.
+
+Screenshot: railway-trial-expired-2026-10-28.png
+The narrow screenshot shows the trial/limited-access notice; the service-offline/no-active-deployment text was also read from the page's accessibility tree.
+
+Scope: current authenticated dashboard state and public HTTP response only. No payment, plan change, deployment or database recovery was performed. Database retention/state remains unverified. A separate general incident banner was not treated as the cause of this service's outage.

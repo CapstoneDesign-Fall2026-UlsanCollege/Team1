@@ -42,3 +42,7 @@ This browser check did not create a real account. Provisioning, password hashing
 No real production canteen-head account was created for these checks. Full Railway account provisioning and a non-author teammate walkthrough still need their own recorded result. Menu publication remains #54, not completed work in this slice.
 
 After implementation commit `fa1be1a` was pushed, the public Railway URL returned HTTP 404 with `Application not found`. The private Railway project page required login, so deployment/startup could not be inspected. This does not identify a cause or prove the new code deployed. Next action: sign in to Railway, inspect service/domain and deployment status, then perform the live role check with an approved test account.
+
+## Follow-up — October 28
+
+The authenticated Railway page subsequently became accessible and showed **Trial expired**, **Limited Access**, **Service offline** and **no active deployment**. See the [recovery record](deployment-recovery.md), [dashboard observation](evidence/railway-dashboard-observation-2026-10-28.txt) and [screenshot](evidence/railway-trial-expired-2026-10-28.png). This updates the earlier unknown-cause state; it does not change the local test results into a live pass. `bishal482` owns the hosting decision and subsequent verification in #65.

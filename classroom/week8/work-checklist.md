@@ -14,6 +14,8 @@ Source: [Instructor feedback: target and Team 1](https://github.com/CapstoneDesi
 - [x] Record MVP status as **still has a gap**, with the limits stated.
 - [x] Choose one Week 9 release milestone with owner `bishal482` in [#65](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/65).
 - [x] Include an evidence inventory row for all four canonical logins and clarify `Junior Coder` / `CoderRaaju`.
+- [x] Prepare [Galan's supporting receipt](individual-evidence-receipt.md) with linked work and explicit assistant-run evidence limits.
+- [x] Identify the Railway hosting blocker and link the [recovery record](deployment-recovery.md) and dashboard evidence.
 - [ ] Each member personally writes or confirms their shared-report contribution, lesson and next action.
 - [ ] A non-author teammate runs the C0 procedure and records actual results and proof.
 - [ ] Live Railway deployment and approved C0 account provisioning are verified.
@@ -34,6 +36,6 @@ The Week 8 student guide has no stretch requirement. Do not use a broad feature 
 
 | Item | Owner | Next action | Review point |
 |---|---|---|---|
-| Public URL returned HTTP 404 on October 28. | `bishal482` | Inspect Railway service/domain and deployment after sign-in; record the cause. | October 29 class |
+| Railway trial expired; service offline with no active deployment. | `bishal482` | Make the hosting decision, then restore and verify the published service/database. | October 29 class |
 | Non-author result missing. | `bishal482` coordinates; tester unconfirmed | Ask a non-author to follow the written procedure; retain the pending status if not run. | October 29 class |
 | Personal entries not fully confirmed. | Each enrolled member | Edit own row with actual work, lesson, direct proof and next action. | Before team submission |

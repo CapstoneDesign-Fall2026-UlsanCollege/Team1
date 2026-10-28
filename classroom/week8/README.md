@@ -8,10 +8,12 @@ The implementation slices are tracked in the repository's **Issues** section. Th
 - [Week 8 work checklist](work-checklist.md).
 - [#65 — Restore one verified release path](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/65), owner `bishal482`.
 - [Independent C0 test procedure and pending result](c0-independent-test.md). A prepared procedure or assistant rerun is not an independent teammate test.
+- [Galan's supporting Week 8 receipt](individual-evidence-receipt.md), prepared with coding assistance for personal review.
+- [Deployment recovery record](deployment-recovery.md): Railway now confirms **trial expired, service offline, no active deployment**. Owner `bishal482` must make the hosting decision before live verification can finish.
 - [Current HTTP check](evidence/railway-http-check-2026-10-28.txt): public Railway URL returned 404 on October 28.
 - [Assistant-run review-fixture rehearsal](evidence/c0-review-fixture-check-2026-10-28.txt): local in-memory API check only, not a live release.
 
-**Current MVP assessment: still has a gap in deployed/repeatable verification.** Prioritise #65 before expanding the extension backlog below. Preserve unpublished draft code without treating it as a shipped feature. Personal contribution confirmations and the non-author test remain pending.
+**Current MVP assessment: still has a gap in deployed/repeatable verification.** The hosting blocker is identified; service restoration remains pending. Prioritise #65 before expanding the extension backlog below. Preserve unpublished draft code without treating it as a shipped feature. Personal contribution confirmations and the non-author test remain pending.
 
 ## Planned slices
 

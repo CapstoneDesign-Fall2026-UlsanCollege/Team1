@@ -39,6 +39,8 @@
 
 **Current check:** On October 28 the published Railway URL again returned **HTTP 404, `Application not found`**; see the [recorded HTTP response](evidence/railway-http-check-2026-10-28.txt). This confirms the URL is unavailable at this check; it does not identify the cause, establish a billing problem or prove which commit is deployed.
 
+**Later confirmed diagnosis, October 28:** The authenticated Team1 Railway page showed **Trial expired**, **Limited Access**, **Service offline**, and **no active deployment**. See the [dashboard proof](evidence/railway-trial-expired-2026-10-28.png) and [recovery record](deployment-recovery.md). The initial public check alone did not determine this; the private dashboard subsequently established the hosting restriction. No plan change, payment or recovery deployment was made. Galan owns the hosting decision and follow-up verification.
+
 **Procedure rehearsal:** The assistant built the published C0 source snapshot `7387145` with existing installed dependencies and rehearsed the new local review fixture. Its [19 API checks](evidence/c0-review-fixture-check-2026-10-28.txt) passed for login/session restoration, role denial, provisioning validation, disable/enable revocation and logout. This is not a clean-install claim, an independent teammate test, a new full-suite result or a live database/deployment result.
 
 **Week 9 decision:** Diagnose the service/domain/deployment, verify an approved C0 account path, and obtain a non-author result before calling this a verified release.
@@ -71,6 +73,8 @@ The original student/admin academic and job workflows have implementation and hi
 | Reviewable proof | [C0 workspace](evidence/c0-workspace-demo.png), [staff access controls](evidence/c0-staff-access-demo.png), [midterm deck](../StudentHub-Midterm-Roles.ppt) |
 | Checked results | [C0 assistant-run note](c0-test-note.md) |
 | October 28 bounded checks | [Public HTTP result](evidence/railway-http-check-2026-10-28.txt), [assistant-run local fixture rehearsal](evidence/c0-review-fixture-check-2026-10-28.txt) |
+| Confirmed hosting blocker | [Trial-expired dashboard](evidence/railway-trial-expired-2026-10-28.png), [deployment recovery record](deployment-recovery.md) |
+| Galan's supporting receipt | [Week 8 Individual Evidence Receipt](individual-evidence-receipt.md), prepared with coding assistance for personal review |
 | Independent test | [Procedure and pending result](c0-independent-test.md) — not a passed result |
 | Week 8 documentation | [Work checklist](work-checklist.md), [this shared report](weekly-report.md) |
 | Live URL | [Railway](https://team1-production.up.railway.app/) — HTTP 404 at the October 28 check; use repository proof for review until restored |
@@ -92,7 +96,7 @@ The October 28 authored work above supplements the October 26 review; it does no
 
 | Blocker / risk | Owner | Next action / review |
 |---|---|---|
-| Public application returns 404; private deployment state cannot be inferred. | `bishal482` | Sign in to Railway, inspect service/domain, credits and deployment logs, then record the cause and recovery. Do not assume a purchase is required. Review at the October 29 class. |
+| Railway trial expired; service offline and no active deployment. Public URL returns 404. | `bishal482` | Decide whether to restore the Railway plan or approve another host; then check service/database state and verify a published release. No payment or plan change made by the assistant. Review at the October 29 class. |
 | No confirmed non-author C0 tester/result. | `bishal482` — coordination; tester not yet confirmed | Ask a non-author member to follow the linked procedure and enter actual results. Keep pending if nobody has run it. |
 | Personal shared-report rows are not yet confirmed by all members. | Each canonical login above; `bishal482` coordinates | Each member edits their own row with a lesson, evidence and next action. This prepared inventory is not personal confirmation. |
 | Additional feature volume can hide the release gap. | `bishal482` | Preserve unfinished extension work without counting it as a release. Hold the extension milestone until #65's checks pass. |
@@ -105,6 +109,7 @@ The October 28 authored work above supplements the October 26 review; it does no
 | Make one repeatable release path the Week 9 milestone. | Respond directly to the feedback rather than expanding the feature list. | `bishal482` | [Instructor feedback](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/grades-and-feedback/blob/main/Week%208/feedback.md#team-1--studenthub) |
 | Hold menus/rooms/teachers and monetization out of this release claim. | Planned or unpublished work is not verification evidence. Existing draft code is preserved. | `bishal482` | [Backlog index](README.md), [#60](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/60) |
 | Use exact GitHub logins and explain display-name differences. | Match evidence to the roster without inventing contributions. | Each member confirms; `bishal482` maintains inventory | Commit links and metadata above |
+| Treat expired hosting as the confirmed deployment blocker. | Authenticated dashboard shows Trial expired, Service offline and no active deployment. Code changes alone do not remove that restriction. | `bishal482` owns hosting decision | [Recovery record and screenshot](deployment-recovery.md) |
 
 ## Next week's bridge task — October 29 to November 4
 

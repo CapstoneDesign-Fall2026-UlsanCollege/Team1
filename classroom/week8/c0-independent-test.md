@@ -86,3 +86,5 @@ The non-author must replace these pending fields after execution:
 ## Separate live check
 
 After Railway is accessible, repeat the approved-account workflow against the actual deployment and record its deployed commit and database result separately. Do not create production accounts without approval. The October 28 public check returned 404; this local fixture is a fallback, not a resolution of that deployment gap.
+
+Later October 28 inspection confirmed a **trial-expired, offline service with no active deployment**. Follow the [deployment recovery record](deployment-recovery.md) before attempting the live check. No live pass is recorded here.
