@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { databaseTls } from './database-tls.js';
 import { ensureCanteenRole, mysqlCanteenAccounts } from './canteen-accounts.js';
 import { semesterDetailsRouter } from './semester-details.js';
 import { mysqlFavourites, favouritesSchema } from './job-favourites.js';
@@ -21,6 +22,7 @@ const pool = mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME ?? 'studenthub',
   connectionLimit: 5,
+  ssl: databaseTls(),
 });
 async function find(column: 'id' | 'login_id', value: number | string) {
   const [rows] = await pool.execute<RowDataPacket[]>(
