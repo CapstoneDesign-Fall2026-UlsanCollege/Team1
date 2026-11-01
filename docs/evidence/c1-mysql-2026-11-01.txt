@@ -1,0 +1,17 @@
+✔ menu dates use Korea time and reject impossible calendar dates (28.8316ms)
+✔ menu validation rejects invalid prices, names, IDs and oversized lists (1.6085ms)
+▶ isolated MySQL daily menu lifecycle
+  ✔ anonymous, student and academic admin access is enforced (77.0398ms)
+  ✔ draft, publish, edit and unpublish survive database reads (163.9907ms)
+  ✔ server restart retains the saved menu; date rollover hides yesterday (617.8412ms)
+  ✔ invalid writes roll back without creating a menu (71.7659ms)
+  ✔ simultaneous first writes and stale edits cannot overwrite a menu (47.5201ms)
+✔ isolated MySQL daily menu lifecycle (1781.066ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2427.0135

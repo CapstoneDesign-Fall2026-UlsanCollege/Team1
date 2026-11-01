@@ -15,6 +15,7 @@ import { canteenAccountsRouter, type CanteenAccountStore } from './canteen-accou
 
 export type Account = { id: number; login_id: string; password_hash: string; role: 'admin' | 'student' | 'canteen_head'; is_active: number };
 export type Accounts = {
+  campus?: express.Router;
   canteenAccounts?: CanteenAccountStore;
   favourites?: FavouriteStore;
   jobs?: JobService;
@@ -45,6 +46,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
   if (frontendOrigin) app.use('/api', cors({ origin: frontendOrigin, credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], allowedHeaders: ['Content-Type', 'X-StudentHub'] }));
   app.use('/api/student/job-favourites', express.json({ limit: '200kb' }));
+  app.use('/api/canteen', express.json({ limit: '32kb' }));
   app.use(express.json({ limit: '4kb' }));
   const sessions = new Map<string, { id: number; expires: number }>();
   const attempts = new Map<string, { count: number; expires: number }>();
@@ -122,6 +124,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
     });
   }
   if (accounts.canteenAccounts) app.use('/api', canteenAccountsRouter(accounts.canteenAccounts,invalidate));
+  if (accounts.campus) app.use('/api', accounts.campus);
   if (accounts.resets) app.use('/api', resetRouter(accounts.resets, invalidate));
   if (accounts.favourites) app.use('/api', favouritesRouter(accounts.favourites));
   if (accounts.jobs) app.use('/api', jobsRouter(accounts.jobs));

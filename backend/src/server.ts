@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { databaseTls } from './database-tls.js';
+import {canteenMenuSchema, canteenMenuRouter} from './canteen-menu.js';
 import { ensureCanteenRole, mysqlCanteenAccounts } from './canteen-accounts.js';
 import { semesterDetailsRouter } from './semester-details.js';
 import { mysqlFavourites, favouritesSchema } from './job-favourites.js';
@@ -30,7 +31,7 @@ async function find(column: 'id' | 'login_id', value: number | string) {
   return rows[0] as Account | undefined;
 }
 const app = createApp(
-  { canteenAccounts: mysqlCanteenAccounts(pool), semesterDetails: semesterDetailsRouter(pool), favourites: mysqlFavourites(pool), jobs: createSeoulJobs(), resets: mysqlResets(pool), byLogin: login => find('login_id', login), byId: id => find('id', id), majorPlanning: majorPlanningRouter(pool),
+  { campus:canteenMenuRouter(pool), canteenAccounts: mysqlCanteenAccounts(pool), semesterDetails: semesterDetailsRouter(pool), favourites: mysqlFavourites(pool), jobs: createSeoulJobs(), resets: mysqlResets(pool), byLogin: login => find('login_id', login), byId: id => find('id', id), majorPlanning: majorPlanningRouter(pool),
     courseAssignments: () => courseAssignments(pool), removeOffering: id => removeOffering(pool, id), schedules: mysqlSchedules(pool),
     updateProfessor: (id, professor) => updateOfferingProfessor(pool, id, professor), studentAdmin: mysqlStudentAdmin(pool) },
   student => createStudent(pool, student),
@@ -49,6 +50,7 @@ const app = createApp(
 const port = Number(process.env.PORT ?? 3000);
 async function start() {
   await ensureCanteenRole(pool);
+  await pool.query(canteenMenuSchema);
   await pool.query(resetSchema);
   await pool.query(favouritesSchema);
   const server = app.listen(port, '0.0.0.0');

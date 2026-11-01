@@ -3,10 +3,11 @@ import { apiFetch } from '../api'
 import { computed, ref } from 'vue'
 import StudentIcon from './StudentIcon.vue'
 import JobFinder from './JobFinder.vue'
+import CampusEat from './DailyMenu.vue'
 import StudentTimetable from './StudentTimetable.vue'
 defineProps<{ loginId: string; busy: boolean; error: string }>()
 defineEmits<{ logout: [] }>()
-type Page = 'life' | 'profile' | 'semester' | 'course' | 'schedule' | 'jobs' | 'home' | 'settings'
+type Page = 'life' | 'profile' | 'semester' | 'course' | 'schedule' | 'jobs' | 'home' | 'settings' | 'eat'
 const page = ref<Page>('life')
 const menu = ref(false)
 type Profile = { full_name: string; university: string; major: string | null; year_of_study: number | null; email: string | null; phone_number: string | null; address: string | null }
@@ -55,6 +56,7 @@ const sections: { page: Page; title: string; icon: string }[] = [
   { page: 'course', title: 'Course', icon: 'course' },
   { page: 'schedule', title: 'Schedule', icon: 'schedule' },
   { page: 'jobs', title: 'Student Job', icon: 'jobs' },
+  { page: 'eat', title: 'Campus Eat', icon: 'menu' },
 ]
 const title = computed(() => sections.find(item => item.page === page.value)?.title ?? ({ life: 'Student Life', home: 'Home', settings: 'Settings' } as Record<string, string>)[page.value])
 const inLife = computed(() => page.value !== 'home' && page.value !== 'settings')
@@ -90,6 +92,7 @@ async function loadCourses(){ courseLoading.value=true; try { const r=await apiF
           </template>
         </template>
         <JobFinder v-else-if="page === 'jobs'" :login-id="loginId" />
+        <CampusEat v-else-if="page === 'eat'" />
         <section v-else-if="page === 'home'" class="student-panel home-panel"><p class="student-muted">WELCOME TO STUDENTHUB</p><h2>Your student life, in one place.</h2><p>Student ID: {{ loginId }}</p><button class="student-primary" @click="go('life')">Open Student Life</button></section>
         <section v-else-if="page === 'settings'" class="student-panel settings-panel"><h2>Account</h2><p>Signed in as {{ loginId }}</p><p class="student-muted">For account or password changes, contact your administrator.</p><button class="student-primary" :disabled="busy" @click="$emit('logout')">{{ busy ? 'Logging out…' : 'Log out' }}</button></section>
         <section v-else-if="page === 'semester'" class="student-panel semester-list"><h2>Your semesters</h2><p v-if="semesterLoading">Loading…</p><p v-else-if="!semesters.length" class="student-muted">You have not been assigned to a semester yet.</p><div v-for="item in semesters" :key="item.id" class="semester-row"><strong>{{item.name}} {{item.academic_year}}</strong><span>{{displayDate(item.start_date)}} – {{displayDate(item.end_date)}}</span></div></section>
