@@ -1,9 +1,11 @@
 
 ﻿# StudentHub
 
-StudentHub is a college student-life platform for Ulsan College. It gives administrators a way to manage student accounts and academic planning, while students can view their own profile, semesters, courses, and weekly timetable.
+StudentHub is being adapted into a **middle and high school** platform for academic planning, homeroom-teacher management and school canteen information.
 
-The project is a capstone MVP built around two academic dimensions: a **semester period** such as Spring or Fall, and a **major** such as Computer IT & Security or Global Business. Courses and class meetings are assigned to a specific semester and major. A student sees an offering when both their semester assignment and major match it.
+**Current plan:** [Design Doc v2](classroom/week9/design-doc-v2.md) and [Mermaid roadmap](classroom/week9/roadmap.md). Classroom finding is cancelled. Job search remains an optional high-school feature; school-level audience gating is planned in [#69](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/69).
+
+The existing implementation is college-oriented: students currently see courses by semester and major. School years, grades, homeroom classes and homeroom-teacher assignments are **planned changes**, not features already shipped. Existing accounts, academic records and favourites must be retained and mapped explicitly. Historical weekly reports remain evidence of the earlier scope.
 
 ## Current features
 
@@ -27,7 +29,9 @@ The project is a capstone MVP built around two academic dimensions: a **semester
 - View a weekly timetable with course, professor, time, and location.
 - Use the mobile-friendly bottom navigation.
 
-Student job search is planned for a later slice. Saramin API integration will require a public deployed website and separately hosted backend.
+Job search, filters and favourites are implemented using the Seoul Open Data recruitment API; the new high-school-only optional policy is not yet implemented. See [job notes](docs/job-finder.md).
+
+C0 canteen-head access and C1 daily menu publishing/student display are implemented with local automated checks. Browser/live verification remains pending; see [C1 notes](docs/canteen-daily-menu.md). C2/C3 hours/location and availability controls remain planned.
 
 ## Project structure
 
@@ -127,4 +131,4 @@ npm.cmd test
 4. Test the flow as administrator and student.
 5. Commit with a clear message and push to the team repository.
 
-The repository is currently a development MVP. Deployment, job listings, and production account management remain future work.
+The repository is a development MVP. The school pivot is planning work; local automated evidence does not establish live verification. Railway recovery is tracked in #65. The owner plans to revisit its purchase on November 10; keep fallback hosting and private backups until recovery is verified.
