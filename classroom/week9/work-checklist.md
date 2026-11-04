@@ -1,5 +1,4 @@
 # Week 9 Work Checklist
-
 **Week:** October 29–November 4, 2026  
 **Project:** Team 1 — StudentHub
 
