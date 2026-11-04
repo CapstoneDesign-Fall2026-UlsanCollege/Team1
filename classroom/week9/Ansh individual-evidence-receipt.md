@@ -17,7 +17,7 @@ This receipt records the Week 9 work attributable to my GitHub activity. It supp
 
 - **What I did:** Created the Week 9 report file as part of the team’s reporting work.
 - **Evidence:** [Week 9 report file](Weekly-report.md) · [Report-file creation commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/3ffc038f7220af4fa00113090c6d8c44f3463fa9)
-- **What this shows:** The commit records creation of the report file. The file was empty in that commit, so I am not claiming that it contained the completed report at that point.
+- **What this shows:** The commit records the creation of the report file. The file was empty in that commit, so I am not claiming that it contained the completed report at that point.
 - **Shared-report reference:** The current [shared Week 9 report](Weekly-report.md) includes my contribution row and summarizes the team’s current evidence. That shared report is not, by itself, proof that I authored every section.
 
 ## What I learned
@@ -31,4 +31,9 @@ I will coordinate or perform a non-author browser check of C1, if assigned and a
 ## Confirmation and evidence boundary
 
 This receipt is limited to the documentation and planning activity linked above. It does not claim that I implemented or personally tested C1, completed S1, verified the live deployment, or performed work not shown in the linked evidence.
+
+## Markdown
+
+| `CoderRaaju` — Bal Raju | Followed the C0 test setup from a fresh, clean `main` checkout at `b2b7b36a06bf1273c5bfdfc292e76607d6819bae`. Backend and frontend dependency installation and production builds succeeded. The C0 review fixture stopped at its published-workspace marker check, so I did not perform the browser checks and do not claim a C0 pass. | [My Week 9 evidence receipt](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/week9/Raju_individual-evidence-receipt.md) · [C0 test procedure](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/week8/c0-independent-test.md) | **Lesson:** Successful builds do not prove that the review fixture can run or that the feature works. **Next action:** Get the correct published test commit or an approved fixture/procedure update from the maintainer, then rerun the test and record only the behavior I personally observe. |
+
 
