@@ -1,4 +1,4 @@
-# Week 10 – Team 1 Worked Example: Own a Slice, Steward an Area
+# Week 10 – Team 1  Own a Slice, Steward an Area
 
 **Team:** Team 1  
 **Project:** Student Life Hub  
