@@ -17,21 +17,21 @@ Each team member contributes to a specific feature or project area while support
 | Galan Bishal | School and Homeroom Management (S1), Canteen Daily Menu (C1) | School setup, homeroom journey, and canteen documentation/checks |
 | Bal Raju | Confirm current GitHub issue assignment | Related feature documentation and testing |
 | Ansh Sharma | Confirm current GitHub issue assignment | Related feature documentation and testing |
-| Buddha Raj Giri (BudhaRajgiri) | #68 – Student My Class View | Student frontend documentation and project evidence |
+| Buddha Raj Giri (BudhaRajgiri) | [#68 – Student My Class View](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68) | Student frontend documentation and project evidence |
 
 ## 2. Roadmap Slices – Team Ownership
 
 The team is tracking these additional project functions:
 
-- **#66 – School Years, Grades and Homeroom Class Membership:** Manage school years, grades, and student class membership.
-- **#67 – Homeroom Teacher Management:** Assign and manage homeroom teachers.
-- **#68 – Student My Class View:** Allow students to see their assigned class and homeroom teacher.
-- **#69 – Optional Job Search:** Keep Job Search optional for high-school users.
-- **#70 – School Administration Overview:** Provide administrators with an overview and useful task shortcuts.
+- [**#66 – School Years, Grades and Homeroom Class Membership**](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/66): Manage school years, grades, and student class membership.
+- [**#67 – Homeroom Teacher Management**](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/67): Assign and manage homeroom teachers.
+- [**#68 – Student My Class View**](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68): Allow students to see their assigned class and homeroom teacher.
+- [**#69 – Optional Job Search**](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/69): Keep Job Search optional for high-school users.
+- [**#70 – School Administration Overview**](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/70): Provide administrators with an overview and useful task shortcuts.
 
 Each issue should have a confirmed responsible owner, implementation evidence, and a teammate who can independently check the result.
 
-**Roadmap clarification:** Available Classrooms (#57–59) has been removed. Issues #66–70 are separately added functions; they are not direct replacements for #57–59.
+**Roadmap clarification:** Available Classrooms (#57–59) has been removed. Issues [#66–#70](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/66) are separately added functions; they are not direct replacements for #57–59.
 
 ## 3. Area Stewardship
 
@@ -56,7 +56,7 @@ Use these checks to verify project behavior. Record actual results before markin
 | School years and grades | Correct school year and grade information is available | Pending verification |
 | Homeroom membership | Students are assigned to the correct class | Pending verification |
 | Teacher management | Teachers can be assigned to the correct homeroom | Pending verification |
-| Student My Class | Students can see their class and assigned teacher | Pending verification |
+| [Student My Class (#68)](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68) | Students can see their class and assigned teacher | Pending verification |
 | Optional Job Search | High-school users can access Job Search when enabled | Pending verification |
 | School administration | Administrators can view useful school information and shortcuts | Pending verification |
 | Campus Eat | Canteen menu information is displayed correctly | Pending verification |
@@ -66,7 +66,7 @@ Use these checks to verify project behavior. Record actual results before markin
 
 The team will collect and organize:
 
-- GitHub issue links for each feature.
+- GitHub issue links for each feature, including [Issue #68](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68).
 - Pull request and commit links.
 - Screenshots of completed interfaces.
 - Frontend and backend implementation evidence.
@@ -83,7 +83,7 @@ Every major feature should have a backup teammate who can understand and repeat 
 The team will:
 
 - Share relevant file locations.
-- Provide GitHub issue and pull request links.
+- Provide GitHub issue and pull request links, including [Issue #68](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68) for Student My Class.
 - Explain the expected feature behavior.
 - Share testing instructions.
 - Ask another teammate to reproduce important checks.
@@ -98,8 +98,8 @@ A feature should not depend on only one person understanding its implementation.
 | Galan Bishal | Continue school/homeroom and canteen work; record actual local checks and evidence |
 | Bal Raju | Confirm assigned GitHub slice; review implementation and add evidence |
 | Ansh Sharma | Confirm assigned GitHub slice; review implementation and add evidence |
-| Buddha Raj Giri (BudhaRajgiri) | Review #68, identify related files, verify the My Class page, and record screenshots and results |
-| Whole team | Review issues #66–70, coordinate testing, update weekly documentation, and prepare the final demonstration |
+| Buddha Raj Giri (BudhaRajgiri) | Review [Issue #68](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68), identify related files, verify the My Class page, and record screenshots and results |
+| Whole team | Review [Issues #66–#70](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/66), coordinate testing, update weekly documentation, and prepare the final demonstration |
 
 ## 8. Open Questions and Limitations
 
