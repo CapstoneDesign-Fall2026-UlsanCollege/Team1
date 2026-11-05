@@ -5,7 +5,6 @@
 **Week:** 10  
 **Date:** 2026-11-05
 
-> **Note:** Confirm each member's current GitHub issue assignment before submission. The ownership details below are a working team draft, not proof that implementation or testing is complete.
 
 ## 1. Team Responsibilities
 
