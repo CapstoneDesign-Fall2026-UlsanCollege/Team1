@@ -59,3 +59,9 @@ By signing, each member agrees to communicate problems early, contribute fairly,
 | Bal Raju | @CoderRaaju (confirmed) | 2026-09-09 |
 | Ansh Sharma | @anshsharma123 (confirmed) | 2026-09-09 |
 | Buddha Raj Giri | @budhaRajgiri (confirmed) | 2026-09-09 |
+
+## Week 10 ownership reference — November 5, 2026
+
+Use the [current AI Use and Code Ownership Audit](../week10/ai-use-and-code-ownership-audit.md) as the single code-area map. It records actual boundaries, checks, shared handoffs and confirmed/proposed roles. The [Week 10 roadmap](../week10/roadmap.md) and [shared report](../week10/weekly-report.md) link the delivery/evidence.
+
+Stewards help keep context understandable; any teammate may contribute to any area through the review process. Confirm each primary area and support/backup personally; unconfirmed roles and independent checks remain pending. Review the map at the November 11 checkpoint and when responsibilities change. This reference update does not add member signatures or claim new agreement to proposed roles.

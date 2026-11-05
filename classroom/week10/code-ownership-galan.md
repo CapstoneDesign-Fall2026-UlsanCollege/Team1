@@ -19,14 +19,7 @@ This applies the [course worked example](https://github.com/CapstoneDesign-Fall2
 
 ## 2. Real codebase area map
 
-| Area | Actual repository boundary | Stewardship check | Backup / handoff |
-|---|---|---|---|
-| Booking form | [SchoolRoomBoard.vue](../../frontend/src/components/SchoolRoomBoard.vue) | One date, ordered times, subject/teacher selection, confirmation and visible save error | Form contributor explains how submit sends IDs, times and revision; backup unconfirmed |
-| Advisory teacher availability | [room-availability.ts](../../frontend/src/room-availability.ts), [tests](../../frontend/tests/room-availability.test.mjs) | Other-class lessons and active room bookings block overlapping teacher choices | Backup runs frontend checks; client availability never replaces server validation |
-| Room API — my stewarded area | [school-rooms.ts](../../backend/src/school-rooms.ts) | Validate input, linked class/subject/term, active teacher and recorded conflicts before INSERT | Galan keeps this contract/check map current; any teammate may propose changes |
-| Transaction handoff | [school-planning.ts](../../backend/src/school-planning.ts), function mutate | Lock planning revision, reject stale writes, commit or roll back the callback | Persistence reviewer unconfirmed; inspect both callback and transaction wrapper |
-| Data / read-back | [school-schema.ts](../../backend/src/school-schema.ts), [migration 010](../../database/migrations/010_room_board.sql) | Booking foreign keys, retained cancellation and GET room-booking read-back | No actual dump/credentials in shared evidence; backup uses disposable fixture |
-| Reproducible integration check | [school-planning.test.mjs](../../backend/tests/school-planning.test.mjs), room-layout/booking subtest | Success, conflict, same-day validation, adjacent boundary, stale concurrent writes and permissions | [Recorded 17-pass run](evidence/school-mysql-2026-11-05.txt); non-author rerun pending |
+The [team audit](ai-use-and-code-ownership-audit.md#codebase-area-map--current-source-of-truth) is the single current area map, including real paths, stewards, unconfirmed backups and checks. My primary area is the room API; the form, advisory availability, transaction wrapper and data read-back are its shared handoffs. The code explanation below traces those dependencies without duplicating team role assignments.
 
 ## 3. Explain the code in plain English
 

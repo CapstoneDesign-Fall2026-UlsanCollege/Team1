@@ -11,3 +11,11 @@
 - [Room allocation issue #72](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/72)
 
 This week publishes previously local school work and its refinements. November 2–4 screenshots and checks remain in Week 9 as historical evidence; the November 5 reruns and contribution update belong here. Source publication is separate from Railway deployment and non-author testing.
+
+## Week 10 course package
+
+- [Team ownership audit and single area map](ai-use-and-code-ownership-audit.md)
+- [Current Final Demo Roadmap checkpoint](roadmap.md)
+- [Evidence-based work checklist](work-checklist.md)
+
+Personal confirmations, accepted backups and independent results remain pending. Documents do not substitute for those actions.

@@ -14,7 +14,7 @@ Each team member contributes to a specific feature or project area while support
 
 | Team member | Main responsibility | Area stewardship |
 |---|---|---|
-| Galan Bishal (@bishal482) | School/class foundation, dashboard and membership UX, subject planner/popups, specialist teacher routines, room allocation/bookings and teacher availability; existing C1 daily menu | Owns implementation/data-preservation and check evidence for these changes, with coding assistance; [8 detailed receipts](individual-evidence-receipt-galan-bishal.md), [published source](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae), [actual checks](school-release-check.md). Student My Class follow-up ownership remains separate below. |
+| Galan Bishal (@bishal482) | School/class foundation, dashboard and membership UX, subject planner/popups, specialist teacher routines, room allocation/bookings and teacher availability; existing C1 daily menu | Owns implementation/data-preservation and check evidence for these changes, with coding assistance; [9 detailed receipts](individual-evidence-receipt-galan-bishal.md), [published source](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae), [actual checks](school-release-check.md). Student My Class follow-up ownership remains separate below. |
 | Bal Raju | Confirm current GitHub issue assignment | Related feature documentation and testing |
 | Ansh Sharma | Confirm current GitHub issue assignment | Related feature documentation and testing |
 | Buddha Raj Giri (BudhaRajgiri) | [#68 – Student My Class View](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68) | Student frontend documentation and project evidence |
@@ -35,17 +35,7 @@ Each issue should have a confirmed responsible owner, implementation evidence, a
 
 ## 3. Area Stewardship
 
-The team shares responsibility for maintaining project areas.
-
-| Project area | Stewardship responsibility |
-|---|---|
-| Student frontend | Maintain student-facing pages and interface documentation |
-| School administration | Keep school, grade, and homeroom requirements clear |
-| Teacher management | Check teacher assignment requirements |
-| Job Search | Maintain optional-access requirements for high-school users |
-| Campus Eat | Maintain menu information and related checks |
-| Documentation | Keep GitHub issues, weekly reports, and evidence organized |
-| Deployment | Track hosting status and live-site verification |
+Use the [current team audit](ai-use-and-code-ownership-audit.md#codebase-area-map--current-source-of-truth) for real boundaries, stewards, support/backup status and area checks. It is the source of truth; role proposals there require personal confirmation and do not restrict who can change code. [Current roadmap milestone](roadmap.md).
 
 ## 4. Team Checks
 

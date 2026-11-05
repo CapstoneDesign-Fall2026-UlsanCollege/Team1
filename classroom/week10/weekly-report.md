@@ -22,6 +22,8 @@
 | Implementation | [43a82ae](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae) |
 | Historical safe screenshots | [Week 9 planner note](../week9/school-planner-test-note.md), [room note](../week9/room-board-test-note.md) — earlier layouts |
 | Current test/check note | [November 5 actual results and limits](school-release-check.md) |
+| Team ownership audit | [Current area map, member status and AI notes](ai-use-and-code-ownership-audit.md) |
+| Roadmap / checklist | [November 11 milestone](roadmap.md), [honest checklist](work-checklist.md) |
 | Ownership / handoff | [Galan’s focused booking slice and real area map](code-ownership-galan.md); backup unconfirmed |
 | Document update | [Galan's detailed receipt](individual-evidence-receipt-galan-bishal.md) |
 
