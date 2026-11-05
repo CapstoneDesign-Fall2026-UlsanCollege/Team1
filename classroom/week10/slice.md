@@ -14,7 +14,7 @@ Each team member contributes to a specific feature or project area while support
 
 | Team member | Main responsibility | Area stewardship |
 |---|---|---|
-| Galan Bishal | School and Homeroom Management (S1), Canteen Daily Menu (C1) | School setup, homeroom journey, and canteen documentation/checks |
+| Galan Bishal (@bishal482) | School/class foundation, dashboard and membership UX, subject planner/popups, specialist teacher routines, room allocation/bookings and teacher availability; existing C1 daily menu | Owns implementation/data-preservation and check evidence for these changes, with coding assistance; [8 detailed receipts](individual-evidence-receipt-galan-bishal.md), [published source](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae), [actual checks](school-release-check.md). Student My Class follow-up ownership remains separate below. |
 | Bal Raju | Confirm current GitHub issue assignment | Related feature documentation and testing |
 | Ansh Sharma | Confirm current GitHub issue assignment | Related feature documentation and testing |
 | Buddha Raj Giri (BudhaRajgiri) | [#68 – Student My Class View](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68) | Student frontend documentation and project evidence |
