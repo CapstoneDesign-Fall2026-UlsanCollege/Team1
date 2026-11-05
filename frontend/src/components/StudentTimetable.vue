@@ -3,13 +3,13 @@ import { computed, onMounted, ref } from 'vue'
 import { scheduleApi, type Meeting, type Semester } from '../schedules'
 import WeeklySchedule from './WeeklySchedule.vue'
 const terms = ref<Semester[]>([]), meetings = ref<Meeting[]>([]), semester = ref(0)
-const loading = ref(true), error = ref('')
+const loading = ref(true), error = ref(''), schoolMode = ref(false)
 const visible = computed(() => meetings.value.filter(m => m.semester_id === semester.value))
 async function load() {
   loading.value = true; error.value = ''
   try {
     const [a,b] = await Promise.all([scheduleApi('student/semesters'), scheduleApi('student/schedule')])
-    terms.value = a.semesters; meetings.value = b.schedules
+    terms.value = a.semesters; meetings.value = b.schedules; schoolMode.value = Boolean(a.school_mode)
     if (!terms.value.some(t => t.id === semester.value)) semester.value = terms.value[0]?.id ?? 0
   } catch(e) { error.value = e instanceof Error ? e.message : 'Unable to load your timetable.' }
   finally { loading.value = false }
@@ -19,13 +19,13 @@ onMounted(load)
 <template>
   <section class="timetable">
     <div class="heading"><h2>Your weekly timetable</h2><button :disabled="loading" @click="load">Refresh</button></div>
-    <p class="note">Classes match your major and assigned semester, and repeat weekly. Times use the campus local time.</p>
+    <p class="note">{{ schoolMode ? 'Subjects match your effective school class membership and linked term.' : 'Classes match your major and assigned semester.' }} Meetings repeat weekly in {{ schoolMode ? 'Nepal time (NPT)' : 'Korea time' }}.</p>
     <p v-if="loading" role="status">Loading your classes…</p>
     <p v-else-if="error" class="error" role="alert">{{ error }}</p>
     <template v-else>
-      <p v-if="!terms.length">You haven't been assigned to a semester yet.</p>
+      <p v-if="!terms.length">{{ schoolMode ? 'No school terms are available for your current class membership. Contact your administrator.' : 'You have not been assigned to a semester yet.' }}</p>
       <template v-else><label for="student-schedule-term">Semester</label><select id="student-schedule-term" v-model="semester"><option v-for="t in terms" :key="t.id" :value="t.id">{{ t.name }} {{ t.academic_year }}</option></select>
-      <p class="note">{{ visible.length }} class meetings each week<span v-if="visible[0]?.major"> · {{visible[0].major}}</span></p><p v-if="!visible.length">No classes are scheduled for your major in this semester. Contact your administrator if your major needs updating.</p><WeeklySchedule v-else :meetings="visible" /></template>
+      <p class="note">{{ visible.length }} class meetings each week<span v-if="visible[0]?.major"> · {{visible[0].major}}</span></p><p v-if="!visible.length">{{ schoolMode ? 'No meetings are linked to your class in this term yet.' : 'No classes are scheduled for your major in this semester.' }}</p><WeeklySchedule v-else :meetings="visible" /></template>
     </template>
   </section>
 </template>

@@ -5,9 +5,10 @@ import StudentIcon from './StudentIcon.vue'
 import JobFinder from './JobFinder.vue'
 import CampusEat from './DailyMenu.vue'
 import StudentTimetable from './StudentTimetable.vue'
+import StudentSchool from './StudentSchool.vue'
 defineProps<{ loginId: string; busy: boolean; error: string }>()
 defineEmits<{ logout: [] }>()
-type Page = 'life' | 'profile' | 'semester' | 'course' | 'schedule' | 'jobs' | 'home' | 'settings' | 'eat'
+type Page = 'life' | 'profile' | 'semester' | 'course' | 'schedule' | 'jobs' | 'home' | 'settings' | 'eat' | 'school'
 const page = ref<Page>('life')
 const menu = ref(false)
 type Profile = { full_name: string; university: string; major: string | null; year_of_study: number | null; email: string | null; phone_number: string | null; address: string | null }
@@ -15,9 +16,9 @@ const profile = ref<Profile | null>(null)
 const profileLoading = ref(false)
 const profileError = ref('')
 const semesters = ref<{id:number;name:string;academic_year:number;start_date:string;end_date:string}[]>([])
-const semesterLoading = ref(false)
+const semesterLoading = ref(false), semesterError = ref('')
 const courses = ref<{course_code:string;course_name:string;credits:number;professor:string|null;section:string;offering_id:number}[]>([])
-const courseLoading = ref(false)
+const courseLoading = ref(false), courseError = ref(''), courseSchoolMode = ref(false)
 const editing = ref(false)
 const saving = ref(false)
 const editForm = ref({ email: '', phone_number: '', address: '' })
@@ -51,6 +52,7 @@ async function saveProfile() {
   finally { saving.value = false }
 }
 const sections: { page: Page; title: string; icon: string }[] = [
+  { page: 'school', title: 'My Class', icon: 'semester' },
   { page: 'profile', title: 'Student Profile', icon: 'profile' },
   { page: 'semester', title: 'Semester', icon: 'semester' },
   { page: 'course', title: 'Course', icon: 'course' },
@@ -62,8 +64,8 @@ const title = computed(() => sections.find(item => item.page === page.value)?.ti
 const inLife = computed(() => page.value !== 'home' && page.value !== 'settings')
 function displayDate(value: string) { return new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) }
 function go(next: Page) { page.value = next; menu.value = false; if (next === 'profile') void loadProfile(); if (next === 'semester') void loadSemesters(); if (next === 'course') void loadCourses() }
-async function loadSemesters(){ semesterLoading.value=true; try { const r=await apiFetch('/api/student/semesters'); const d=await r.json(); if(r.ok) semesters.value=d.semesters } finally { semesterLoading.value=false } }
-async function loadCourses(){ courseLoading.value=true; try { const r=await apiFetch('/api/student/courses'); const d=await r.json(); if(r.ok) courses.value=d.courses } finally { courseLoading.value=false } }
+async function loadSemesters(){ semesterLoading.value=true; semesterError.value=''; semesters.value=[]; try { const r=await apiFetch('/api/student/semesters'); const d=await r.json(); if(!r.ok) throw new Error(d.message || 'Unable to load terms.'); semesters.value=d.semesters } catch(e) { semesterError.value=e instanceof Error?e.message:'Unable to load terms.' } finally { semesterLoading.value=false } }
+async function loadCourses(){ courseLoading.value=true; courseError.value=''; courses.value=[]; try { const r=await apiFetch('/api/student/courses'); const d=await r.json(); if(!r.ok) throw new Error(d.message || 'Unable to load subjects.'); courses.value=d.courses; courseSchoolMode.value=Boolean(d.school_mode) } catch(e) { courseError.value=e instanceof Error?e.message:'Unable to load subjects.' } finally { courseLoading.value=false } }
 </script>
 
 <template>
@@ -93,10 +95,11 @@ async function loadCourses(){ courseLoading.value=true; try { const r=await apiF
         </template>
         <JobFinder v-else-if="page === 'jobs'" :login-id="loginId" />
         <CampusEat v-else-if="page === 'eat'" />
+        <StudentSchool v-else-if="page === 'school'" @open="go" />
         <section v-else-if="page === 'home'" class="student-panel home-panel"><p class="student-muted">WELCOME TO STUDENTHUB</p><h2>Your student life, in one place.</h2><p>Student ID: {{ loginId }}</p><button class="student-primary" @click="go('life')">Open Student Life</button></section>
         <section v-else-if="page === 'settings'" class="student-panel settings-panel"><h2>Account</h2><p>Signed in as {{ loginId }}</p><p class="student-muted">For account or password changes, contact your administrator.</p><button class="student-primary" :disabled="busy" @click="$emit('logout')">{{ busy ? 'Logging out…' : 'Log out' }}</button></section>
-        <section v-else-if="page === 'semester'" class="student-panel semester-list"><h2>Your semesters</h2><p v-if="semesterLoading">Loading…</p><p v-else-if="!semesters.length" class="student-muted">You have not been assigned to a semester yet.</p><div v-for="item in semesters" :key="item.id" class="semester-row"><strong>{{item.name}} {{item.academic_year}}</strong><span>{{displayDate(item.start_date)}} – {{displayDate(item.end_date)}}</span></div></section>
-        <section v-else-if="page === 'course'" class="student-panel semester-list"><h2>Courses in your semester</h2><p v-if="courseLoading">Loading…</p><p v-else-if="!courses.length" class="student-muted">No courses have been added to your assigned semester yet.</p><div v-for="item in courses" :key="item.offering_id" class="semester-row"><div><strong>{{item.course_code}} · {{item.course_name}}</strong><small>{{item.credits}} credits · Section {{item.section}}</small></div><span>{{item.professor || 'Professor not assigned'}}</span></div></section>
+        <section v-else-if="page === 'semester'" class="student-panel semester-list"><h2>Your semesters</h2><p v-if="semesterLoading">Loading…</p><p v-else-if="semesterError" class="error" role="alert">{{ semesterError }} <button type="button" @click="loadSemesters">Retry</button></p><p v-else-if="!semesters.length" class="student-muted">You have not been assigned to a semester yet.</p><div v-for="item in semesters" :key="item.id" class="semester-row"><strong>{{item.name}} {{item.academic_year}}</strong><span>{{displayDate(item.start_date)}} – {{displayDate(item.end_date)}}</span></div></section>
+        <section v-else-if="page === 'course'" class="student-panel semester-list"><h2>{{ courseSchoolMode ? 'Subjects mapped to your class' : 'Courses in your semester' }}</h2><p v-if="courseLoading">Loading…</p><p v-else-if="courseError" class="error" role="alert">{{ courseError }} <button type="button" @click="loadCourses">Retry</button></p><p v-else-if="!courses.length" class="student-muted">No subjects are available for your current academic assignment. Contact your administrator if you need help.</p><div v-for="item in courses" :key="item.offering_id" class="semester-row"><div><strong>{{item.course_code}} · {{item.course_name}}</strong><small>{{item.credits}} credits · Section {{item.section}}</small></div><span>{{item.professor || 'Professor not assigned'}}</span></div></section>
         <StudentTimetable v-else-if="page === 'schedule'" />
       </main>
       <nav class="student-bottom" aria-label="Main navigation">

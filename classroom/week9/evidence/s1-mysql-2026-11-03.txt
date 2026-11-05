@@ -1,0 +1,26 @@
+✔ room recurrence overlap checks actual weekdays and date-range boundaries (4.4038ms)
+✔ school dates follow Nepal midnight rather than the server or Korea timezone (64.2662ms)
+✔ school planning rejects invalid dates, identifiers and blank labels (1.2333ms)
+▶ isolated MySQL school structure, mapping and student scope
+  ✔ every visible workspace read endpoint is wired through the production app factory (372.1346ms)
+  ✔ legacy records remain readable before explicit school-mode activation (92.815ms)
+  ✔ explicit school setup and years preserve records and reject invalid overlap (315.1796ms)
+  ✔ same class label works across grades and years, not within the same grade/year (173.6828ms)
+  ✔ terms and legacy subjects require explicit valid school mapping (317.4281ms)
+  ✔ student academic scope follows explicit class membership, not legacy major or forged IDs (233.8521ms)
+  ✔ dated transfer and ending membership preserve history with no major fallback (244.5141ms)
+  ✔ new school subjects and meetings use class conflicts and adjacent boundaries (168.7128ms)
+  ✔ concurrent membership changes require a fresh revision and keep one open record (39.7424ms)
+  ✔ data survives restart and users/profile credentials stay unchanged (618.6596ms)
+  ✔ grade library, stable teachers and timetable drops reject duplicate, stale and cross-class clashes (900.4209ms)
+  ✔ account directory filters grade before limiting and isolates teacher timetable reads (1526.5412ms)
+  ✔ 40-room layout, yearly classroom moves and recurring lab bookings are isolated and conflict-safe (913.3825ms)
+✔ isolated MySQL school structure, mapping and student scope (8314.7377ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13135.7727

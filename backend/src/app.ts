@@ -15,6 +15,7 @@ import { canteenAccountsRouter, type CanteenAccountStore } from './canteen-accou
 
 export type Account = { id: number; login_id: string; password_hash: string; role: 'admin' | 'student' | 'canteen_head'; is_active: number };
 export type Accounts = {
+  school?: express.Router;
   campus?: express.Router;
   canteenAccounts?: CanteenAccountStore;
   favourites?: FavouriteStore;
@@ -125,6 +126,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
   }
   if (accounts.canteenAccounts) app.use('/api', canteenAccountsRouter(accounts.canteenAccounts,invalidate));
   if (accounts.campus) app.use('/api', accounts.campus);
+  if (accounts.school) app.use('/api', accounts.school);
   if (accounts.resets) app.use('/api', resetRouter(accounts.resets, invalidate));
   if (accounts.favourites) app.use('/api', favouritesRouter(accounts.favourites));
   if (accounts.jobs) app.use('/api', jobsRouter(accounts.jobs));

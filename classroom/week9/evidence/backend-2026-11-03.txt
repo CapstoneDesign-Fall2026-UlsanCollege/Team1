@@ -1,0 +1,56 @@
+
+> backend@1.0.0 test
+> npm run build && node --test tests/*.test.mjs
+
+
+> backend@1.0.0 build
+> tsc
+
+✔ login, role boundaries, session restore, disabled accounts and logout (6134.5786ms)
+✔ student creation requires admin, validates input and handles duplicate IDs (756.6867ms)
+✔ student persistence hashes passwords and rolls back when profile creation fails (2371.7404ms)
+✔ profile reads only the signed-in student and rejects admin and anonymous access (636.1373ms)
+✔ canteen-head login, session restore and workspace boundaries are enforced on every role (1272.1391ms)
+✔ only admin provisions staff; role injection is rejected and no password or hash is returned (3486.9112ms)
+✔ disable signs out every staff session and enable never restores old sessions or alters other roles (851.3935ms)
+✔ role migration appends the enum once and refuses unknown schemas (2.6714ms)
+✔ canteen-head sessions expire after eight hours (610.1947ms)
+✔ MySQL staff writes use a fixed role and cannot modify student/admin status (3.7858ms)
+✔ menu dates use Korea time and reject impossible calendar dates (43.7744ms)
+✔ menu validation rejects invalid prices, names, IDs and oversized lists (3.9463ms)
+﹣ isolated MySQL daily menu lifecycle (0.2214ms) # SKIP
+✔ saved assignments reload; removal targets one offering and is admin-only (1030.8725ms)
+✔ local database connections remain unchanged unless TLS is enabled (4.0914ms)
+✔ TLS refuses missing certificates and invalid enable flags (1.3339ms)
+✔ TLS preserves verification and handles escaped PEM newlines (1.8837ms)
+✔ catalogue search finds jobs beyond page one and reuses a shared catalogue (58.6094ms)
+✔ favourites are private, normalized, removable, and restricted to student accounts (877.5356ms)
+✔ Seoul adapter maps jobs, coalesces requests, caches pages and keeps the key server-side (90.0191ms)
+✔ Seoul failures are sanitized, failures can retry, and empty results are supported (7.5987ms)
+✔ job endpoint requires student authentication and validates pages (897.4792ms)
+✔ student course and timetable queries require both semester membership and profile major (5.1174ms)
+✔ major assignments require admin and major, permit same course in two majors, and reject duplicates (301.0491ms)
+✔ reset privacy, admin verification, hashing, replay protection and session revocation (2886.9748ms)
+✔ combined deployment supports HTTPS origin and strict secure login cookies (927.0137ms)
+✔ meeting validation rejects invalid times, days and identifiers (3.2074ms)
+✔ schedule routes enforce roles, student scope and complete admin lifecycle (1052.0591ms)
+✔ database transaction rolls back conflicts and commits valid meetings (2.0555ms)
+✔ room recurrence overlap checks actual weekdays and date-range boundaries (5.3463ms)
+✔ school dates follow Nepal midnight rather than the server or Korea timezone (77.6128ms)
+✔ school planning rejects invalid dates, identifiers and blank labels (1.31ms)
+﹣ isolated MySQL school structure, mapping and student scope (0.2138ms) # SKIP
+✔ semester details restrict access, list all linked students, and guard deletion (911.163ms)
+✔ student edits validate and allowlist fields (3.4419ms)
+✔ semester changes validate targets, preserve retained assignments and roll back failures (1.7561ms)
+✔ directory and profile updates are admin-only, validate input and retain login identity (890.2424ms)
+✔ student update is atomic and refuses nonstudent targets (1.8291ms)
+✔ creation validates optional semester IDs (2.208ms)
+✔ account, profile and semester assignment commit together or roll back together (857.7813ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 2
+ℹ todo 0
+ℹ duration_ms 10537.6878

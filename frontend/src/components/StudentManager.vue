@@ -1,18 +1,29 @@
 <script setup lang="ts">
 import StudentIcon from './StudentIcon.vue'
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { scheduleApi, type Semester } from '../schedules'
-type Student = { id:number; login_id:string; full_name:string; university:string; major:string|null; year_of_study:number|null; email:string|null; phone_number:string|null; address:string|null; is_active:boolean; semester_ids:number[] }
+type Student = { id:number; login_id:string; full_name:string; university:string; major:string|null; year_of_study:number|null; email:string|null; phone_number:string|null; address:string|null; is_active:boolean; semester_ids:number[]; grade_label?:string|null; class_name?:string|null }
 const semesters=ref<Semester[]>([])
+const context=ref<any>(null), yearId=ref(0), grade=ref(''), classId=ref(0), asOf=ref('')
+const school = computed(()=>Boolean(context.value?.profile))
+const years = computed(()=>context.value?.years ?? [])
+const selectedYear = computed(()=>years.value.find((y:any)=>y.id===yearId.value))
+const grades = computed<string[]>(()=>[...new Set<string>((context.value?.classes ?? []).filter((c:any)=>c.year_id===yearId.value).map((c:any)=>c.grade_label))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})))
+const classes = computed(()=>context.value?.classes.filter((c:any)=>c.year_id===yearId.value && c.grade_label===grade.value) ?? [])
+function chooseYear(){grade.value='';classId.value=0;students.value=[];const y=selectedYear.value;asOf.value=y?context.value.today<y.start_date?y.start_date:context.value.today>y.end_date?y.end_date:context.value.today:''}
+async function chooseGrade(){classId.value=0;await load()}
+async function refresh(){context.value=await scheduleApi('admin/school');if(!years.value.some((y:any)=>y.id===yearId.value)){yearId.value=years.value.find((y:any)=>y.start_date<=context.value.today&&y.end_date>=context.value.today)?.id??years.value[0]?.id??0;chooseYear()}await load()}
+
 const props=defineProps<{ revision:number; selectedLogin?:string }>()
 const emit=defineEmits<{saving:[value:boolean]}>()
 const students=ref<Student[]>([]), search=ref(''), draft=ref<Student|null>(null)
 const loading=ref(false), busy=ref(false), error=ref(''), message=ref('')
 async function load(){
   if(loading.value||busy.value||draft.value)return
-  loading.value=true;error.value=''
+  if(school.value && (!yearId.value || !grade.value)){students.value=[];return}
+  students.value=[];loading.value=true;error.value=''
   try{
-    const [directory,terms]=await Promise.all([scheduleApi('admin/students?search='+encodeURIComponent(search.value.trim())),scheduleApi('admin/semesters')])
+    const [directory,terms]=await Promise.all([scheduleApi(school.value ? 'admin/school/directory?'+new URLSearchParams({year_id:String(yearId.value),grade:grade.value,date:asOf.value,search:search.value.trim(),...(classId.value?{class_id:String(classId.value)}:{})}) : 'admin/students?search='+encodeURIComponent(search.value.trim())),scheduleApi('admin/semesters')])
     if(directory.students.some((s:Student)=>!Array.isArray(s.semester_ids))) throw new Error('Restart the backend to load semester editing, then refresh this list.')
     students.value=directory.students;semesters.value=terms.semesters
   }
@@ -25,35 +36,38 @@ async function save(){
   busy.value=true;emit('saving',true);error.value='';message.value=''
   const value={...draft.value,year_of_study:draft.value.year_of_study==null||String(draft.value.year_of_study)===''?null:Number(draft.value.year_of_study)}
   try{
-    await scheduleApi('admin/students/'+value.id,'PUT',value)
+    const {semester_ids,...profile}=value
+    await scheduleApi('admin/students/'+value.id,'PUT',school.value?profile:value)
     students.value=students.value.map(s=>s.id===value.id?value:s)
     draft.value=null;message.value='Saved '+value.full_name+'.'
   }catch(e){error.value=e instanceof Error?e.message:'Unable to save student.'}
   finally{busy.value=false;emit('saving',false)}
 }
 watch(()=>props.selectedLogin,async login=>{if(!login||busy.value||draft.value)return;search.value=login;await load()})
-onMounted(load)
-watch(()=>props.revision,()=>{void load()})
+onMounted(()=>refresh().catch(e=>{error.value=e instanceof Error?e.message:'Unable to load school filters.'}))
+watch(()=>props.revision,()=>{void refresh().catch(e=>{error.value=String(e)})})
 </script>
 <template>
   <section class="card student-manager">
     <p class="eyebrow">STUDENT DIRECTORY</p><h2>Student list & editing</h2>
     <p class="muted">Find a student, update their profile, or change account access.</p>
-    <form class="search-bar" @submit.prevent="load"><label for="student-search">Name or login ID<input id="student-search" v-model="search" type="search" maxlength="150" placeholder="Search students" :disabled="loading||busy||!!draft"></label><button :disabled="loading||busy||!!draft"><StudentIcon name="search" />Search / refresh</button></form>
+    <fieldset v-if="school" class="grade-filters" :disabled="loading||busy||!!draft"><label>Academic year<select v-model="yearId" @change="chooseYear"><option :value="0">Choose a year</option><option v-for="y in years" :key="y.id" :value="y.id">{{y.name}}</option></select></label><label>Grade<select v-model="grade" @change="chooseGrade"><option value="">Choose a grade</option><option v-for="g in grades" :key="g" :value="g">Grade {{g}}</option><option value="__unassigned">Not assigned to a class</option></select></label><label v-if="grade && grade !== '__unassigned'">Class<select v-model="classId" @change="load"><option :value="0">All classes in grade</option><option v-for="c in classes" :key="c.id" :value="c.id">Class {{c.name}}</option></select></label><label>Membership as of<input v-model="asOf" type="date" :min="selectedYear?.start_date" :max="selectedYear?.end_date" @change="load"></label></fieldset>
+    <p v-if="school&&!grade" class="muted">Select a grade to see its students, or choose students not assigned to a class.</p>
+    <form v-if="!school||grade" class="search-bar" @submit.prevent="load"><label for="student-search">Name or login ID<input id="student-search" v-model="search" type="search" maxlength="150" placeholder="Search students" :disabled="loading||busy||!!draft"></label><button :disabled="loading||busy||!!draft"><StudentIcon name="search" />Search / refresh</button></form>
     <p v-if="error" class="error" role="alert">{{error}}</p><p v-if="message" class="success" role="status">{{message}}</p>
     <form v-if="draft" class="editor" @submit.prevent="save">
-      <h3>Edit {{draft.login_id}}</h3><p class="muted">Update the profile and choose which semesters this student belongs to.</p>
+      <h3>Edit {{draft.login_id}}</h3><p class="muted">{{ school ? 'Update this student’s profile or account access. Change class membership in School classes.' : 'Update the profile and assigned semesters.' }}</p>
       <fieldset :disabled="busy"><div class="edit-grid">
         <label>Full name<input v-model="draft.full_name" required maxlength="150"></label>
-        <label>University<input v-model="draft.university" required maxlength="150"></label>
-        <label>Major<input v-model="draft.major" maxlength="150"></label>
-        <label>Year of study<input v-model.number="draft.year_of_study" type="number" min="1" max="255" step="1"></label>
+        <label>{{school ? 'School' : 'University'}}<input v-model="draft.university" required maxlength="150"></label>
+        <label v-if="!school">Major<input v-model="draft.major" maxlength="150"></label>
+        <label v-if="!school">Year of study<input v-model.number="draft.year_of_study" type="number" min="1" max="255" step="1"></label>
         <label>Email<input v-model="draft.email" type="email" maxlength="254"></label>
         <label>Phone<input v-model="draft.phone_number" type="tel" maxlength="30"></label>
         <label class="wide">Address<textarea v-model="draft.address" rows="2" maxlength="500"></textarea></label>
         <label>Account access<select v-model="draft.is_active"><option :value="true">Enabled</option><option :value="false">Disabled</option></select></label>
       </div>
-      <fieldset class="semester-picker"><legend>Assigned semesters</legend>
+      <fieldset v-if="!school" class="semester-picker"><legend>Assigned semesters</legend>
         <p class="muted">Check semesters to assign them; uncheck to remove them. Courses and timetables follow these selections after saving. Keep past semesters checked to retain access.</p>
         <p v-if="!semesters.length">No semesters exist yet. Create one, then refresh this list.</p>
         <div class="semester-options"><label v-for="term in semesters" :key="term.id" class="semester-option"><input v-model="draft.semester_ids" type="checkbox" :value="term.id"><span>{{term.name}} {{term.academic_year}}</span></label></div>
@@ -63,12 +77,12 @@ watch(()=>props.revision,()=>{void load()})
       <div class="actions"><button><StudentIcon name="save" />{{busy?'Saving…':'Save changes'}}</button><button type="button" class="secondary" @click="draft=null;error=''"><StudentIcon name="cancel" />Cancel</button></div></fieldset>
     </form>
     <p v-if="loading" role="status">Loading students…</p>
-    <template v-else><p class="muted">{{students.length}} results · Up to 100 shown. Search to narrow the list.</p><p v-if="!students.length&&!error">No matching students.</p>
-      <div class="student-rows"><article v-for="student in students" :key="student.id" class="student-row"><div><strong>{{student.full_name}}</strong><p>{{student.login_id}} · {{student.major || 'Major not provided'}}</p></div><span class="status" :class="{disabled:!student.is_active}">{{student.is_active?'Enabled':'Disabled'}}</span><button title="Edit" class="secondary" :disabled="busy||!!draft" :aria-label="'Edit '+student.full_name" @click="edit(student)"><StudentIcon name="edit" /></button></article></div>
+    <template v-else-if="!school||grade"><p class="muted">{{students.length}} results · Up to 100 shown. Search to narrow the list.</p><p v-if="!students.length&&!error">No matching students.</p>
+      <div class="student-rows"><article v-for="student in students" :key="student.id" class="student-row"><div><strong>{{student.full_name}}</strong><p>{{student.login_id}} · {{school ? (student.grade_label ? 'Grade '+student.grade_label+' · Class '+student.class_name : 'No class assignment') : student.major || 'Major not provided'}}</p></div><span class="status" :class="{disabled:!student.is_active}">{{student.is_active?'Enabled':'Disabled'}}</span><button title="Edit" class="secondary" :disabled="busy||!!draft" :aria-label="'Edit '+student.full_name" @click="edit(student)"><StudentIcon name="edit" /></button></article></div>
     </template>
   </section>
 </template>
 <style scoped>
 .semester-picker{margin-top:22px;padding-top:16px;border-top:1px solid #bfd5ca}.semester-picker legend{font-weight:600}.semester-options{display:grid;gap:8px;max-height:240px;overflow:auto}.semester-option{display:flex;align-items:center;gap:12px;padding:12px;background:white;border:1px solid #c8d9cf;border-radius:8px}.semester-option input{width:18px;height:18px;margin:0;flex-shrink:0}
-.student-manager{margin-top:24px}.search-bar,.actions{display:flex;align-items:end;gap:12px;flex-wrap:wrap}.search-bar label{flex:1;min-width:180px}.search-bar button{margin-bottom:0}.editor{margin:20px 0;padding:20px;border:1px solid #bfd5ca;background:#f5f9f7;border-radius:12px}.editor h3{margin-top:0}fieldset{border:0;padding:0;min-width:0}.edit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px}.wide{grid-column:1/-1}label{display:block;font-size:14px;font-weight:600}input,textarea,select{width:100%;margin-top:6px;border:1px solid #b9cbc2;border-radius:8px;padding:11px;font:inherit;background:white;color:#263b32}.actions{margin-top:18px}.student-rows{max-height:440px;overflow:auto}.student-row{display:flex;align-items:center;gap:14px;border-bottom:1px solid #e0e8e3;padding:16px 0;flex-wrap:wrap}.student-row>div{flex:1;min-width:160px;overflow-wrap:anywhere}.student-row p{font-size:13px;margin:6px 0;color:#617368}.student-row button{padding:9px 14px;font-size:13px}.status{font-size:12px;padding:6px 10px;background:#e7f2eb;color:#2a6244;border-radius:20px}.status.disabled{background:#f5e9e6;color:#8a4034}.success{padding:12px;background:#e7f2eb;color:#2a6244;border-radius:8px}
+.student-manager{margin-top:24px}.grade-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}.search-bar button{flex:0 0 auto;width:auto}.student-manager input,.student-manager select{box-sizing:border-box}.search-bar,.actions{display:flex;align-items:end;gap:12px;flex-wrap:wrap}.search-bar label{flex:1;min-width:180px}.search-bar button{margin-bottom:0}.editor{margin:20px 0;padding:20px;border:1px solid #bfd5ca;background:#f5f9f7;border-radius:12px}.editor h3{margin-top:0}fieldset{border:0;padding:0;min-width:0}.edit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px}.wide{grid-column:1/-1}label{display:block;font-size:14px;font-weight:600}input,textarea,select{width:100%;margin-top:6px;border:1px solid #b9cbc2;border-radius:8px;padding:11px;font:inherit;background:white;color:#263b32}.actions{margin-top:18px}.student-rows{max-height:440px;overflow:auto}.student-row{display:flex;align-items:center;gap:14px;border-bottom:1px solid #e0e8e3;padding:16px 0;flex-wrap:wrap}.student-row>div{flex:1;min-width:160px;overflow-wrap:anywhere}.student-row p{font-size:13px;margin:6px 0;color:#617368}.student-row button{padding:9px 14px;font-size:13px}.status{font-size:12px;padding:6px 10px;background:#e7f2eb;color:#2a6244;border-radius:20px}.status.disabled{background:#f5e9e6;color:#8a4034}.success{padding:12px;background:#e7f2eb;color:#2a6244;border-radius:8px}
 </style>

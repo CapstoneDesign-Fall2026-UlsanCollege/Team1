@@ -1,20 +1,12 @@
 import 'dotenv/config';
+import mysql from 'mysql2/promise';
 import { databaseTls } from './database-tls.js';
-import {canteenMenuSchema, canteenMenuRouter} from './canteen-menu.js';
-import { ensureCanteenRole, mysqlCanteenAccounts } from './canteen-accounts.js';
-import { semesterDetailsRouter } from './semester-details.js';
-import { mysqlFavourites, favouritesSchema } from './job-favourites.js';
-import { createSeoulJobs } from './jobs.js';
-import { mysqlResets, resetSchema } from './password-resets.js';
-import { majorPlanningRouter } from './major-planning.js';
-import { mysqlStudentAdmin } from './student-admin.js';
-import { mysqlSchedules } from './schedules.js';
-import mysql, { type RowDataPacket } from 'mysql2/promise';
-import { createApp, type Account } from './app.js';
-import { createStudent, getStudentProfile, updateStudentContact } from './students.js';
-import { addSemester, listSemesters, assignedSemesters, assignSemester } from './semesters.js';
-import { addOffering, coursesForStudent, enrollStudent, courseCatalog, assignCourse, removeCourse } from './courses.js';
-import { courseAssignments, removeOffering, updateOfferingProfessor } from './courses.js';
+import { createDatabaseApp } from './database-app.js';
+import { ensureCanteenRole } from './canteen-accounts.js';
+import { ensureSchoolSchema } from './school-schema.js';
+import { canteenMenuSchema } from './canteen-menu.js';
+import { resetSchema } from './password-resets.js';
+import { favouritesSchema } from './job-favourites.js';
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST ?? '127.0.0.1',
@@ -25,31 +17,11 @@ const pool = mysql.createPool({
   connectionLimit: 5,
   ssl: databaseTls(),
 });
-async function find(column: 'id' | 'login_id', value: number | string) {
-  const [rows] = await pool.execute<RowDataPacket[]>(
-    'SELECT id, login_id, password_hash, role, is_active FROM users WHERE ' + column + ' = ? LIMIT 1', [value]);
-  return rows[0] as Account | undefined;
-}
-const app = createApp(
-  { campus:canteenMenuRouter(pool), canteenAccounts: mysqlCanteenAccounts(pool), semesterDetails: semesterDetailsRouter(pool), favourites: mysqlFavourites(pool), jobs: createSeoulJobs(), resets: mysqlResets(pool), byLogin: login => find('login_id', login), byId: id => find('id', id), majorPlanning: majorPlanningRouter(pool),
-    courseAssignments: () => courseAssignments(pool), removeOffering: id => removeOffering(pool, id), schedules: mysqlSchedules(pool),
-    updateProfessor: (id, professor) => updateOfferingProfessor(pool, id, professor), studentAdmin: mysqlStudentAdmin(pool) },
-  student => createStudent(pool, student),
-  id => getStudentProfile(pool, id),
-  (id, input) => updateStudentContact(pool, id, input),
-  id => id === undefined ? listSemesters(pool) : assignedSemesters(pool, id),
-  value => addSemester(pool, value),
-  (studentId, semesterId) => assignSemester(pool, studentId, semesterId),
-  value => addOffering(pool, value),
-  id => coursesForStudent(pool, id),
-  (studentId, offeringId) => enrollStudent(pool, studentId, offeringId),
-  () => courseCatalog(pool),
-  (courseId, semesterId, professor) => assignCourse(pool, courseId, semesterId, professor),
-  (courseId, semesterId) => removeCourse(pool, courseId, semesterId)
-);
+const app = createDatabaseApp(pool);
 const port = Number(process.env.PORT ?? 3000);
 async function start() {
   await ensureCanteenRole(pool);
+  await ensureSchoolSchema(pool);
   await pool.query(canteenMenuSchema);
   await pool.query(resetSchema);
   await pool.query(favouritesSchema);

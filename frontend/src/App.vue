@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { apiFetch } from './api'
-import { nextTick, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import CreateStudent from './components/CreateStudent.vue'
 import StudentManager from './components/StudentManager.vue'
+import TeacherDirectory from './components/TeacherDirectory.vue'
 import SemesterDetails from './components/SemesterDetails.vue'
 import CreateSemester from './components/CreateSemester.vue'
 import AssignSemester from './components/AssignSemester.vue'
@@ -13,19 +14,33 @@ import PasswordReset from './components/PasswordReset.vue'
 import StudentLife from './components/StudentLife.vue'
 import CanteenWorkspace from './components/CanteenWorkspace.vue'
 import CanteenAccounts from './components/CanteenAccounts.vue'
+import SchoolManager from './components/SchoolManager.vue'
+import SchoolRoomBoard from './components/SchoolRoomBoard.vue'
+import SchoolDashboard from './components/SchoolDashboard.vue'
 type User = { id: number; login_id: string; role: 'admin' | 'student' | 'canteen_head' }
 const adminSection = ref('dashboard')
 const resetPage = ref(false)
 const resetCount = ref(0)
 const studentPanel = ref('directory')
+const schoolMode = ref(false), schoolName = ref(''), visitedSchool = ref(false), dashboardRevision = ref(0), savingSchool = ref(false), schoolPanel = ref('structure')
 const adminSections = [
-  { id: 'dashboard', title: 'Dashboard', icon: 'home', detail: 'Choose an area to get started.' },
-  { id: 'students', title: 'Accounts', icon: 'profile', detail: 'Manage student information and canteen staff access.' },
-  { id: 'semesters', title: 'Semesters', icon: 'semester', detail: 'Create semesters and assign students.' },
-  { id: 'courses', title: 'Courses', icon: 'course', detail: 'Assign courses and professors by major.' },
-  { id: 'requests', title: 'Requests', icon: 'settings', detail: 'Review password reset requests.' },
-  { id: 'timetable', title: 'Timetable', icon: 'schedule', detail: 'Plan weekly class meetings.' },
+  { id: 'dashboard', title: 'Overview', icon: 'home' },
+  { id: 'school', title: 'School classes', icon: 'course' },
+  { id: 'rooms', title: 'Rooms', icon: 'home' },
+  { id: 'students', title: 'Accounts', icon: 'profile' },
+  { id: 'requests', title: 'Requests', icon: 'settings' },
 ]
+const legacySections = [
+  { id: 'semesters', title: 'Semesters', icon: 'semester' },
+  { id: 'courses', title: 'Course planning', icon: 'course' },
+  { id: 'timetable', title: 'Timetable', icon: 'schedule' },
+]
+const sectionTitle = computed(() => adminSection.value === 'dashboard' ? 'School overview' : [...adminSections, ...legacySections].find(s => s.id === adminSection.value)?.title ?? 'School workspace')
+function goSection(section: string, panel?: string) {
+  adminSection.value = section
+  if (section === 'school') { visitedSchool.value = true; if (panel) schoolPanel.value = panel }
+  if (section === 'students' && panel) studentPanel.value = panel
+}
 const user = ref<User | null>(null)
 const loginId = ref('')
 const password = ref('')
@@ -61,6 +76,7 @@ async function openHome(account: User) {
   if(!['admin','student','canteen_head'].includes(account.role)) throw new Error('This account role is not supported.')
   await api('/' + (account.role==='canteen_head'?'canteen':account.role) + '/home')
   adminSection.value = 'dashboard'
+  visitedSchool.value = false; schoolMode.value = false; schoolName.value = ''
   user.value = account
 }
 async function login() {
@@ -90,7 +106,7 @@ onMounted(async () => {
   <StudentLife v-if="user?.role === 'student'" :login-id="user.login_id" :busy="busy" :error="error" @logout="logout" />
   <CanteenWorkspace v-else-if="user?.role === 'canteen_head'" :login-id="user.login_id" :busy="busy" :error="error" @logout="logout" />
   <template v-else>
-  <header><a class="brand" href="/">S<span>StudentHub</span></a><span class="tag">Your campus, connected.</span></header>
+  <header><a class="brand" href="/">S<span>StudentHub</span></a><span class="tag">Your school, connected.</span></header>
   <main>
     <p v-if="loading" role="status">Checking your session…</p>
     <section v-else-if="!user" class="login-layout">
@@ -114,28 +130,26 @@ onMounted(async () => {
         <p class="help"><button type="button" class="help-link" :disabled="busy" @click="resetPage = true; error = ''">Forgot password?</button><br>Need an account? Contact your administrator.</p>
       </form>
     </section>
-    <section v-else class="dashboard">
-      <div class="dashboard-heading"><div><p class="eyebrow">{{ user.role }} WORKSPACE</p><h1>Welcome, {{ user.login_id }}.</h1></div><button class="secondary" :disabled="busy || creatingStudent || editingStudent || savingStaff" @click="logout"><StudentIcon name="logout" />Log out</button></div>
+    <section v-else class="dashboard admin-workspace">
+      <div class="workspace-heading"><div><p class="eyebrow">ADMINISTRATION<span v-if="schoolName" class="school-label"> / {{ schoolName }}</span></p><h1>{{ sectionTitle }}</h1><p class="workspace-subtitle">{{ adminSection === 'dashboard' ? 'Less searching. More time for your school.' : 'Keep school information organised and easy to find.' }}</p></div><div class="workspace-account"><span class="admin-avatar" aria-hidden="true">AD</span><div><strong>{{ user.login_id }}</strong><span>Administrator</span></div><button type="button" class="logout-button" :disabled="busy || creatingStudent || editingStudent || savingStaff || savingSchool" @click="logout"><StudentIcon name="logout" />Log out</button></div></div>
       <p v-if="error" class="error" role="alert">{{ error }}</p>
-      <p class="description">Manage accounts, semesters, course assignments, and class timetables.</p>
       <template v-if="user.role === 'admin'">
-        <nav class="admin-nav" aria-label="Admin navigation">
-          <button v-for="section in adminSections" :key="section.id" type="button" :class="{ selected: adminSection === section.id }" :aria-current="adminSection === section.id ? 'page' : undefined" @click="adminSection = section.id"><StudentIcon :name="section.icon" />{{ section.title }}<span v-if="section.id === 'requests' && resetCount" class="badge">{{ resetCount }}</span></button>
-        </nav>
-        <section v-show="adminSection === 'dashboard'" class="admin-overview">
-          <h2>What would you like to manage?</h2>
-          <p class="muted">Choose a section. Your unfinished forms stay in place when you switch sections.</p>
-          <div class="admin-shortcuts"><button v-for="section in adminSections.slice(1)" :key="section.id" type="button" @click="adminSection = section.id"><StudentIcon :name="section.icon" /><strong>{{ section.title }}</strong><span>{{ section.detail }}</span></button></div>
-        </section>
-        <div v-show="adminSection === 'students'" class="student-tabs" role="group" aria-label="Account actions"><button type="button" :class="{ secondary: studentPanel !== 'directory' }" :aria-pressed="studentPanel === 'directory'" @click="studentPanel = 'directory'"><StudentIcon name="profile" />Student list</button><button type="button" :class="{ secondary: studentPanel !== 'create' }" :aria-pressed="studentPanel === 'create'" @click="studentPanel = 'create'"><StudentIcon name="add" />Create student</button><button type="button" :class="{secondary:studentPanel!=='canteen'}" :aria-pressed="studentPanel==='canteen'" @click="studentPanel='canteen'">Canteen staff</button></div>
+        <nav class="admin-nav" aria-label="Admin navigation"><button v-for="section in adminSections" :key="section.id" type="button" :disabled="savingSchool" :class="{ selected: adminSection === section.id }" :aria-current="adminSection === section.id ? 'page' : undefined" @click="goSection(section.id)"><StudentIcon :name="section.icon" />{{ section.title }}<span v-if="section.id === 'requests' && resetCount" class="badge">{{ resetCount }}</span></button></nav>
+        <SchoolDashboard v-show="adminSection === 'dashboard'" :revision="dashboardRevision" @open="goSection" @mode="schoolMode = $event" @school="schoolName = $event" />
+        <SchoolRoomBoard v-if="adminSection === 'rooms'" @saving="savingSchool = $event" />
+        <SchoolManager :active="adminSection === 'school'" :selected-tab="schoolPanel" v-if="visitedSchool" v-show="adminSection === 'school'" @changed="schoolMode = $event; dashboardRevision++" @saving="savingSchool = $event" />
+        <p v-if="schoolMode && adminSection === 'students'" class="account-tip"><StudentIcon name="course" />School class assignments are managed in <button type="button" @click="goSection('school')">School classes</button>.</p>
+        <div v-show="adminSection === 'students'" class="student-tabs" role="group" aria-label="Account actions"><button type="button" :class="{ secondary: studentPanel !== 'directory' }" :aria-pressed="studentPanel === 'directory'" @click="studentPanel = 'directory'"><StudentIcon name="profile" />Student list</button><button type="button" :class="{ secondary: studentPanel !== 'create' }" :aria-pressed="studentPanel === 'create'" @click="studentPanel = 'create'"><StudentIcon name="add" />Create student</button><button type="button" :class="{secondary:studentPanel!=='canteen'}" :aria-pressed="studentPanel==='canteen'" @click="studentPanel='canteen'">Canteen staff</button><button type="button" :class="{secondary:studentPanel!=='teachers'}" :aria-pressed="studentPanel==='teachers'" @click="studentPanel='teachers'">Teacher list</button></div>
+        <div v-if="adminSection==='students' && studentPanel==='teachers'" class="admin-section"><TeacherDirectory /></div>
         <div v-show="adminSection==='students' && studentPanel==='canteen'" class="admin-section"><CanteenAccounts @saving="savingStaff=$event" /></div>
         <div v-show="adminSection === 'students' && studentPanel === 'create'" id="create-student" class="admin-section" tabindex="-1"><CreateStudent :revision="semesterRevision" @expired="sessionExpired" @saving="creatingStudent = $event" @created="studentRevision++" /></div>
-        <div v-show="adminSection === 'students' && studentPanel === 'directory'" id="student-directory" class="admin-section" tabindex="-1"><StudentManager :selected-login="linkedStudent" :revision="studentRevision" @saving="editingStudent = $event" /></div>
-        <div v-show="adminSection === 'semesters'" id="manage-semesters" class="admin-section" tabindex="-1"><SemesterDetails :revision="semesterRevision + studentRevision + courseRevision" @student="openSemesterStudent" @courses="openSemesterArea($event, 'courses')" @timetable="openSemesterTimetable" @changed="semesterRevision++; studentRevision++" /><CreateSemester @created="semesterRevision++; studentRevision++" /></div>
-        <div v-show="adminSection === 'semesters'" id="assign-students" class="admin-section" tabindex="-1"><AssignSemester :revision="semesterRevision + studentRevision" @assigned="studentRevision++" /></div>
+        <div v-show="adminSection === 'students' && studentPanel === 'directory'" id="student-directory" class="admin-section" tabindex="-1"><StudentManager :selected-login="linkedStudent" :revision="studentRevision + dashboardRevision" @saving="editingStudent = $event" /></div>
+        <div v-if="!schoolMode" v-show="adminSection === 'semesters'" id="manage-semesters" class="admin-section" tabindex="-1"><SemesterDetails :revision="semesterRevision + studentRevision + courseRevision" @student="openSemesterStudent" @courses="openSemesterArea($event, 'courses')" @timetable="openSemesterTimetable" @changed="semesterRevision++; studentRevision++" /><CreateSemester @created="semesterRevision++; studentRevision++" /></div>
+        <div v-if="!schoolMode" v-show="adminSection === 'semesters'" id="assign-students" class="admin-section" tabindex="-1"><AssignSemester :revision="semesterRevision + studentRevision" @assigned="studentRevision++" /></div>
         <div v-show="adminSection === 'requests'"><PasswordReset admin @count="resetCount = $event" /></div>
-        <div v-show="adminSection === 'courses'" id="plan-courses" class="admin-section" tabindex="-1"><CourseBoard :selected-semester="linkedSemester" :revision="semesterRevision" @changed="courseRevision++" /></div>
-        <div v-show="adminSection === 'timetable'" id="class-timetable" class="admin-section" tabindex="-1"><ScheduleManager :selected-major="linkedMajor" :selected-semester="linkedSemester" :revision="semesterRevision + courseRevision" /></div>
+        <div v-if="!schoolMode" v-show="adminSection === 'courses'" id="plan-courses" class="admin-section" tabindex="-1"><CourseBoard :selected-semester="linkedSemester" :revision="semesterRevision" @changed="courseRevision++" /></div>
+        <div v-if="!schoolMode" v-show="adminSection === 'timetable'" id="class-timetable" class="admin-section" tabindex="-1"><ScheduleManager :selected-major="linkedMajor" :selected-semester="linkedSemester" :revision="semesterRevision + courseRevision" /></div>
+        <details v-if="!schoolMode" class="legacy-tools"><summary>Previous academic planning tools</summary><p>Use these for existing semester-and-major records before enabling school planning.</p><div><button v-for="section in legacySections" :key="section.id" type="button" :aria-current="adminSection === section.id ? 'page' : undefined" @click="goSection(section.id)"><StudentIcon :name="section.icon" />{{ section.title }}</button></div></details>
       </template>
     </section>
   </main>
@@ -144,10 +158,5 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.dashboard-links{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 28px}.dashboard-links a{padding:11px 16px;border:1px solid #c5d7ce;border-radius:8px;background:#f4f8f6;color:#2d5748;text-decoration:none;font-size:14px;font-weight:600}.dashboard-links a:hover{background:#e6f0eb}.dashboard-links a:focus-visible{outline:3px solid #518cbe;outline-offset:3px}.admin-section{scroll-margin-top:20px}
-</style>
-
-
-<style scoped>
-.help-link{width:auto;margin:0;padding:0;background:transparent;color:#126653;text-decoration:underline;font-size:14px;min-height:44px}.student-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.admin-nav{display:flex;gap:8px;position:sticky;top:0;z-index:5;padding:12px 0;background:#f4f7f5;border-bottom:1px solid #dce5df;flex-wrap:wrap}.admin-nav button{display:flex;align-items:center;gap:8px;background:white;color:#36594d;border:1px solid #c5d7ce;padding:12px 16px}.admin-nav button.selected{background:#126653;color:white;border-color:#126653}.admin-nav svg,.dashboard-heading button svg{width:20px;height:20px;flex-shrink:0}.dashboard-heading button{display:flex;align-items:center;gap:8px}.admin-nav button:focus-visible,.admin-shortcuts button:focus-visible{outline:3px solid #518cbe;outline-offset:3px}.admin-overview{padding:24px 0}.admin-shortcuts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.admin-shortcuts button{text-align:left;background:white;color:#172f2e;border:1px solid #c5d7ce;padding:24px;display:grid;grid-template-columns:28px 1fr;gap:12px}.admin-shortcuts svg{width:26px;height:26px;color:#126653}.admin-shortcuts span{grid-column:2;font-size:14px;font-weight:400;line-height:1.6;color:#60736e}@media(max-width:600px){.admin-nav{gap:6px}.admin-nav button{flex:1 1 28%;justify-content:center;padding:10px 8px;font-size:13px}.admin-shortcuts{grid-template-columns:1fr}}
+.help-link{width:auto;margin:0;padding:0;background:transparent;color:#126653;text-decoration:underline;font-size:14px;min-height:44px}.admin-workspace{min-width:0;padding-top:12px}.workspace-heading{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:12px 0 26px}.workspace-heading .eyebrow{font-size:10px;letter-spacing:1.5px;margin:0 0 10px}.school-label{font-weight:500;color:#7e8f83;letter-spacing:.3px}.workspace-heading h1{font-size:34px;letter-spacing:-1.2px;margin:0 0 9px;line-height:1.2}.workspace-subtitle{font-size:13px;color:#829084;margin:0;line-height:1.6}.workspace-account{display:flex;align-items:center;gap:11px;flex-shrink:0}.admin-avatar{display:grid;place-items:center;width:38px;height:38px;background:#e4eee5;color:#477151;border-radius:50%;font-size:11px;font-weight:700}.workspace-account strong,.workspace-account span:not(.admin-avatar){display:block}.workspace-account strong{font-size:12px;font-weight:600}.workspace-account div>span{color:#8b978e;font-size:10px;margin-top:4px}.logout-button{display:flex;align-items:center;background:none;color:#7b8b7d;border:1px solid #dfe7dd;padding:9px 12px;font-size:11px;margin-left:8px}.logout-button svg{width:16px;height:16px}.admin-nav{display:flex;gap:5px;padding:0 0 14px;margin:0 0 28px;border-bottom:1px solid #dfe7df;flex-wrap:wrap}.admin-nav button{display:flex;align-items:center;justify-content:center;gap:8px;background:none;color:#788b7b;border:1px solid transparent;padding:11px 19px;font-size:13px;border-radius:9px;white-space:nowrap}.admin-nav button>svg{width:18px;height:18px;margin:0}.admin-nav button.selected{background:#e4eee4;color:#2e6041;border-color:#d9e5d9}.admin-nav button:hover{background:#edf3e9;color:#31593b}.admin-nav button:focus-visible,.legacy-tools button:focus-visible{outline:3px solid #729e85;outline-offset:3px}.student-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.student-tabs button{display:flex;align-items:center;font-size:13px;padding:12px 16px}.admin-section{min-width:0;scroll-margin-top:20px}.account-tip{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:13px;line-height:1.7;color:#67806b;padding:12px 16px;border:1px solid #dce8dc;border-radius:10px;background:#edf4eb}.account-tip svg{width:17px;height:17px}.account-tip button{padding:0;background:none;color:#386b49;font-size:inherit;text-decoration:underline}.legacy-tools{margin:32px 0 12px;padding:17px 0;border-top:1px solid #e1e8df;font-size:12px;color:#8b998c}.legacy-tools summary{cursor:pointer;font-weight:500}.legacy-tools p{line-height:1.7}.legacy-tools>div{display:flex;flex-wrap:wrap;gap:8px}.legacy-tools button{display:flex;align-items:center;background:white;border:1px solid #dfe7dd;color:#718473;font-size:12px;padding:9px 13px}@media(max-width:700px){.workspace-heading{align-items:flex-start;gap:20px;flex-direction:column;padding-top:0}.workspace-heading h1{font-size:29px}.workspace-account{width:100%}.logout-button{margin-left:auto;min-height:40px}.admin-nav{gap:4px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:24px}.admin-nav button{flex-direction:column;font-size:11px;gap:6px;padding:10px 3px;min-width:0;white-space:normal}.admin-nav button>svg{width:19px;height:19px}.student-tabs button{flex:1 1 140px;font-size:12px;justify-content:center}.workspace-subtitle{font-size:12px}.school-label{display:block;margin-top:6px}.legacy-tools{margin-top:20px}}
 </style>
