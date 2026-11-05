@@ -6,13 +6,14 @@ import { ScheduleError } from './schedules.js';
 export const canteenMenuSchema = `CREATE TABLE IF NOT EXISTS canteen_menus (
   service_date DATE PRIMARY KEY,
   published TINYINT NOT NULL DEFAULT 0,
+  currency VARCHAR(3) NOT NULL DEFAULT 'KRW',
   items JSON NOT NULL,
   version INT UNSIGNED NOT NULL,
   updated_at TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)
 )`;
 export function campusDate(now = new Date()) {
   return new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit',
+    timeZone: 'Asia/Kathmandu', year: 'numeric', month: '2-digit', day: '2-digit',
   }).format(now);
 }
 export function isMenuDate(value: unknown): value is string {
@@ -20,7 +21,7 @@ export function isMenuDate(value: unknown): value is string {
     value >= '2000-01-01' && value <= '2200-12-31' &&
     Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0, 10) === value;
 }
-type MenuItem = { id: string; name: string; price: number; status: 'unknown' | 'available' | 'sold_out' };
+export type MenuItem = { id: string; name: string; price: number; status: 'unknown' | 'available' | 'sold_out' };
 export function menuItems(input: unknown, previous: MenuItem[] = []): MenuItem[] {
   if (!Array.isArray(input) || !input.length || input.length > 40) {
     throw new ScheduleError(400, 'Enter 1–40 menu items.');
@@ -30,7 +31,7 @@ export function menuItems(input: unknown, previous: MenuItem[] = []): MenuItem[]
     if (!item || typeof item !== 'object' || typeof item.name !== 'string' ||
         !item.name.trim() || item.name.trim().length > 150 ||
         !Number.isSafeInteger(item.price) || item.price < 0 || item.price > 1_000_000) {
-      throw new ScheduleError(400, 'Enter an item name and a whole-won price from 0 to 1,000,000.');
+      throw new ScheduleError(400, 'Enter an item name and a whole-number price from 0 to 1,000,000.');
     }
     if (item.id !== undefined && (typeof item.id !== 'string' ||
         !previous.some(old => old.id === item.id) || seen.has(item.id))) {
@@ -38,18 +39,24 @@ export function menuItems(input: unknown, previous: MenuItem[] = []): MenuItem[]
     }
     const id = item.id ?? randomUUID();
     seen.add(id);
-    // C1 does not offer availability editing. Preserve C3 information if it
-    // already exists, and make no availability claim for a new item.
-    const status = previous.find(old => old.id === id)?.status ?? 'unknown';
+    if(item.status!==undefined && !['unknown','available','sold_out'].includes(item.status))throw new ScheduleError(400,'Choose unknown, available or sold out for each item.');
+    const status:MenuItem['status'] = item.status ?? previous.find(old => old.id === id)?.status ?? 'unknown';
     return { id, name: item.name.trim(), price: item.price, status };
   });
 }
 function unpack(row?: RowDataPacket) {
   return row ? { service_date: row.service_date as string, version: Number(row.version),
-    updated_at: row.updated_at as Date | string, published: Boolean(row.published),
+    updated_at: row.updated_at as Date | string, published: Boolean(row.published), currency: row.currency as 'NPR'|'KRW',
     items: typeof row.items === 'string' ? JSON.parse(row.items) as MenuItem[] : row.items as MenuItem[] } : null;
 }
-const columns = "DATE_FORMAT(service_date, '%Y-%m-%d') AS service_date, published, items, version, updated_at";
+const columns = "DATE_FORMAT(service_date, '%Y-%m-%d') AS service_date, published, currency, items, version, updated_at";
+
+export async function ensureCanteenMenuSchema(pool:Pool){
+ await pool.query(canteenMenuSchema);
+ const [columns]=await pool.execute<RowDataPacket[]>("SHOW COLUMNS FROM canteen_menus LIKE 'currency'");
+ // Existing prices were entered as won: preserve their denomination.
+ if(!columns.length)await pool.query("ALTER TABLE canteen_menus ADD COLUMN currency VARCHAR(3) NOT NULL DEFAULT 'KRW'");
+}
 
 export function canteenMenuRouter(pool: Pool, today: () => string = campusDate) {
   const router = Router();
@@ -83,11 +90,12 @@ export function canteenMenuRouter(pool: Pool, today: () => string = campusDate) 
       await connection.beginTransaction();
       // Reserve a new date before locking: simultaneous first writes cannot
       // overwrite each other. Invalid requests roll this reservation back.
-      await connection.execute('INSERT IGNORE INTO canteen_menus(service_date,published,items,version) VALUES(?,0,?,0)', [date, '[]']);
+      await connection.execute("INSERT IGNORE INTO canteen_menus(service_date,published,currency,items,version) VALUES(?,0,'NPR',?,0)", [date, '[]']);
       const [rows] = await connection.execute<RowDataPacket[]>(
         `SELECT ${columns} FROM canteen_menus WHERE service_date=? FOR UPDATE`, [date]);
       const previous = unpack(rows[0])!;
       if (previous.version !== input.version) throw new ScheduleError(409, 'This menu changed elsewhere. Reload saved data before saving.');
+      if(input.currency!==undefined && input.currency!==previous.currency)throw new ScheduleError(400,'Keep this saved menu currency. Create a new date for a different currency.');
       const items = menuItems(input.items, previous.items);
       await connection.execute('UPDATE canteen_menus SET published=?,items=?,version=version+1 WHERE service_date=?',
         [input.published ? 1 : 0, JSON.stringify(items), date]);

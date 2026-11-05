@@ -1,3 +1,11 @@
+# School canteen menu — current and historical notes
+
+**November 5 update:** C2/C3 extend the original C1 editor with opening hours/location, dated closure notices and explicit availability. New menus use Nepal time and NPR; existing currency/date data is preserved. [Current workspace guide](canteen-owner-workspace.md) and [actual checks](../classroom/week10/canteen-owner-check.md).
+
+The original November 1 C1 record below is retained as history. Its Korea-time/won-only and missing-C2/C3 statements describe that older version, not the current workspace.
+
+---
+
 # C1 — Daily campus canteen menu
 
 Implementation for [#54](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/54), building on [C0 #61](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/61).

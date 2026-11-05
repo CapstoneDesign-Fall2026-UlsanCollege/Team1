@@ -1,3 +1,5 @@
+import {Router} from 'express';
+import {canteenInfoRouter} from './canteen-info.js';
 import { schoolPlanningRouter } from './school-planning.js';
 import { canteenMenuRouter } from './canteen-menu.js';
 import { mysqlCanteenAccounts } from './canteen-accounts.js';
@@ -24,7 +26,7 @@ async function find(column: 'id' | 'login_id', value: number | string) {
   return rows[0] as Account | undefined;
 }
 return createApp(
-  { school:schoolPlanningRouter(pool, options.today), campus:canteenMenuRouter(pool, options.today), canteenAccounts: mysqlCanteenAccounts(pool), semesterDetails: semesterDetailsRouter(pool), favourites: mysqlFavourites(pool), jobs: options.jobs ?? createSeoulJobs(), resets: mysqlResets(pool), byLogin: login => find('login_id', login), byId: id => find('id', id), majorPlanning: majorPlanningRouter(pool),
+  { school:schoolPlanningRouter(pool, options.today), campus:Router().use(canteenMenuRouter(pool, options.today)).use(canteenInfoRouter(pool, options.today)), canteenAccounts: mysqlCanteenAccounts(pool), semesterDetails: semesterDetailsRouter(pool), favourites: mysqlFavourites(pool), jobs: options.jobs ?? createSeoulJobs(), resets: mysqlResets(pool), byLogin: login => find('login_id', login), byId: id => find('id', id), majorPlanning: majorPlanningRouter(pool),
     courseAssignments: () => courseAssignments(pool), removeOffering: id => removeOffering(pool, id), schedules: mysqlSchedules(pool),
     updateProfessor: (id, professor) => updateOfferingProfessor(pool, id, professor), studentAdmin: mysqlStudentAdmin(pool) },
   student => createStudent(pool, student),

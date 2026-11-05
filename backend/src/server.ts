@@ -4,7 +4,8 @@ import { databaseTls } from './database-tls.js';
 import { createDatabaseApp } from './database-app.js';
 import { ensureCanteenRole } from './canteen-accounts.js';
 import { ensureSchoolSchema } from './school-schema.js';
-import { canteenMenuSchema } from './canteen-menu.js';
+import {canteenInfoSchema} from './canteen-info.js';
+import { ensureCanteenMenuSchema } from './canteen-menu.js';
 import { resetSchema } from './password-resets.js';
 import { favouritesSchema } from './job-favourites.js';
 
@@ -22,7 +23,8 @@ const port = Number(process.env.PORT ?? 3000);
 async function start() {
   await ensureCanteenRole(pool);
   await ensureSchoolSchema(pool);
-  await pool.query(canteenMenuSchema);
+  await ensureCanteenMenuSchema(pool);
+  await pool.query(canteenInfoSchema);
   await pool.query(resetSchema);
   await pool.query(favouritesSchema);
   const server = app.listen(port, '0.0.0.0');

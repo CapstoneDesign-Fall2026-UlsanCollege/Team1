@@ -71,3 +71,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [Ownership map and code explanation](code-ownership-galan.md), [#72](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/72), [recorded school checks](evidence/school-mysql-2026-11-05.txt).
 - **How it was checked:** Matched the documented request flow to the actual form, route, transaction helper, schema and existing test assertions. This documentation update did not rerun or invent a teammate test.
 - **What I learned or changed:** More features are not stronger ownership evidence. A second person still needs to accept the handoff and explain/repeat the linked checks.
+
+## Receipt 10 — Canteen owner operations
+
+- **What I did:** Requested and implemented, with coding assistance, a dedicated school canteen-head workspace for menu prices/availability, saved hours/location and dated closure notices, keeping academic administrators outside content editing.
+- **Evidence:** [Canteen check and screenshots](canteen-owner-check.md), [operator/setup guide](../../docs/canteen-owner-workspace.md), [C2 #55](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/55), [C3 #56](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/56).
+- **How it was checked:** Coding assistant ran 12 focused canteen checks and a 62-pass full backend run with both isolated database suites, built the frontend and checked the owner-to-student publish/unpublish flow at desktop/mobile sizes using labelled fictional records.
+- **What I changed or learned:** New menus use Nepal dates and NPR while old currency data is preserved. Drafts and unknown hours/statuses prevent invented official service claims. Non-author review and live deployment remain pending.

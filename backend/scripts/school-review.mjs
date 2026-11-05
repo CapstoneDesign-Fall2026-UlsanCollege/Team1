@@ -1,3 +1,4 @@
+import {canteenInfoSchema} from '../dist/canteen-info.js';
 // Disposable local browser review. Never connects to the application's DB_NAME.
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcryptjs';
@@ -36,7 +37,7 @@ try{
     'CREATE TABLE student_semesters(student_user_id INT UNSIGNED,semester_id INT UNSIGNED,assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)',
     'CREATE TABLE class_schedules(id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,course_offering_id INT UNSIGNED,day_of_week INT,start_time TIME,end_time TIME,location VARCHAR(150))',
     'CREATE TABLE enrollments(student_user_id INT UNSIGNED,course_offering_id INT UNSIGNED,PRIMARY KEY(student_user_id,course_offering_id))',
-    canteenMenuSchema, resetSchema, favouritesSchema,
+    canteenMenuSchema, canteenInfoSchema, resetSchema, favouritesSchema,
   ])await pool.query(sql);
   const password=process.env.SCHOOL_REVIEW_PASSWORD||randomBytes(15).toString('base64url'),hash=await bcrypt.hash(password,4);
   for(const [id,login,role]of[[1,'review_admin','admin'],[2,'review_student','student'],[3,'review_canteen','canteen_head']])await pool.execute('INSERT INTO users VALUES(?,?,?,?,1)',[id,login,hash,role]);

@@ -19,3 +19,7 @@ This week publishes previously local school work and its refinements. November 2
 - [Evidence-based work checklist](work-checklist.md)
 
 Personal confirmations, accepted backups and independent results remain pending. Documents do not substitute for those actions.
+
+## Canteen workspace extension — November 5
+
+[C2/C3 implementation, actual checks and fictional-data screenshots](canteen-owner-check.md) · [operator guide](../../docs/canteen-owner-workspace.md). The owner requested this local extension; it does not close the independent-review or live-release gates.

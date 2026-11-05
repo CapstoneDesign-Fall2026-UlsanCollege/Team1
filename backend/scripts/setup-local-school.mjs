@@ -1,3 +1,4 @@
+import {canteenInfoSchema} from '../dist/canteen-info.js';
 // Explicit, local-only persistent setup. Never runs during normal server startup.
 import mysql from 'mysql2/promise';
 import bcrypt from 'bcryptjs';
@@ -50,7 +51,7 @@ try {
   await rename(backupPath+'.unverified',backupPath);
   console.log('Verified private backup: '+backupPath);
   await ensureCanteenRole(pool);await ensureSchoolSchema(pool);
-  for(const sql of [canteenMenuSchema,resetSchema,favouritesSchema])await c.query(sql);
+  for(const sql of [canteenMenuSchema,canteenInfoSchema,resetSchema,favouritesSchema])await c.query(sql);
   await c.query("CREATE TABLE IF NOT EXISTS school_demo_seeds(seed_key VARCHAR(80) PRIMARY KEY,created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB");
   if((await select("SELECT seed_key FROM school_demo_seeds WHERE seed_key='nepal-school-v1'")).length){console.log('Dummy school data already exists; no duplicates or account/password resets performed.');}
   else{

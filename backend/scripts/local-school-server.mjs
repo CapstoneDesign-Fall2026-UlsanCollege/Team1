@@ -1,3 +1,5 @@
+import {ensureCanteenMenuSchema} from '../dist/canteen-menu.js';
+import {canteenInfoSchema} from '../dist/canteen-info.js';
 // Persistent local server. Stopping this process never drops or reseeds a database.
 import mysql from 'mysql2/promise';
 import { createDatabaseApp } from '../dist/database-app.js';
@@ -6,6 +8,7 @@ if(!['127.0.0.1','localhost'].includes(host)||database!=='studenthub')throw Erro
 process.env.SERVE_FRONTEND='true';process.env.NODE_ENV='development';delete process.env.FRONTEND_ORIGIN;
 const pool=mysql.createPool({host,port:Number(process.env.DB_PORT??3307),user:process.env.DB_USER??'root',password:process.env.DB_PASSWORD,database,connectionLimit:5});
 try{
+  await ensureCanteenMenuSchema(pool);await pool.query(canteenInfoSchema);
   await pool.query('SELECT id FROM school_profile LIMIT 1');
   const app=createDatabaseApp(pool),port=Number(process.env.SCHOOL_LOCAL_PORT??3020);
   const server=app.listen(port,'127.0.0.1');

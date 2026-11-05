@@ -26,3 +26,7 @@ Published source: [43a82ae](https://github.com/CapstoneDesign-Fall2026-UlsanColl
 If hosting or teammate verification remains unavailable, show the reproducible isolated check and clearly mark the missing human/live gate, owner and next action. Do not claim final release readiness. Do not add more features merely to replace missing proof.
 
 After this milestone: complete the unresolved student teacher-display/teacher management checks, localization and high-school jobs gating (#69) against the agreed scope. No mark/attendance/parent portal is added by this roadmap.
+
+## Owner-requested canteen extension — November 5
+
+C2/C3 (#55–56) now have local menu availability, canteen hours/location and dated notices, Nepal dates/new NPR prices with old KRW preserved. [Actual regression and browser results](canteen-owner-check.md). Galan owns the implementation; real school details, independent checks and deployment still need verification. This extension does not replace the existing #72 handoff milestone.

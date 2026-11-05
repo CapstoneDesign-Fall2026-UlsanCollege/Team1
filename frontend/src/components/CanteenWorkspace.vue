@@ -1,21 +1,17 @@
 <script setup lang="ts">
+import {ref} from 'vue'
 import StudentIcon from './StudentIcon.vue'
-import CampusEat from './DailyMenu.vue'
+import DailyMenu from './DailyMenu.vue'
+import CanteenDetails from './CanteenDetails.vue'
 defineProps<{loginId:string;busy:boolean;error:string}>()
 defineEmits<{logout:[]}>()
+const section=ref('menu'),saving=ref(false)
 </script>
 <template>
- <header><a class="brand" href="/">S<span>StudentHub</span></a><span class="tag">Campus Eat</span></header>
- <main class="canteen-workspace">
-  <section class="dashboard">
-   <div class="dashboard-heading"><div><p class="eyebrow">CANTEEN HEAD WORKSPACE</p><h1>Welcome, {{loginId}}.</h1></div><button type="button" class="secondary logout" :disabled="busy" @click="$emit('logout')"><StudentIcon name="logout"/>Log out</button></div>
-   <p v-if="error" class="error" role="alert">{{error}}</p>
-   <p class="description">Your dedicated workspace for the campus canteen.</p>
-   <CampusEat manage />
-  </section>
- </main>
- <footer>StudentHub · Campus canteen</footer>
+<header><a class="brand" href="/">S<span>StudentHub</span></a><span class="tag">School canteen</span></header>
+<main class="canteen-workspace"><section class="canteen-shell"><div class="workspace-top"><div><p class="eyebrow">CANTEEN HEAD WORKSPACE</p><h1>Manage your school canteen.</h1><p class="intro">Keep daily meals, prices and service information clear for your students.</p></div><div class="account"><span>{{loginId}}</span><button type="button" class="secondary logout" :disabled="busy||saving" @click="$emit('logout')"><StudentIcon name="logout"/>Log out</button></div></div>
+<p v-if="error" class="error" role="alert">{{error}}</p><div class="workspace-layout"><aside class="canteen-nav"><p class="nav-label">WORKSPACE</p><button type="button" :class="{active:section==='menu'}" :disabled="saving" @click="section='menu'"><span>Daily menu</span><small>Meals, prices & availability</small></button><button type="button" :class="{active:section==='details'}" :disabled="saving" @click="section='details'"><span>Hours & location</span><small>Service hours & notices</small></button><p class="nav-note">School canteen only.<br>Students order at the counter.</p></aside><div class="workspace-content"><DailyMenu v-show="section==='menu'" manage @busy="saving=$event"/><CanteenDetails v-show="section==='details'" manage @busy="saving=$event"/></div></div></section></main><footer>StudentHub · School canteen · Nepal time</footer>
 </template>
 <style scoped>
-.canteen-intro{max-width:none;margin-top:28px}.canteen-intro p{line-height:1.7}.logout{display:flex;align-items:center;gap:8px}.logout svg{width:20px;height:20px;flex-shrink:0}.canteen-workspace{overflow-wrap:anywhere}
+.canteen-workspace{overflow-wrap:anywhere;max-width:1280px;margin:auto;padding:36px 24px}.workspace-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:26px}.workspace-top h1{font-size:clamp(25px,3vw,36px);margin:8px 0;line-height:1.2}.intro{font-size:14px;color:#6d7d73;line-height:1.7}.account{display:flex;align-items:center;gap:12px;font-size:12px}.logout{display:flex;align-items:center;gap:7px;white-space:nowrap}.logout svg{width:18px;height:18px}.workspace-layout{display:grid;grid-template-columns:215px minmax(0,1fr);gap:28px;align-items:start}.canteen-nav{background:#eaf1ec;border:1px solid #d8e5dc;border-radius:14px;padding:14px;position:sticky;top:20px}.nav-label{font-size:10px;letter-spacing:1.5px;color:#708575;margin:8px}.canteen-nav button{display:block;width:100%;text-align:left;background:transparent;color:#47634f;padding:13px 12px;border:1px solid transparent;border-radius:9px;margin:6px 0}.canteen-nav button.active{background:#fff;border-color:#d4e1d7;box-shadow:0 2px 5px #244b3310}.canteen-nav span,.canteen-nav small{display:block}.canteen-nav span{font-size:14px;font-weight:600}.canteen-nav small{font-size:10px;margin-top:6px;color:#788b7d;font-weight:400}.nav-note{font-size:11px;line-height:1.8;color:#7b8e80;padding:10px 8px;margin-bottom:0}.workspace-content{min-width:0}footer{text-align:center;font-size:12px;color:#6f8175;padding:24px}@media(max-width:800px){.workspace-layout{grid-template-columns:1fr;gap:20px}.canteen-nav{position:static;display:flex;gap:8px;padding:8px}.nav-note,.nav-label{display:none}.canteen-nav button{margin:0;flex:1}.workspace-top{flex-direction:column;gap:8px}.account{width:100%;justify-content:space-between}.canteen-workspace{padding:24px 16px}}
 </style>
