@@ -8,7 +8,7 @@
 
 My personal responsibility is [Issue #68 – Student My Class View](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68).
 
-The purpose of this feature is to allow students to view their assigned homeroom information.
+The purpose of this feature is to allow students to view their assigned homeroom information either by parents or by student himself.
 
 Expected behavior:
 - Students can open the My Class page.
