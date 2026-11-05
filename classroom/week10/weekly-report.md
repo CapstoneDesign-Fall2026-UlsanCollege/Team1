@@ -22,6 +22,7 @@
 | Implementation | [43a82ae](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae) |
 | Historical safe screenshots | [Week 9 planner note](../week9/school-planner-test-note.md), [room note](../week9/room-board-test-note.md) — earlier layouts |
 | Current test/check note | [November 5 actual results and limits](school-release-check.md) |
+| Ownership / handoff | [Galan’s focused booking slice and real area map](code-ownership-galan.md); backup unconfirmed |
 | Document update | [Galan's detailed receipt](individual-evidence-receipt-galan-bishal.md) |
 
 ## Individual contribution entries — one row per student
@@ -30,7 +31,7 @@ Prepared with coding assistance; each member must review/write their own entry. 
 
 | Student | What they did | Evidence link |
 |---|---|---|
-| Galan Bishal (@bishal482) | Defined and implemented school administration with coding assistance: class membership, compact dashboard/list, subject drag/drop popups, specialist teacher routines with tiffin, room allocation/booking and recorded teacher availability; published source and actual checks. | [Commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae), [8 detailed receipts](individual-evidence-receipt-galan-bishal.md), [check note](school-release-check.md) |
+| Galan Bishal (@bishal482) | Defined and implemented school administration with coding assistance: class membership, compact dashboard/list, subject drag/drop popups, specialist teacher routines with tiffin, room allocation/booking and recorded teacher availability; published source and actual checks. | [Commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae), [9 detailed receipts](individual-evidence-receipt-galan-bishal.md), [check note](school-release-check.md) |
 | Bal Raju | Pending own entry. | Pending. |
 | Ansh Sharma | Pending own entry. | Pending. |
 | Buddha Raj Giri | Pending own entry. | Pending. |

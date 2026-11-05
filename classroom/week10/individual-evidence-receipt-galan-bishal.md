@@ -64,3 +64,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence links:** [Implementation](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae), [Issue #72](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/72), [source](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/blob/main/classroom/week10/school-release-check.md).
 - **How it was checked:** November 5 rerun: backend 38 passed/2 skipped, school MySQL 17 passed, frontend 10 passed; production frontend build passed. [Actual test outputs](school-release-check.md#actual-current-checks).
 - **What I learned or changed:** No independent teammate test, latest visual browser pass or Railway deployment is claimed.
+
+## Receipt 9 — Focused ownership and reproducible handoff
+
+- **What I did:** Applied the Week 10 ownership example to one real booking behaviour and the school room API, separating the slice owner, area steward, persistence handoff and unconfirmed backup.
+- **Evidence:** [Ownership map and code explanation](code-ownership-galan.md), [#72](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/72), [recorded school checks](evidence/school-mysql-2026-11-05.txt).
+- **How it was checked:** Matched the documented request flow to the actual form, route, transaction helper, schema and existing test assertions. This documentation update did not rerun or invent a teammate test.
+- **What I learned or changed:** More features are not stronger ownership evidence. A second person still needs to accept the handoff and explain/repeat the linked checks.

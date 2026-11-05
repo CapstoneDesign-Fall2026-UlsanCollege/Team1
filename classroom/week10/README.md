@@ -4,6 +4,7 @@
 **Week:** November 5–11, 2026<br>
 **Updated:** November 5, 2026
 
+- [Galan: focused slice, API stewardship and repeatable handoff](code-ownership-galan.md)
 - [Galan Bishal contribution receipt](individual-evidence-receipt-galan-bishal.md)
 - [One shared weekly report](weekly-report.md)
 - [Published implementation and current checks](school-release-check.md)

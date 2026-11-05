@@ -128,3 +128,7 @@ We will focus on clear individual ownership, shared area stewardship, independen
 - [ ] Screenshots and GitHub links are attached.
 - [ ] Teammates can independently repeat important checks.
 - [ ] Remaining problems have an owner and next action.
+
+## Galan — focused ownership and handoff
+
+My selected proof target is **save a valid special-room booking or reject a recorded conflict**, within [#72](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/72). My stewarded area is the school room-booking API. [Actual file map, code explanation, expected/observed cases, rerun commands and AI/handoff notes](code-ownership-galan.md). Backup and independent verifier remain unconfirmed; this does not assign new work to another student. The broader responsibilities above remain a team inventory, not one giant slice.
