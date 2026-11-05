@@ -1,12 +1,12 @@
 # Week 10 – Own a Slice, Steward an Area
 
 **Student:** Budha Raj Giri  
-**Personal Slice:** #68 – Student My Class View  
+**Personal Slice:** [Issue #68 – Student My Class View](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68)  
 **Week:** 10
 
 ## 1. Roadmap Slice – My Ownership
 
-My personal responsibility is **Issue #68 – Student My Class View**.
+My personal responsibility is [Issue #68 – Student My Class View](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68).
 
 The purpose of this feature is to allow students to view their assigned homeroom information.
 
@@ -27,7 +27,7 @@ I help maintain the documentation and evidence related to the Student My Class f
 
 My responsibilities include:
 - Identifying the frontend files related to My Class.
-- Keeping GitHub issue information updated.
+- Keeping the [GitHub issue](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68) information updated.
 - Organizing screenshots and testing evidence.
 - Helping teammates understand the connection between student information and homeroom data.
 - Keeping testing instructions accessible to other teammates.
@@ -48,7 +48,7 @@ My responsibilities include:
 
 I will collect and attach:
 
-- GitHub Issue #68 link.
+- [GitHub Issue #68](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68).
 - Screenshot of the My Class page.
 - Screenshot showing assigned class information.
 - Screenshot showing assigned teacher information.
@@ -57,7 +57,7 @@ I will collect and attach:
 
 ## 5. Backup / Teammate Handoff
 
-I will share the relevant file locations, GitHub issue and testing instructions with another teammate.
+I will share the relevant file locations, [GitHub Issue #68](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68) and testing instructions with another teammate.
 
 The backup teammate should be able to locate the feature, understand its expected behavior, repeat the test cases and report any problems without depending entirely on me.
 
@@ -65,7 +65,7 @@ The backup teammate should be able to locate the feature, understand its expecte
 
 My next actions are:
 
-1. Review GitHub Issue #68.
+1. Review [GitHub Issue #68](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68).
 2. Identify the frontend and backend files related to My Class.
 3. Review the implementation with the coding teammate.
 4. Test whether class and teacher information display correctly.
