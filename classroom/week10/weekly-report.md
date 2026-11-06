@@ -35,7 +35,7 @@ Prepared with coding assistance; each member must review/write their own entry. 
 
 | Student | What they did | Evidence link |
 |---|---|---|
-| Galan Bishal (@bishal482) | Defined and implemented school administration with coding assistance: class membership, compact dashboard/list, subject drag/drop popups, specialist teacher routines with tiffin, room allocation/booking and recorded teacher availability; published source and actual checks. | [Commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae), [11 detailed receipts](individual-evidence-receipt-galan-bishal.md), [check note](school-release-check.md) |
+| Galan Bishal (@bishal482) | Defined and implemented school administration with coding assistance: class membership, compact dashboard/list, subject drag/drop popups, specialist teacher routines with tiffin, room allocation/booking and recorded teacher availability; published source and actual checks. | [Commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae), [Detailed receipts](individual-evidence-receipt-galan-bishal.md), [check note](school-release-check.md) |
 | Bal Raju | Pending own entry. | Pending. |
 | Ansh Sharma | Pending own entry. | Pending. |
 | Buddha Raj Giri | Pending own entry. | Pending. |

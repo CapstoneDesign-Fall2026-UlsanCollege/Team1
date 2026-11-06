@@ -87,6 +87,23 @@ export function canteenMenuRouter(pool: Pool, today: () => string = campusDate) 
       `SELECT ${columns} FROM canteen_menus WHERE service_date=?`, [date]);
     res.json({ date, menu: unpack(rows[0]) });
   });
+  router.post('/canteen/menu/apply-days',async(req,res)=>{
+    const input=req.body;
+    if(!input||input.currency!=='NPR'||!Array.isArray(input.dates)||!input.dates.length||input.dates.length>7||input.dates.some((d:unknown)=>!isMenuDate(d))||new Set(input.dates).size!==input.dates.length)throw new ScheduleError(400,'Choose 1-7 distinct valid dates for a rupee menu.');
+    // Always make independent drafts: never reuse item IDs or stock status.
+    const template=menuItems(input.items);
+    const dates=[...input.dates].sort() as string[],c=await pool.getConnection();let target='';
+    try{await c.beginTransaction();
+      for(const date of dates){target=date;const copies=menuItems(template.map(i=>({name:i.name,price:i.price,status:'unknown'})));
+        await c.execute("INSERT INTO canteen_menus(service_date,published,currency,items,version) VALUES(?,0,'NPR',?,1)",[date,JSON.stringify(copies)]);
+      }
+      await c.commit();res.status(201).json({message:`Draft menus created for ${dates.length} dates.`,dates});
+    }catch(e){await c.rollback();const code=(e as {code?:string}).code;
+      if(code==='ER_DUP_ENTRY')throw new ScheduleError(409,`A menu already exists on ${target}. No copies were saved. Choose dates without existing menus.`);
+      if(code==='ER_LOCK_DEADLOCK'||code==='ER_LOCK_WAIT_TIMEOUT')throw new ScheduleError(409,'Menus changed while copying. No copies were saved; review the dates and retry.');
+      throw e;
+    }finally{c.release()}
+  });
   router.put('/canteen/menu/:date', async (req, res) => {
     const date = req.params.date;
     const input = req.body;

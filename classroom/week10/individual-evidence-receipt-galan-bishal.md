@@ -85,3 +85,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [Actual implementation and checks](canteen-menu-shortcuts-check.md), [C3 #56](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/56).
 - **How it was checked:** November 6 assistant-run regression: 63 backend and 12 frontend tests passed; compilation/build passed. Browser check saved a new fictional draft, verified price 80 autofill and manual price 35, blocked an existing date and reloaded via weekday selection.
 - **What changed:** Rupee suggestions exclude old won prices. A matching suggestion fills the price but never copies yesterday’s availability; saved records remain date-scoped. Independent/live checks remain pending.
+
+## Receipt 12 — Apply a menu to multiple selected days
+
+- **What I did:** Requested and implemented, with coding assistance, a week/day checkbox form to copy current menu names/prices into independent dated drafts while protecting existing menus.
+- **Evidence:** [Actual multi-day results and screenshots](canteen-menu-shortcuts-check.md#same-menu-multiple-days--subsequent-november-6-update), [64-pass regression](evidence/canteen-multi-day-backend-2026-11-06.txt).
+- **How it was checked:** Assistant verified success, fresh IDs, availability reset, original preservation, all-or-nothing conflict rollback, bad input, roles and concurrent requests. Browser check created Monday/Wednesday/Friday demo drafts and reloaded one; mobile dialog fit.
+- **What changed:** No silent replacement or copied stock claims; a conflict cancels the entire batch. Copies stay unpublished until reviewed, and this does not create a weekly recurring schedule.

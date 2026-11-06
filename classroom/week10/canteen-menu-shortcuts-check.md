@@ -31,3 +31,18 @@ Coding assistant signed in to the real local preview as the fictional canteen he
 At 390 px viewport, document client/content widths were both 375 px: no horizontal page overflow. Temporary viewport override was reset. The browser-native name suggestion list and its prices were present in the input's datalist; exact-name autofill was verified through visible form values. The screenshot shows saved values, not an open native suggestion popup.
 
 These are assistant-run automated/browser checks, not independent teammate evidence or a Railway deployment. No database schema change was needed. New menus/items remain saved through the existing dated, versioned MySQL menu API. Existing menus were retained.
+
+## Same menu, multiple days — subsequent November 6 update
+
+Owner requested one menu applied to several selected weekdays, rather than weekly recurrence. Implemented a week/date preview with day checkboxes, source-date exclusion, independent unpublished drafts, reset availability and transaction-safe all-or-nothing inserts. No schema change. The current form's items/prices are used; the source date is not updated.
+
+Actual assistant-run full backend regression now: **64 passed, 0 failed, 0 skipped**, including both isolated MySQL suites. [Raw result](evidence/canteen-multi-day-backend-2026-11-06.txt). [Production frontend build](evidence/canteen-multi-day-build-2026-11-06.txt) passed. Earlier 63/12 results above remain the earlier shortcut snapshot; no extra frontend test count is claimed for the copy dialog.
+
+Added API cases: valid copies produce separate IDs and unknown availability; source stays byte-for-byte unchanged on read-back; an existing destination rolls back a previously inserted new date; duplicate/invalid/too many dates and non-NPR input reject; admin/student/anonymous access rejects; simultaneous copies return one 201 and one 409.
+
+Browser check: selecting existing November 5 plus empty November 7 displayed the no-copies-saved conflict. Then selected Monday November 9, Wednesday November 11 and Friday November 13 and saved three clearly labelled demo drafts. Reloaded November 9: same food/prices, unpublished, availability Not confirmed. The original November 6 draft remained saved. Screenshots demonstrate selections; the final screenshot was taken without submitting another batch.
+
+- [Desktop multi-day form](evidence/canteen-multiple-days-desktop-2026-11-06.jpg)
+- [Phone multi-day form](evidence/canteen-multiple-days-mobile-2026-11-06.jpg)
+
+Phone viewport 390 px: dialog width 337 px, within the visible content width. Temporary viewport overrides reset; dialog closed after checking. All results remain assistant-run local checks, not independent human verification or a live deployment.
