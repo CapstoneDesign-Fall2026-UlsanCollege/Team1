@@ -1,0 +1,20 @@
+✔ weekday selector stays within Sunday-start week across month/year boundaries (3.603ms)
+✔ saved names fill prices only for an exact normalized match; new names stay editable (0.3504ms)
+✔ old stored keyword is ignored and clearing the input reloads unfiltered jobs (8.6879ms)
+✔ Refresh clears a submitted keyword and availability and returns to the full first page (2.5033ms)
+✔ favourites show saved details without the catalogue keyword or availability restrictions (1.4513ms)
+✔ a late keyword response cannot replace a cleared search or its page count (1.0823ms)
+✔ Korean schedules parse conservatively (3.7488ms)
+✔ every known day and entire shift must fit; unknowns are optional (1.0939ms)
+✔ class conflicts include overnight spillover and boundary times (0.9253ms)
+✔ other-class teaching blocks only overlapping lessons within term (2.6747ms)
+✔ supervising own class is allowed; another room booking still blocks (0.3991ms)
+✔ missing or invalid times are not advertised as available (0.1863ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 907.0885

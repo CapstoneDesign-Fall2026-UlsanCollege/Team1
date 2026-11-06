@@ -23,3 +23,5 @@ Personal confirmations, accepted backups and independent results remain pending.
 ## Canteen workspace extension — November 5
 
 [C2/C3 implementation, actual checks and fictional-data screenshots](canteen-owner-check.md) · [operator guide](../../docs/canteen-owner-workspace.md). The owner requested this local extension; it does not close the independent-review or live-release gates.
+
+- [November 6 canteen day filter, new-menu and price suggestion checks](canteen-menu-shortcuts-check.md)

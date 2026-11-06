@@ -25,6 +25,7 @@
 | Team ownership audit | [Current area map, member status and AI notes](ai-use-and-code-ownership-audit.md) |
 | Roadmap / checklist | [November 11 milestone](roadmap.md), [honest checklist](work-checklist.md) |
 | Ownership / handoff | [Galan’s focused booking slice and real area map](code-ownership-galan.md); backup unconfirmed |
+| Canteen shortcut update | [November 6: weekday/new-menu/suggestions, 63 backend + 12 frontend passes](canteen-menu-shortcuts-check.md) |
 | Canteen workspace extension | [C2/C3 actual results and safe proof](canteen-owner-check.md) — owner-requested November 5 extension |
 | Document update | [Galan's detailed receipt](individual-evidence-receipt-galan-bishal.md) |
 
@@ -34,7 +35,7 @@ Prepared with coding assistance; each member must review/write their own entry. 
 
 | Student | What they did | Evidence link |
 |---|---|---|
-| Galan Bishal (@bishal482) | Defined and implemented school administration with coding assistance: class membership, compact dashboard/list, subject drag/drop popups, specialist teacher routines with tiffin, room allocation/booking and recorded teacher availability; published source and actual checks. | [Commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae), [10 detailed receipts](individual-evidence-receipt-galan-bishal.md), [check note](school-release-check.md) |
+| Galan Bishal (@bishal482) | Defined and implemented school administration with coding assistance: class membership, compact dashboard/list, subject drag/drop popups, specialist teacher routines with tiffin, room allocation/booking and recorded teacher availability; published source and actual checks. | [Commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae), [11 detailed receipts](individual-evidence-receipt-galan-bishal.md), [check note](school-release-check.md) |
 | Bal Raju | Pending own entry. | Pending. |
 | Ansh Sharma | Pending own entry. | Pending. |
 | Buddha Raj Giri | Pending own entry. | Pending. |

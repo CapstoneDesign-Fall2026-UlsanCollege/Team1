@@ -9,8 +9,8 @@ Sign in with a canteen-head account created by an administrator. This is a separ
 
 ### Daily menu
 
-1. Choose the Nepal service date. Add up to 40 items with names and whole-number prices. New dates use Nepalese rupees (NPR, shown as Rs.).
-2. Set each item to Available, Sold out or Not confirmed. Sold-out names/prices remain visible. New items start as Not confirmed rather than copying yesterday's stock.
+1. Choose the Nepal service date or use Menu day to select a weekday in the same Sunday-start week. Use + New menu to start a blank draft on an unused date. Add up to 40 items with names and whole-number prices. New dates use Nepalese rupees (NPR, shown as Rs.).
+2. Start typing a name to see saved NPR meal suggestions. An exact saved-name selection fills its latest price, which you may edit. For a new name, enter its price manually; saving adds it to future suggestions. Rupee prices use the label रू. Set each item to Available, Sold out or Not confirmed. Sold-out names/prices remain visible. New items start as Not confirmed rather than copying yesterday's stock.
 3. Save as a draft or check Publish and save. Students see only today's published menu, after refresh. Availability edits are saved with the menu, not silently applied on selection.
 4. Refresh/reload to confirm saved values. Stale versions receive a conflict; review/reload before retrying. Refresh/date changes ask before discarding changed fields. Switching workspace tabs preserves the mounted draft; leaving/reloading the application can lose unsaved work.
 
@@ -48,3 +48,7 @@ Remove-Item Env:RUN_MENU_DB_TESTS
 ```
 
 The fixture uses a random studenthub_menu_test_* schema and removes it after testing. It does not seed or overwrite the configured application database. See [actual checks and safe browser proof](../classroom/week10/canteen-owner-check.md). Independent non-author review and live deployment remain pending.
+
+### November 6 menu shortcut checks
+
+[Day filter, new-menu protection, saved-name/price suggestions and actual evidence](../classroom/week10/canteen-menu-shortcuts-check.md). Existing currency data is retained. Suggestions use at most 90 recent rupee menus and 200 distinct names; they are not stock records.

@@ -78,3 +78,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [Canteen check and screenshots](canteen-owner-check.md), [operator/setup guide](../../docs/canteen-owner-workspace.md), [C2 #55](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/55), [C3 #56](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/56).
 - **How it was checked:** Coding assistant ran 12 focused canteen checks and a 62-pass full backend run with both isolated database suites, built the frontend and checked the owner-to-student publish/unpublish flow at desktop/mobile sizes using labelled fictional records.
 - **What I changed or learned:** New menus use Nepal dates and NPR while old currency data is preserved. Drafts and unknown hours/statuses prevent invented official service claims. Non-author review and live deployment remain pending.
+
+## Receipt 11 — Canteen day selection and saved-meal shortcuts
+
+- **What I did:** Requested and implemented, with coding assistance, weekday selection, a protected new-menu draft form, saved-name suggestions with editable automatic prices, and the रू price label. New custom names/prices remain supported.
+- **Evidence:** [Actual implementation and checks](canteen-menu-shortcuts-check.md), [C3 #56](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/56).
+- **How it was checked:** November 6 assistant-run regression: 63 backend and 12 frontend tests passed; compilation/build passed. Browser check saved a new fictional draft, verified price 80 autofill and manual price 35, blocked an existing date and reloaded via weekday selection.
+- **What changed:** Rupee suggestions exclude old won prices. A matching suggestion fills the price but never copies yesterday’s availability; saved records remain date-scoped. Independent/live checks remain pending.

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import {weekdayDate,recommendedPrice} from '../canteen-menu-tools'
 import CanteenDetails from './CanteenDetails.vue'
 import { scheduleApi } from '../schedules'
 
@@ -18,6 +19,27 @@ const soldOut=computed(()=>items.value.filter(i=>i.status==='sold_out').length)
 const updated = ref(''), loading = ref(false), saving = ref(false)
 const error = ref(''), message = ref('')
 let request = 0
+const dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+const weekday=computed(()=>new Date(date.value+'T00:00:00Z').getUTCDay())
+const recommendations=ref<{name:string;price:number}[]>([]),recommendationError=ref('')
+const newMenuDialog=ref<HTMLDialogElement|null>(null),newDate=ref(''),newMenuError=ref(''),startingMenu=ref(false)
+const autoPrices=new WeakMap<Item,number>()
+async function loadRecommendations(){if(!props.manage)return;recommendationError.value='';try{recommendations.value=(await scheduleApi('canteen/menu/items')).items}catch{recommendationError.value='Saved-item suggestions could not load. You can still type a new item.'}}
+function suggestPrice(item:Item){
+ const price=currency.value==='NPR'?recommendedPrice(item.name,recommendations.value):undefined
+ if(price!==undefined){item.price=price;autoPrices.set(item,price)}
+ else if(autoPrices.has(item)){if(item.price===autoPrices.get(item))item.price=0;autoPrices.delete(item)}
+}
+async function chooseDay(event:Event){const select=event.target as HTMLSelectElement;try{date.value=weekdayDate(date.value,Number(select.value));await changeDate()}catch{error.value='Choose a valid service date first.'}select.value=String(weekday.value)}
+async function openNewMenu(){newDate.value=date.value;newMenuError.value='';await nextTick();newMenuDialog.value?.showModal()}
+async function startNewMenu(){
+ if(!newDate.value||startingMenu.value)return
+ startingMenu.value=true;newMenuError.value=''
+ try{const result=await scheduleApi('canteen/menu?date='+encodeURIComponent(newDate.value));if(result.menu){newMenuError.value='A menu already exists on this date. Choose a different date, or close this form and select that date to edit it.';return}
+ if(dirty.value&&!window.confirm('Discard unsaved changes and start a new menu?'))return
+ date.value=newDate.value;await load();if(hasMenu.value){newMenuError.value='A menu was saved on this date while loading. Its saved items have been loaded; close this form to review them.';return}if(!error.value){items.value=[{name:'',price:0,status:'unknown'}];published.value=false;newMenuDialog.value?.close()}
+ }catch(e){newMenuError.value=e instanceof Error?e.message:'Unable to check this date.'}finally{startingMenu.value=false}
+}
 const displayTime = (value: string) => new Date(value).toLocaleString(undefined, { timeZone: 'Asia/Kathmandu' })
 let timer:ReturnType<typeof setTimeout>|undefined
 watch(message,value=>{clearTimeout(timer);if(value)timer=setTimeout(()=>message.value='',4000)})
@@ -50,11 +72,11 @@ async function save() {
       items: items.value.map(({ id, name, price, status }) => ({ ...(id ? { id } : {}), name, price, status })),
     })
     await load()
-    if (!error.value) message.value = result.message
+    if (!error.value) {message.value = result.message;await loadRecommendations()}
   } catch (e) { error.value = e instanceof Error ? e.message : 'Unable to save. Your changes are still in the form.' }
   finally { saving.value = false;emit('busy',false) }
 }
-onMounted(()=>load())
+onMounted(()=>{void load();void loadRecommendations()})
 </script>
 
 <template>
@@ -66,14 +88,14 @@ onMounted(()=>load())
     <p v-if="message" class="success" role="status">{{ message }}</p>
     <p v-if="loading" role="status">Loading menu…</p>
     <template v-if="manage">
-      <label class="date-field">Service date<input v-model="date" type="date" min="2000-01-01" max="2200-12-31" :disabled="saving || loading" @change="changeDate"></label>
+      <div class="menu-filters"><label>Menu day<select aria-label="Menu day" :value="weekday" :disabled="saving||loading" @change="chooseDay"><option v-for="(day,i) in dayNames" :key="day" :value="i">{{day}}</option></select></label><label class="date-field">Service date<input v-model="date" type="date" min="2000-01-01" max="2200-12-31" :disabled="saving || loading" @change="changeDate"></label><button type="button" :disabled="saving||loading" @click="openNewMenu">+ New menu</button></div>
       <div v-if="manage&&loadedDate&&!loading" class="menu-stats"><div><strong>{{items.length}}</strong><span>Menu items</span></div><div><strong>{{available}}</strong><span>Available</span></div><div><strong>{{soldOut}}</strong><span>Sold out</span></div><div><strong>{{published?'Published':'Draft'}}</strong><span>{{dirty?'Unsaved changes':'Saved status'}}</span></div></div><form v-if="loadedDate && !loading" class="card" @submit.prevent="save">
         <fieldset :disabled="saving">
-          <p class="muted">Prices are in {{currency==='NPR'?'Nepalese rupees (NPR)':'Korean won (existing menu)'}}. Save a draft or publish the menu for students to see on its service date.</p>
+          <p v-if="recommendationError" class="muted" role="status">{{recommendationError}} <button type="button" class="secondary" @click="loadRecommendations">Retry suggestions</button></p><datalist id="canteen-saved-items"><option v-for="choice in recommendations" :key="choice.name" :value="choice.name">रू {{choice.price}}</option></datalist><p class="muted">Choose a saved item to fill its latest rupee price, or type a new item and set its price.</p><p class="muted">Prices are in {{currency==='NPR'?'Nepalese rupees (NPR)':'KRW (legacy menu; not converted)'}}. Save a draft or publish the menu for students to see on its service date.</p>
           <p v-if="!items.length" class="muted">No items for this date yet. Add your first menu item.</p>
           <article v-for="(item, index) in items" :key="item.id ?? index" class="menu-row">
-            <label>Item name<input v-model="item.name" required maxlength="150" :aria-label="'Item ' + (index + 1) + ' name'"></label>
-            <label>Price ({{currency==='NPR'?'Rs.':'₩'}})<input v-model.number="item.price" type="number" min="0" max="1000000" step="1" required :aria-label="'Item ' + (index + 1) + ' price'"></label>
+            <label>Item name<input v-model="item.name" :list="currency==='NPR'?'canteen-saved-items':undefined" autocomplete="off" @input="suggestPrice(item)" required maxlength="150" :aria-label="'Item ' + (index + 1) + ' name'"></label>
+            <label>Price ({{currency==='NPR'?'रू':'KRW'}})<input v-model.number="item.price" type="number" min="0" max="1000000" step="1" required :aria-label="'Item ' + (index + 1) + ' price'"></label>
             <label>Availability<select v-model="item.status" :aria-label="'Item '+(index+1)+' availability'"><option value="unknown">Not confirmed</option><option value="available">Available</option><option value="sold_out">Sold out</option></select></label>
             <button type="button" class="secondary" :aria-label="'Remove item ' + (index + 1)" @click="items.splice(index, 1)">Remove</button>
           </article>
@@ -87,9 +109,10 @@ onMounted(()=>load())
     <template v-else-if="!loading && !error">
       <h3>Today’s menu · {{ date }}</h3>
       <p v-if="!hasMenu" class="muted">No menu has been published for today. Please check again later.</p>
-      <article v-for="item in items" :key="item.id" class="card menu-item"><h3>{{ item.name }}</h3><div class="food-details"><strong>{{currency==='NPR'?'Rs.':'₩'}} {{Number(item.price).toLocaleString()}}</strong><span class="food-status" :class="item.status">{{item.status==='sold_out'?'Sold out':item.status==='available'?'Available':'Availability not confirmed'}}</span></div></article>
+      <article v-for="item in items" :key="item.id" class="card menu-item"><h3>{{ item.name }}</h3><div class="food-details"><strong>{{currency==='NPR'?'रू':'KRW'}} {{Number(item.price).toLocaleString()}}</strong><span class="food-status" :class="item.status">{{item.status==='sold_out'?'Sold out':item.status==='available'?'Available':'Availability not confirmed'}}</span></div></article>
       <p class="muted">Food information only. Please visit the campus canteen to order.</p>
     </template>
+    <dialog ref="newMenuDialog" class="new-menu-dialog"><form @submit.prevent="startNewMenu"><h3>Create a new daily menu</h3><p class="muted">Start with an empty draft. Existing menus will stay saved.</p><label>New menu date<input v-model="newDate" type="date" min="2000-01-01" max="2200-12-31" required></label><p v-if="newMenuError" class="error" role="alert">{{newMenuError}}</p><div class="dialog-actions"><button type="button" class="secondary" :disabled="startingMenu" @click="newMenuDialog?.close()">Cancel</button><button :disabled="startingMenu">{{startingMenu?'Checking date…':'Start draft'}}</button></div></form></dialog>
     <p v-if="updated && !loading && !error" class="muted">Last updated {{ displayTime(updated) }} (Nepal time)</p>
   </section>
 </template>
@@ -97,4 +120,5 @@ onMounted(()=>load())
 <style scoped>
 .daily-menu{overflow-wrap:anywhere}.menu-heading,.menu-item{display:flex;align-items:center;justify-content:space-between;gap:16px}.menu-heading h2,.menu-item h3{margin:0}.menu-heading>button{width:auto;flex-shrink:0;white-space:nowrap}.date-field{display:block;max-width:220px;margin:20px 0}.daily-menu select{width:100%;padding:11px;border:1px solid #c4d4c9;border-radius:8px;font:inherit;background:white;color:#263e33;margin-top:6px}.daily-menu input{width:100%;box-sizing:border-box;margin-top:6px}.daily-menu fieldset{border:0;padding:0;min-width:0}.daily-menu .card{margin:16px 0}.menu-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(85px,.7fr) minmax(130px,1fr) auto;align-items:end;gap:12px;padding-bottom:18px;border-bottom:1px solid #dce5df;margin-bottom:18px}.menu-row label{margin:0}.publish{display:flex;align-items:center;gap:10px;margin-top:20px}.publish input{width:18px;height:18px;margin:0;flex-shrink:0}.daily-menu form button{width:auto;margin:8px 8px 0 0}.daily-menu .muted{font-size:14px;line-height:1.6}.menu-item strong{white-space:nowrap}.menu-item h3{overflow-wrap:anywhere;min-width:0}@media(max-width:600px){.menu-row{grid-template-columns:minmax(0,1fr) auto}.menu-row label:first-child{grid-column:1/-1}.menu-item{align-items:flex-start}.menu-heading{align-items:flex-start}}
 .menu-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.menu-stats>div{background:#edf4ef;border:1px solid #dbe7de;border-radius:12px;padding:14px}.menu-stats strong,.menu-stats span{display:block}.menu-stats strong{font-size:20px;color:#345b46}.menu-stats span{font-size:11px;color:#6f8275;margin-top:6px}.food-details{display:flex;align-items:end;flex-direction:column;gap:7px}.food-status{font-size:11px;padding:5px 8px;border-radius:12px;background:#edf1ef;color:#65766c}.food-status.available{background:#e3f1e7;color:#2e6643}.food-status.sold_out{background:#fbe8e4;color:#a34332}@media(max-width:600px){.menu-stats{grid-template-columns:1fr 1fr}.menu-stats strong{font-size:17px}.menu-row{grid-template-columns:1fr 1fr}.menu-row button{justify-self:start}}
+.menu-filters{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin:16px 0}.menu-filters label{font-size:13px;font-weight:600;min-width:150px;flex:1}.menu-filters .date-field{margin:0;max-width:none}.menu-filters>button{width:auto;margin:0;white-space:nowrap}.new-menu-dialog{border:1px solid #d4e1d8;border-radius:16px;padding:24px;width:min(440px,calc(100vw - 32px));box-sizing:border-box;color:#2d4839}.new-menu-dialog::backdrop{background:#153c2a70}.new-menu-dialog h3{margin-top:0}.dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}.dialog-actions button{width:auto}@media(max-width:600px){.menu-filters label{min-width:120px}.menu-filters>button{width:100%}}
 </style>

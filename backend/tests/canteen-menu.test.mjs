@@ -134,6 +134,16 @@ test('isolated MySQL daily menu lifecycle', {skip:process.env.RUN_MENU_DB_TESTS 
       await stop();await start();assert.equal((await data('/canteen/info')).info.notice,info.notice);
       assert.equal((await request('/student/canteen/info','admin')).status,403);
     });
+    await t.test('saved item suggestions use latest NPR prices and require canteen access',async()=>{
+      const saveDate='2026-11-04';
+      assert.equal((await save({version:0,published:false,items:[{name:'Suggestion meal',price:90},{name:'Unique snack',price:25}]},saveDate)).status,200);
+      let menu=(await data('/canteen/menu?date='+saveDate)).menu;menu.items[0].price=95;
+      assert.equal((await save(menu,saveDate)).status,200);
+      await pool.execute("INSERT INTO canteen_menus(service_date,published,currency,items,version) VALUES('2020-01-02',0,'KRW',?,1)",[JSON.stringify([{id:'old-won',name:'Won-only item',price:5000,status:'unknown'}])]);
+      const choices=await data('/canteen/menu/items');assert.equal(choices.currency,'NPR');assert.equal(choices.items.find(i=>i.name==='Suggestion meal').price,95);assert.ok(choices.items.some(i=>i.name==='Unique snack'));assert.ok(!choices.items.some(i=>i.name==='Won-only item'));
+      for(const role of ['admin','student'])assert.equal((await request('/canteen/menu/items',role)).status,403);
+      assert.equal((await request('/canteen/menu/items',null)).status,401);
+    });
     await t.test('legacy won prices survive currency migration',async()=>{
       await pool.execute("INSERT INTO canteen_menus(service_date,published,items,version,currency) VALUES('2020-01-01',0,?,1,'KRW')",[JSON.stringify([{id:'legacy',name:'Old menu',price:5000,status:'unknown'}])]);
       await pool.query('ALTER TABLE canteen_menus DROP COLUMN currency');await ensureCanteenMenuSchema(pool);

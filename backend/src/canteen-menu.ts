@@ -71,6 +71,15 @@ export function canteenMenuRouter(pool: Pool, today: () => string = campusDate) 
       `SELECT ${columns} FROM canteen_menus WHERE service_date=? AND published=1`, [date]);
     res.json({ today: date, menu: unpack(rows[0]) });
   });
+  router.get('/canteen/menu/items',async(_req,res)=>{
+    const [rows]=await pool.execute<RowDataPacket[]>(`SELECT items FROM canteen_menus WHERE currency='NPR' ORDER BY updated_at DESC,service_date DESC LIMIT 90`);
+    const seen=new Set<string>(),items:{name:string;price:number}[]=[];
+    for(const row of rows){const saved=typeof row.items==='string'?JSON.parse(row.items):row.items;for(const item of saved){
+      const key=String(item.name).trim().toLocaleLowerCase();
+      if(!seen.has(key)&&items.length<200){seen.add(key);items.push({name:item.name,price:item.price});}
+    }}
+    res.json({items:items.sort((a,b)=>a.name.localeCompare(b.name)),currency:'NPR'});
+  });
   router.get('/canteen/menu', async (req, res) => {
     const date = req.query.date ?? today();
     if (!isMenuDate(date)) throw new ScheduleError(400, 'Choose a valid menu date.');
