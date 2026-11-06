@@ -25,6 +25,7 @@
 | Team ownership audit | [Current area map, member status and AI notes](ai-use-and-code-ownership-audit.md) |
 | Roadmap / checklist | [November 11 milestone](roadmap.md), [honest checklist](work-checklist.md) |
 | Ownership / handoff | [Galan’s focused booking slice and real area map](code-ownership-galan.md); backup unconfirmed |
+| Canteen owner usability | [Compact week navigation, quick add and save/publish controls](canteen-dashboard-usability.md) |
 | Canteen shortcut update | [November 6: weekday/new-menu/suggestions, 63 backend + 12 frontend passes](canteen-menu-shortcuts-check.md) |
 | Canteen workspace extension | [C2/C3 actual results and safe proof](canteen-owner-check.md) — owner-requested November 5 extension |
 | Document update | [Galan's detailed receipt](individual-evidence-receipt-galan-bishal.md) |

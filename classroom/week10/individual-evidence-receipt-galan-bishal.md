@@ -99,3 +99,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [Revised behaviour and actual results](canteen-menu-shortcuts-check.md#revised-duplicate-handling--november-6-supersedes-the-earlier-all-or-nothing-date-conflict-rule), [14-pass focused check](evidence/canteen-skip-existing-2026-11-06.txt).
 - **How it was checked:** Assistant-run MySQL cases verify mixed dates, all-existing retries, unchanged saved records and concurrent copies. Local API retry against two existing fictional dates returned zero created/two skipped with both read-backs unchanged; builds passed.
 - **What changed:** Existing dates are normal skips rather than a batch failure. Unexpected database errors still roll back new inserts. Earlier all-or-nothing duplicate behaviour is superseded, not a current requirement.
+
+## Receipt 14 — Simplify the canteen dashboard
+
+- **What I did:** Reported usability friction and requested a simpler owner dashboard; implemented compact tabs, one-click week navigation, saved-food quick-add, smaller rows and a sticky explicit save/publish/copy bar with coding assistance.
+- **Evidence:** [Changed behaviour, validation and screenshots](canteen-dashboard-usability.md), [C3 #56](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/56).
+- **How it was checked:** Build passed; 12 existing frontend checks passed during the revision. Assistant browser checks verified quick-add price/focus, date/week navigation, tab-preserved drafts, future-menu save/publish/unpublish and phone fit.
+- **What changed:** Common owner actions are grouped and require less scrolling; publication status distinguishes saved data from unsaved changes. Database/API rules and existing records were retained. Independent testing/live deployment remain pending.

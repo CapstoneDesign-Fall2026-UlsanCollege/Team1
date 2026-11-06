@@ -9,9 +9,9 @@ Sign in with a canteen-head account created by an administrator. This is a separ
 
 ### Daily menu
 
-1. Choose the Nepal service date or use Menu day to select a weekday in the same Sunday-start week. Use + New menu to start a blank draft on an unused date. Add up to 40 items with names and whole-number prices. New dates use Nepalese rupees (NPR, shown as Rs.).
+1. Choose the Nepal service date or click a day in the week strip. Use Today and the previous/next-week arrows for faster navigation. Use + New menu to start a blank draft on an unused date. Add up to 40 items with names and whole-number prices. New dates use Nepalese rupees (NPR, shown as Rs.).
 2. Start typing a name to see saved NPR meal suggestions. An exact saved-name selection fills its latest price, which you may edit. For a new name, enter its price manually; saving adds it to future suggestions. Rupee prices use the label रू. Set each item to Available, Sold out or Not confirmed. Sold-out names/prices remain visible. New items start as Not confirmed rather than copying yesterday's stock.
-3. Save as a draft or check Publish and save. Students see only today's published menu, after refresh. Availability edits are saved with the menu, not silently applied on selection.
+3. Choose Save draft to keep a new menu hidden, or Publish menu to show it on its service date. For an already published menu, Save changes keeps it published; Unpublish & save draft hides it. Students see only today's published menu after refresh. Availability edits are saved with the menu, not silently applied on selection.
 4. Refresh/reload to confirm saved values. Stale versions receive a conflict; review/reload before retrying. Refresh/date changes ask before discarding changed fields. Switching workspace tabs preserves the mounted draft; leaving/reloading the application can lose unsaved work.
 
 Existing won-priced dates retain KRW labels and amounts. No currency conversion or relabelling is performed. Existing service-date values stay unchanged; the current-day choice now uses Asia/Kathmandu.
@@ -58,3 +58,7 @@ The fixture uses a random studenthub_menu_test_* schema and removes it after tes
 Use **Apply to multiple days** beside Save menu. Choose a week and tick the weekdays you want. The source date is disabled. Review the exact dates, then choose **Create selected drafts**. Names and prices copy from the current form, including unsaved edits, but the source menu is not saved or changed by this action. Each destination gets its own item IDs, unpublished status and Not confirmed availability. Review each dated draft before publishing it.
 
 This is a one-time copy, not automatic weekly repetition. It supports 1–7 distinct dates per request and new NPR menus only. Dates that already have menus are skipped, and drafts are created for the remaining selected dates. The result lists created and skipped dates; dismiss the summary when finished. If every date already exists, the request succeeds with zero new drafts. Concurrent copies cannot overwrite one another. Unexpected database failures still roll back newly created drafts, and wrong-role requests are rejected.
+
+### Compact dashboard layout — November 6
+
+The owner workspace now uses compact tabs, a directly clickable week strip, quick-add saved-food chips, smaller editable food rows and a sticky Copy to days / Save draft / Publish bar. Adding food focuses the new name field; price and stock remain editable. [Current browser check and screenshots](../classroom/week10/canteen-dashboard-usability.md).
