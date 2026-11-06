@@ -92,14 +92,15 @@ export function canteenMenuRouter(pool: Pool, today: () => string = campusDate) 
     if(!input||input.currency!=='NPR'||!Array.isArray(input.dates)||!input.dates.length||input.dates.length>7||input.dates.some((d:unknown)=>!isMenuDate(d))||new Set(input.dates).size!==input.dates.length)throw new ScheduleError(400,'Choose 1-7 distinct valid dates for a rupee menu.');
     // Always make independent drafts: never reuse item IDs or stock status.
     const template=menuItems(input.items);
-    const dates=[...input.dates].sort() as string[],c=await pool.getConnection();let target='';
+    const dates=[...input.dates].sort() as string[],c=await pool.getConnection();
+    const created:string[]=[],skipped:string[]=[];
     try{await c.beginTransaction();
-      for(const date of dates){target=date;const copies=menuItems(template.map(i=>({name:i.name,price:i.price,status:'unknown'})));
-        await c.execute("INSERT INTO canteen_menus(service_date,published,currency,items,version) VALUES(?,0,'NPR',?,1)",[date,JSON.stringify(copies)]);
+      for(const date of dates){const copies=menuItems(template.map(i=>({name:i.name,price:i.price,status:'unknown'})));
+        try{await c.execute("INSERT INTO canteen_menus(service_date,published,currency,items,version) VALUES(?,0,'NPR',?,1)",[date,JSON.stringify(copies)]);created.push(date)}
+        catch(e){if((e as {code?:string}).code==='ER_DUP_ENTRY'){skipped.push(date);continue}throw e}
       }
-      await c.commit();res.status(201).json({message:`Draft menus created for ${dates.length} dates.`,dates});
+      await c.commit();res.status(created.length?201:200).json({message:`Created ${created.length} draft menu(s). Skipped ${skipped.length} existing date(s).`,created,skipped});
     }catch(e){await c.rollback();const code=(e as {code?:string}).code;
-      if(code==='ER_DUP_ENTRY')throw new ScheduleError(409,`A menu already exists on ${target}. No copies were saved. Choose dates without existing menus.`);
       if(code==='ER_LOCK_DEADLOCK'||code==='ER_LOCK_WAIT_TIMEOUT')throw new ScheduleError(409,'Menus changed while copying. No copies were saved; review the dates and retry.');
       throw e;
     }finally{c.release()}

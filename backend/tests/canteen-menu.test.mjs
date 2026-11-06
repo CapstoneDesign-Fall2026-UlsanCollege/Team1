@@ -144,7 +144,7 @@ test('isolated MySQL daily menu lifecycle', {skip:process.env.RUN_MENU_DB_TESTS 
       for(const role of ['admin','student'])assert.equal((await request('/canteen/menu/items',role)).status,403);
       assert.equal((await request('/canteen/menu/items',null)).status,401);
     });
-    await t.test('multi-day copy creates independent drafts and rolls back every date on conflict',async()=>{
+    await t.test('multi-day copy creates missing drafts and skips existing dates without overwriting',async()=>{
       const source=(await data('/canteen/menu?date=2026-11-04')).menu;
       const payload={currency:'NPR',dates:['2026-11-08','2026-11-10'],items:source.items.map(i=>({name:i.name,price:i.price,status:'unknown'}))};
       const copy=body=>request('/canteen/menu/apply-days','canteen_head','POST',body);
@@ -152,12 +152,16 @@ test('isolated MySQL daily menu lifecycle', {skip:process.env.RUN_MENU_DB_TESTS 
       const a=(await data('/canteen/menu?date=2026-11-08')).menu,b=(await data('/canteen/menu?date=2026-11-10')).menu;
       assert.equal(a.published,false);assert.equal(a.items[0].price,source.items[0].price);assert.equal(a.items[0].status,'unknown');assert.notEqual(a.items[0].id,b.items[0].id);assert.notEqual(a.items[0].id,source.items[0].id);
       assert.deepEqual((await data('/canteen/menu?date=2026-11-04')).menu,source);
-      assert.equal((await copy({...payload,dates:['2026-11-07','2026-11-08']})).status,409);
-      assert.equal((await data('/canteen/menu?date=2026-11-07')).menu,null);
+      const mixed=await copy({...payload,dates:['2026-11-07','2026-11-08']});assert.equal(mixed.status,201);
+      assert.deepEqual(await mixed.json(),{message:'Created 1 draft menu(s). Skipped 1 existing date(s).',created:['2026-11-07'],skipped:['2026-11-08']});
+      assert.ok((await data('/canteen/menu?date=2026-11-07')).menu);
+      assert.deepEqual((await data('/canteen/menu?date=2026-11-08')).menu,a);
+      const repeated=await copy(payload);assert.equal(repeated.status,200);const repeatedResult=await repeated.json();assert.deepEqual(repeatedResult.created,[]);assert.deepEqual(repeatedResult.skipped,payload.dates);
+      assert.deepEqual((await data('/canteen/menu?date=2026-11-10')).menu,b);
       for(const dates of [[],['bad'],['2026-11-09','2026-11-09'],Array.from({length:8},(_,i)=>'2026-12-'+String(i+1).padStart(2,'0'))])assert.equal((await copy({...payload,dates})).status,400);
       assert.equal((await copy({...payload,currency:'KRW',dates:['2026-11-09']})).status,400);
       for(const role of ['admin','student',null])assert.equal((await request('/canteen/menu/apply-days',role,'POST',payload)).status,role?403:401);
-      const competing=await Promise.all([copy({...payload,dates:['2026-11-12','2026-11-13']}),copy({...payload,dates:['2026-11-12','2026-11-13']})]);assert.deepEqual(competing.map(r=>r.status).sort(),[201,409]);
+      const competing=await Promise.all([copy({...payload,dates:['2026-11-12','2026-11-13']}),copy({...payload,dates:['2026-11-12','2026-11-13']})]);assert.deepEqual(competing.map(r=>r.status).sort(),[200,201]);const results=await Promise.all(competing.map(r=>r.json()));assert.equal(results.reduce((n,r)=>n+r.created.length,0),2);assert.equal(results.reduce((n,r)=>n+r.skipped.length,0),2);
     });
     await t.test('legacy won prices survive currency migration',async()=>{
       await pool.execute("INSERT INTO canteen_menus(service_date,published,items,version,currency) VALUES('2020-01-01',0,?,1,'KRW')",[JSON.stringify([{id:'legacy',name:'Old menu',price:5000,status:'unknown'}])]);

@@ -92,3 +92,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [Actual multi-day results and screenshots](canteen-menu-shortcuts-check.md#same-menu-multiple-days--subsequent-november-6-update), [64-pass regression](evidence/canteen-multi-day-backend-2026-11-06.txt).
 - **How it was checked:** Assistant verified success, fresh IDs, availability reset, original preservation, all-or-nothing conflict rollback, bad input, roles and concurrent requests. Browser check created Monday/Wednesday/Friday demo drafts and reloaded one; mobile dialog fit.
 - **What changed:** No silent replacement or copied stock claims; a conflict cancels the entire batch. Copies stay unpublished until reviewed, and this does not create a weekly recurring schedule.
+
+## Receipt 13 — Skip existing dates during multi-day menu copy
+
+- **What I did:** Requested and implemented, with coding assistance, a more convenient batch-copy policy: retain existing dates and create drafts for the rest, with an explicit created/skipped result.
+- **Evidence:** [Revised behaviour and actual results](canteen-menu-shortcuts-check.md#revised-duplicate-handling--november-6-supersedes-the-earlier-all-or-nothing-date-conflict-rule), [14-pass focused check](evidence/canteen-skip-existing-2026-11-06.txt).
+- **How it was checked:** Assistant-run MySQL cases verify mixed dates, all-existing retries, unchanged saved records and concurrent copies. Local API retry against two existing fictional dates returned zero created/two skipped with both read-backs unchanged; builds passed.
+- **What changed:** Existing dates are normal skips rather than a batch failure. Unexpected database errors still roll back new inserts. Earlier all-or-nothing duplicate behaviour is superseded, not a current requirement.

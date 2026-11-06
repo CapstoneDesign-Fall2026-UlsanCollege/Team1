@@ -46,3 +46,11 @@ Browser check: selecting existing November 5 plus empty November 7 displayed the
 - [Phone multi-day form](evidence/canteen-multiple-days-mobile-2026-11-06.jpg)
 
 Phone viewport 390 px: dialog width 337 px, within the visible content width. Temporary viewport overrides reset; dialog closed after checking. All results remain assistant-run local checks, not independent human verification or a live deployment.
+
+## Revised duplicate handling — November 6, supersedes the earlier all-or-nothing date conflict rule
+
+Owner requested existing dates be skipped while missing dates are created. API now returns created/skipped arrays: HTTP 201 when at least one draft is created, HTTP 200 if all dates already exist. A per-date duplicate-key error is skipped, without any update to the existing record. Other database errors still roll back the transaction. The UI explains this before copying and keeps a dismissible created/skipped summary afterward.
+
+Focused canteen suite: **14 passed, 0 failed/skipped**. [Actual output](evidence/canteen-skip-existing-2026-11-06.txt). Updated checks assert mixed dates create the missing date and preserve existing content/IDs/version/timestamp, all-existing requests succeed with empty created arrays, and concurrent requests collectively create each target exactly once. Input, permission, price/date/availability and legacy currency checks remain passing. Backend and frontend production builds passed.
+
+Local real-app API check (fictional data only): copied to the already existing November 5 and 6 demo dates. Observed HTTP 200, created=[], skipped=[2026-11-05,2026-11-06]; read-back of both records was unchanged. This check wrote no new menu and used no real school data. No new browser screenshot is claimed for this revision; earlier form screenshots show the older text. Independent/live verification remains pending.
