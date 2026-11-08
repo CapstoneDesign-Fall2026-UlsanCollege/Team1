@@ -120,3 +120,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [UX1 #74](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/74), [UX2 #75](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/75), [actual results and desktop/mobile screenshots](school-workspace-usability.md).
 - **How it was checked:** Assistant-run 66-pass backend regression including atomic enrollment, rollback, roles, audit attribution and roster pagination beyond 100; frontend build and 12 frontend checks passed. Browser verified class-aware enrollment, linked rooms/teachers and 390px mobile fit.
 - **What I learned or changed:** Enrollment must save with account creation to avoid unusable accounts. Shared class context reduces repeated selection, and optional fields should not dominate the form. Existing data and legacy behaviour are preserved. Independent human/live checks remain pending.
+
+## Receipt 17 - Improve sample data presentation
+
+- **What I did:** Requested removal of Demo display labels and more natural-looking sample names. With coding assistance, cleaned school/year/term, teacher/student names, subject/staff codes and related display values in the local database.
+- **Evidence:** [Actual update, limits and screenshot](school-data-labels.md), [guarded maintenance script](../../backend/scripts/polish-local-school-labels.mjs).
+- **How it was checked:** Full vendor backup restored successfully with table-row and trigger counts verified before updating 215 labels. Repeat preview found zero changes. Browser verified the new labels in the class planner.
+- **What I learned or changed:** Presentation can look realistic while the records remain fictional. Existing real data, authentication credentials, record IDs, links and audit history were preserved. Only the local database was changed.

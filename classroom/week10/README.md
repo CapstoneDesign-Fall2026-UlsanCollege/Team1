@@ -31,3 +31,5 @@ Personal confirmations, accepted backups and independent results remain pending.
 - [Activity Log: November 8 checks and proof](activity-log-check.md)
 
 - [School enrollment and connected class workspace: final checks](school-workspace-usability.md)
+
+- [Clean sample school labels: local backup and verification](school-data-labels.md)

@@ -30,6 +30,7 @@
 | Canteen workspace extension | [C2/C3 actual results and safe proof](canteen-owner-check.md) — owner-requested November 5 extension |
 | Activity Log | [A1 #73](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/73), [November 8 actual checks and proof](activity-log-check.md) |
 | School usability | [UX1 #74](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/74), [UX2 #75](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/75), [actual checks and screenshots](school-workspace-usability.md) |
+| Sample data polish | [November 9 labels, private backup verification and safe proof](school-data-labels.md) |
 | Document update | [Galan's detailed receipt](individual-evidence-receipt-galan-bishal.md) |
 
 ## Individual contribution entries — one row per student
