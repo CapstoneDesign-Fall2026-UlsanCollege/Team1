@@ -3,6 +3,7 @@ import {dismissAfterFourSeconds} from '../temporary-message'
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { teacherBusyReason } from '../room-availability'
 import { scheduleApi, days } from '../schedules'
+const props=defineProps<{initialClass?:number}>()
 const emit=defineEmits<{saving:[value:boolean]}>()
 const school=ref<any>(null), data=ref<any>(null), loading=ref(false), busy=ref(false), error=ref(''), message=ref('')
 dismissAfterFourSeconds(message)
@@ -22,7 +23,7 @@ const roomBookings=(id:number)=>data.value?.bookings.filter((b:any)=>b.room_id==
 const subjects=computed(()=>school.value?.subjects.filter((s:any)=>school.value.links.some((l:any)=>l.class_id===selectedClass.value && l.offering_id===s.id))??[])
 const teachers=computed(()=>school.value?.teachers.filter((t:any)=>t.is_active)??[])
 const form=reactive({offering_id:0,teacher_id:0,day_of_week:7,start_time:'10:00',end_time:'11:00',starts_on:'',ends_on:'',repeats_weekly:false,name:''})
-async function load(){loading.value=true;error.value='';try{const [s,r]=await Promise.all([scheduleApi('admin/school'),scheduleApi('admin/school/rooms')]);school.value=s;data.value=r;if(!s.years.some((y:any)=>y.id===yearId.value))yearId.value=s.years.find((y:any)=>y.start_date<=s.today && y.end_date>=s.today)?.id??s.years[0]?.id??0;if(!classes.value.some((c:any)=>c.id===selectedClass.value))selectedClass.value=0}catch(e){error.value=e instanceof Error?e.message:'Unable to load rooms.'}finally{loading.value=false}}
+async function load(){loading.value=true;error.value='';try{const [s,r]=await Promise.all([scheduleApi('admin/school'),scheduleApi('admin/school/rooms')]);school.value=s;data.value=r;if(!s.years.some((y:any)=>y.id===yearId.value))yearId.value=s.years.find((y:any)=>y.start_date<=s.today && y.end_date>=s.today)?.id??s.years[0]?.id??0;if(!selectedClass.value&&props.initialClass){const cl=s.classes.find((c:any)=>c.id===props.initialClass&&c.is_active);if(cl){yearId.value=cl.year_id;selectedClass.value=cl.id}}if(!classes.value.some((c:any)=>c.id===selectedClass.value))selectedClass.value=0}catch(e){error.value=e instanceof Error?e.message:'Unable to load rooms.'}finally{loading.value=false}}
 async function mutate(path:string,method:string,value:object){if(busy.value||!school.value)return;busy.value=true;emit('saving',true);error.value='';message.value='';try{const result=await scheduleApi('admin/school/'+path,method,{...value,revision:school.value.revision});await load();if(error.value)return false;message.value=result.message;return true}catch(e){error.value=e instanceof Error?e.message:'Unable to save.';return false}finally{busy.value=false;emit('saving',false)}}
 function selectClass(id:number){if(!busy.value && !suppress){selectedClass.value=id;message.value='Selected '+className(classes.value.find((c:any)=>c.id===id))+'. Choose a room, or drag the class card.'}}
 const availableOnly=ref(true)

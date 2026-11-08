@@ -2,13 +2,14 @@
 
 import { computed, onMounted, onBeforeUnmount, reactive, ref, watch } from 'vue'
 
+import ClassDetails from './ClassDetails.vue'
 import SchoolSubjectPlanner from './SchoolSubjectPlanner.vue'
 
 import { scheduleApi, days } from '../schedules'
 
 const props = defineProps<{ selectedTab?: string; active?: boolean }>()
 
-const emit = defineEmits<{ changed: [configured: boolean]; saving: [value: boolean] }>()
+const emit = defineEmits<{ changed: [configured: boolean]; saving: [value: boolean]; create:[id:number]; rooms:[id:number] }>()
 
 type Year = { id: number; name: string; start_date: string; end_date: string }
 
@@ -36,7 +37,7 @@ watch(message, value => {
   if (value) messageTimer = setTimeout(() => { message.value = '' }, 4000)
 })
 onBeforeUnmount(() => clearTimeout(messageTimer))
-const tab = ref(props.selectedTab ?? 'structure'), yearId = ref(0), classId = ref(0), search = ref(''), students = ref<Student[]>([]), memberships = ref<Membership[]>([]), effective = ref('')
+const tab = ref(props.selectedTab ?? 'class'), yearId = ref(0), classId = ref(0), search = ref(''), students = ref<Student[]>([]), memberships = ref<Membership[]>([]), effective = ref('')
 
 const memberFilter = ref('all'), memberPage = ref(1)
 
@@ -84,7 +85,7 @@ const className = (c?: Class) => c ? `Grade ${c.grade_label} · Class ${c.name} 
 
 async function loadRooms(){try{const data=await scheduleApi('admin/school/rooms');roomAssignments.value=data.assignments;roomError.value=false}catch{roomError.value=true}}
 
-watch(()=>props.active,value=>{if(value)void loadRooms()})
+watch(()=>props.active,value=>{if(value)void load()})
 
 const termName = (id: number) => state.value?.terms.find(t => t.id === id)?.name ?? 'Unmapped term'
 
@@ -206,7 +207,7 @@ async function findStudents() {
 
 }
 
-watch(() => props.selectedTab, value => { if (value && ['structure', 'members', 'subjects'].includes(value)) tab.value = value })
+watch(() => props.selectedTab, value => { if (value && ['class','roster','teachers','classrooms','structure', 'members', 'subjects'].includes(value)) tab.value = value })
 
 onMounted(load)
 
@@ -218,7 +219,7 @@ onMounted(load)
 
   <section class="school-manager" :class="{ compact: tab === 'subjects' || tab === 'members', 'membership-view': tab === 'members' }">
 
-    <div class="heading"><div><p class="eyebrow">SCHOOL PLANNING</p><h2>Years, grades and classes</h2></div><button type="button" class="secondary" :disabled="busy || loading" @click="load">Reload saved data</button></div>
+    <div class="heading"><div><p class="eyebrow">SCHOOL PLANNING</p><h2>{{tab==='structure'?'Years, grades and classes':'Class workspace'}}</h2></div><button type="button" class="secondary" :disabled="busy || loading" @click="load">Reload saved data</button></div>
 
     <p v-if="error" class="error" role="alert">{{ error }}</p><p v-if="message" class="success" role="status">{{ message }}</p><p v-if="loading" role="status">Loading school records…</p>
 
@@ -238,7 +239,12 @@ onMounted(load)
 
         <fieldset class="filters" :disabled="busy"><label>Academic year<select v-model="yearId" @change="resetSelection"><option :value="0">Choose a year</option><option v-for="y in state.years" :key="y.id" :value="y.id">{{ y.name }}</option></select></label><label>Homeroom class<select v-model="classId" @change="Object.assign(meeting, { id: 0, course_offering_id: 0 })"><option :value="0">Choose a class</option><option v-for="c in classes" :key="c.id" :value="c.id">{{ className(c) }}{{ c.is_active ? '' : ' · Inactive' }}</option></select></label></fieldset>
 
-        <nav class="tabs" aria-label="School planning"><button type="button" :class="{ secondary: tab !== 'structure' }" @click="tab = 'structure'">Years and classes</button><button type="button" :class="{ secondary: tab !== 'members' }" @click="tab = 'members'">Student membership</button><button type="button" :class="{ secondary: tab !== 'subjects' }" @click="tab = 'subjects'">Subjects and timetable</button></nav>
+        <nav class="tabs" aria-label="Class workspace"><button v-for="item in [{id:'class',name:'Overview'},{id:'roster',name:'Students'},{id:'subjects',name:'Subjects & timetable'},{id:'teachers',name:'Teachers'},{id:'classrooms',name:'Rooms'},{id:'structure',name:'Year & class setup'}]" :key="item.id" type="button" :class="{secondary:tab!==item.id}" :aria-current="tab===item.id?'page':undefined" :disabled="busy" @click="tab=item.id">{{item.name}}</button></nav>
+        <details v-if="tab==='class'" class="class-browser"><summary>Browse classes ({{classes.length}})</summary><div class="class-switcher"><button v-for="c in classes" :key="c.id" type="button" class="secondary" :aria-pressed="classId===c.id" @click="classId=c.id">Grade {{c.grade_label}} · Class {{c.name}}<small>{{roomLabel(c)}}</small></button></div></details>
+        <ClassDetails v-if="['class','roster','teachers','classrooms'].includes(tab)&&selectedClass" :state="state" :class-id="classId" :view="tab" @open="tab=$event" @create="emit('create',$event)" @rooms="emit('rooms',$event)" />
+        <p v-if="['class','roster','teachers','classrooms'].includes(tab)&&!selectedClass" class="muted">Create or choose a class to open its workspace.</p>
+
+        <p v-if="tab==='members'"><button type="button" class="secondary" @click="tab='roster'">← Back to class students</button></p>
 
         <template v-if="tab === 'structure'">
 
@@ -343,9 +349,13 @@ onMounted(load)
 
 
 <style scoped>
+.class-browser{margin:12px 0}.class-browser summary{cursor:pointer;color:#476c58;font-size:14px}.class-switcher{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.class-switcher button{padding:10px 14px;font-size:13px}.class-switcher small{display:block;font-size:11px;margin-top:4px}.class-switcher [aria-pressed="true"]{outline:2px solid #37614f}
+
 
 .school-manager{overflow-wrap:anywhere}.compact .heading h2{font-size:18px}.compact .heading .eyebrow,.compact .school-title{display:none}.compact .filters label{margin:6px 0}.compact .tabs{margin:8px 0}.heading{display:flex;justify-content:space-between;gap:14px;align-items:center}.heading h2{margin:0}.school-manager fieldset{border:0;padding:0;min-width:0}.school-manager .card{margin:20px 0}.school-manager label{display:block;margin:12px 0;font-weight:600}.school-manager input,.school-manager select{box-sizing:border-box;width:100%;font:inherit;padding:11px;border:1px solid #bccfc5;border-radius:8px;background:white;color:#213d34;min-width:0;margin-top:6px}.school-manager .check{display:flex;align-items:center;gap:10px}.check input{width:18px;height:18px;flex-shrink:0;margin:0}.filters,.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:14px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.school-manager button{width:auto;margin:6px 8px 6px 0}.school-manager .muted{font-size:14px;line-height:1.6}.search{display:flex;align-items:end;gap:10px}.search label{flex:1}.search button{margin-bottom:12px}.date-field{max-width:250px}.student-row small{display:block;color:#64776f;font-size:14px;margin-top:5px}.school-manager summary{cursor:pointer;margin:16px 0 8px}.school-manager li{line-height:1.7}.school-title{margin-top:18px}@media(max-width:600px){.heading{align-items:flex-start;flex-direction:column}.tabs button{flex:1 1 140px}.school-manager .card{padding:18px}.search{flex-wrap:wrap}.fields{grid-template-columns:1fr 1fr}.fields label:first-child{grid-column:1/-1}}
 
 .member-toolbar{display:grid;grid-template-columns:minmax(150px,1fr) minmax(180px,1.5fr) minmax(150px, .8fr) auto;gap:12px;align-items:end;background:#eaf2ed;padding:12px 16px;border-radius:12px}.member-toolbar label{margin:0}.member-toolbar button{margin:0;min-height:42px}.member-toolbar input,.member-toolbar select{padding:9px}.member-help{margin:10px 0}.member-list{background:#fff;border:1px solid #d5e1db;border-radius:12px;padding:0 16px}.student-row{display:grid;grid-template-columns:minmax(150px,1.3fr) minmax(120px,1fr) auto;align-items:center;gap:8px 16px;padding:10px 0;border-bottom:1px solid #e1e9e5}.student-row:last-child{border-bottom:0}.student-row small{margin-top:2px;font-size:12px}.member-actions{display:flex;gap:6px}.member-actions button{padding:8px 12px;margin:0;font-size:13px}.student-row details{grid-column:1/-1;font-size:13px}.student-row summary{margin:0}.member-pagination{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:12px;font-size:14px}.member-pagination>span:first-child{margin-right:auto}.member-pagination button{padding:8px 14px;margin:0}.membership-view .filters label{margin:6px 0}.membership-view .tabs button{padding:10px 16px}.membership-view .heading{margin-bottom:8px}@media(max-width:700px){.member-toolbar{grid-template-columns:1fr 1fr;gap:10px}.member-toolbar button{width:100%}.student-row{grid-template-columns:1fr auto}.student-assignment{grid-column:1;grid-row:2;font-size:13px}.member-actions{grid-column:2;grid-row:1/3}.member-list{padding:0 12px}.member-pagination{gap:8px}.member-pagination>span:first-child{width:100%}}
 
+
+.school-manager .tabs{gap:6px;margin:12px 0}.school-manager .tabs button{padding:10px 13px;font-size:13px;margin:0;min-height:42px}.school-manager .heading h2{font-size:22px}.school-manager .filters{gap:10px}.school-manager .filters label{font-size:13px;margin:8px 0}.school-manager .school-title{font-size:13px;margin:12px 0}@media(max-width:600px){.school-manager .tabs{flex-wrap:nowrap;overflow-x:auto;padding:3px 2px 8px}.school-manager .tabs button{flex:0 0 auto;white-space:nowrap}.school-manager .heading{flex-direction:row;align-items:center}.school-manager .heading button{padding:8px 10px;font-size:12px}.school-manager .heading .eyebrow{display:none}.school-manager .filters{grid-template-columns:1fr 1fr}.school-manager .filters select{font-size:13px;padding:9px}.school-manager .school-title{font-size:12px}}
 </style>

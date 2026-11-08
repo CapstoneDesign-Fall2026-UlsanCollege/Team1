@@ -1,3 +1,5 @@
+import bcrypt from 'bcryptjs';
+import {validateStudent} from './students.js';
 import { Router } from 'express';
 import { schoolRoomRouter } from './school-rooms.js';
 import type { Pool, PoolConnection, RowDataPacket, ResultSetHeader } from 'mysql2/promise';
@@ -75,6 +77,34 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
     next();
   });
   router.use(schoolRoomRouter(pool,(revision,run)=>mutate(pool,revision,run)));
+  // School enrollment creates all three records under the planning lock.
+  router.post('/admin/school/students',async(req,res)=>{
+    const input=req.body??{},classId=schoolId(input.class_id);
+    if(!isMenuDate(input.starts_on))throw new ScheduleError(400,'Choose a valid enrollment date.');
+    const check=validateStudent({...input,university:'School',major:'Not applicable',year_of_study:1,semester_id:null});
+    if(!check.ok)throw new ScheduleError(400,check.message);
+    const student=check.student,hash=await bcrypt.hash(student.password,12);
+    const studentId=await mutate(pool,input.revision,async c=>{
+      const school=await requireSchool(c),cl=await schoolClass(c,classId);
+      if(!cl.is_active)throw new ScheduleError(400,'Choose an active class.');
+      if(input.starts_on<cl.start_date||input.starts_on>cl.end_date)throw new ScheduleError(400,'Enrollment date must be inside the class academic year.');
+      let id:number;
+      try{const [r]=await c.execute<ResultSetHeader>("INSERT INTO users(login_id,password_hash,role) VALUES(?,?,'student')",[student.login_id,hash]);id=r.insertId}
+      catch(e){if((e as {code?:string}).code==='ER_DUP_ENTRY')throw new ScheduleError(409,'This login ID is already in use.');throw e}
+      await c.execute('INSERT INTO student_profiles(user_id,full_name,university,major,year_of_study,email,phone_number,address) VALUES(?,?,?,NULL,NULL,?,?,?)',[id,student.full_name,school.name,student.email||null,student.phone_number||null,student.address||null]);
+      await c.execute('INSERT INTO school_memberships(student_user_id,year_id,class_id,starts_on) VALUES(?,?,?,?)',[id,cl.year_id,classId,input.starts_on]);
+      return id;
+    });
+    res.status(201).json({message:'Student account and class enrollment saved.',student:{id:studentId,login_id:student.login_id,full_name:student.full_name}});
+  });
+  router.get('/admin/school/classes/:id/students',async(req,res)=>{
+    const cl=await schoolClass(pool,schoolId(Number(req.params.id))),date=req.query.date??today(),page=Number(req.query.page??1);
+    if(typeof date!=='string'||!isMenuDate(date)||date<cl.start_date||date>cl.end_date||!Number.isSafeInteger(page)||page<1||page>100000)throw new ScheduleError(400,'Choose a valid roster date and page.');
+    const filter='FROM school_memberships m JOIN users u ON u.id=m.student_user_id JOIN student_profiles p ON p.user_id=u.id WHERE m.class_id=? AND m.starts_on<=? AND (m.ends_on IS NULL OR m.ends_on>?)';
+    const values=[cl.id,date,date], [count]=await rows(pool,'SELECT COUNT(*) total '+filter,values);
+    const students=await rows(pool,'SELECT u.id,u.login_id,u.is_active,p.full_name '+filter+' ORDER BY p.full_name,u.id LIMIT 10 OFFSET '+((page-1)*10),values);
+    res.json({students,total:Number(count.total),page,page_size:10,date});
+  });
   router.get('/admin/school/summary', async (_req,res) => {
     const date=today();
     const [currentYear]=await rows(pool,`SELECT y.id,y.name,${yDates} FROM school_years y WHERE y.start_date<=? AND y.end_date>=? LIMIT 1`,[date,date]);

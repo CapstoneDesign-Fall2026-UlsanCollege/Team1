@@ -113,3 +113,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [A1 #73](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/73), [actual checks and screenshots](activity-log-check.md), [source/operation](../../docs/activity-log.md).
 - **How it was checked:** Assistant ran 65 passing backend checks with all database suites enabled, extended audit integration, frontend compilation/build and 12 frontend checks; browser verified room change/restoration and phone fit. Private backup restoration passed first.
 - **What I learned or changed:** Attribution uses authenticated staff and saves with the change. Distinct logins are required. Private values are hidden. Independent/live verification remains pending; no teammate review is claimed on their behalf.
+
+## Receipt 16 - Simplify school enrollment and class administration
+
+- **What I did:** Requested a full usability review and approved the first two improvements. With coding assistance, replaced college-only creation fields in school mode with direct class enrollment, and connected class students, timetable, teachers and rooms in one workspace.
+- **Evidence:** [UX1 #74](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/74), [UX2 #75](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/75), [actual results and desktop/mobile screenshots](school-workspace-usability.md).
+- **How it was checked:** Assistant-run 66-pass backend regression including atomic enrollment, rollback, roles, audit attribution and roster pagination beyond 100; frontend build and 12 frontend checks passed. Browser verified class-aware enrollment, linked rooms/teachers and 390px mobile fit.
+- **What I learned or changed:** Enrollment must save with account creation to avoid unusable accounts. Shared class context reduces repeated selection, and optional fields should not dominate the form. Existing data and legacy behaviour are preserved. Independent human/live checks remain pending.

@@ -29,3 +29,5 @@ Personal confirmations, accepted backups and independent results remain pending.
 - [November 6 compact canteen dashboard usability check](canteen-dashboard-usability.md)
 
 - [Activity Log: November 8 checks and proof](activity-log-check.md)
+
+- [School enrollment and connected class workspace: final checks](school-workspace-usability.md)

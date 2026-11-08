@@ -7,6 +7,7 @@ import {createDatabaseApp} from '../dist/database-app.js';
 import {canteenMenuSchema} from '../dist/canteen-menu.js';
 import {resetSchema} from '../dist/password-resets.js';
 import {favouritesSchema} from '../dist/job-favourites.js';
+import {ensureActivitySchema} from '../dist/activity-log.js';
 import {ensureSchoolSchema} from '../dist/school-schema.js';
 import {bookingDatesMeet} from '../dist/school-rooms.js';
 import {schoolDate,schoolDates,schoolId,schoolText} from '../dist/school-planning.js';
@@ -264,6 +265,47 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       await mutate('/admin/school/room-assignments/'+classA,'DELETE',{});
       assert.ok(!(await data('/admin/school/rooms')).assignments.some(a=>a.class_id===classA));
       for(const role of ['alice','canteen',null]){assert.equal((await request('/admin/school/rooms','GET',undefined,role)).status,role?403:401);assert.equal((await request('/admin/school/room-bookings','POST',booking,role)).status,role?403:401);}
+    });
+    await t.test('school enrollment atomically creates account/profile/membership and supports paged class rosters',async()=>{
+      await ensureActivitySchema(pool);
+      const payload={login_id:'enrolled_one',password:fixturePassword,full_name:'Fictional Enrolled Student',class_id:classA,starts_on:'2026-11-01',email:'fictional@example.test',role:'admin',university:'Injected college',semester_id:2};
+      const created=await mutate('/admin/school/students','POST',payload,201);
+      const [user]=await sql('SELECT * FROM users WHERE id=?',[created.student.id]);assert.equal(user.role,'student');assert.ok(await bcrypt.compare(fixturePassword,user.password_hash));
+      const [profile]=await sql('SELECT * FROM student_profiles WHERE user_id=?',[user.id]);assert.equal(profile.university,'Fictional School');assert.equal(profile.major,null);assert.equal(profile.year_of_study,null);
+      const audit=await sql("SELECT record_type,actor_login FROM activity_logs WHERE action='create' ORDER BY id");assert.deepEqual(audit.map(a=>a.record_type),['users','student_profiles','school_memberships']);assert.ok(audit.every(a=>a.actor_login==='admin'));
+      const [membership]=await sql('SELECT * FROM school_memberships WHERE student_user_id=?',[user.id]);assert.equal(membership.class_id,classA);assert.equal(membership.year_id,yearId);
+      assert.equal((await sql('SELECT * FROM student_semesters WHERE student_user_id=?',[user.id])).length,0);
+      const loginResponse=await request('/auth/login','POST',{login_id:payload.login_id,password:fixturePassword},null);assert.equal(loginResponse.status,200);cookies.enrolled=loginResponse.headers.get('set-cookie').split(';')[0];
+      assert.equal((await data('/student/school','enrolled')).membership.class_id,classA);
+      assert.ok((await data('/student/courses','enrolled')).courses.length);
+      const count=(await sql('SELECT COUNT(*) n FROM users'))[0].n;
+      await mutate('/admin/school/students','POST',payload,409);
+      await mutate('/admin/school/students','POST',{...payload,login_id:'bad_date',starts_on:'2028-01-01'},400);
+      await mutate('/admin/school/students','POST',{...payload,login_id:'bad_class',class_id:999999},404);
+      const revision=(await data('/admin/school')).revision;
+      assert.equal((await request('/admin/school/students','POST',{...payload,login_id:'stale',revision:revision-1})).status,409);
+      assert.equal((await sql('SELECT COUNT(*) n FROM users'))[0].n,count);
+      const inactive=(await mutate('/admin/school/classes','POST',{year_id:yearId,grade_label:'9',name:'Inactive',is_active:false},201)).id;
+      await mutate('/admin/school/students','POST',{...payload,login_id:'inactive',class_id:inactive},400);
+      await pool.query("CREATE TRIGGER enrollment_failure BEFORE INSERT ON school_memberships FOR EACH ROW SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Fixture membership failure'");
+      await mutate('/admin/school/students','POST',{...payload,login_id:'must_rollback'},503);
+      assert.equal((await sql("SELECT id FROM users WHERE login_id='must_rollback'")).length,0);
+      await pool.query('DROP TRIGGER enrollment_failure');
+      const rosterPath='/admin/school/classes/'+classA+'/students?date=2026-11-01';
+      const existing=(await data(rosterPath)).total;
+      for(let n=0;n<105;n++){
+        const inserted=await sql("INSERT INTO users(login_id,password_hash,role) VALUES(?,?,'student')",['roster_'+n,user.password_hash]);
+        await sql("INSERT INTO student_profiles(user_id,full_name,university) VALUES(?,?,'Fictional School')",[inserted.insertId,'Roster '+String(n).padStart(3,'0')]);
+        await sql("INSERT INTO school_memberships(student_user_id,year_id,class_id,starts_on) VALUES(?,?,?,'2026-11-01')",[inserted.insertId,yearId,classA]);
+      }
+      const first=await data(rosterPath+'&page=1'),last=await data(rosterPath+'&page=11');
+      assert.equal(first.total,existing+105);assert.equal(first.students.length,10);assert.ok(last.students.length);assert.ok(last.students.every(s=>!first.students.some(a=>a.id===s.id)));
+      assert.ok(first.students.every(s=>!('email'in s)&&!('password_hash'in s)));
+      for(const role of ['alice','canteen',null]){
+        assert.equal((await request('/admin/school/students','POST',{...payload,revision},role)).status,role?403:401);
+        assert.equal((await request(rosterPath,'GET',undefined,role)).status,role?403:401);
+      }
+      for(const query of ['date=2028-01-01','date=2026-02-30','date=2026-11-01&page=0','date=2026-11-01&page=abc'])assert.equal((await request('/admin/school/classes/'+classA+'/students?'+query)).status,400);
     });
   }finally{
     if(server){server.closeAllConnections();await new Promise(r=>server.close(r));}await pool?.end();
