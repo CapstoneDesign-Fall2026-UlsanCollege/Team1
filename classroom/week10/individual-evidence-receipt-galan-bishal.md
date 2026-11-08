@@ -127,3 +127,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [Actual update, limits and screenshot](school-data-labels.md), [guarded maintenance script](../../backend/scripts/polish-local-school-labels.mjs).
 - **How it was checked:** Full vendor backup restored successfully with table-row and trigger counts verified before updating 215 labels. Repeat preview found zero changes. Browser verified the new labels in the class planner.
 - **What I learned or changed:** Presentation can look realistic while the records remain fictional. Existing real data, authentication credentials, record IDs, links and audit history were preserved. Only the local database was changed.
+
+## Receipt 18 - Improve student home, homeroom and canteen visibility
+
+- **What I did:** Reported missing student homeroom/menu information and requested a clearer dashboard. With coding assistance, added scoped teacher/room/today-lesson data, a useful student home, direct timetable/canteen navigation and consistent school labels.
+- **Evidence:** [#76](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/76), [actual checks and screenshots](student-dashboard-check.md).
+- **How it was checked:** Assistant-run 67-pass full backend suite, frontend build and 12 frontend checks; browser verified Grade 6A teacher Deepa Karki, Room 101, daily lessons, published canteen information and 390px fit. Drafts remained private.
+- **What I learned or changed:** Missing teacher data needed a scoped API change. A draft menu is not a published meal: the canteen head must publish the applicable Nepal date. I also requested a documentation review; the fresh-database setup gap is tracked in #77. Independent human/live checks are pending.

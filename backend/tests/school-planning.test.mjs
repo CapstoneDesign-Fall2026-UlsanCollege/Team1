@@ -266,6 +266,31 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       assert.ok(!(await data('/admin/school/rooms')).assignments.some(a=>a.class_id===classA));
       for(const role of ['alice','canteen',null]){assert.equal((await request('/admin/school/rooms','GET',undefined,role)).status,role?403:401);assert.equal((await request('/admin/school/room-bookings','POST',booking,role)).status,role?403:401);}
     });
+    await t.test('student dashboard scopes homeroom, room and daily lessons to effective membership and active term',async()=>{
+      today='2026-11-01';
+      const state=await data('/admin/school'),offering=state.subjects.find(s=>s.course_code==='PLAN-MUSIC'&&state.links.some(l=>l.class_id===classA&&l.offering_id===s.id));
+      const teacher=state.subject_teachers.find(a=>a.offering_id===offering.id).teacher_id;
+      await sql('INSERT INTO school_class_rooms(year_id,class_id,room_id) VALUES(?,?,101)',[yearId,classA]);
+      const meeting=(await sql("INSERT INTO class_schedules(course_offering_id,day_of_week,start_time,end_time,location) VALUES(?,7,'10:00','11:00','Room 101')",[offering.id])).insertId;
+      const home=await data('/student/school?student_user_id=3','alice');
+      assert.equal(home.membership.class_id,classA);assert.equal(home.room.id,101);assert.equal(home.homeroom_teacher.id,teacher);assert.equal(home.homeroom_status,'assigned');assert.ok(home.lessons.some(m=>m.id===meeting));assert.ok(home.lessons.every(m=>m.course_name&&m.start_time));
+      assert.ok(!('email'in home.homeroom_teacher));assert.ok(!('password_hash'in home.homeroom_teacher));
+      const other=await data('/student/school','bob');assert.equal(other.membership.class_id,classB);assert.ok(!other.lessons.some(m=>m.id===meeting));
+      const unassigned=await data('/student/school','unmapped');assert.equal(unassigned.room,null);assert.equal(unassigned.homeroom_teacher,null);assert.deepEqual(unassigned.lessons,[]);
+      today='2026-11-02';assert.equal((await data('/student/school','alice')).membership.class_id,classB);assert.equal((await data('/student/school','alice')).homeroom_teacher,null);assert.ok(!(await data('/student/school','alice')).lessons.some(m=>m.id===meeting));today='2026-11-01';
+      await sql('UPDATE school_teachers SET is_active=0 WHERE id=?',[teacher]);assert.equal((await data('/student/school','alice')).homeroom_status,'inactive');assert.equal((await data('/student/school','alice')).homeroom_teacher,null);await sql('UPDATE school_teachers SET is_active=1 WHERE id=?',[teacher]);
+      const secondTeacher=state.teachers.find(t=>t.id!==teacher).id;
+      const extraCourse=(await sql("INSERT INTO courses(course_code,course_name,credits) VALUES('HOME-TEST','Other first lesson',1)")).insertId;
+      const extraOffering=(await sql("INSERT INTO course_offerings(course_id,semester_id,section) VALUES(?,1,'A')",[extraCourse])).insertId;
+      await sql('INSERT INTO school_class_offerings VALUES(?,?)',[classA,extraOffering]);await sql('INSERT INTO school_offering_teachers VALUES(?,?)',[extraOffering,secondTeacher]);
+      const extraMeeting=(await sql("INSERT INTO class_schedules(course_offering_id,day_of_week,start_time,end_time) VALUES(?,7,'10:00','11:00')",[extraOffering])).insertId;
+      assert.equal((await data('/student/school','alice')).homeroom_status,'needs_review');assert.equal((await data('/student/school','alice')).homeroom_teacher,null);
+      await sql('DELETE FROM class_schedules WHERE id=?',[extraMeeting]);await sql('DELETE FROM school_offering_teachers WHERE offering_id=?',[extraOffering]);await sql('DELETE FROM school_class_offerings WHERE offering_id=?',[extraOffering]);await sql('DELETE FROM course_offerings WHERE id=?',[extraOffering]);await sql('DELETE FROM courses WHERE id=?',[extraCourse]);
+      await sql("UPDATE semesters SET end_date='2026-10-31' WHERE id=1");assert.equal((await data('/student/school','alice')).homeroom_teacher,null);assert.deepEqual((await data('/student/school','alice')).lessons,[]);await sql("UPDATE semesters SET end_date='2026-12-31' WHERE id=1");
+      await sql('DELETE FROM class_schedules WHERE id=?',[meeting]);await sql('DELETE FROM school_class_rooms WHERE class_id=?',[classA]);
+      assert.equal((await data('/student/school','alice')).homeroom_status,'unassigned');
+      for(const role of ['admin','canteen',null])assert.equal((await request('/student/school','GET',undefined,role)).status,role?403:401);
+    });
     await t.test('school enrollment atomically creates account/profile/membership and supports paged class rosters',async()=>{
       await ensureActivitySchema(pool);
       const payload={login_id:'enrolled_one',password:fixturePassword,full_name:'Fictional Enrolled Student',class_id:classA,starts_on:'2026-11-01',email:'fictional@example.test',role:'admin',university:'Injected college',semester_id:2};

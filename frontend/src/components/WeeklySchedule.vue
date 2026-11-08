@@ -1,19 +1,21 @@
 <script setup lang="ts">
+import {computed} from 'vue'
 import StudentIcon from './StudentIcon.vue'
 import { days, type Meeting } from '../schedules'
-defineProps<{ meetings: Meeting[]; editable?: boolean; busy?: boolean }>()
+const props=defineProps<{ meetings: Meeting[]; editable?: boolean; busy?: boolean; school?:boolean }>()
+const displayDays=computed(()=> (props.school?[7,1,2,3,4,5,...(props.meetings.some(m=>m.day_of_week===6)?[6]:[])]:[1,2,3,4,5,6,7]).map(id=>({id,name:days[id-1]})))
 defineEmits<{ edit: [meeting: Meeting]; remove: [meeting: Meeting] }>()
 </script>
 <template>
   <div class="week">
-    <section v-for="(day, index) in days" :key="day" class="day">
-      <h3>{{ day }} <small>{{ meetings.filter(m => m.day_of_week === index + 1).length }} classes</small></h3>
-      <p v-if="!meetings.some(m => m.day_of_week === index + 1)" class="free">No classes scheduled</p>
-      <article v-for="m in meetings.filter(m => m.day_of_week === index + 1).sort((a,b) => a.start_time.localeCompare(b.start_time))" :key="m.id" class="meeting">
+    <section v-for="day in displayDays" :key="day.id" class="day">
+      <h3>{{ day.name }} <small>{{ meetings.filter(m => m.day_of_week === day.id).length }} classes</small></h3>
+      <p v-if="!meetings.some(m => m.day_of_week === day.id)" class="free">No classes scheduled</p>
+      <article v-for="m in meetings.filter(m => m.day_of_week === day.id).sort((a,b) => a.start_time.localeCompare(b.start_time))" :key="m.id" class="meeting">
         <strong class="time">{{ m.start_time.slice(0,5) }} – {{ m.end_time.slice(0,5) }}</strong>
         <h4>{{ m.course_code }} · {{ m.course_name }}</h4>
-        <p>{{ m.location }} · Section {{ m.section }}</p><p>{{ m.professor || 'Professor not assigned' }}</p>
-        <div v-if="editable" class="actions"><button title="Edit" type="button" :disabled="busy" @click="$emit('edit', m)" :aria-label="'Edit ' + m.course_code + ' on ' + day"><StudentIcon name="edit" /></button><button title="Remove" type="button" class="remove" :disabled="busy" @click="$emit('remove', m)" :aria-label="'Remove ' + m.course_code + ' on ' + day"><StudentIcon name="remove" /></button></div>
+        <p>{{ m.location }}<span v-if="!school"> · Section {{ m.section }}</span></p><p>{{ m.professor || (school?'Teacher not assigned':'Professor not assigned') }}</p>
+        <div v-if="editable" class="actions"><button title="Edit" type="button" :disabled="busy" @click="$emit('edit', m)" :aria-label="'Edit ' + m.course_code + ' on ' + day.name"><StudentIcon name="edit" /></button><button title="Remove" type="button" class="remove" :disabled="busy" @click="$emit('remove', m)" :aria-label="'Remove ' + m.course_code + ' on ' + day.name"><StudentIcon name="remove" /></button></div>
       </article>
     </section>
   </div>

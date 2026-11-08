@@ -33,3 +33,5 @@ Personal confirmations, accepted backups and independent results remain pending.
 - [School enrollment and connected class workspace: final checks](school-workspace-usability.md)
 
 - [Clean sample school labels: local backup and verification](school-data-labels.md)
+
+- [Student dashboard, homeroom and canteen checks](student-dashboard-check.md)

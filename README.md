@@ -1,37 +1,25 @@
+# StudentHub
 
-﻿# StudentHub
+StudentHub supports Nepal-style middle/high-school administration: class enrollment, subjects/teachers, weekly timetables, room allocations/bookings, student accounts and school canteen information.
 
-StudentHub is being adapted into a **middle and high school** platform for academic planning, homeroom-teacher management and school canteen information.
+**Current evidence:** [Week 10 index](classroom/week10/README.md), [class workspace and enrollment](classroom/week10/school-workspace-usability.md), [student dashboard](classroom/week10/student-dashboard-check.md), [Activity Log](docs/activity-log.md). Earlier Week 9 planning documents describe the pivot's history.
 
-**Current plan:** [Design Doc v2](classroom/week9/design-doc-v2.md) and [Mermaid roadmap](classroom/week9/roadmap.md). Classroom finding is cancelled. Job search remains an optional high-school feature; school-level audience gating is planned in [#69](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/69).
+## Implemented and locally checked
 
-The existing implementation is college-oriented: students currently see courses by semester and major. School years, grades, homeroom classes and homeroom-teacher assignments are **planned changes**, not features already shipped. Existing accounts, academic records and favourites must be retained and mapped explicitly. Historical weekly reports remain evidence of the earlier scope.
+- Administrators manage academic years, classes, student enrollment/transfers, specialist teacher assignments, subject/timetable planning, usual classrooms and special-room bookings.
+- Student home shows their effective class, homeroom teacher, usual room, today's lessons and published menu preview; weekly timetable/profile/subjects remain available.
+- Canteen heads manage dated menus, prices, availability, copy-to-days, publication, hours/location and notices. Students see only published information; an unpublished menu remains hidden.
+- Account support includes administrator-reviewed password resets; private password delivery is manual.
+- Admin-only Activity Log records authenticated staff changes with private-value redaction.
+- Seoul job search and favourites remain available as an optional high-school direction; complete policy enforcement is separate work.
 
-## Current features
+These are local/automated/browser results, not a claim of current hosted release verification. Existing college records are retained behind explicit school mapping.
 
-### Administrator
+## Setup status - read before following the older commands below
 
-- Create student accounts with an initial password and optional semester assignment.
-- Search and edit student profiles, including semester membership.
-- Enable or disable student accounts.
-- Create semesters and browse the course catalog.
-- Assign courses to a semester and major using drag-and-drop or touch controls.
-- Assign and edit professors for course offerings.
-- Add, edit, remove, and view weekly class meetings.
-- Prevent overlapping class times within the same semester and major.
-- Use large-screen planning views for courses and timetables.
+The setup section below is incomplete for a new empty database. Migrations currently begin at 002; the base tables and first-admin bootstrap need a canonical versioned procedure. Personal-machine paths below are historical examples. A successful build on the author's populated database does not prove a fresh clone can run.
 
-### Student
-
-- Log in using an administrator-created account.
-- View profile information and edit contact details.
-- View assigned semesters and major-specific courses.
-- View a weekly timetable with course, professor, time, and location.
-- Use the mobile-friendly bottom navigation.
-
-Job search, filters and favourites are implemented using the Seoul Open Data recruitment API; the new high-school-only optional policy is not yet implemented. See [job notes](docs/job-finder.md).
-
-C0 canteen-head access and C1 daily menu publishing/student display are implemented with local automated checks. Browser/live verification remains pending; see [C1 notes](docs/canteen-daily-menu.md). C2/C3 hours/location and availability controls remain planned.
+[Setup repair and clean-database verification #77](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/77) tracks the missing baseline, complete migration order, configuration, first account and repeatable checks. Do not use a private production dump as a public setup fixture.
 
 ## Project structure
 
@@ -131,4 +119,4 @@ npm.cmd test
 4. Test the flow as administrator and student.
 5. Commit with a clear message and push to the team repository.
 
-The repository is a development MVP. The school pivot is planning work; local automated evidence does not establish live verification. Railway recovery is tracked in #65. The owner plans to revisit its purchase on November 10; keep fallback hosting and private backups until recovery is verified.
+The repository is a development MVP. School features have local checks; independent human and live verification remain separate. Railway recovery is tracked in #65. The owner plans to revisit its purchase on November 10; keep fallback hosting and private backups until recovery is verified.

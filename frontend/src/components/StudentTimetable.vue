@@ -24,8 +24,8 @@ onMounted(load)
     <p v-else-if="error" class="error" role="alert">{{ error }}</p>
     <template v-else>
       <p v-if="!terms.length">{{ schoolMode ? 'No school terms are available for your current class membership. Contact your administrator.' : 'You have not been assigned to a semester yet.' }}</p>
-      <template v-else><label for="student-schedule-term">Semester</label><select id="student-schedule-term" v-model="semester"><option v-for="t in terms" :key="t.id" :value="t.id">{{ t.name }} {{ t.academic_year }}</option></select>
-      <p class="note">{{ visible.length }} class meetings each week<span v-if="visible[0]?.major"> · {{visible[0].major}}</span></p><p v-if="!visible.length">{{ schoolMode ? 'No meetings are linked to your class in this term yet.' : 'No classes are scheduled for your major in this semester.' }}</p><WeeklySchedule v-else :meetings="visible" /></template>
+      <template v-else><label for="student-schedule-term">{{schoolMode?'School term':'Semester'}}</label><select id="student-schedule-term" v-model="semester"><option v-for="t in terms" :key="t.id" :value="t.id">{{ t.name }}{{schoolMode?'':' '+t.academic_year}}</option></select>
+      <p class="note">{{ visible.length }} class meetings each week<span v-if="visible[0]?.major"> · {{visible[0].major}}</span></p><p v-if="!visible.length">{{ schoolMode ? 'No meetings are linked to your class in this term yet.' : 'No classes are scheduled for your major in this semester.' }}</p><WeeklySchedule v-else :meetings="visible" :school="schoolMode" /></template>
     </template>
   </section>
 </template>

@@ -31,6 +31,7 @@
 | Activity Log | [A1 #73](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/73), [November 8 actual checks and proof](activity-log-check.md) |
 | School usability | [UX1 #74](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/74), [UX2 #75](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/75), [actual checks and screenshots](school-workspace-usability.md) |
 | Sample data polish | [November 9 labels, private backup verification and safe proof](school-data-labels.md) |
+| Student dashboard | [#76](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/76), [homeroom, lessons, canteen and actual proof](student-dashboard-check.md) |
 | Document update | [Galan's detailed receipt](individual-evidence-receipt-galan-bishal.md) |
 
 ## Individual contribution entries — one row per student

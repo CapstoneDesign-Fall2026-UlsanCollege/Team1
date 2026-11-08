@@ -4,7 +4,7 @@ import {weekdayDate,recommendedPrice} from '../canteen-menu-tools'
 import CanteenDetails from './CanteenDetails.vue'
 import { scheduleApi } from '../schedules'
 
-const props = defineProps<{ manage?: boolean }>()
+const props = defineProps<{ manage?: boolean; preview?: boolean }>()
 const emit=defineEmits<{busy:[value:boolean]}>()
 type Item = { id?: string; name: string; price: number; status:'unknown'|'available'|'sold_out' }
 const campusDate = () => new Intl.DateTimeFormat('en-CA', {
@@ -96,8 +96,8 @@ onMounted(()=>{void load();void loadRecommendations()})
 </script>
 
 <template>
-  <section class="daily-menu" :class="{'manage-menu':manage}"><CanteenDetails v-if="!manage" />
-    <div v-if="!manage" class="menu-heading"><div><p v-if="!manage" class="eyebrow">CAMPUS CANTEEN ONLY</p><h2>{{ manage ? 'Daily menu' : 'Campus Eat' }}</h2></div>
+  <section class="daily-menu" :class="{'manage-menu':manage}">
+    <div v-if="!manage" class="menu-heading"><div><p v-if="!manage" class="eyebrow">CAMPUS CANTEEN ONLY</p><h2>{{ manage ? 'Daily menu' : 'School Canteen' }}</h2></div>
       <button type="button" class="secondary" :disabled="loading || saving" @click="load(true)">Refresh</button>
     </div>
     <p v-if="error" class="error" role="alert">{{ error }} <button type="button" class="secondary" :disabled="loading || saving" @click="load(true)">Reload saved data</button></p>
@@ -125,12 +125,13 @@ onMounted(()=>{void load();void loadRecommendations()})
     </template>
     <template v-else-if="!loading && !error">
       <h3>Today’s menu · {{ date }}</h3>
-      <p v-if="!hasMenu" class="muted">No menu has been published for today. Please check again later.</p>
-      <article v-for="item in items" :key="item.id" class="card menu-item"><h3>{{ item.name }}</h3><div class="food-details"><strong>{{currency==='NPR'?'रू':'KRW'}} {{Number(item.price).toLocaleString()}}</strong><span class="food-status" :class="item.status">{{item.status==='sold_out'?'Sold out':item.status==='available'?'Available':'Availability not confirmed'}}</span></div></article>
+      <p v-if="!hasMenu" class="muted">The canteen head has not published a menu for this date yet. Check again after it is published.</p>
+      <article v-for="item in (preview?items.slice(0,3):items)" :key="item.id" class="card menu-item"><h3>{{ item.name }}</h3><div class="food-details"><strong>{{currency==='NPR'?'रू':'KRW'}} {{Number(item.price).toLocaleString()}}</strong><span class="food-status" :class="item.status">{{item.status==='sold_out'?'Sold out':item.status==='available'?'Available':'Availability not confirmed'}}</span></div></article>
       <p class="muted">Food information only. Please visit the campus canteen to order.</p>
     </template>
     <dialog ref="daysDialog" class="new-menu-dialog"><form @submit.prevent="applyDays"><fieldset :disabled="saving"><h3>Apply menu to selected days</h3><p class="muted">Copy the items and prices currently in this form. Your source menu stays unchanged. Copies are unpublished drafts with availability not confirmed.</p><label>Week containing<input v-model="copyWeek" type="date" min="2000-01-01" max="2200-12-31" required @change="copyDays=[]"></label><div class="copy-days"><label v-for="(day,i) in dayNames" :key="day" class="copy-day"><input v-model="copyDays" type="checkbox" :value="i" :disabled="!dateForDay(i)||dateForDay(i)===loadedDate"><span>{{day}}<small>{{dateForDay(i)}}{{dateForDay(i)===loadedDate?' · source menu':''}}</small></span></label></div><p v-if="targetDates.length" class="muted">{{targetDates.length}} dates selected. Dates with existing menus will be skipped. Drafts will be created for the remaining dates.</p><p v-if="copyError" class="error" role="alert">{{copyError}}</p><div class="dialog-actions"><button type="button" class="secondary" @click="daysDialog?.close()">Cancel</button><button :disabled="!targetDates.length||saving">{{saving?'Saving drafts…':'Create selected drafts'}}</button></div></fieldset></form></dialog>
     <dialog ref="newMenuDialog" class="new-menu-dialog"><form @submit.prevent="startNewMenu"><h3>Create a new daily menu</h3><p class="muted">Start with an empty draft. Existing menus will stay saved.</p><label>New menu date<input v-model="newDate" type="date" min="2000-01-01" max="2200-12-31" required></label><p v-if="newMenuError" class="error" role="alert">{{newMenuError}}</p><div class="dialog-actions"><button type="button" class="secondary" :disabled="startingMenu" @click="newMenuDialog?.close()">Cancel</button><button :disabled="startingMenu">{{startingMenu?'Checking date…':'Start draft'}}</button></div></form></dialog>
+    <CanteenDetails v-if="!manage&&!preview" />
     <p v-if="updated && !loading && !error" class="muted">Last updated {{ displayTime(updated) }} (Nepal time)</p>
   </section>
 </template>

@@ -16,6 +16,7 @@ const paths: Record<string, string> = {
   jobs: 'M3 7h18v14H3ZM8 7V3h8v4M3 12c5 4 13 4 18 0M10 13h4v4h-4Z',
   home: 'm2 11 10-9 10 9M5 9v13h5v-8h4v8h5V9',
   settings: 'M9 3h6l1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1ZM16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z',
+  canteen: 'M4 3v6a3 3 0 0 0 6 0V3M7 3v18M17 3c-3 4-3 9 1 9V3ZM18 12v9',
   menu: 'M4 6h16M4 12h16M4 18h16',
   back: 'm15 4-8 8 8 8',
   search: 'M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Zm-2 5 7 7',

@@ -6,10 +6,13 @@ import JobFinder from './JobFinder.vue'
 import CampusEat from './DailyMenu.vue'
 import StudentTimetable from './StudentTimetable.vue'
 import StudentSchool from './StudentSchool.vue'
+import StudentHome from './StudentHome.vue'
 defineProps<{ loginId: string; busy: boolean; error: string }>()
 defineEmits<{ logout: [] }>()
 type Page = 'life' | 'profile' | 'semester' | 'course' | 'schedule' | 'jobs' | 'home' | 'settings' | 'eat' | 'school'
-const page = ref<Page>('life')
+const page = ref<Page>('home')
+const schoolInfo=ref<{name:string;level:string}|null>(null)
+const schoolMode=computed(()=>Boolean(schoolInfo.value))
 const menu = ref(false)
 type Profile = { full_name: string; university: string; major: string | null; year_of_study: number | null; email: string | null; phone_number: string | null; address: string | null }
 const profile = ref<Profile | null>(null)
@@ -23,9 +26,9 @@ const editing = ref(false)
 const saving = ref(false)
 const editForm = ref({ email: '', phone_number: '', address: '' })
 const profileRows = computed(() => profile.value ? [
-  ['Name', profile.value.full_name], ['University', profile.value.university],
+  ['Name', profile.value.full_name], [schoolMode.value?'School':'University', profile.value.university],
   ['Email', profile.value.email], ['Phone', profile.value.phone_number],
-  ['Year', profile.value.year_of_study], ['Address', profile.value.address],
+  ...(!schoolMode.value?[['Year',profile.value.year_of_study]]:[]), ['Address', profile.value.address],
 ] : [])
 async function loadProfile() {
   if (profileLoading.value) return
@@ -51,17 +54,16 @@ async function saveProfile() {
   } catch (e) { profileError.value = e instanceof Error ? e.message : 'Unable to update profile.' }
   finally { saving.value = false }
 }
-const sections: { page: Page; title: string; icon: string }[] = [
+const sections = computed<{page:Page;title:string;icon:string}[]>(()=>[
   { page: 'school', title: 'My Class', icon: 'semester' },
   { page: 'profile', title: 'Student Profile', icon: 'profile' },
-  { page: 'semester', title: 'Semester', icon: 'semester' },
-  { page: 'course', title: 'Course', icon: 'course' },
-  { page: 'schedule', title: 'Schedule', icon: 'schedule' },
-  { page: 'jobs', title: 'Student Job', icon: 'jobs' },
-  { page: 'eat', title: 'Campus Eat', icon: 'menu' },
-]
-const title = computed(() => sections.find(item => item.page === page.value)?.title ?? ({ life: 'Student Life', home: 'Home', settings: 'Settings' } as Record<string, string>)[page.value])
-const inLife = computed(() => page.value !== 'home' && page.value !== 'settings')
+  { page: 'semester', title: schoolMode.value?'School terms':'Semester', icon: 'semester' },
+  { page: 'course', title: schoolMode.value?'Subjects':'Courses', icon: 'course' },
+  { page: 'schedule', title: 'Timetable', icon: 'schedule' },
+  { page: 'jobs', title: 'Job search', icon: 'jobs' },
+  { page: 'eat', title: 'School Canteen', icon: 'canteen' },
+].filter(item=>!(schoolMode.value&&item.page==='semester')&&!(schoolInfo.value?.level==='middle'&&item.page==='jobs')) as {page:Page;title:string;icon:string}[])
+const title = computed(() => sections.value.find(item => item.page === page.value)?.title ?? ({ life: 'Student Life', home: 'Home', settings: 'Settings' } as Record<string, string>)[page.value])
 function displayDate(value: string) { return new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) }
 function go(next: Page) { page.value = next; menu.value = false; if (next === 'profile') void loadProfile(); if (next === 'semester') void loadSemesters(); if (next === 'course') void loadCourses() }
 async function loadSemesters(){ semesterLoading.value=true; semesterError.value=''; semesters.value=[]; try { const r=await apiFetch('/api/student/semesters'); const d=await r.json(); if(!r.ok) throw new Error(d.message || 'Unable to load terms.'); semesters.value=d.semesters } catch(e) { semesterError.value=e instanceof Error?e.message:'Unable to load terms.' } finally { semesterLoading.value=false } }
@@ -73,40 +75,38 @@ async function loadCourses(){ courseLoading.value=true; courseError.value=''; co
     <div class="student-shell">
       <header class="student-top">
         <button v-if="['life', 'home', 'settings'].includes(page)" class="icon-button" aria-label="Open navigation" :aria-expanded="menu" aria-controls="student-menu" @click="menu = !menu"><StudentIcon name="menu" /></button>
-        <button v-else class="icon-button" aria-label="Back to Student Life" @click="go('life')"><StudentIcon name="back" /></button>
+        <button v-else class="icon-button" aria-label="Back to home" @click="go('home')"><StudentIcon name="back" /></button>
         <h1>{{ title }}</h1><span class="top-spacer"></span>
       </header>
       <nav v-if="menu" id="student-menu" class="student-menu" aria-label="Student menu">
         <button v-for="item in sections" :key="item.page" @click="go(item.page)">{{ item.title }}</button>
+        <button @click="go('settings')">Account settings</button>
         <button :disabled="busy" @click="$emit('logout')">{{ busy ? 'Logging out…' : 'Log out' }}</button>
       </nav>
       <main class="student-content">
         <p v-if="error" class="error" role="alert">{{ error }}</p>
-        <div v-if="page === 'life'" class="student-grid">
+        <StudentHome v-if="page==='home'" @open="go" @context="schoolInfo=$event" />
+        <div v-else-if="page === 'life'" class="student-grid">
           <button v-for="item in sections" :key="item.page" class="student-tile" :class="{ wide: item.page === 'jobs' }" @click="go(item.page)"><StudentIcon :name="item.icon" /><span>{{ item.title }}</span></button>
         </div>
         <template v-else-if="page === 'profile'">
           <p v-if="profileLoading" role="status">Loading your profile…</p>
           <div v-else-if="profileError"><p class="error" role="alert">{{ profileError }}</p><button class="student-primary" @click="loadProfile">Try again</button></div>
           <template v-else-if="profile">
-            <section class="profile-summary"><div class="student-avatar"><StudentIcon name="profile" /></div><div><h2>{{ profile.full_name }}</h2><p>Student ID: {{ loginId }}</p><p class="student-muted">Major: {{ profile.major || 'Not provided' }}</p></div></section>
+            <section class="profile-summary"><div class="student-avatar"><StudentIcon name="profile" /></div><div><h2>{{ profile.full_name }}</h2><p>Student ID: {{ loginId }}</p><p v-if="!schoolMode" class="student-muted">Major: {{ profile.major || 'Not provided' }}</p></div></section>
             <section class="student-panel"><div class="panel-heading"><h2>Personal Information</h2><button class="edit-button" @click="editing = !editing">{{ editing ? 'Cancel' : 'Edit' }}</button></div><form v-if="editing" class="edit-form" @submit.prevent="saveProfile"><label>Email<input v-model="editForm.email" type="email" maxlength="254"></label><label>Phone<input v-model="editForm.phone_number" maxlength="30"></label><label>Address<textarea v-model="editForm.address" maxlength="500" rows="2"></textarea></label><button class="student-primary" :disabled="saving">{{ saving ? 'Saving…' : 'Save changes' }}</button></form><dl v-else><div v-for="[field, value] in profileRows" :key="String(field)"><dt>{{ field }}</dt><dd>{{ value ?? 'Not provided' }}</dd></div></dl></section>
           </template>
         </template>
         <JobFinder v-else-if="page === 'jobs'" :login-id="loginId" />
-        <CampusEat v-else-if="page === 'eat'" />
-        <StudentSchool v-else-if="page === 'school'" @open="go" />
-        <section v-else-if="page === 'home'" class="student-panel home-panel"><p class="student-muted">WELCOME TO STUDENTHUB</p><h2>Your student life, in one place.</h2><p>Student ID: {{ loginId }}</p><button class="student-primary" @click="go('life')">Open Student Life</button></section>
+        <div v-else-if="page==='eat'" class="student-canteen"><CampusEat/></div>
+        <StudentSchool v-else-if="page === 'school'" @open="go" @context="schoolInfo=$event" />
+
         <section v-else-if="page === 'settings'" class="student-panel settings-panel"><h2>Account</h2><p>Signed in as {{ loginId }}</p><p class="student-muted">For account or password changes, contact your administrator.</p><button class="student-primary" :disabled="busy" @click="$emit('logout')">{{ busy ? 'Logging out…' : 'Log out' }}</button></section>
         <section v-else-if="page === 'semester'" class="student-panel semester-list"><h2>Your semesters</h2><p v-if="semesterLoading">Loading…</p><p v-else-if="semesterError" class="error" role="alert">{{ semesterError }} <button type="button" @click="loadSemesters">Retry</button></p><p v-else-if="!semesters.length" class="student-muted">You have not been assigned to a semester yet.</p><div v-for="item in semesters" :key="item.id" class="semester-row"><strong>{{item.name}} {{item.academic_year}}</strong><span>{{displayDate(item.start_date)}} – {{displayDate(item.end_date)}}</span></div></section>
-        <section v-else-if="page === 'course'" class="student-panel semester-list"><h2>{{ courseSchoolMode ? 'Subjects mapped to your class' : 'Courses in your semester' }}</h2><p v-if="courseLoading">Loading…</p><p v-else-if="courseError" class="error" role="alert">{{ courseError }} <button type="button" @click="loadCourses">Retry</button></p><p v-else-if="!courses.length" class="student-muted">No subjects are available for your current academic assignment. Contact your administrator if you need help.</p><div v-for="item in courses" :key="item.offering_id" class="semester-row"><div><strong>{{item.course_code}} · {{item.course_name}}</strong><small>{{item.credits}} credits · Section {{item.section}}</small></div><span>{{item.professor || 'Professor not assigned'}}</span></div></section>
+        <section v-else-if="page === 'course'" class="student-panel semester-list"><h2>{{ courseSchoolMode ? 'Subjects mapped to your class' : 'Courses in your semester' }}</h2><p v-if="courseLoading">Loading…</p><p v-else-if="courseError" class="error" role="alert">{{ courseError }} <button type="button" @click="loadCourses">Retry</button></p><p v-else-if="!courses.length" class="student-muted">No subjects are available for your current academic assignment. Contact your administrator if you need help.</p><div v-for="item in courses" :key="item.offering_id" class="semester-row"><div><strong>{{item.course_code}} · {{item.course_name}}</strong><small>{{schoolMode?'Class subject':item.credits+' credits · Section '+item.section}}</small></div><span>{{item.professor || 'Teacher not assigned'}}</span></div></section>
         <StudentTimetable v-else-if="page === 'schedule'" />
       </main>
-      <nav class="student-bottom" aria-label="Main navigation">
-        <button :class="{ selected: page === 'home' }" :aria-current="page === 'home' ? 'page' : undefined" @click="go('home')"><StudentIcon name="home" /><span>Home</span></button>
-        <button :class="{ selected: inLife }" :aria-current="inLife ? 'page' : undefined" @click="go('life')"><StudentIcon name="course" /><span>Student Life</span></button>
-        <button :class="{ selected: page === 'settings' }" :aria-current="page === 'settings' ? 'page' : undefined" @click="go('settings')"><StudentIcon name="settings" /><span>Settings</span></button>
-      </nav>
+      <nav class="student-bottom" aria-label="Main navigation"><button :class="{selected:page==='home'}" :aria-current="page==='home'?'page':undefined" @click="go('home')"><StudentIcon name="home"/><span>Home</span></button><button :class="{selected:page==='schedule'}" :aria-current="page==='schedule'?'page':undefined" @click="go('schedule')"><StudentIcon name="schedule"/><span>Timetable</span></button><button :class="{selected:page==='eat'}" :aria-current="page==='eat'?'page':undefined" @click="go('eat')"><StudentIcon name="canteen"/><span>Canteen</span></button><button :class="{selected:page==='life'}" :aria-current="page==='life'?'page':undefined" @click="go('life')"><StudentIcon name="menu"/><span>More</span></button></nav>
     </div>
   </div>
 </template>
@@ -121,4 +121,5 @@ async function loadCourses(){ courseLoading.value=true; courseError.value=''; co
 @media(max-width:600px){.student-shell{height:100dvh;min-height:0}}
 .panel-heading{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#f7f9fc;border-bottom:1px solid #dce2ea}.panel-heading h2{padding:0!important;border:0!important}.edit-button{background:transparent;color:#315f9a;padding:6px 10px;font-size:13px}.edit-form{padding:16px}.edit-form label{display:block;margin:0 0 14px;font-size:14px;font-weight:600}.edit-form input,.edit-form textarea{display:block;width:100%;margin-top:6px;padding:10px;border:1px solid #bcc9da;border-radius:6px;font:inherit}.edit-form button{font-size:14px}
 .student-content>*{min-width:0}.profile-summary>div{min-width:0}.profile-summary,.student-panel dd,.semester-row{overflow-wrap:anywhere}.student-bottom button{min-width:0;min-height:44px}.icon-button{min-width:44px;min-height:44px}.top-spacer{width:44px}.student-content input,.student-content textarea{font-size:16px}@media(max-width:400px){.student-panel dl>div{flex-direction:column;gap:6px}.student-panel dd{text-align:left}.student-bottom button{padding:7px 10px}}
+.student-view{background:#edf3ef;color:#243e33}.student-shell{max-width:900px;border-color:#d4e2d8}.student-top{background:#f7faf7;border-color:#dce7df}.student-bottom{border-color:#dce7df}.student-bottom button{padding:8px 12px;flex:1}.student-bottom .selected{background:#eaf3ed;color:#356a4c}.student-tile{min-height:105px;background:#f2f7f3;border-color:#d1e0d5;color:#31523d}.student-tile.wide{grid-column:auto;min-height:105px}.student-menu{background:#f5f9f5;border-color:#dce7df}.student-menu button{color:#31523d}.student-primary{background:#35644e}.student-canteen{display:grid;gap:24px}.student-canteen :deep(.menu-item){box-shadow:none}.student-view h2{color:inherit}
 </style>

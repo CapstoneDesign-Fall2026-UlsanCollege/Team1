@@ -340,7 +340,18 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
     if(res.locals.user.role!=='student')throw new ScheduleError(403,'Students only.');
     const school=await profile(pool),date=today();
     const memberships=school?await rows(pool,`SELECT m.id,m.year_id,m.class_id,${mDates},cl.grade_label,cl.name class_name,y.name year_name,${yDates} ${membershipJoin}` ,scope(res.locals.user.id,date)):[];
-    res.json({school,today:date,membership:memberships[0]??null});
+    const membership=memberships[0]??null;
+    let room:RowDataPacket|null=null,homeroomTeacher:RowDataPacket|null=null,homeroomStatus='unassigned';let lessons:RowDataPacket[]=[];
+    if(membership){
+      room=(await rows(pool,'SELECT r.id,r.name FROM school_class_rooms cr JOIN school_rooms r ON r.id=cr.room_id WHERE cr.class_id=? AND cr.year_id=?',[membership.class_id,membership.year_id]))[0]??null;
+      const first=await rows(pool,`SELECT DISTINCT t.id,t.name,t.staff_code,t.is_active FROM school_class_offerings l JOIN course_offerings co ON co.id=l.offering_id JOIN school_terms st ON st.semester_id=co.semester_id AND st.year_id=? JOIN semesters s ON s.id=co.semester_id JOIN class_schedules cs ON cs.course_offering_id=co.id LEFT JOIN school_offering_teachers ot ON ot.offering_id=co.id LEFT JOIN school_teachers t ON t.id=ot.teacher_id WHERE l.class_id=? AND s.start_date<=? AND s.end_date>=? AND cs.day_of_week=7 AND cs.start_time='10:00:00'`,[membership.year_id,membership.class_id,date,date]);
+      if(first.length===1&&first[0].id&&first[0].is_active){homeroomTeacher={id:first[0].id,name:first[0].name,staff_code:first[0].staff_code} as RowDataPacket;homeroomStatus='assigned'}
+      else if(first.length>1)homeroomStatus='needs_review';
+      else if(first[0]?.id)homeroomStatus='inactive';
+      const weekday=new Date(date+'T00:00:00Z').getUTCDay()||7;
+      lessons=await rows(pool,`SELECT cs.id,TIME_FORMAT(cs.start_time,'%H:%i') start_time,TIME_FORMAT(cs.end_time,'%H:%i') end_time,cs.location,c.course_name,c.course_code,COALESCE(t.name,co.professor) teacher_name FROM class_schedules cs JOIN course_offerings co ON co.id=cs.course_offering_id JOIN courses c ON c.id=co.course_id JOIN semesters s ON s.id=co.semester_id LEFT JOIN school_offering_teachers ot ON ot.offering_id=co.id LEFT JOIN school_teachers t ON t.id=ot.teacher_id WHERE ${activeOffering} AND s.start_date<=? AND s.end_date>=? AND cs.day_of_week=? ORDER BY cs.start_time,cs.id`,[...scope(res.locals.user.id,date),date,date,weekday]);
+    }
+    res.json({school,today:date,membership,room,homeroom_teacher:homeroomTeacher,homeroom_status:homeroomStatus,lessons});
   });
   for(const route of ['courses','schedule','semesters'] as const){
     router.get('/student/'+route,async(_req,res,next)=>{
