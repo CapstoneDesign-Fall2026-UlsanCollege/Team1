@@ -36,3 +36,9 @@ No account/profile data or canteen publication state was changed for these brows
 ## Remaining limits
 
 Independent human review and hosted deployment remain pending. Current-day food requires canteen-head publication. Job-search backend policy/configuration remains tracked separately; this slice only suppresses its navigation for schools configured as middle school. This is not a grade/age authorization policy. Fresh-clone setup documentation needs separate repair: [#77](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/77).
+
+## Follow-up: group repeated weekly routines
+
+Owner requested fewer repeated day cards. Student timetables now group days whose subject/code, start/end time, teacher and room match, showing the lessons once. Non-consecutive day groups list the exact days; consecutive groups use a range. Different routines and scheduled Saturdays remain separate. Empty days remain explicit. Administrative edit controls still operate on individual days and saved meetings; this is a read-only presentation change with no database edits.
+
+Three meaningful grouping checks passed (same routine despite record IDs/order; subject/time/teacher/room differences; empty/Saturday/legacy-section cases), bringing the frontend suite to **15 passed**. Frontend build passed. Local browser showed Sunday–Friday with five lessons once; 390px document and scroll width matched. [Mobile proof](evidence/student-grouped-timetable.jpg). No real dated school-event feed was added by this change; grouping reflects the saved weekly timetable.

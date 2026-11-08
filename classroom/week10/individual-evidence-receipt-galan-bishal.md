@@ -134,3 +134,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [#76](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/76), [actual checks and screenshots](student-dashboard-check.md).
 - **How it was checked:** Assistant-run 67-pass full backend suite, frontend build and 12 frontend checks; browser verified Grade 6A teacher Deepa Karki, Room 101, daily lessons, published canteen information and 390px fit. Drafts remained private.
 - **What I learned or changed:** Missing teacher data needed a scoped API change. A draft menu is not a published meal: the canteen head must publish the applicable Nepal date. I also requested a documentation review; the fresh-database setup gap is tracked in #77. Independent human/live checks are pending.
+
+## Receipt 19 - Remove repeated student timetable cards
+
+- **What I did:** Requested a shorter student timetable that lists identical days together and shows subjects once, while retaining different routines. Implemented with coding assistance.
+- **Evidence:** [Grouping checks and screenshot](student-dashboard-check.md#follow-up-group-repeated-weekly-routines), [grouping tests](../../frontend/tests/weekly-routine.test.mjs).
+- **How it was checked:** 15 frontend checks and production build passed; browser confirmed a single Sunday–Friday routine and mobile fit.
+- **What I learned or changed:** Group by meaningful lesson details rather than database IDs. Teacher/room/time/subject differences remain visible. Saved timetable data and admin editing remain unchanged.
