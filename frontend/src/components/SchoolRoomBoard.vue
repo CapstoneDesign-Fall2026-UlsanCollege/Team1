@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import {dismissAfterFourSeconds} from '../temporary-message'
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { teacherBusyReason } from '../room-availability'
 import { scheduleApi, days } from '../schedules'
 const emit=defineEmits<{saving:[value:boolean]}>()
 const school=ref<any>(null), data=ref<any>(null), loading=ref(false), busy=ref(false), error=ref(''), message=ref('')
+dismissAfterFourSeconds(message)
 const yearId=ref(0),grade=ref(''),search=ref(''),selectedClass=ref(0),selectedRoom=ref<any>(null),mode=ref('allocate'),dialog=ref<HTMLDialogElement|null>(null)
 const root=ref<HTMLElement|null>(null),dragging=ref(false),pointerX=ref(0),pointerY=ref(0)
 let cleanup:(()=>void)|undefined,suppress=false

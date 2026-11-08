@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import {dismissAfterFourSeconds} from '../temporary-message'
 import { onMounted, ref } from 'vue'
 import { scheduleApi } from '../schedules'
 type StaffAccount = {id:number;login_id:string;is_active:boolean}
 const accounts=ref<StaffAccount[]>([]), login=ref(''), password=ref('')
 const loading=ref(false), saving=ref(false), error=ref(''), message=ref(''), confirming=ref(0)
+dismissAfterFourSeconds(message)
 const emit=defineEmits<{saving:[value:boolean]}>()
 async function load() {
  loading.value=true;error.value=''

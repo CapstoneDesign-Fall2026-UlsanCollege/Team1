@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {dismissAfterFourSeconds} from '../temporary-message'
 import StudentIcon from './StudentIcon.vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { scheduleApi, type Semester } from '../schedules'
@@ -18,6 +19,7 @@ const props=defineProps<{ revision:number; selectedLogin?:string }>()
 const emit=defineEmits<{saving:[value:boolean]}>()
 const students=ref<Student[]>([]), search=ref(''), draft=ref<Student|null>(null)
 const loading=ref(false), busy=ref(false), error=ref(''), message=ref('')
+dismissAfterFourSeconds(message)
 async function load(){
   if(loading.value||busy.value||draft.value)return
   if(school.value && (!yearId.value || !grade.value)){students.value=[];return}

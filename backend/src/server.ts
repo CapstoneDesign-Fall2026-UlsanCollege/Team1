@@ -1,3 +1,4 @@
+import {ensureActivitySchema} from './activity-log.js';
 import 'dotenv/config';
 import mysql from 'mysql2/promise';
 import { databaseTls } from './database-tls.js';
@@ -27,6 +28,7 @@ async function start() {
   await pool.query(canteenInfoSchema);
   await pool.query(resetSchema);
   await pool.query(favouritesSchema);
+  await ensureActivitySchema(pool);
   const server = app.listen(port, '0.0.0.0');
   server.on('listening', () => console.log('StudentHub API: http://127.0.0.1:' + port));
   server.on('error', (error: NodeJS.ErrnoException) => {

@@ -27,3 +27,5 @@ Personal confirmations, accepted backups and independent results remain pending.
 - [November 6 canteen day filter, new-menu and price suggestion checks](canteen-menu-shortcuts-check.md)
 
 - [November 6 compact canteen dashboard usability check](canteen-dashboard-usability.md)
+
+- [Activity Log: November 8 checks and proof](activity-log-check.md)

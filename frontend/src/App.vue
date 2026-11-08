@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { apiFetch } from './api'
 import { computed, nextTick, onMounted, ref } from 'vue'
+import ActivityLog from './components/ActivityLog.vue'
 import CreateStudent from './components/CreateStudent.vue'
 import StudentManager from './components/StudentManager.vue'
 import TeacherDirectory from './components/TeacherDirectory.vue'
@@ -28,6 +29,7 @@ const adminSections = [
   { id: 'school', title: 'School classes', icon: 'course' },
   { id: 'rooms', title: 'Rooms', icon: 'home' },
   { id: 'students', title: 'Accounts', icon: 'profile' },
+  { id: 'activity', title: 'Activity Log', icon: 'schedule' },
   { id: 'requests', title: 'Requests', icon: 'settings' },
 ]
 const legacySections = [
@@ -136,6 +138,7 @@ onMounted(async () => {
       <template v-if="user.role === 'admin'">
         <nav class="admin-nav" aria-label="Admin navigation"><button v-for="section in adminSections" :key="section.id" type="button" :disabled="savingSchool" :class="{ selected: adminSection === section.id }" :aria-current="adminSection === section.id ? 'page' : undefined" @click="goSection(section.id)"><StudentIcon :name="section.icon" />{{ section.title }}<span v-if="section.id === 'requests' && resetCount" class="badge">{{ resetCount }}</span></button></nav>
         <SchoolDashboard v-show="adminSection === 'dashboard'" :revision="dashboardRevision" @open="goSection" @mode="schoolMode = $event" @school="schoolName = $event" />
+        <ActivityLog v-if="adminSection === 'activity'" />
         <SchoolRoomBoard v-if="adminSection === 'rooms'" @saving="savingSchool = $event" />
         <SchoolManager :active="adminSection === 'school'" :selected-tab="schoolPanel" v-if="visitedSchool" v-show="adminSection === 'school'" @changed="schoolMode = $event; dashboardRevision++" @saving="savingSchool = $event" />
         <p v-if="schoolMode && adminSection === 'students'" class="account-tip"><StudentIcon name="course" />School class assignments are managed in <button type="button" @click="goSection('school')">School classes</button>.</p>

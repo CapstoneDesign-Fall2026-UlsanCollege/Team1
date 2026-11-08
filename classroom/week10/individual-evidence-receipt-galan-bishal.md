@@ -106,3 +106,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [Changed behaviour, validation and screenshots](canteen-dashboard-usability.md), [C3 #56](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/56).
 - **How it was checked:** Build passed; 12 existing frontend checks passed during the revision. Assistant browser checks verified quick-add price/focus, date/week navigation, tab-preserved drafts, future-menu save/publish/unpublish and phone fit.
 - **What changed:** Common owner actions are grouped and require less scrolling; publication status distinguishes saved data from unsaved changes. Database/API rules and existing records were retained. Independent testing/live deployment remain pending.
+
+## Receipt 15 - Track staff changes in an Activity Log
+
+- **What I did:** Requested staff accountability and implemented, with coding assistance, automatic admin/canteen audit recording, a read-only admin history page, filters and pagination. Requested four-second save confirmations.
+- **Evidence:** [A1 #73](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/73), [actual checks and screenshots](activity-log-check.md), [source/operation](../../docs/activity-log.md).
+- **How it was checked:** Assistant ran 65 passing backend checks with all database suites enabled, extended audit integration, frontend compilation/build and 12 frontend checks; browser verified room change/restoration and phone fit. Private backup restoration passed first.
+- **What I learned or changed:** Attribution uses authenticated staff and saves with the change. Distinct logins are required. Private values are hidden. Independent/live verification remains pending; no teammate review is claimed on their behalf.

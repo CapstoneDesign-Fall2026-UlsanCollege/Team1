@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {dismissAfterFourSeconds} from '../temporary-message'
 import StudentIcon from './StudentIcon.vue'
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { days, scheduleApi, type Meeting, type Semester } from '../schedules'
@@ -11,6 +12,7 @@ const majors = ref<string[]>([]), major = ref<string | null>('')
 const terms = ref<Semester[]>([]), offerings = ref<Offering[]>([]), meetings = ref<Meeting[]>([])
 const semester = ref(0), editing = ref<number | null>(null), loading = ref(true), busy = ref(false), expanded = ref(false)
 const error = ref(''), message = ref(''), formElement = ref<HTMLFormElement | null>(null)
+dismissAfterFourSeconds(message)
 const form = reactive({ course_offering_id: 0, day_of_week: 1, start_time: '', end_time: '', location: '' })
 const choices = computed(() => offerings.value.filter(o => o.semester_id === semester.value && o.major === major.value))
 const visible = computed(() => meetings.value.filter(m => m.semester_id === semester.value && m.major === major.value))

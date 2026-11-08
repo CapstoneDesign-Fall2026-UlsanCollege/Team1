@@ -15,6 +15,7 @@ import { canteenAccountsRouter, type CanteenAccountStore } from './canteen-accou
 
 export type Account = { id: number; login_id: string; password_hash: string; role: 'admin' | 'student' | 'canteen_head'; is_active: number };
 export type Accounts = {
+  withActor?: (user:{id:number;login_id:string;role:string},next:()=>void)=>void;
   school?: express.Router;
   campus?: express.Router;
   canteenAccounts?: CanteenAccountStore;
@@ -115,7 +116,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
       res.status(401).json({ message: 'Please log in.' }); return;
     }
     res.locals.user = publicUser(account);
-    next();
+    if(accounts.withActor)accounts.withActor(res.locals.user,next);else next();
   });
   // Enforce workspace boundaries before individual routers, including future canteen routes.
   for (const [prefix, role] of [['admin','admin'],['student','student'],['canteen','canteen_head']] as const) {

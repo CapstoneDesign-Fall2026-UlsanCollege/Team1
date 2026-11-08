@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {dismissAfterFourSeconds} from '../temporary-message'
 import StudentIcon from './StudentIcon.vue'
 import { apiFetch } from '../api'
 import { computed, nextTick, onMounted, onBeforeUnmount, ref, watch } from 'vue'
@@ -31,6 +32,7 @@ async function classify(offering: Offering) {
 const professor = ref('')
 const chosenCourse = ref<number>(0)
 const message = ref('')
+dismissAfterFourSeconds(message)
 const error = ref('')
 const loading = ref(true)
 const busy = ref(false)

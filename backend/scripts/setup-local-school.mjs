@@ -35,8 +35,9 @@ try {
     const records=await select('SELECT * FROM '+identifier(name));baseline.set(name,records);
     dump.push(ddl['Create Table']+';');
     const columns=await select('SHOW COLUMNS FROM '+identifier(name));
+    const jsonColumns=new Set(columns.filter(v=>String(v.Type).toLowerCase()==='json').map(v=>v.Field));
     const writable=columns.filter(v=>!/(VIRTUAL|STORED) GENERATED/.test(String(v.Extra))).map(v=>v.Field);
-    for(const record of records)dump.push('INSERT INTO '+identifier(name)+' ('+writable.map(identifier).join(',')+') VALUES ('+writable.map(k=>c.escape(record[k])).join(',')+');');
+    for(const record of records)dump.push('INSERT INTO '+identifier(name)+' ('+writable.map(identifier).join(',')+') VALUES ('+writable.map(k=>c.escape(jsonColumns.has(k)&&record[k]!==null?JSON.stringify(record[k]):record[k])).join(',')+');');
   }
   await c.commit();dump.push('SET FOREIGN_KEY_CHECKS=1;');
   await mkdir(backupDir,{recursive:true});
@@ -101,4 +102,4 @@ try {
   }
   const counts={};for(const table of ['users','student_profiles','school_years','school_classes','school_memberships','school_teachers','school_grade_subjects','school_rooms','school_class_rooms','school_room_bookings'])counts[table]=Number((await select('SELECT COUNT(*) total FROM '+identifier(table)))[0].total);
   console.log(JSON.stringify({database,counts,originalRowsPreserved:true},null,2));
-}catch(error){if(transaction)await c.rollback();throw error;}finally{c.release();await pool.end();}
+}catch(error){if(transaction)await c.rollback();throw new Error('Local setup failed: '+error.message);}finally{c.release();await pool.end();}
