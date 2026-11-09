@@ -38,3 +38,9 @@ No new account was created in the persistent local database during browser verif
 ## Limits and next action
 
 These two usability slices are implemented and locally checked. Independent non-author review and hosted verification remain pending. No Railway deployment was performed. The remaining review recommendations (persistent URLs, broader teacher specialty management, student home redesign, session persistence and complete visual standardization) are separate future work; this document does not claim them complete.
+
+## Teacher directory: subject filter
+
+Owner requested a Subject dropdown beside year, term and teacher search. Options come from actual assignments in the selected term, keyed by subject code. All subjects and No subject assigned remain explicit options. Subject and name/staff-code search combine, with matching/total counts and a clear zero-results message. Changing term clears a subject that is no longer available; refreshing retains a valid choice. Teacher routines remain complete rather than hiding other assignments from a matched teacher.
+
+Frontend production build passed. Assistant browser verified Mathematics showed Chandra Rai only, an unmatched search showed 0/20, and No subject assigned showed 10/20. No data/API/permissions were changed. [Safe proof](evidence/teacher-subject-filter.jpg).

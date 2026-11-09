@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { scheduleApi, days } from '../schedules'
-const loading=ref(false),error=ref(''),search=ref(''),state=ref<any>(null),directory=ref<any>(null),yearId=ref(0),termId=ref(0)
+const loading=ref(false),error=ref(''),search=ref(''),subject=ref(''),state=ref<any>(null),directory=ref<any>(null),yearId=ref(0),termId=ref(0)
 const years=computed(()=>state.value?.years??[])
 const terms=computed(()=>state.value?.terms.filter((t:any)=>t.year_id===yearId.value)??[])
 const assignments=computed(()=>directory.value?.assignments.filter((a:any)=>a.semester_id===termId.value)??[])
-const teachers=computed(()=>directory.value?.teachers.filter((t:any)=>(t.name+' '+t.staff_code).toLowerCase().includes(search.value.toLowerCase()))??[])
+const subjectOptions=computed(()=>[...new Map<string,{code:string;name:string}>(assignments.value.map((a:any)=>[a.course_code,{code:a.course_code,name:a.course_name}])).values()].sort((a,b)=>a.name.localeCompare(b.name)))
+watch(subjectOptions,options=>{if(!loading.value&&subject.value&&subject.value!=='__unassigned'&&!options.some(s=>s.code===subject.value))subject.value=''})
+const teachers=computed(()=>directory.value?.teachers.filter((t:any)=>{
+ const matchesName=(t.name+' '+t.staff_code).toLowerCase().includes(search.value.trim().toLowerCase())
+ const assigned=assignments.value.filter((a:any)=>a.teacher_id===t.id)
+ return matchesName&&(!subject.value||(subject.value==='__unassigned'?!assigned.length:assigned.some((a:any)=>a.course_code===subject.value)))
+})??[])
 const firstPeriods=computed(()=>assignments.value.filter((a:any)=>a.start_time==='10:00' && a.day_of_week===7))
 const classLabel=(a:any)=>`Grade ${a.grade_label} · Class ${a.class_name}`
 function unique(values:any[],key:string){return [...new Map(values.map(v=>[v[key],v])).values()]}
@@ -38,9 +44,9 @@ onMounted(load)
 </script>
 <template>
 <section class="card teacher-directory"><div class="heading"><div><p class="eyebrow">TEACHER DIRECTORY</p><h2>Teachers & homeroom classes</h2></div><button class="secondary" :disabled="loading" @click="load">Refresh teachers</button></div><p class="muted">Homeroom responsibility follows the teacher of Sunday’s 10 AM first lesson in the selected term. Teacher records are linked by staff code, not matching names.</p>
-<div class="filters"><label>Academic year<select v-model="yearId" :disabled="loading" @change="termId=0;load()"><option :value="0">Choose a year</option><option v-for="y in years" :key="y.id" :value="y.id">{{y.name}}</option></select></label><label>School term<select v-model="termId" :disabled="loading"><option :value="0">Choose a term</option><option v-for="t in terms" :key="t.id" :value="t.id">{{t.name}}</option></select></label><label>Find a teacher<input v-model="search" type="search" placeholder="Name or staff code"></label></div>
+<div class="filters"><label>Academic year<select v-model="yearId" :disabled="loading" @change="termId=0;load()"><option :value="0">Choose a year</option><option v-for="y in years" :key="y.id" :value="y.id">{{y.name}}</option></select></label><label>School term<select v-model="termId" :disabled="loading"><option :value="0">Choose a term</option><option v-for="t in terms" :key="t.id" :value="t.id">{{t.name}}</option></select></label><label>Subject<select v-model="subject" :disabled="loading||!termId"><option value="">All subjects</option><option v-for="s in subjectOptions" :key="s.code" :value="s.code">{{s.name}}</option><option value="__unassigned">No subject assigned</option></select></label><label>Find a teacher<input v-model="search" type="search" placeholder="Name or staff code"></label></div>
 <p v-if="error" class="error" role="alert">{{error}}</p><p v-if="loading" role="status">Loading teachers…</p>
-<template v-else-if="directory"><p v-if="!teachers.length" class="muted">No matching teachers. Add teachers in School classes → Subjects and timetable.</p><p v-if="!termId" class="muted">Choose or create a school term to view teaching assignments.</p>
+<template v-else-if="directory"><p class="muted" role="status">{{teachers.length}} of {{directory.teachers.length}} teachers<span v-if="subject"> · {{subject==='__unassigned'?'No subject assigned':subjectOptions.find(s=>s.code===subject)?.name}}</span></p><p v-if="!teachers.length" class="muted">No teachers match these filters. Choose All subjects or clear the search.</p><p v-if="!termId" class="muted">Choose or create a school term to view teaching assignments.</p>
 <article v-for="t in teachers" :key="t.id" class="teacher-row"><div class="teacher-heading"><div><h3>{{t.name}}</h3><p class="muted">{{t.staff_code}} · {{t.is_active?'Active':'Inactive'}}</p></div><span class="badge">{{subjectTypes(t.id).map(s=>s.course_name).join(' · ')||'Subject unassigned'}}</span></div>
 <div class="homeroom"><strong>Homeroom class</strong><p v-for="cl in homerooms(t.id)" :key="cl.class_id">{{classLabel(cl)}} <small>Sunday 10 AM teacher</small></p><p v-if="!homerooms(t.id).length" class="muted">No confirmed homeroom class in this term.</p><p v-for="a in varying(t.id)" :key="a.class_id+'-'+a.day_of_week" class="review">{{classLabel(a)}} · {{days[a.day_of_week-1]}} at 10 AM. More than one teacher is linked to Sunday’s first lesson; review the timetable.</p></div>
 <div class="table-scroll" tabindex="0" :aria-label="t.name+' teaching routine'"><table class="routine-table"><caption>Daily routine · Nepal time</caption><thead><tr><th scope="col">Days</th><th v-for="slot in timetableRows(t.id)" :key="slot.start+'|'+slot.end" scope="col">{{slot.start}}–{{slot.end}}</th></tr></thead><tbody><tr v-for="group in routineGroups(t.id)" :key="group.day"><th scope="row">{{routineDayLabel(group.days)}}</th><td v-for="slot in timetableRows(t.id)" :key="slot.start+'|'+slot.end" :class="{'tiffin-cell':slot.break}"><span v-if="slot.break">TIFFIN</span><div v-for="m in lessonsAt(t.id,group.day,slot.start,slot.end)" :key="m.meeting_id" class="routine-lesson" :title="m.course_name"><strong>{{lessonClasses(m.meeting_id)}}</strong></div><span v-if="!slot.break && !lessonsAt(t.id,group.day,slot.start,slot.end).length" class="free-period">Free</span></td></tr></tbody></table></div>
