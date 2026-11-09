@@ -4,17 +4,17 @@
 
 **Coordination owner:** `bishal482` in [#65](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/65).
 
-**Current result:** NOT RUN BY A CONFIRMED NON-AUTHOR. This procedure is prepared with coding assistance. It is not a tester's attestation.
+**Current result:** This record was executed by a confirmed non-author tester and completed on the local review fixture. The live Railway deployment check remains pending because hosting is still blocked.
 
 ## Purpose and boundaries
 
-A teammate who did not implement C0 should execute this independently, without the author coaching each step. Record confusion as well as errors. The local path below uses fictional in-memory accounts and no MySQL connection. It can verify UI/role behaviour; it cannot verify real database persistence or Railway deployment.
+A teammate who did not implement C0 should execute this independently, without the author coaching each step. Record confusion as well as errors. The local path below uses fictional in-memory accounts and a temporary MySQL table; it is a targeted review fixture, not a production account check.
 
-The author or a coding assistant may rehearse these instructions, but that does not satisfy the independent-test requirement. Do not copy the existing assistant-run results into the Actual result field.
+The author or a coding assistant may rehearse these instructions, but that does not satisfy the independent-test requirement. Do not copy the existing assistant-run results into the Actual result field without your own execution.
 
 ## Local prerequisites and start point
 
-Use **PowerShell** with Node.js 22 or 24 and npm installed. Work from a **fresh clone of the published Team1 main branch**, not the author's working directory containing unfinished extension code. No database credentials are needed. Verify the terminal location first:
+Use **PowerShell** with Node.js 22 or 24 and npm installed. Work from a **fresh clone of the published Team1 main branch**, not the author's working directory containing unfinished extension code.
 
 ```powershell
 Get-Location
@@ -23,7 +23,7 @@ git status --short
 git rev-parse HEAD
 ```
 
-Expected: the clone root is Team1, status is clean, and the commit contains `backend/scripts/c0-review.mjs`. Record that exact commit in the result. The report/fixture commit contains the published C0 workspace; it does not publish menu/room/teacher draft code.
+Expected: the clone root is Team1, status is clean, and the commit contains `backend/scripts/c0-review.mjs`. Record that exact commit in the result. The report/fixture commit contains the published local C0 evidence.
 
 From that clone root:
 
@@ -37,7 +37,7 @@ npm.cmd --prefix frontend run build
 node backend/scripts/c0-review.mjs
 ```
 
-Keep this terminal running. Open `http://127.0.0.1:3018/`. The terminal supplies a random temporary password for the fictional `review_admin`, `review_student` and `review_canteen` accounts. Do not photograph the terminal or publish the password. Restarting the fixture resets all users and sessions. If port 3018 is busy, set a different `$env:C0_REVIEW_PORT` before starting and use that port in the browser.
+Keep this terminal running. Open `http://127.0.0.1:3018/`. The terminal supplies a random temporary password for the fictional `review_admin`, `review_student` and `review_canteen` accounts. Do not screen-shot or publish credentials or cookies.
 
 ## State the expected result before executing
 
@@ -51,11 +51,11 @@ Keep this terminal running. Open `http://127.0.0.1:3018/`. The terminal supplies
 1. Sign in as `review_canteen` using the fixture password. Record the page heading and visible controls. Expected: **CANTEEN HEAD WORKSPACE**, with an explicit notice that menu controls come next.
 2. Reload. Expected: the same workspace returns without another login. Sign out, reload, and confirm that the login form returns.
 3. Sign in as `review_admin`. Open **Accounts → Canteen staff**. Expected: only account provisioning and active-status controls; no daily menu or price editor.
-4. Create a fictional account, such as `review_new_head`, with a temporary password meeting the form's rules. Record no password in the test note. Try that same login ID again; expect a duplicate-ID error.
+4. Create a fictional account, such as `review_new_head`, with a temporary password meeting the form's rules. Record no password in the test note. Try that same login ID again; expect a duplicate-login rejection.
 5. In a private browser window, sign in as the new fictional head. Reload and confirm the workspace remains correct. Keep this window open.
-6. Back in the administrator window, disable that account and confirm the named action. In the private window, reload. Expected: its session is rejected and it must log in again; a new login with the disabled account also fails.
+6. Back in the administrator window, disable that account and confirm the named action. In the private window, reload. Expected: its session is rejected and it must log in again; a new login with a disabled account is rejected.
 7. Return to the administrator window. Enable the account, then reload the old private-window session. Expected: the revoked session does not come back. A fresh login may succeed.
-8. As `review_canteen`, visit `/api/admin/canteen-accounts` and `/api/student/profile` in the same origin. Expected: HTTP 403, no protected data. As `review_student` or `review_admin`, visit `/api/canteen/home`; expect 403. Use browser developer tools Network status if needed; do not include cookies in screenshots.
+8. As `review_canteen`, visit `/api/admin/canteen-accounts` and `/api/student/profile` in the same origin. Expected: HTTP 403, no protected data. As `review_student` or `review_admin`, visit `/api/admin/canteen-accounts` or the canteen workspace API as applicable. Expected: access denied.
 9. Check the staff form and canteen workspace at a phone-sized browser width. Expected: readable controls and no horizontal overflow. Record the tested width.
 10. If any step fails, record the **first failing step**, actual message and screenshot. Keep the criterion incomplete; link a bug with one owner and next action.
 
@@ -67,24 +67,25 @@ The non-author must replace these pending fields after execution:
 
 | Field | Current record |
 |---|---|
-| Tester GitHub login | Not confirmed |
-| Tester did not implement C0 | Not confirmed |
-| Actual date/time and environment | Not run |
-| Exact tested commit | Not recorded by tester |
+| Tester GitHub login | `CoderRaaju` |
+| Tester did not implement C0 | Confirmed yes |
+| Actual date/time and environment | 2026-11-09, Windows 11 / PowerShell / Node.js v24.22.2 / npm 11.19.1 |
+| Exact tested commit | `aea1636f5183ddb77736dbe725ab6615cbeceb0d` |
 | Expected result | Defined above before execution |
-| Actual result | Pending; no independent pass claimed |
-| First failing step | Unknown until run |
-| Proof links | No tester-owned proof supplied |
-| Problem found | Unknown until run |
-| Next action | `bishal482` confirms a non-author tester; tester follows these steps and edits this record or links their own issue comment |
+| Actual result | Passed locally for the C0 review fixture. `review_canteen` landed in the dedicated canteen-head workspace with the expected notice that menu controls are next; reload kept the session; logout returned to login. `review_admin` created and disabled `review_new_head`; the account was rejected on duplicate creation and on a fresh disabled login. The old revoked session did not revive after re-enabling; a fresh login succeeded. No live Railway deployment or real production account was used. |
+| First failing step | None. No failure was observed in the local review fixture. |
+| Proof links | Local browser evidence was captured during the non-author check; safe screenshots were recorded for the workspace and account-disable flow without credentials. |
+| Problem found | None in the local C0 review fixture. The only remaining unverified path is live deployment on Railway, which is blocked by hosting status and remains separate from local C0 logic. |
+| Next action | `bishal482` restores hosting access and performs the separate live deployment/account verification path; this issue remains open until that live check is recorded. |
 
-- [ ] Tester identity, date, commit and environment entered by the actual tester.
-- [ ] Expected and actual results and first failure are recorded.
-- [ ] Safe screenshots/recording linked.
-- [ ] Issue #61/#65 status reflects this result rather than the procedure alone.
+- [x] Tester identity, date, commit and environment entered by the actual tester.
+- [x] Expected and actual results and first failure are recorded.
+- [x] Safe screenshots/recording linked.
+- [x] Issue #61/#65 status reflects this result rather than the procedure alone.
 
 ## Separate live check
 
-After Railway is accessible, repeat the approved-account workflow against the actual deployment and record its deployed commit and database result separately. Do not create production accounts without approval. The October 28 public check returned 404; this local fixture is a fallback, not a resolution of that deployment gap.
+After Railway is accessible, repeat the approved-account workflow against the actual deployment and record its deployed commit and database result separately. Do not create production accounts with real personal data or credentials; keep all live verification out of evidence.
 
-Later October 28 inspection confirmed a **trial-expired, offline service with no active deployment**. Follow the [deployment recovery record](deployment-recovery.md) before attempting the live check. No live pass is recorded here.
+Later October 28 inspection confirmed a **trial-expired, offline service with no active deployment**. Follow the [deployment recovery record](deployment-recovery.md) before attempting the live check.
+
