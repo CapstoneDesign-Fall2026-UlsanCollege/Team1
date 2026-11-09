@@ -71,15 +71,16 @@ Place the seven screenshots in `classroom/week10/images/` using the filenames be
 
 ### Screenshot 5 — Timetable after saving
 
-[![Saved timetable showing Mathematics on Sunday and Monday and English on Tuesday](images/subject-planner-05-timetable-saved.png)](images/subject-planner-05-timetable-saved.png)
+[![Saved timetable showing Mathematics on Sunday and Monday and English on Tuesday] <img width="1802" height="851" alt="05 lesson saved tuesday" src="https://github.com/user-attachments/assets/3d33e773-ee64-4bca-b835-68993c245d7c" />
 
 ### Screenshot 6 — Mathematics-only class subject view
 
-[![Planner showing Mathematics as the only class subject](images/subject-planner-06-mathematics-only.png)](images/subject-planner-06-mathematics-only.png)
+[![Planner showing Mathematics as the only class subject] <img width="1545" height="862" alt="06 before test1 one subject" src="https://github.com/user-attachments/assets/e1918ebc-51dd-4765-ad07-4e82cc94c751" />
+
 
 ### Screenshot 7 — English selected in the subject library
 
-[![Planner showing English selected in the subject library while Mathematics remains a class subject](images/subject-planner-07-english-selected.png)](images/subject-planner-07-english-selected.png)
+[![Planner showing English selected in the subject library while Mathematics remains a class subject] <img width="1440" height="862" alt="07 after cancel still one subject" src="https://github.com/user-attachments/assets/791f7685-a23a-431f-ac82-0f6f663f1a6a" />
 
 ## 7. Final Result
 
