@@ -53,7 +53,7 @@ Place the seven screenshots in `classroom/week10/images/` using the filenames be
 
 ### Screenshot 1 — Planner with Mathematics lessons
 
-[![Subject planner showing Mathematics in the class and weekly timetable](images/subject-planner-01-mathematics-planner.png)](images/subject-planner-01-mathematics-planner.png)
+[![Subject planner showing Mathematics in the class and weekly timetable]
 
 ### Screenshot 2 — Add class subject dialog
 
