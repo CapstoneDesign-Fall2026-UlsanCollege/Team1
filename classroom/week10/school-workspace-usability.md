@@ -50,3 +50,17 @@ Frontend production build passed. Assistant browser verified Mathematics showed 
 Owner requested reduced size. Replaced the repeated class/year heading and large filter block with one compact class/term/refresh toolbar. Removed the date control only from Teachers because teacher assignments are term-based; date-scoped student/room views retain their date controls. Shortened heading/help text and tightened table rows and padding. Homeroom, subject/teacher/staff-code information and management action remain available.
 
 Production frontend build passed. Assistant browser verified all six Grade 10A subject-teacher rows appear in the compact panel, with the selected term and homeroom visible. [Safe screenshot](evidence/compact-class-teachers.jpg). No academic records or API rules changed.
+
+## Create student: class-first enrollment — November 9
+
+Galan requested a simpler school enrollment form with coding assistance, continuing UX1 (#74). Full name and academic year/grade/class now precede login details. The selected class shows its usual classroom and Sunday's 10 AM homeroom teacher from terms active on the enrollment date. Missing/inactive/conflicting teacher states remain explicit; unavailable room information offers Retry. These are read-only facts, not new teacher assignments.
+
+Generate password uses browser cryptographic randomness for an 18-character initial password and reveals it for private delivery; Show/Hide remains. Student contact details stay optional/collapsed. Guardian fields are not added or mixed into student contact data.
+
+Create student clears the class/grade after a successful save. Save & add another clears personal/login/contact fields while retaining year/grade/class/date, refreshes the planning revision and focuses Full name. The submit button determines the action, so a previous secondary click does not affect a later normal submit. Success messages expire after four seconds; errors remain visible. The existing atomic account/enrollment API is unchanged.
+
+**Actual checks:** frontend TypeScript/production build passed with local base path. Assistant browser selected Grade 6A and observed Room 101 / Deepa Karki; Generate password switched to visible mode and was cleared before proof. Password content was redacted by browser tooling, so its length was not independently measured through the browser. A 390×844 viewport override showed document and scroll widths both 375px (scrollbar excluded), with no horizontal overflow. Override reset after checking.
+
+[Desktop form](evidence/student-create-desktop.jpg) | [Mobile form](evidence/student-create-mobile.jpg)
+
+**Limits:** no student account was submitted or changed in the persistent database for this UI check. Save-and-add-another reset/focus was source-reviewed, not end-to-end verified with a new account. A disposable-fixture save/repeat check and independent teammate review remain pending; this note does not claim a new backend regression run or deployment.

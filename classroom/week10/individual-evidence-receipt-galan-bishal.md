@@ -148,3 +148,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [Final design and browser check](student-dashboard-check.md#final-home-revision-feature-tabs-first).
 - **How it was checked:** Frontend production build passed; all six features fit at 390x844, My Class opened the correct teacher/room, and Back returned to Home.
 - **What changed:** Home now serves navigation. The old inline dashboard is superseded; academic data, grouped timetable and canteen publication rules are preserved.
+
+## Create student usability follow-up — November 9
+
+- **What I did:** Requested a class-first student creation form, automatic room/homeroom preview, password generation and Save & add another; implemented with coding assistance.
+- **Evidence:** [Actual checks, source boundaries and safe screenshots](school-workspace-usability.md#create-student-class-first-enrollment--november-9), [CreateStudent.vue](../../frontend/src/components/CreateStudent.vue).
+- **How checked:** Assistant-run frontend build and local browser inspection; no persistent account creation during the UI check.
+- **Remaining:** Disposable-fixture save/repeat verification, independent teammate review and hosted verification. This does not change another member's contribution credit.

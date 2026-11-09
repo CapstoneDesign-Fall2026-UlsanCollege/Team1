@@ -1,10 +1,37 @@
 <script setup lang="ts">
 import StudentIcon from './StudentIcon.vue'
 import { apiFetch } from '../api'
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import { scheduleApi, type Semester } from '../schedules'
 const props = defineProps<{ revision?: number; initialClass?: number }>()
 const context=ref<any>(null),schoolYear=ref(0),grade=ref(''),classId=ref(0),startsOn=ref('')
+const roomData=ref<any>(null),roomError=ref('')
+const selectedClass=computed(()=>classChoices.value.find((c:any)=>c.id===classId.value))
+const classroom=computed(()=>roomData.value?.assignments.find((a:any)=>a.class_id===classId.value&&a.year_id===schoolYear.value)?.room_id)
+const homeroom=computed(()=>{
+  const c=context.value
+  if(!c||!classId.value||!startsOn.value)return 'Choose a class and enrollment date'
+  const terms=c.terms.filter((t:any)=>t.year_id===schoolYear.value&&t.start_date<=startsOn.value&&t.end_date>=startsOn.value)
+  if(!terms.length)return 'No active term on this date'
+  const subjects=c.subjects.filter((s:any)=>terms.some((t:any)=>t.id===s.semester_id)&&c.links.some((l:any)=>l.class_id===classId.value&&l.offering_id===s.id))
+  const first=subjects.filter((s:any)=>c.meetings.some((m:any)=>m.course_offering_id===s.id&&m.day_of_week===7&&m.start_time.slice(0,5)==='10:00'))
+  const ids=[...new Set(first.flatMap((s:any)=>c.subject_teachers.filter((a:any)=>a.offering_id===s.id).map((a:any)=>a.teacher_id)))]
+  if(ids.length>1)return 'Conflicting first lessons — review timetable'
+  if(first.some((s:any)=>!c.subject_teachers.some((a:any)=>a.offering_id===s.id)))return 'First lesson teacher not assigned'
+  const teacher=c.teachers.find((t:any)=>t.id===ids[0])
+  return teacher?(teacher.is_active?teacher.name:teacher.name+' · Inactive'):'Not assigned'
+})
+async function loadRooms(){
+  roomError.value='';roomData.value=null
+  try{roomData.value=await scheduleApi('admin/school/rooms')}
+  catch{roomError.value='Room information unavailable'}
+}
+function generatePassword(){
+  const bytes=crypto.getRandomValues(new Uint8Array(18))
+  const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%'
+  form.password=Array.from(bytes,b=>alphabet[b%alphabet.length]).join('')
+  showPassword.value=true
+}
 const schoolMode=computed(()=>Boolean(context.value?.profile))
 const activeClasses=computed(()=>context.value?.classes.filter((c:any)=>c.year_id===schoolYear.value&&c.is_active)??[])
 const grades=computed<string[]>(()=>[...new Set<string>(activeClasses.value.map((c:any)=>c.grade_label))].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true})))
@@ -21,6 +48,7 @@ async function loadSemesters() {
   try {
     const school=await scheduleApi('admin/school');context.value=school
     if(school.profile){
+      void loadRooms()
       if(!school.years.some((y:any)=>y.id===schoolYear.value)){schoolYear.value=school.years.find((y:any)=>y.start_date<=school.today&&y.end_date>=school.today)?.id??school.years[0]?.id??0;chooseYear()}
       if(!activeClasses.value.some((c:any)=>c.id===classId.value)){classId.value=0;preselect()}
       return
@@ -49,8 +77,12 @@ const form = reactive(emptyForm())
 const saving = ref(false)
 const error = ref('')
 const success = ref('')
+let successTimer:ReturnType<typeof setTimeout>|undefined
+watch(success,value=>{clearTimeout(successTimer);if(value)successTimer=setTimeout(()=>{success.value=''},4000)})
+onUnmounted(()=>clearTimeout(successTimer))
 
-async function submit() {
+async function submit(event:SubmitEvent) {
+  const keepClass=(event.submitter as HTMLButtonElement|null)?.value==='another'
   if (saving.value || semesterLoading.value) return
   if (!schoolMode.value && form.semester_id !== null && (semesterError.value || !semesters.value.some(t => t.id === form.semester_id))) {
     error.value = 'Refresh the semester list before creating this student.'; return
@@ -77,6 +109,9 @@ async function submit() {
     if (term) success.value += ` Assigned to ${term.name} ${term.academic_year}.`
     Object.assign(form, emptyForm())
     emit('created');await loadSemesters()
+    if(!keepClass&&schoolMode.value){grade.value='';classId.value=0}
+    await nextTick()
+    document.getElementById('student-name')?.focus()
   } catch (e) {
     error.value = e instanceof TypeError
       ? 'Connection lost. Creation may have completed. Check before retrying; duplicate IDs will be rejected.'
@@ -98,21 +133,14 @@ async function submit() {
     <p v-if="semesterError" class="error" role="alert">{{semesterError}} <button type="button" class="secondary" @click="loadSemesters">Retry</button></p>
     <p v-if="semesterLoading" role="status">Loading school information…</p>
     <form v-if="!semesterLoading&&!semesterError" @submit.prevent="submit">
-      <fieldset :disabled="saving" :aria-busy="saving">
-        <legend>1 · Account details</legend>
-        <div class="form-grid">
-          <div><label for="student-id">Student ID *</label><input id="student-id" v-model="form.login_id" required maxlength="50" pattern="[A-Za-z0-9_-]+" autocomplete="off" aria-describedby="student-id-help"><small id="student-id-help">Letters, numbers, underscores or hyphens.</small></div>
-          <div><label for="student-password">Initial password *</label><div class="password-control"><input id="student-password" v-model="form.password" :type="showPassword ? 'text' : 'password'" required minlength="12" maxlength="72" autocomplete="new-password" aria-describedby="student-password-help"><button type="button" class="secondary" :aria-pressed="showPassword" @click="showPassword = !showPassword">{{showPassword ? 'Hide' : 'Show'}}</button></div><small id="student-password-help">At least 12 characters; maximum 72 UTF-8 bytes. Share privately with the student.</small></div>
-        </div>
-      </fieldset>
       <fieldset :disabled="saving">
-        <legend>2 · Student & academic details</legend><button v-if="schoolMode" type="button" class="secondary refresh-choices" @click="loadSemesters">Refresh class choices</button>
+        <legend>1 · Student & class</legend><button v-if="schoolMode" type="button" class="secondary refresh-choices" @click="loadSemesters">Refresh class choices</button>
         <div class="form-grid">
           <div><label for="student-name">Full name *</label><input id="student-name" v-model="form.full_name" required maxlength="150" autocomplete="off"></div>
           <template v-if="!schoolMode"><div><label for="student-university">University *</label><input id="student-university" v-model="form.university" required maxlength="150" autocomplete="off"></div>
           <div><label for="student-major">Major *</label><input id="student-major" v-model="form.major" required maxlength="150"></div>
           <div><label for="student-year">Year of study *</label><input id="student-year" v-model.number="form.year_of_study" type="number" required min="1" max="255" step="1"></div>
-          </template><template v-if="schoolMode"><div><label>School<input :value="context.profile.name" disabled></label></div><div><label>Academic year *<select v-model="schoolYear" required @change="chooseYear"><option :value="0" disabled>Choose a year</option><option v-for="y in context.years" :key="y.id" :value="y.id">{{y.name}}</option></select></label></div><div><label>Grade *<select v-model="grade" required @change="classId=0"><option value="" disabled>Choose a grade</option><option v-for="g in grades" :key="g" :value="g">Grade {{g}}</option></select></label></div><div><label>Class *<select v-model="classId" required><option :value="0" disabled>Choose a class</option><option v-for="cl in classChoices" :key="cl.id" :value="cl.id">Class {{cl.name}}</option></select></label></div><div><label>Enrollment date *<input v-model="startsOn" type="date" required :min="enrollmentYear?.start_date" :max="enrollmentYear?.end_date"></label></div><p class="muted full-width">The account and class enrollment save together. Subjects follow this class’s saved timetable from the enrollment date.</p><p v-if="!activeClasses.length" class="muted full-width">Create an active class in School classes before enrolling a student.</p></template>
+          </template><template v-if="schoolMode"><div><label>School<input :value="context.profile.name" disabled></label></div><div><label>Academic year *<select v-model="schoolYear" required @change="chooseYear"><option :value="0" disabled>Choose a year</option><option v-for="y in context.years" :key="y.id" :value="y.id">{{y.name}}</option></select></label></div><div><label>Grade *<select v-model="grade" required @change="classId=0"><option value="" disabled>Choose a grade</option><option v-for="g in grades" :key="g" :value="g">Grade {{g}}</option></select></label></div><div><label>Class *<select v-model="classId" required><option :value="0" disabled>Choose a class</option><option v-for="cl in classChoices" :key="cl.id" :value="cl.id">Class {{cl.name}}</option></select></label></div><div><label>Enrollment date *<input v-model="startsOn" type="date" required :min="enrollmentYear?.start_date" :max="enrollmentYear?.end_date"></label></div><div v-if="selectedClass" class="class-preview full-width" aria-live="polite"><div><span>Classroom</span><strong>{{roomError||(classroom?'Room '+classroom:roomData?'Not assigned':'Loading…')}}</strong><button v-if="roomError" type="button" class="secondary" @click="loadRooms">Retry room information</button></div><div><span>Homeroom teacher</span><strong>{{homeroom}}</strong><small>Sunday’s 10 AM teacher · term active on enrollment date</small></div></div><p class="muted full-width">The account and class enrollment save together. Subjects follow this class’s saved timetable from the enrollment date.</p><p v-if="!activeClasses.length" class="muted full-width">Create an active class in School classes before enrolling a student.</p></template>
           <div v-if="!schoolMode" class="full-width"><label for="initial-semester">Semester</label>
             <div class="semester-control"><select id="initial-semester" v-model="form.semester_id" :disabled="semesterLoading || !!semesterError"><option :value="null">Assign later</option><option v-for="term in semesters" :key="term.id" :value="term.id">{{term.name}} {{term.academic_year}}</option></select><button type="button" class="secondary" :disabled="semesterLoading" @click="loadSemesters"><StudentIcon name="refresh" />{{semesterLoading ? 'Refreshing…' : 'Refresh list'}}</button></div>
             <small>The student receives this semester’s courses and timetable automatically.</small>
@@ -121,8 +149,15 @@ async function submit() {
           </div>
         </div>
       </fieldset>
-      <details class="optional-contact"><summary>Contact details (optional)</summary><fieldset :disabled="saving">
-        <legend>Contact details</legend>
+      <fieldset :disabled="saving" :aria-busy="saving">
+        <legend>2 · Login details</legend>
+        <div class="form-grid">
+          <div><label for="student-id">Student ID *</label><input id="student-id" v-model="form.login_id" required maxlength="50" pattern="[A-Za-z0-9_-]+" autocomplete="off" aria-describedby="student-id-help"><small id="student-id-help">Letters, numbers, underscores or hyphens.</small></div>
+          <div><label for="student-password">Initial password *</label><div class="password-control"><input id="student-password" v-model="form.password" :type="showPassword ? 'text' : 'password'" required minlength="12" maxlength="72" autocomplete="new-password" aria-describedby="student-password-help"><button type="button" class="secondary" :aria-pressed="showPassword" @click="showPassword = !showPassword">{{showPassword ? 'Hide' : 'Show'}}</button></div><button type="button" class="secondary generate-password" @click="generatePassword">Generate password</button><small id="student-password-help">At least 12 characters; maximum 72 UTF-8 bytes. Share privately with the student.</small></div>
+        </div>
+      </fieldset>
+      <details class="optional-contact"><summary>Student contact details (optional)</summary><fieldset :disabled="saving">
+        <legend>Student contact details</legend>
         <div class="form-grid">
           <div><label for="student-email">Email</label><input id="student-email" v-model="form.email" type="email" maxlength="254" autocomplete="off"></div>
           <div><label for="student-phone">Phone number</label><input id="student-phone" v-model="form.phone_number" type="tel" maxlength="30" autocomplete="off"></div>
@@ -131,11 +166,13 @@ async function submit() {
       </fieldset>
       </details>
       <p v-if="error" class="error" role="alert">{{ error }}</p>
-      <div class="create-actions"><span>{{schoolMode?'Account and class enrollment save together.':'Account and semester assignment save together.'}}</span><button :disabled="saving || semesterLoading || !!semesterError || (schoolMode&&!classId)"><StudentIcon name="save" />{{ saving ? 'Creating student…' : 'Create student' }}</button></div>
+      <div class="create-actions"><span>{{schoolMode?'Account and class enrollment save together.':'Account and semester assignment save together.'}}</span><div class="save-buttons"><button type="submit" :disabled="saving || semesterLoading || !!semesterError || (schoolMode&&!classId)" value="create"><StudentIcon name="save" />{{ saving ? 'Creating student…' : 'Create student' }}</button><button type="submit" class="secondary" :disabled="saving || semesterLoading || !!semesterError || (schoolMode&&!classId)" value="another">Save &amp; add another</button></div></div>
     </form>
   </section>
 </template>
 <style scoped>
+.class-preview{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#eef4f0;border-radius:10px;padding:12px}.class-preview span,.class-preview strong{display:block}.class-preview span{font-size:12px;color:#63766b;margin-bottom:5px}.class-preview strong{font-size:14px}.save-buttons{display:flex;gap:10px;flex-wrap:wrap}.student-create .generate-password{width:auto;padding:7px 12px;font-size:12px;margin-top:8px}.student-create fieldset{min-width:0}.password-control{min-width:0}@media(max-width:550px){.class-preview{grid-template-columns:1fr}.save-buttons{width:100%}}
+
 .optional-contact{border:1px solid #d8e4dd;border-radius:10px;padding:14px;margin:18px 0}.optional-contact summary{cursor:pointer;font-size:14px;color:#476c58}.student-create .optional-contact fieldset{border:0;padding:12px 0 0;margin:0}.optional-contact legend{display:none}.refresh-choices{padding:8px 12px;font-size:12px;margin-bottom:14px}
 
 .student-create .password-control button{min-width:64px;width:auto;margin:6px 0 0}.student-create .password-control input{width:0;flex:1}.student-create .semester-control button{min-width:0;width:auto;margin-top:6px}
