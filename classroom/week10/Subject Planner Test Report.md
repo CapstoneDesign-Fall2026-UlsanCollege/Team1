@@ -58,7 +58,8 @@ Place the seven screenshots in `classroom/week10/images/` using the filenames be
 
 ### Screenshot 2 — Add class subject dialog
 
-[![Add class subject dialog for English with teacher selection](images/subject-planner-02-add-class-subject.png)](images/subject-planner-02-add-class-subject.png)
+[![Add class subject dialog for English with teacher selection] <img width="1006" height="846" alt="02 step 1 popup english" src="https://github.com/user-attachments/assets/92cfca39-27b5-488f-91a1-c2053a326691" />
+
 
 ### Screenshot 3 — Add lesson dialog
 
