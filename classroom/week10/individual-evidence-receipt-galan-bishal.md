@@ -141,3 +141,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [Grouping checks and screenshot](student-dashboard-check.md#follow-up-group-repeated-weekly-routines), [grouping tests](../../frontend/tests/weekly-routine.test.mjs).
 - **How it was checked:** 15 frontend checks and production build passed; browser confirmed a single Sunday–Friday routine and mobile fit.
 - **What I learned or changed:** Group by meaningful lesson details rather than database IDs. Teacher/room/time/subject differences remain visible. Saved timetable data and admin editing remain unchanged.
+
+## Receipt 20 - Make student Home a feature launcher
+
+- **What I did:** Clarified that Home should show feature tabs rather than long class/timetable/canteen panels. Implemented a compact one-tap feature grid with coding assistance; details remain on their own pages.
+- **Evidence:** [Final design and browser check](student-dashboard-check.md#final-home-revision-feature-tabs-first).
+- **How it was checked:** Frontend production build passed; all six features fit at 390x844, My Class opened the correct teacher/room, and Back returned to Home.
+- **What changed:** Home now serves navigation. The old inline dashboard is superseded; academic data, grouped timetable and canteen publication rules are preserved.

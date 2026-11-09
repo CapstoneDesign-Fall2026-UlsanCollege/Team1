@@ -3,7 +3,9 @@
 **Owner:** Galan Bishal (@bishal482), requested implementation with coding assistance.  
 **Date:** November 9, 2026. [Issue #76](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/76). Integrates with #68; does not rewrite another student's contribution claims.
 
-## Problem and resulting behaviour
+**Current Home design:** The owner clarified that Home should contain feature tabs, not inline timetable/menu panels. See the final follow-up below; the earlier dashboard screenshots record the superseded first iteration.
+
+## Initial implementation and behaviour
 
 The student class response previously omitted homeroom and classroom data. Added authenticated effective-membership scope, usual classroom, active-term Sunday 10 AM homeroom teacher, explicit unassigned/inactive/ambiguous states and today's lessons in Nepal time. Query/body student IDs cannot select another student. No teacher is guessed from a legacy major or expired term.
 
@@ -48,3 +50,9 @@ Three meaningful grouping checks passed (same routine despite record IDs/order; 
 Owner reported Campus Eat/Canteen duplication. Standardized student naming to School Canteen and removed the duplicate tile in More. Home remains a preview linking to that same page; the bottom Canteen button is the main entry. The page shows Today's menu with a Nepal date, then a collapsed Hours & location section. Removed the separate campus branding and repeated canteen headings. Published-data rules and staff editing are unchanged.
 
 Production build passed. Browser verified the single page, expandable published hours/location and absence of a canteen tile in More. [Current proof](evidence/student-canteen-unified.jpg). Local server was restarted for the check. No menu/database publication changes were made.
+
+## Final Home revision: feature tabs first
+
+Owner clarified the preferred interaction: Home should be a compact set of feature buttons. Replaced the inline class/day/menu panels with My Class, Timetable, Subjects, School Canteen, Student Profile and optional Job search. Context loads for school labels/navigation, but detailed information is shown only on the selected page. My Class still shows the homeroom teacher and usual classroom; Timetable retains grouped routines; Canteen remains the same unified page. Replaced the redundant More bottom entry with Profile. Legacy semester access remains available outside school mode.
+
+Frontend build passed. Assistant browser verified all six feature buttons fit within a 390x844 mobile screen, document/scroll widths both 390px, My Class opened the correct teacher/Room 101 in one tap, and Back returned to Home. [Current Home proof](evidence/student-home-feature-tabs.jpg). No backend, database or publication behaviour changed. Earlier inline dashboard screenshots are historical, not the current Home design.

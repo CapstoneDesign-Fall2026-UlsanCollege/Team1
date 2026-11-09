@@ -7,7 +7,7 @@ StudentHub supports Nepal-style middle/high-school administration: class enrollm
 ## Implemented and locally checked
 
 - Administrators manage academic years, classes, student enrollment/transfers, specialist teacher assignments, subject/timetable planning, usual classrooms and special-room bookings.
-- Student home shows their effective class, homeroom teacher, usual room, today's lessons and published menu preview; weekly timetable/profile/subjects remain available.
+- Student Home provides compact feature tabs. My Class shows their effective class, homeroom teacher and room; Timetable shows grouped weekly routines; School Canteen shows published menu/information. Profile and subjects remain accessible.
 - Canteen heads manage dated menus, prices, availability, copy-to-days, publication, hours/location and notices. Students see only published information; an unpublished menu remains hidden.
 - Account support includes administrator-reviewed password resets; private password delivery is manual.
 - Admin-only Activity Log records authenticated staff changes with private-value redaction.

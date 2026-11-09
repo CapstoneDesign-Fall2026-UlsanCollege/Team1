@@ -85,10 +85,7 @@ async function loadCourses(){ courseLoading.value=true; courseError.value=''; co
       </nav>
       <main class="student-content">
         <p v-if="error" class="error" role="alert">{{ error }}</p>
-        <StudentHome v-if="page==='home'" @open="go" @context="schoolInfo=$event" />
-        <div v-else-if="page === 'life'" class="student-grid">
-          <button v-for="item in sections.filter(s=>s.page!=='eat')" :key="item.page" class="student-tile" :class="{ wide: item.page === 'jobs' }" @click="go(item.page)"><StudentIcon :name="item.icon" /><span>{{ item.title }}</span></button>
-        </div>
+        <StudentHome v-if="page==='home'||page==='life'" :items="sections" @open="go" @context="schoolInfo=$event" />
         <template v-else-if="page === 'profile'">
           <p v-if="profileLoading" role="status">Loading your profile…</p>
           <div v-else-if="profileError"><p class="error" role="alert">{{ profileError }}</p><button class="student-primary" @click="loadProfile">Try again</button></div>
@@ -106,7 +103,7 @@ async function loadCourses(){ courseLoading.value=true; courseError.value=''; co
         <section v-else-if="page === 'course'" class="student-panel semester-list"><h2>{{ courseSchoolMode ? 'Subjects mapped to your class' : 'Courses in your semester' }}</h2><p v-if="courseLoading">Loading…</p><p v-else-if="courseError" class="error" role="alert">{{ courseError }} <button type="button" @click="loadCourses">Retry</button></p><p v-else-if="!courses.length" class="student-muted">No subjects are available for your current academic assignment. Contact your administrator if you need help.</p><div v-for="item in courses" :key="item.offering_id" class="semester-row"><div><strong>{{item.course_code}} · {{item.course_name}}</strong><small>{{schoolMode?'Class subject':item.credits+' credits · Section '+item.section}}</small></div><span>{{item.professor || 'Teacher not assigned'}}</span></div></section>
         <StudentTimetable v-else-if="page === 'schedule'" />
       </main>
-      <nav class="student-bottom" aria-label="Main navigation"><button :class="{selected:page==='home'}" :aria-current="page==='home'?'page':undefined" @click="go('home')"><StudentIcon name="home"/><span>Home</span></button><button :class="{selected:page==='schedule'}" :aria-current="page==='schedule'?'page':undefined" @click="go('schedule')"><StudentIcon name="schedule"/><span>Timetable</span></button><button :class="{selected:page==='eat'}" :aria-current="page==='eat'?'page':undefined" @click="go('eat')"><StudentIcon name="canteen"/><span>Canteen</span></button><button :class="{selected:page==='life'}" :aria-current="page==='life'?'page':undefined" @click="go('life')"><StudentIcon name="menu"/><span>More</span></button></nav>
+      <nav class="student-bottom" aria-label="Main navigation"><button :class="{selected:page==='home'}" :aria-current="page==='home'?'page':undefined" @click="go('home')"><StudentIcon name="home"/><span>Home</span></button><button :class="{selected:page==='schedule'}" :aria-current="page==='schedule'?'page':undefined" @click="go('schedule')"><StudentIcon name="schedule"/><span>Timetable</span></button><button :class="{selected:page==='eat'}" :aria-current="page==='eat'?'page':undefined" @click="go('eat')"><StudentIcon name="canteen"/><span>Canteen</span></button><button :class="{selected:page==='profile'}" :aria-current="page==='profile'?'page':undefined" @click="go('profile')"><StudentIcon name="profile"/><span>Profile</span></button></nav>
     </div>
   </div>
 </template>
