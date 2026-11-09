@@ -63,11 +63,11 @@ Place the seven screenshots in `classroom/week10/images/` using the filenames be
 
 ### Screenshot 3 — Add lesson dialog
 
-[![Add lesson dialog showing English on Tuesday from 10:00 AM to 11:00 AM](images/subject-planner-03-add-lesson.png)](images/subject-planner-03-add-lesson.png)
+[![Add lesson dialog showing English on Tuesday from 10:00 AM to 11:00 AM] <img width="1042" height="853" alt="03 add lesson popup" src="https://github.com/user-attachments/assets/e3bc94fa-75b4-4176-a94b-dd12ac571f24" />
 
 ### Screenshot 4 — English added to the class
 
-[![Class subjects area showing English and Mathematics with their teachers](images/subject-planner-04-english-added.png)](images/subject-planner-04-english-added.png)
+[![Class subjects area showing English and Mathematics with their teachers] <img width="1056" height="845" alt="04 english linked with lee" src="https://github.com/user-attachments/assets/acc3f2c2-693a-42a0-bf4a-c2691584b576" />
 
 ### Screenshot 5 — Timetable after saving
 
