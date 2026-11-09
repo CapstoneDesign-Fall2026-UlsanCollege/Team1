@@ -44,3 +44,9 @@ These two usability slices are implemented and locally checked. Independent non-
 Owner requested a Subject dropdown beside year, term and teacher search. Options come from actual assignments in the selected term, keyed by subject code. All subjects and No subject assigned remain explicit options. Subject and name/staff-code search combine, with matching/total counts and a clear zero-results message. Changing term clears a subject that is no longer available; refreshing retains a valid choice. Teacher routines remain complete rather than hiding other assignments from a matched teacher.
 
 Frontend production build passed. Assistant browser verified Mathematics showed Chandra Rai only, an unmatched search showed 0/20, and No subject assigned showed 10/20. No data/API/permissions were changed. [Safe proof](evidence/teacher-subject-filter.jpg).
+
+## Compact class-teacher panel
+
+Owner requested reduced size. Replaced the repeated class/year heading and large filter block with one compact class/term/refresh toolbar. Removed the date control only from Teachers because teacher assignments are term-based; date-scoped student/room views retain their date controls. Shortened heading/help text and tightened table rows and padding. Homeroom, subject/teacher/staff-code information and management action remain available.
+
+Production frontend build passed. Assistant browser verified all six Grade 10A subject-teacher rows appear in the compact panel, with the selected term and homeroom visible. [Safe screenshot](evidence/compact-class-teachers.jpg). No academic records or API rules changed.
