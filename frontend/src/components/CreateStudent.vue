@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { studentIdPrefix, schoolStudentId } from '../student-id'
 import StudentIcon from './StudentIcon.vue'
 import { apiFetch } from '../api'
 import { computed, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
@@ -7,6 +8,9 @@ const props = defineProps<{ revision?: number; initialClass?: number }>()
 const context=ref<any>(null),schoolYear=ref(0),grade=ref(''),classId=ref(0),startsOn=ref('')
 const roomData=ref<any>(null),roomError=ref('')
 const selectedClass=computed(()=>classChoices.value.find((c:any)=>c.id===classId.value))
+const studentNumber=ref('')
+const idPrefix=computed(()=>studentIdPrefix(startsOn.value,grade.value,selectedClass.value?.name??''))
+const studentLoginId=computed(()=>schoolMode.value?schoolStudentId(idPrefix.value,studentNumber.value):form.login_id)
 const classroom=computed(()=>roomData.value?.assignments.find((a:any)=>a.class_id===classId.value&&a.year_id===schoolYear.value)?.room_id)
 const homeroom=computed(()=>{
   const c=context.value
@@ -93,12 +97,13 @@ async function submit(event:SubmitEvent) {
     return
   }
   if(schoolMode.value&&(!classId.value||!startsOn.value)){error.value='Choose a class and enrollment date.';return}
+  if(schoolMode.value&&!studentLoginId.value){error.value='Choose a grade (1–12), section (A–I), valid enrollment date and student number (001–999).';return}
   saving.value = true; emit('saving', true)
   try {
     const response = await apiFetch(schoolMode.value?'/api/admin/school/students':'/api/admin/students', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-StudentHub': '1' },
-      body: JSON.stringify(schoolMode.value?{login_id:form.login_id,password:form.password,full_name:form.full_name,email:form.email,phone_number:form.phone_number,address:form.address,class_id:classId.value,starts_on:startsOn.value,revision:context.value.revision}:form),
+      body: JSON.stringify(schoolMode.value?{login_id:studentLoginId.value,password:form.password,full_name:form.full_name,email:form.email,phone_number:form.phone_number,address:form.address,class_id:classId.value,starts_on:startsOn.value,revision:context.value.revision}:form),
     })
     const data = await response.json().catch(() => ({ message: 'The backend is unavailable. Please try again.' }))
     if (response.status === 401) { emit('expired'); return }
@@ -108,6 +113,7 @@ async function submit(event:SubmitEvent) {
     const term = semesters.value.find(t => t.id === form.semester_id)
     if (term) success.value += ` Assigned to ${term.name} ${term.academic_year}.`
     Object.assign(form, emptyForm())
+    studentNumber.value=''
     emit('created');await loadSemesters()
     if(!keepClass&&schoolMode.value){grade.value='';classId.value=0}
     await nextTick()
@@ -152,7 +158,15 @@ async function submit(event:SubmitEvent) {
       <fieldset :disabled="saving" :aria-busy="saving">
         <legend>2 · Login details</legend>
         <div class="form-grid">
-          <div><label for="student-id">Student ID *</label><input id="student-id" v-model="form.login_id" required maxlength="50" pattern="[A-Za-z0-9_-]+" autocomplete="off" aria-describedby="student-id-help"><small id="student-id-help">Letters, numbers, underscores or hyphens.</small></div>
+          <div v-if="schoolMode" class="school-student-id">
+            <label for="student-number">Student number *</label>
+            <div class="student-id-control"><span class="id-prefix" aria-label="Automatic ID prefix">{{idPrefix||'— — —'}}</span><input id="student-number" v-model="studentNumber" type="text" inputmode="numeric" required pattern="0*[1-9][0-9]*" maxlength="3" placeholder="061" autocomplete="off" aria-describedby="student-id-help" @blur="studentNumber=/^\d{1,3}$/.test(studentNumber)?studentNumber.padStart(3,'0'):studentNumber"></div>
+            <small id="student-id-help">First five digits: enrollment year + grade + section (A=1, B=2, … I=9). Enter student number 001–999.</small>
+            <p class="id-preview" aria-live="polite">Student ID: <strong>{{studentLoginId||'Complete the class details and student number'}}</strong></p>
+            <small v-if="selectedClass&&!idPrefix" class="error">This ID format supports grades 1–12 and sections A–I. Review the selected class or enrollment date.</small>
+            <small>This becomes the login ID and stays unchanged after class transfers. Existing IDs are not renamed.</small>
+          </div>
+          <div v-else><label for="student-id">Student ID *</label><input id="student-id" v-model="form.login_id" required maxlength="50" pattern="[A-Za-z0-9_-]+" autocomplete="off" aria-describedby="student-id-help"><small id="student-id-help">Letters, numbers, underscores or hyphens.</small></div>
           <div><label for="student-password">Initial password *</label><div class="password-control"><input id="student-password" v-model="form.password" :type="showPassword ? 'text' : 'password'" required minlength="12" maxlength="72" autocomplete="new-password" aria-describedby="student-password-help"><button type="button" class="secondary" :aria-pressed="showPassword" @click="showPassword = !showPassword">{{showPassword ? 'Hide' : 'Show'}}</button></div><button type="button" class="secondary generate-password" @click="generatePassword">Generate password</button><small id="student-password-help">At least 12 characters; maximum 72 UTF-8 bytes. Share privately with the student.</small></div>
         </div>
       </fieldset>
@@ -166,11 +180,12 @@ async function submit(event:SubmitEvent) {
       </fieldset>
       </details>
       <p v-if="error" class="error" role="alert">{{ error }}</p>
-      <div class="create-actions"><span>{{schoolMode?'Account and class enrollment save together.':'Account and semester assignment save together.'}}</span><div class="save-buttons"><button type="submit" :disabled="saving || semesterLoading || !!semesterError || (schoolMode&&!classId)" value="create"><StudentIcon name="save" />{{ saving ? 'Creating student…' : 'Create student' }}</button><button type="submit" class="secondary" :disabled="saving || semesterLoading || !!semesterError || (schoolMode&&!classId)" value="another">Save &amp; add another</button></div></div>
+      <div class="create-actions"><span>{{schoolMode?'Account and class enrollment save together.':'Account and semester assignment save together.'}}</span><div class="save-buttons"><button type="submit" :disabled="saving || semesterLoading || !!semesterError || (schoolMode&&(!classId||!studentLoginId))" value="create"><StudentIcon name="save" />{{ saving ? 'Creating student…' : 'Create student' }}</button><button type="submit" class="secondary" :disabled="saving || semesterLoading || !!semesterError || (schoolMode&&(!classId||!studentLoginId))" value="another">Save &amp; add another</button></div></div>
     </form>
   </section>
 </template>
 <style scoped>
+.student-id-control{display:flex;align-items:stretch;margin-top:6px}.id-prefix{display:flex;align-items:center;padding:10px 14px;background:#eaf2ed;border:1px solid #bacdc3;border-right:0;border-radius:8px 0 0 8px;font:600 18px monospace;letter-spacing:2px}.student-create .student-id-control input{min-width:0;width:100%;margin:0;border-radius:0 8px 8px 0;flex:1}.id-preview{font-size:13px;margin:10px 0;overflow-wrap:anywhere}
 .class-preview{display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#eef4f0;border-radius:10px;padding:12px}.class-preview span,.class-preview strong{display:block}.class-preview span{font-size:12px;color:#63766b;margin-bottom:5px}.class-preview strong{font-size:14px}.save-buttons{display:flex;gap:10px;flex-wrap:wrap}.student-create .generate-password{width:auto;padding:7px 12px;font-size:12px;margin-top:8px}.student-create fieldset{min-width:0}.password-control{min-width:0}@media(max-width:550px){.class-preview{grid-template-columns:1fr}.save-buttons{width:100%}}
 
 .optional-contact{border:1px solid #d8e4dd;border-radius:10px;padding:14px;margin:18px 0}.optional-contact summary{cursor:pointer;font-size:14px;color:#476c58}.student-create .optional-contact fieldset{border:0;padding:12px 0 0;margin:0}.optional-contact legend{display:none}.refresh-choices{padding:8px 12px;font-size:12px;margin-bottom:14px}

@@ -64,3 +64,13 @@ Create student clears the class/grade after a successful save. Save & add anothe
 [Desktop form](evidence/student-create-desktop.jpg) | [Mobile form](evidence/student-create-mobile.jpg)
 
 **Limits:** no student account was submitted or changed in the persistent database for this UI check. Save-and-add-another reset/focus was source-reviewed, not end-to-end verified with a new account. A disposable-fixture save/repeat check and independent teammate review remain pending; this note does not claim a new backend regression run or deployment.
+
+## Structured admission IDs — November 9
+
+Galan specified an automatic five-digit admission prefix followed by an entered student number. Example: **26 + 06 + 1 + 061 = 26061061**. The year comes from the enrollment date (Gregorian, matching the existing date field); grade is two digits; section A–I maps to 1–9. Student numbers 1–999 are padded to three digits, with 000 rejected. Unsupported class labels are shown explicitly instead of being guessed into colliding codes.
+
+The school Create student form displays the prefix read-only and previews the final login ID. Class/date changes recompute it before creation. Save & add another clears the entered student number while keeping the selected class/date. The ID is stored through the existing login-ID field and unique constraint; duplicate IDs remain rejected by the existing transactional endpoint. Transfers do not recalculate saved IDs. Existing accounts and passwords were not renamed. No schema migration is required. Legacy non-school creation retains manual login IDs.
+
+**Actual checks:** frontend build passed; all 17 frontend checks passed, including format/padding and invalid-date/unsupported-section/sequence boundaries. Assistant browser verified Grade 6A plus 61 displayed 26061061, then switching to 6B displayed 26062061. No new persistent account was submitted. [Safe form proof](evidence/student-id-format.jpg).
+
+**Limit:** this compact format supports grades 1–12, sections A–I and 999 admission numbers per prefix. It is a permanent admission reference, not a current-class label or a daily roll number. Independent review and an isolated account-save/login check remain pending; no new backend regression or deployment is claimed.

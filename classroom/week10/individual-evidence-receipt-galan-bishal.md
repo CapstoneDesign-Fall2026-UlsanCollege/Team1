@@ -155,3 +155,9 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [Actual checks, source boundaries and safe screenshots](school-workspace-usability.md#create-student-class-first-enrollment--november-9), [CreateStudent.vue](../../frontend/src/components/CreateStudent.vue).
 - **How checked:** Assistant-run frontend build and local browser inspection; no persistent account creation during the UI check.
 - **Remaining:** Disposable-fixture save/repeat verification, independent teammate review and hosted verification. This does not change another member's contribution credit.
+
+## Structured student IDs — November 9
+
+- **What I did:** Defined admission year + grade/section + student number; requested automatic prefix generation without renaming existing accounts, implemented with coding assistance.
+- **Evidence:** [Format, actual checks and screenshot](school-workspace-usability.md#structured-admission-ids--november-9), [format utility](../../frontend/src/student-id.ts), [checks](../../frontend/tests/student-id.test.mjs).
+- **How checked:** Assistant ran the frontend build and 17 frontend checks; browser verified 6A/6B prefix changes with a padded student number. No persistent account was created for this check.
