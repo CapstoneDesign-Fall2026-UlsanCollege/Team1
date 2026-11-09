@@ -1,1 +1,101 @@
+# Subject Planner Test Report — Week 10
 
+**Tester:** Ansh Sharma  
+**Feature:** Subject planner and timetable workflow  
+**Test type:** Manual UI test  
+**Class:** Grade 2 · Class A  
+**Term:** Fall term  
+**Status:** Passed
+
+## 1. Test Objective
+
+To verify that the subject planner allows a user to:
+- add a class subject from the subject library,
+- assign a teacher,
+- create a lesson in the weekly timetable,
+- save and view the lesson correctly in the planner.
+
+## 2. Test Environment
+
+- Class: Grade 2 · Class A
+- Subject used: English
+- Teacher used: Demo Teacher Lee
+- Additional subject reviewed: Mathematics
+- Time slot tested: Tuesday, 10:00 AM–11:00 AM
+- School term: Fall term
+
+## 3. Test Steps
+
+1. Open the class planner page.
+2. Select English from the Grade 2 subject library.
+3. Add English as a class subject.
+4. Select a teacher.
+5. Confirm the subject addition.
+6. Open the lesson form and schedule a lesson on Tuesday 10:00–11:00 AM.
+7. Save the lesson.
+8. Verify the saved lesson appears in the timetable.
+9. Review the final planner state with the subject list and timetable.
+
+## 4. Test Results
+
+| Test ID | Test Case | Expected Result | Status |
+|---|---|---|---|
+| TC-01 | Open class planner | The planner, class subject area, and timetable are visible | Pass |
+| TC-02 | Add English to class subjects | The add-subject dialog opens and shows the selected subject | Pass |
+| TC-03 | Select teacher and confirm | English appears in the class subject list with the assigned teacher | Pass |
+| TC-04 | Add lesson to timetable | Lesson form opens with selected subject, day, and time | Pass |
+| TC-05 | Save lesson | Lesson appears in the timetable at the correct day and time | Pass |
+| TC-06 | Review saved planner state | Class subject list and timetable show the saved data correctly | Pass |
+| TC-07 | Check final layout and subject visibility | Planner displays the final subject and timetable state clearly | Pass |
+
+## 5. Summary
+
+The subject planner works correctly for adding a class subject and scheduling a lesson. The user can successfully assign a teacher, save the lesson, and see the result in the weekly timetable. The final planner state shows the intended class-subject and timetable setup.
+
+## 6. Screenshots
+
+Note: Save the seven images into the folder below before publishing the report.
+
+`classroom/week10/images/`
+
+Use these filenames:
+
+- subject-planner-01-mathematics-planner.png
+- subject-planner-02-add-class-subject.png
+- subject-planner-03-add-lesson.png
+- subject-planner-04-english-added.png
+- subject-planner-05-timetable-saved.png
+- subject-planner-06-mathematics-only.png
+- subject-planner-07-english-selected.png
+
+### Screenshot 1 — Planner with Mathematics lessons
+
+[![Subject planner showing Mathematics in the class and weekly timetable](images/subject-planner-01-mathematics-planner.png)](images/subject-planner-01-mathematics-planner.png)
+
+### Screenshot 2 — Add class subject dialog
+
+[![Add class subject dialog for English with teacher selection](images/subject-planner-02-add-class-subject.png)](images/subject-planner-02-add-class-subject.png)
+
+### Screenshot 3 — Add lesson dialog
+
+[![Add lesson dialog for Tuesday 10:00 AM to 11:00 AM](images/subject-planner-03-add-lesson.png)](images/subject-planner-03-add-lesson.png)
+
+### Screenshot 4 — English added to the class
+
+[![Class subjects area showing English added with teacher](images/subject-planner-04-english-added.png)](images/subject-planner-04-english-added.png)
+
+### Screenshot 5 — Saved timetable after lesson creation
+
+[![Saved timetable showing the lesson in the weekly planner](images/subject-planner-05-timetable-saved.png)](images/subject-planner-05-timetable-saved.png)
+
+### Screenshot 6 — Mathematics-only class subject view
+
+[![Planner showing Mathematics as the only class subject](images/subject-planner-06-mathematics-only.png)](images/subject-planner-06-mathematics-only.png)
+
+### Screenshot 7 — English selected in library
+
+[![Planner showing English selected in the subject library](images/subject-planner-07-english-selected.png)](images/subject-planner-07-english-selected.png)
+
+## 7. Final Result
+
+The subject planner test passed successfully. The feature correctly supports adding class subjects, assigning teachers, creating lessons, and saving them in the weekly timetable.
