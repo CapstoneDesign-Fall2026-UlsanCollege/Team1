@@ -6,7 +6,7 @@
 ## Opening
 
 - **Project name:** StudentHub.
-- **Target users:** Ulsan College students and administrators.
+- **Target users:** Mahendra School students and administrators.
 - **Problem:** Students need one convenient place to view academic information and find job opportunities that fit their schedules. Administrators need connected tools to manage students, semesters, courses, and timetables.
 
 ## Demo path

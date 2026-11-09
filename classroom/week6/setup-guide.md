@@ -1,6 +1,6 @@
 # Setup Guide
 
-**Project:** StudentHub — Team 1, Ulsan College Capstone Design  
+**Project:** StudentHub — Team 1, Mahendra School Capstone Design<br>
 **Last updated:** October 14, 2026
 
 ## What this project does

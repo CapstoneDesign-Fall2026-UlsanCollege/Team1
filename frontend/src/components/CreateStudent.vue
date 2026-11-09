@@ -41,7 +41,7 @@ watch(() => props.revision, loadSemesters)
 
 const emit = defineEmits<{ expired: []; saving: [value: boolean]; created: [] }>()
 const emptyForm = () => ({
-  login_id: '', password: '', full_name: '', university: 'Ulsan College',
+  login_id: '', password: '', full_name: '', university: 'Mahendra School',
   major: '', year_of_study: 1, email: '', phone_number: '', address: '',
   semester_id: null as number | null,
 })

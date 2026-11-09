@@ -24,3 +24,11 @@ This was a direct maintenance operation, outside request-attributed Activity Log
 [Local-only guarded script](../../backend/scripts/polish-local-school-labels.mjs) previews by default; --apply requires a private backup directory, MySQL vendor tools and successful restoration verification. It refuses nonlocal targets and unexpected partial student fixture sets. Existing fixture scripts remain historical/synthetic; this script can polish their unchanged labels after a fresh setup.
 
 No Railway database or deployment was changed.
+
+## School identity update - Mahendra School
+
+Owner requested Mahendra School consistently across code, documents and the local database. Replaced the previous institution text in the student form default, authentication fixtures and four text documents. Set the configured school name and all 36 matching student school labels to Mahendra School (37 database updates).
+
+Full vendor backup was restore-verified, including table-row and trigger counts, before one transactional update. Credentials, IDs, memberships, lessons and historical audit records were preserved. Scanned every database text/JSON column afterward: zero previous-name values remained. Repository text search returned no previous-name matches. Frontend build and four focused authentication/profile checks passed; browser confirmed Mahendra School on Home. [Current proof](evidence/mahendra-school-home.jpg).
+
+GitHub organization/repository URLs retain their actual addresses. Private backups, Git history and historical image evidence are not rewritten. The local label tool now supports --rename-school; SCHOOL_PREVIOUS_NAME supplies an optional legacy alias without hard-coding it into source.

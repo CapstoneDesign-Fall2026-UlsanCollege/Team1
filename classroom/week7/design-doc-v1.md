@@ -8,13 +8,13 @@
 
 ## 1. Project purpose
 
-StudentHub brings academic information and job opportunities into one convenient platform for Ulsan College students. Administrators manage accounts, semester assignments, courses, and class meetings; students view their own information and find jobs that may fit their study time.
+StudentHub brings academic information and job opportunities into one convenient platform for Mahendra School students. Administrators manage accounts, semester assignments, courses, and class meetings; students view their own information and find jobs that may fit their study time.
 
 The next phase adds Campus Eat for students and Room Finder for administrators to find available classrooms using recorded class schedules. Room Finder replaces the earlier student-accommodation idea.
 
 ## 2. Target users
 
-- **Primary user:** Ulsan College students.
+- **Primary user:** Mahendra School students.
 - **Secondary user:** Administrators managing student accounts, academic information, and classroom availability.
 
 ## 3. Smallest useful version

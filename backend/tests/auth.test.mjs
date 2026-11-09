@@ -58,7 +58,7 @@ test('student creation requires admin, validates input and handles duplicate IDs
   await new Promise(resolve => server.once('listening', resolve));
   const base = 'http://127.0.0.1:' + server.address().port;
   const post = (path, body, cookie = '') => fetch(base + path, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-StudentHub': '1', Cookie: cookie }, body: JSON.stringify(body) });
-  const payload = { login_id: '2026007', password: 'long-test-password', full_name: ' Mina Kim ', university: 'Ulsan College', major: 'Computer Science', year_of_study: 2 };
+  const payload = { login_id: '2026007', password: 'long-test-password', full_name: ' Mina Kim ', university: 'Mahendra School', major: 'Computer Science', year_of_study: 2 };
   try {
     assert.equal((await post('/api/admin/students', payload)).status, 401);
     const cookies = {};
@@ -123,7 +123,7 @@ test('profile reads only the signed-in student and rejects admin and anonymous a
   let missing = false;
   const app = createApp({ byLogin: async login => users.find(u => u.login_id === login), byId: async id => users.find(u => u.id === id) }, undefined, async id => {
     requestedId = id;
-    return missing ? undefined : { full_name: 'Mina Kim', university: 'Ulsan College', major: 'CS', year_of_study: 2, email: null, phone_number: null, address: null };
+    return missing ? undefined : { full_name: 'Mina Kim', university: 'Mahendra School', major: 'CS', year_of_study: 2, email: null, phone_number: null, address: null };
   });
   const server = app.listen(0, '127.0.0.1');
   await new Promise(resolve => server.once('listening', resolve));

@@ -8,6 +8,8 @@ import path from 'node:path';
 const config={host:process.env.DB_HOST??'127.0.0.1',port:Number(process.env.DB_PORT??3307),user:process.env.DB_USER??'root',password:process.env.DB_PASSWORD,database:process.env.DB_NAME??'studenthub'};
 if(!['127.0.0.1','localhost'].includes(config.host)||config.database!=='studenthub')throw Error('Local studenthub only.');
 const apply=process.argv.includes('--apply');
+const renameSchool=process.argv.includes('--rename-school');
+const schoolName='Mahendra School';
 const c=await mysql.createConnection(config);
 const names=['Aarav Sharma','Aayush Thapa','Anisha Rai','Ankit Karki','Asmita Shrestha','Bibek Gurung','Bina Adhikari','Bishal Tamang','Diksha Poudel','Dipesh Magar','Elina Lama','Gaurav Bhandari','Ishika Basnet','Kiran Neupane','Kritika Acharya','Manish Khadka','Nabin Gautam','Nikita Pandey','Niraj Joshi','Pabitra Dahal','Prakash Raut','Pratiksha Rana','Rachana KC','Rohan Shahi','Sabina Maharjan','Samir Aryal','Sandhya Bhattarai','Sanjay Chaudhary','Srijana Pun','Suman Regmi'];
 let transaction=false;
@@ -15,7 +17,7 @@ try{
  const q=async(sql,params=[])=> (await c.execute(sql,params))[0];
  const changes=[];
  const propose=async(table,column,key,sql,fn)=>{for(const row of await q(sql)){const after=fn(row);if(row[column]!==after)changes.push({table,column,key,id:row[key],before:row[column],after})}};
- await propose('school_profile','name','id',"SELECT id,name FROM school_profile WHERE name='Demo Nepal School'",()=> 'StudentHub Secondary School');
+ await propose('school_profile','name','id',renameSchool?'SELECT id,name FROM school_profile WHERE id=1':"SELECT id,name FROM school_profile WHERE name='Demo Nepal School'",()=>schoolName);
  await propose('school_years','name','id',"SELECT id,name FROM school_years WHERE name='Demo 2026–2027'",()=> '2026–2027');
  await propose('semesters','name','id',"SELECT id,name FROM semesters WHERE name='Demo school term'",()=> 'School term 2026–2027');
  await propose('school_teachers','name','id',"SELECT id,name FROM school_teachers WHERE name LIKE 'Demo %'",r=>r.name.replace(/^Demo /,''));
@@ -23,7 +25,10 @@ try{
  const students=await q("SELECT p.user_id,p.full_name FROM student_profiles p JOIN users u ON u.id=p.user_id WHERE u.login_id REGEXP '^demo_(6|7|8|9|10)[ab]_0[123]$' AND p.full_name REGEXP '^Demo Student (6|7|8|9|10)[AB] 0[123]$' ORDER BY p.user_id");
  if(students.length && students.length!==30)throw Error('Sample student set changed; inspect before renaming.');
  students.forEach((r,i)=>changes.push({table:'student_profiles',column:'full_name',key:'user_id',id:r.user_id,before:r.full_name,after:names[i]}));
- await propose('student_profiles','university','user_id',"SELECT user_id,university FROM student_profiles WHERE university='Demo Nepal School'",()=> 'StudentHub Secondary School');
+ const aliases=['Demo Nepal School'];
+ if(renameSchool){const current=await q('SELECT name FROM school_profile WHERE id=1');if(current[0])aliases.push(current[0].name);if(process.env.SCHOOL_PREVIOUS_NAME)aliases.push(process.env.SCHOOL_PREVIOUS_NAME)}
+ const profileRows=await q('SELECT user_id,university FROM student_profiles WHERE university IN ('+aliases.map(()=>'?').join(',')+')',aliases);
+ for(const r of profileRows)if(r.university!==schoolName)changes.push({table:'student_profiles',column:'university',key:'user_id',id:r.user_id,before:r.university,after:schoolName});
  await propose('course_offerings','professor','id',"SELECT id,professor FROM course_offerings WHERE professor LIKE 'Demo %'",r=>r.professor.replace(/^Demo /,''));
  await propose('courses','course_code','id',"SELECT id,course_code FROM courses WHERE course_code LIKE 'DEMO-%'",r=>r.course_code.replace(/^DEMO-/,'SCH-'));
  await propose('canteen_info','name','id',"SELECT id,name FROM canteen_info WHERE name LIKE 'Demo %'",r=>r.name.replace(/^Demo /,''));
