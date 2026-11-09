@@ -2,7 +2,7 @@
 
 **Team:** Team 1 — StudentHub<br>
 **Week:** 10<br>
-**Date:** November 5–11, 2026; initial update November 5
+**Date:** November 5–11, 2026; updated November 9
 
 ## This week's goal
 
@@ -12,7 +12,8 @@
 
 - [x] Publish school planning, teacher routine and room-board source with linked automated checks.
 - [x] Record Galan's requirements, implementation iterations and evidence in this shared report and one supporting receipt.
-- [ ] Complete current browser/mobile and real non-author checks; keep release gaps visible.
+- [x] Record current local browser/mobile checks and safe screenshots for the delivered changes.
+- [ ] Complete independent school-slice checks and keep live-release gaps visible.
 
 ## Evidence links
 
@@ -21,6 +22,7 @@
 | Issues | [#66 school](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/66), [#62–64 teachers](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/63), [#70 dashboard](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/70), [#72 room board](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/72) |
 | Implementation | [43a82ae](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae) |
 | Historical safe screenshots | [Week 9 planner note](../week9/school-planner-test-note.md), [room note](../week9/room-board-test-note.md) — earlier layouts |
+| Independent C0 account test | [Bal Raju’s November 9 local result](../week8/c0-independent-test.md#tester-owned-result-record); exact tested commit recorded there; direct screenshot link still needed |
 | Current test/check note | [November 5 actual results and limits](school-release-check.md) |
 | Team ownership audit | [Current area map, member status and AI notes](ai-use-and-code-ownership-audit.md) |
 | Roadmap / checklist | [November 11 milestone](roadmap.md), [honest checklist](work-checklist.md) |
@@ -41,7 +43,7 @@ Prepared with coding assistance; each member must review/write their own entry. 
 | Student | What they did | Evidence link |
 |---|---|---|
 | Galan Bishal (@bishal482) | Defined and implemented school administration with coding assistance: class membership, compact dashboard/list, subject drag/drop popups, specialist teacher routines with tiffin, room allocation/booking and recorded teacher availability; published source and actual checks; added staff Activity Log, four-second save confirmations, atomic school enrollment and a connected class workspace. | [Commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae), [Detailed receipts](individual-evidence-receipt-galan-bishal.md), [check note](school-release-check.md) |
-| Bal Raju | Pending own entry. | Pending. |
+| Bal Raju (@CoderRaaju) | Independently tested the local C0 canteen-account fixture on November 9 and recorded login/session, duplicate-account and disable/re-enable results. This credits testing and documentation, not Galan’s implementation. Summary added from his tester-owned record; Bal Raju should review it and confirm his Week 10 slice/area/support. | [Tester-owned result](../week8/c0-independent-test.md#tester-owned-result-record), [his evidence commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/6d8c538) |
 | Ansh Sharma | Pending own entry. | Pending. |
 | Buddha Raj Giri | Pending own entry. | Pending. |
 
@@ -50,8 +52,9 @@ Prepared with coding assistance; each member must review/write their own entry. 
 | Blocker/risk | Owner | Next action |
 |---|---|---|
 | Hosting is not a verified live release | Galan Bishal | Revisit Railway November 10, then verify deployment/data before claims. |
-| Latest compact layout and full end-to-end workflow need current visual/non-author proof | Galan Bishal; non-author tester not confirmed | Record exact version, steps, expected/actual and safe proof. |
-| Remaining homeroom/student view and break-policy consistency | Galan Bishal | Keep unfinished criteria in #62/#67/#68; compare all timetable/booking paths. |
+| Independent current school/booking workflow check remains pending | Galan coordinates; non-author tester unconfirmed | Repeat #72 valid/overlap/adjacent cases; record tester, commit, expected/actual and proof by November 11. Current local visual proof is already linked above. |
+| Fresh-clone setup and remaining policy review | Galan Bishal | Complete #77 setup/bootstrap; keep tiffin/custom-booking policy review distinct from the locally implemented student homeroom display in #76. |
+| Team ownership confirmations and C0 screenshot links | Each member confirms their own role; Galan coordinates | Confirm slice/area/backup by November 11. Bal Raju should add a direct safe screenshot URL to his existing test record; do not invent proof. |
 
 ## Decision record
 

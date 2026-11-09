@@ -2,7 +2,7 @@
 
 **Team:** Team 1 — StudentHub<br>
 **Dates:** November 5–11, 2026<br>
-**Status recorded:** November 5; unchecked team items need real participation, not generated confirmations.
+**Status recorded:** November 9; unchecked team items need real participation, not generated confirmations.
 
 Based on the [course checklist](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/blob/main/week-10/work-checklist.md).
 
@@ -31,7 +31,10 @@ Based on the [course checklist](https://github.com/CapstoneDesign-Fall2026-Ulsan
 - [x] Record AI assistance and changes/limits, including no claim that the course example grants AI permission.
 - [x] Prepare a specific handoff question and repeatable commands.
 - [ ] Ask the question, record the real answer and reviewer identity/date/commit.
-- [ ] Obtain independent test/cross-area review and latest safe visual evidence.
+- [x] Link current assistant-run local visual evidence in [student checks](student-dashboard-check.md) and [school workspace checks](school-workspace-usability.md).
+- [x] Link [Bal Raju’s independent local C0 account result](../week8/c0-independent-test.md#tester-owned-result-record), preserving its fixture/commit scope.
+- [ ] Obtain independent current #72 booking/cross-area review; the C0 result does not satisfy this separate check.
+- [ ] Add the actual safe C0 screenshot URL; its record describes captured images but does not supply a clickable proof link.
 
 ## Ownership, roadmap and report
 
@@ -40,7 +43,7 @@ Based on the [course checklist](https://github.com/CapstoneDesign-Fall2026-Ulsan
 - [x] Record unresolved gaps with owner/coordination owner, next check and November 11 review point.
 - [x] Update roadmap with actual result and next action.
 - [x] Link Galan's own work/evidence, prepared with coding assistance.
-- [ ] Every other member adds/reviews their own contribution, slice, area and evidence. Their rows remain pending.
+- [ ] Every other member adds/reviews their own contribution, slice, area and evidence. Bal Raju’s existing tester-owned result is now summarized with attribution, pending his review and role confirmation; Ansh and Buddha’s own entries remain pending.
 
 ## Optional stretch — after core work
 

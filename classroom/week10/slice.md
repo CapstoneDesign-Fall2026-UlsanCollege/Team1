@@ -37,19 +37,23 @@ Each issue should have a confirmed responsible owner, implementation evidence, a
 
 Use the [current team audit](ai-use-and-code-ownership-audit.md#codebase-area-map--current-source-of-truth) for real boundaries, stewards, support/backup status and area checks. It is the source of truth; role proposals there require personal confirmation and do not restrict who can change code. [Current roadmap milestone](roadmap.md).
 
+## November 9 evidence reconciliation
+
+This update preserves the original responsibility proposals below. Galan delivered the student homeroom/Home work in #76; this is not a contribution claim for Buddha. Bal Raju (@CoderRaaju) independently tested the local C0 account fixture and wrote the [November 9 result](../week8/c0-independent-test.md#tester-owned-result-record). His proposed testing stewardship/backup role still needs confirmation. See the [current audit](ai-use-and-code-ownership-audit.md) and [shared report](weekly-report.md) for role gaps.
+
 ## 4. Team Checks
 
 Use these checks to verify project behavior. Record actual results before marking any check as passed.
 
 | Feature | Expected result | Actual result / status |
 |---|---|---|
-| School years and grades | Correct school year and grade information is available | Pending verification |
-| Homeroom membership | Students are assigned to the correct class | Pending verification |
-| Teacher management | Teachers can be assigned to the correct homeroom | Pending verification |
-| [Student My Class (#68)](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68) | Students can see their class and assigned teacher | Pending verification |
+| School years and grades | Correct school year and grade information is available | Locally checked; [school evidence](school-release-check.md). Independent current review pending. |
+| Homeroom membership | Students are assigned to the correct class | Local transaction/roster checks recorded in [workspace evidence](school-workspace-usability.md); independent review pending. |
+| Teacher management | Teachers can be assigned to the correct homeroom | Local Sunday 10 AM homeroom display and compact teacher checks recorded in [workspace evidence](school-workspace-usability.md); independent review pending. |
+| [Student My Class (#68)](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68) | Students can see their class and assigned teacher | Implemented locally by Galan in #76; [student checks](student-dashboard-check.md). Independent review pending. |
 | Optional Job Search | High-school users can access Job Search when enabled | Pending verification |
-| School administration | Administrators can view useful school information and shortcuts | Pending verification |
-| Campus Eat | Canteen menu information is displayed correctly | Pending verification |
+| School administration | Administrators can view useful school information and shortcuts | Local [workspace checks and proof](school-workspace-usability.md) recorded; independent review pending. |
+| Campus Eat | Canteen menu information is displayed correctly | Local [menu lifecycle checks](canteen-owner-check.md) and [student publication-privacy checks](student-dashboard-check.md) recorded; independent full menu review pending. C0 account verification is a separate passed fixture. |
 | Deployment | Live website loads and important features work | Pending verification |
 
 ## 5. Evidence Collection
