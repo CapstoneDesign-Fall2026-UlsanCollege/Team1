@@ -44,7 +44,7 @@ Prepared with coding assistance; each member must review/write their own entry. 
 |---|---|---|
 | Galan Bishal (@bishal482) | Defined and implemented school administration with coding assistance: class membership, compact dashboard/list, subject drag/drop popups, specialist teacher routines with tiffin, room allocation/booking and recorded teacher availability; published source and actual checks; added staff Activity Log, four-second save confirmations, atomic school enrollment and a connected class workspace; simplified student creation with class/teacher preview, generated passwords and repeat enrollment. | [Commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae), [Detailed receipts](individual-evidence-receipt-galan-bishal.md), [check note](school-release-check.md) |
 | Bal Raju (@CoderRaaju) | Independently tested the local C0 canteen-account fixture on November 9 and recorded login/session, duplicate-account and disable/re-enable results. This credits testing and documentation, not Galan’s implementation. Summary added from his tester-owned record; Bal Raju should review it and confirm his Week 10 slice/area/support. | [Tester-owned result](../week8/c0-independent-test.md#tester-owned-result-record), [his evidence commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/6d8c538) |
-| Ansh Sharma | Pending own entry. | Pending. |
+| Ansh Sharma | Manually tested the subject planner: added English to Grade 2 Class A, assigned a teacher, scheduled a Tuesday lesson, and verified it appeared in the weekly timetable. | [Subject Planner Test Report](Subject%20Planner%20Test%20Report.md) |
 | Buddha Raj Giri | Pending own entry. | Pending. |
 
 ## Blockers or risks
