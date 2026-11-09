@@ -49,8 +49,6 @@ The screenshots document the subject-planner workflow: adding English to the cla
 
 ## 6. Screenshots
 
-Place the seven screenshots in `classroom/week10/images/` using the filenames below. The links are relative to this report file. If you save the images in a different folder or use different filenames, update the links accordingly.
-
 ### Screenshot 1 — Planner with Mathematics lessons
 
 [![Subject planner showing Mathematics in the class and weekly timetable] <img width="1717" height="847" alt="01 before only mathematics - Copy" src="https://github.com/user-attachments/assets/21f44579-2ec9-47c2-be56-e53713bd1d8b" />
