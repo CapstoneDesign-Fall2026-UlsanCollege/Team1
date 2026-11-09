@@ -3,7 +3,7 @@ import { apiFetch } from '../api'
 import { computed, ref } from 'vue'
 import StudentIcon from './StudentIcon.vue'
 import JobFinder from './JobFinder.vue'
-import CampusEat from './DailyMenu.vue'
+import SchoolCanteen from './DailyMenu.vue'
 import StudentTimetable from './StudentTimetable.vue'
 import StudentSchool from './StudentSchool.vue'
 import StudentHome from './StudentHome.vue'
@@ -87,7 +87,7 @@ async function loadCourses(){ courseLoading.value=true; courseError.value=''; co
         <p v-if="error" class="error" role="alert">{{ error }}</p>
         <StudentHome v-if="page==='home'" @open="go" @context="schoolInfo=$event" />
         <div v-else-if="page === 'life'" class="student-grid">
-          <button v-for="item in sections" :key="item.page" class="student-tile" :class="{ wide: item.page === 'jobs' }" @click="go(item.page)"><StudentIcon :name="item.icon" /><span>{{ item.title }}</span></button>
+          <button v-for="item in sections.filter(s=>s.page!=='eat')" :key="item.page" class="student-tile" :class="{ wide: item.page === 'jobs' }" @click="go(item.page)"><StudentIcon :name="item.icon" /><span>{{ item.title }}</span></button>
         </div>
         <template v-else-if="page === 'profile'">
           <p v-if="profileLoading" role="status">Loading your profile…</p>
@@ -98,7 +98,7 @@ async function loadCourses(){ courseLoading.value=true; courseError.value=''; co
           </template>
         </template>
         <JobFinder v-else-if="page === 'jobs'" :login-id="loginId" />
-        <div v-else-if="page==='eat'" class="student-canteen"><CampusEat/></div>
+        <div v-else-if="page==='eat'" class="student-canteen"><SchoolCanteen/></div>
         <StudentSchool v-else-if="page === 'school'" @open="go" @context="schoolInfo=$event" />
 
         <section v-else-if="page === 'settings'" class="student-panel settings-panel"><h2>Account</h2><p>Signed in as {{ loginId }}</p><p class="student-muted">For account or password changes, contact your administrator.</p><button class="student-primary" :disabled="busy" @click="$emit('logout')">{{ busy ? 'Logging out…' : 'Log out' }}</button></section>

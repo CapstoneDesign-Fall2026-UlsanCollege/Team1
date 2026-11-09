@@ -42,3 +42,9 @@ Independent human review and hosted deployment remain pending. Current-day food 
 Owner requested fewer repeated day cards. Student timetables now group days whose subject/code, start/end time, teacher and room match, showing the lessons once. Non-consecutive day groups list the exact days; consecutive groups use a range. Different routines and scheduled Saturdays remain separate. Empty days remain explicit. Administrative edit controls still operate on individual days and saved meetings; this is a read-only presentation change with no database edits.
 
 Three meaningful grouping checks passed (same routine despite record IDs/order; subject/time/teacher/room differences; empty/Saturday/legacy-section cases), bringing the frontend suite to **15 passed**. Frontend build passed. Local browser showed Sunday–Friday with five lessons once; 390px document and scroll width matched. [Mobile proof](evidence/student-grouped-timetable.jpg). No real dated school-event feed was added by this change; grouping reflects the saved weekly timetable.
+
+## Follow-up: one student canteen feature
+
+Owner reported Campus Eat/Canteen duplication. Standardized student naming to School Canteen and removed the duplicate tile in More. Home remains a preview linking to that same page; the bottom Canteen button is the main entry. The page shows Today's menu with a Nepal date, then a collapsed Hours & location section. Removed the separate campus branding and repeated canteen headings. Published-data rules and staff editing are unchanged.
+
+Production build passed. Browser verified the single page, expandable published hours/location and absence of a canteen tile in More. [Current proof](evidence/student-canteen-unified.jpg). Local server was restarted for the check. No menu/database publication changes were made.
