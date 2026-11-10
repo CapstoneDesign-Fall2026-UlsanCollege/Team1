@@ -266,6 +266,30 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       assert.ok(!(await data('/admin/school/rooms')).assignments.some(a=>a.class_id===classA));
       for(const role of ['alice','canteen',null]){assert.equal((await request('/admin/school/rooms','GET',undefined,role)).status,role?403:401);assert.equal((await request('/admin/school/room-bookings','POST',booking,role)).status,role?403:401);}
     });
+    await t.test('#72 same-day save survives read-back, overlap leaves no row, adjacent slot succeeds',async t=>{
+      const state=await data('/admin/school');
+      const teacher=state.teachers.find(t=>t.staff_code==='PLANNER-02').id;
+      const booking={room_id:207,class_id:classB,offering_id:2,teacher_id:teacher,day_of_week:7,start_time:'14:00',end_time:'15:00',starts_on:'2026-11-15',ends_on:'2026-11-15',repeats_weekly:false};
+      const count=async()=>Number((await sql('SELECT COUNT(*) total FROM school_room_bookings'))[0].total);
+      const before=await count();
+      const saved=await mutate('/admin/school/room-bookings','POST',booking,201);
+      const readback=(await data('/admin/school/rooms')).bookings.find(b=>b.id===saved.id);
+      assert.ok(readback);
+      for(const field of ['room_id','class_id','offering_id','teacher_id','day_of_week','start_time','end_time','starts_on','ends_on'])assert.equal(readback[field],booking[field],field);
+      assert.equal(readback.repeats_weekly,0);assert.equal(readback.is_cancelled,0);
+      assert.equal(await count(),before+1);
+      t.diagnostic('VALID: HTTP 201; separate GET matches saved fields; SQL count increased by one. Fixture: '+JSON.stringify(booking));
+      const revision=(await data('/admin/school')).revision;
+      await mutate('/admin/school/room-bookings','POST',{...booking,start_time:'14:30',end_time:'15:30'},409);
+      assert.equal(await count(),before+1);
+      assert.equal((await data('/admin/school')).revision,revision);
+      assert.deepEqual((await data('/admin/school/rooms')).bookings.find(b=>b.id===saved.id),readback);
+      t.diagnostic('CONFLICT: HTTP 409; SQL count unchanged; original GET record and planning revision unchanged.');
+      const adjacent=await mutate('/admin/school/room-bookings','POST',{...booking,start_time:'15:00',end_time:'16:00'},201);
+      assert.ok((await data('/admin/school/rooms')).bookings.some(b=>b.id===adjacent.id&&b.start_time==='15:00'&&b.end_time==='16:00'));
+      assert.equal(await count(),before+2);
+      t.diagnostic('BOUNDARY: adjacent 15:00–16:00 returns HTTP 201 and survives separate GET.');
+    });
     await t.test('student dashboard scopes homeroom, room and daily lessons to effective membership and active term',async()=>{
       today='2026-11-01';
       const state=await data('/admin/school'),offering=state.subjects.find(s=>s.course_code==='PLAN-MUSIC'&&state.links.some(l=>l.class_id===classA&&l.offering_id===s.id));
