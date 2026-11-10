@@ -2,7 +2,7 @@
 
 **Team:** Team 1 — StudentHub<br>
 **Dates:** November 5–11, 2026<br>
-**Status recorded:** November 9; unchecked team items need real participation, not generated confirmations.
+**Status recorded:** November 10; unchecked team items need real participation, not generated confirmations.
 
 Based on the [course checklist](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/blob/main/week-10/work-checklist.md).
 
@@ -17,7 +17,8 @@ Based on the [course checklist](https://github.com/CapstoneDesign-Fall2026-Ulsan
 
 - [x] Record [next milestone, current evidence and fallback](roadmap.md).
 - [x] Bound Galan's slice to booking save-or-reject in #72; link stewarded API, persistence dependency and expected result.
-- [ ] Confirm bounded slices for Bal Raju and Ansh Sharma; confirm Buddha's #68 next behaviour and support.
+- [x] Record [Bal Raju’s C0 evidence follow-up / testing-integration scope](individual-evidence-receipt-bal-raju.md), requested through his connected account on November 10.
+- [ ] Confirm Ansh/Buddha’s areas and support with their own entries; Bal Raju’s backup acceptance remains pending.
 
 ## Explain one slice per student
 
@@ -43,7 +44,7 @@ Based on the [course checklist](https://github.com/CapstoneDesign-Fall2026-Ulsan
 - [x] Record unresolved gaps with owner/coordination owner, next check and November 11 review point.
 - [x] Update roadmap with actual result and next action.
 - [x] Link Galan's own work/evidence, prepared with coding assistance.
-- [ ] Every other member adds/reviews their own contribution, slice, area and evidence. Bal Raju’s existing tester-owned result is now summarized with attribution, pending his review and role confirmation; Ansh and Buddha’s own entries remain pending.
+- [ ] Every other member adds/reviews their own contribution, slice, area and evidence. Bal Raju’s Week 10 scope and receipt are now linked; his oral explanation, backup acceptance and direct C0 screenshot URL remain pending. Ansh has added a subject-planner result to the shared report; full area/support confirmation is not inferred from that test. Buddha’s own entry remains pending.
 
 ## Optional stretch — after core work
 
