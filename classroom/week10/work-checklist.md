@@ -60,3 +60,8 @@ Based on the [course checklist](https://github.com/CapstoneDesign-Fall2026-Ulsan
 - [ ] Core path is demonstrated with real evidence or its precise failure/recovery is recorded.
 
 Coordination owner: Galan. Other members own confirming their own entries; no acceptance is asserted. See the audit's gap table for specific deadlines and recovery actions. No new runtime checks were run for this documentation-only update.
+
+## November 10 assistant-run #72 follow-up
+
+- [x] Add explicit same-day save/read-back, conflict/no-added-row and adjacent-slot assertions; [20 school checks passed](room-booking-assistant-check-2026-11-10.md).
+- [ ] Obtain the separate non-author human result. No assistant-run check closes this gate.

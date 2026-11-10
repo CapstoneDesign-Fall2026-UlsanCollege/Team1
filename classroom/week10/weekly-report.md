@@ -34,6 +34,7 @@
 | School usability | [UX1 #74](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/74), [UX2 #75](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/75), [actual checks and screenshots](school-workspace-usability.md) |
 | Sample data polish | [November 9 labels, private backup verification and safe proof](school-data-labels.md) |
 | Student dashboard | [#76](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/76), [homeroom, lessons, canteen and actual proof](student-dashboard-check.md) |
+| Fresh #72 assistant check | [Exact commit and expected/actual results](room-booking-assistant-check-2026-11-10.md), [20-pass school output](evidence/room-booking-assistant-tests-2026-11-10.txt); explicit same-day read-back, conflict rollback and adjacent-slot assertions; independent review still pending |
 | Fresh C0 assistant check | [November 10 exact source/results](c0-fresh-assistant-check-2026-11-10.md), [workspace proof](evidence/c0-assistant-workspace-2026-11-10.jpg), [disabled-account proof](evidence/c0-assistant-disabled-2026-11-10.jpg); not independent teammate evidence |
 | Bal Raju ownership / next test | [Week 10 slice, code explanation and pending proof](individual-evidence-receipt-bal-raju.md), [#72 prepared test record](raju-room-booking-test.md) |
 | Document update | [Galan's detailed receipt](individual-evidence-receipt-galan-bishal.md) |

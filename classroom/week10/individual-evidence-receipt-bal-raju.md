@@ -68,3 +68,10 @@ Current-source links explain navigation; the November 9 result is tied only to i
 - [Automated test output](evidence/c0-assistant-tests-2026-11-10.txt)
 
 These new links prove the dated assistant check only. They do not prove a Bal Raju-run test or a #72 room-booking pass.
+
+## #72 supporting evidence available for independent review
+
+- [November 10 assistant check: exact commit, expected/actual and data boundaries](room-booking-assistant-check-2026-11-10.md)
+- [Raw school test output: 20 passes, no failures/skips](evidence/room-booking-assistant-tests-2026-11-10.txt)
+
+Galan requested this assistant check. It is supporting implementation evidence for Bal Raju to review, not a new contribution or personal test by him. His confirmation and independent walkthrough remain pending.

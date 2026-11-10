@@ -52,3 +52,7 @@ No human pass, assistant-run substitute or live result is claimed by this prepar
 - [Automated test output](evidence/c0-assistant-tests-2026-11-10.txt)
 
 These new links prove the dated assistant check only. They do not prove a Bal Raju-run test or a #72 room-booking pass.
+
+## Fresh assistant-run #72 results — separate from the tester-owned table
+
+[November 10 actual result table and exact commit](room-booking-assistant-check-2026-11-10.md) · [direct school test output](evidence/room-booking-assistant-tests-2026-11-10.txt). Valid same-day persistence, conflict/no added row and adjacent-slot checks passed; 20 school checks and 3 frontend availability checks passed. These automated results do not fill Bal Raju’s human-test fields above.
