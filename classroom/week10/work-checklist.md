@@ -17,7 +17,8 @@ Based on the [course checklist](https://github.com/CapstoneDesign-Fall2026-Ulsan
 
 - [x] Record [next milestone, current evidence and fallback](roadmap.md).
 - [x] Bound Galan's slice to booking save-or-reject in #72; link stewarded API, persistence dependency and expected result.
-- [x] Record [Bal Raju’s C0 evidence follow-up / testing-integration scope](individual-evidence-receipt-bal-raju.md), requested through his connected account on November 10.
+- [x] Prepare [Bal Raju’s proposed C0 evidence/testing scope](individual-evidence-receipt-bal-raju.md) at Galan’s request; correct the earlier mistaken requester identity.
+- [ ] Obtain Bal Raju’s own confirmation of that scope; a connected account is not proof of acceptance.
 - [ ] Confirm Ansh/Buddha’s areas and support with their own entries; Bal Raju’s backup acceptance remains pending.
 
 ## Explain one slice per student
@@ -44,7 +45,7 @@ Based on the [course checklist](https://github.com/CapstoneDesign-Fall2026-Ulsan
 - [x] Record unresolved gaps with owner/coordination owner, next check and November 11 review point.
 - [x] Update roadmap with actual result and next action.
 - [x] Link Galan's own work/evidence, prepared with coding assistance.
-- [ ] Every other member adds/reviews their own contribution, slice, area and evidence. Bal Raju’s Week 10 scope and receipt are now linked; his oral explanation, backup acceptance and direct C0 screenshot URL remain pending. Ansh has added a subject-planner result to the shared report; full area/support confirmation is not inferred from that test. Buddha’s own entry remains pending.
+- [ ] Every other member adds/reviews their own contribution, slice, area and evidence. Bal Raju’s proposed scope and draft receipt are linked; personal confirmation, oral explanation, backup acceptance and direct C0 screenshot URL remain pending. Ansh has added a subject-planner result to the shared report; full area/support confirmation is not inferred from that test. Buddha’s own entry remains pending.
 
 ## Optional stretch — after core work
 

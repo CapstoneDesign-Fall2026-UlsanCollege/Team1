@@ -34,6 +34,7 @@
 | School usability | [UX1 #74](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/74), [UX2 #75](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/75), [actual checks and screenshots](school-workspace-usability.md) |
 | Sample data polish | [November 9 labels, private backup verification and safe proof](school-data-labels.md) |
 | Student dashboard | [#76](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/76), [homeroom, lessons, canteen and actual proof](student-dashboard-check.md) |
+| Fresh C0 assistant check | [November 10 exact source/results](c0-fresh-assistant-check-2026-11-10.md), [workspace proof](evidence/c0-assistant-workspace-2026-11-10.jpg), [disabled-account proof](evidence/c0-assistant-disabled-2026-11-10.jpg); not independent teammate evidence |
 | Bal Raju ownership / next test | [Week 10 slice, code explanation and pending proof](individual-evidence-receipt-bal-raju.md), [#72 prepared test record](raju-room-booking-test.md) |
 | Document update | [Galan's detailed receipt](individual-evidence-receipt-galan-bishal.md) |
 
@@ -44,7 +45,7 @@ Prepared with coding assistance; each member must review/write their own entry. 
 | Student | What they did | Evidence link |
 |---|---|---|
 | Galan Bishal (@bishal482) | Defined and implemented school administration with coding assistance: class membership, compact dashboard/list, subject drag/drop popups, specialist teacher routines with tiffin, room allocation/booking and recorded teacher availability; published source and actual checks; added staff Activity Log, four-second save confirmations, atomic school enrollment and a connected class workspace; simplified student creation with class/teacher preview, generated passwords and repeat enrollment. | [Commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43a82ae), [Detailed receipts](individual-evidence-receipt-galan-bishal.md), [check note](school-release-check.md) |
-| Bal Raju (@CoderRaaju) | Independently tested the C0 canteen-account fixture on November 9 at aea1636 and recorded login/session, duplicate-account, disable/re-enable and role results. Week 10 scope: C0 evidence follow-up (#61), primary area testing/integration; prepared the separate #72 valid/conflict retest record with AI documentation assistance. No #72 execution or live pass claimed. | [Week 10 receipt and scope](individual-evidence-receipt-bal-raju.md), [tester-owned C0 result](../week8/c0-independent-test.md#tester-owned-result-record), [original evidence commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/6d8c538) |
+| Bal Raju (@CoderRaaju) | His existing tester-owned record reports a November 9 local C0 pass at aea1636. Direct screenshot proof is missing. November 10 scope/receipt drafts were prepared by AI at Galan’s request; Bal Raju’s personal role confirmation and #72 execution remain pending. | [Original C0 result](../week8/c0-independent-test.md#tester-owned-result-record), [Week 10 draft and identity correction](individual-evidence-receipt-bal-raju.md), [original evidence commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/6d8c538) |
 | Ansh Sharma | Manually tested the subject planner: added English to Grade 2 Class A, assigned a teacher, scheduled a Tuesday lesson, and verified it appeared in the weekly timetable. | [Subject Planner Test Report](Subject%20Planner%20Test%20Report.md) |
 | Buddha Raj Giri | Pending own entry. | Pending. |
 
@@ -55,7 +56,7 @@ Prepared with coding assistance; each member must review/write their own entry. 
 | Hosting is not a verified live release | Galan Bishal | Revisit Railway November 10, then verify deployment/data before claims. |
 | Independent current school/booking workflow check remains pending | Galan coordinates; non-author tester unconfirmed | Repeat #72 valid/overlap/adjacent cases; record tester, commit, expected/actual and proof by November 11. Current local visual proof is already linked above. |
 | Fresh-clone setup and remaining policy review | Galan Bishal | Complete #77 setup/bootstrap; keep tiffin/custom-booking policy review distinct from the locally implemented student homeroom display in #76. |
-| Team ownership confirmations and C0 screenshot links | Each member confirms their own role; Galan coordinates | Bal Raju’s C0 evidence/testing scope is recorded; backup acceptance and other members’ confirmations remain separate. By November 11, Bal Raju should add a direct safe screenshot URL to his existing test record; do not invent proof. |
+| Team ownership confirmations and C0 screenshot links | Each member confirms their own role; Galan coordinates | Bal Raju’s scope is proposed, not personally confirmed; backup acceptance and other members’ confirmations remain separate. By November 11, Bal Raju should add a direct safe screenshot URL to his existing test record; do not invent proof. |
 
 ## Decision record
 

@@ -1,13 +1,13 @@
 # Individual Evidence Receipt — Bal Raju
 
-**Student:** Bal Raju (@CoderRaaju)  
-**Team:** Team 1 — StudentHub  
-**Week:** 10 (November 5–11, 2026)  
+**Student:** Bal Raju (@CoderRaaju)
+**Team:** Team 1 — StudentHub
+**Week:** 10 (November 5–11, 2026)
 **Updated:** November 10, 2026
 
-Supporting evidence for the [one shared report](weekly-report.md), not a separate weekly report. This follow-up was requested by Bal Raju in chat and published using his CoderRaaju GitHub connection with AI documentation assistance. It preserves Galan’s implementation credit and does not invent new independent tests.
+Supporting evidence draft for the [one shared report](weekly-report.md), not a separate weekly report. **Correction, November 10:** the requester clarified that they are Galan Bishal, not Bal Raju. The earlier update used the connected CoderRaaju account based on that mistaken identity; the account used does not establish who performed a test or accepted a role. Treat the new role choices and explanation below as proposals pending Bal Raju’s personal review. The original November 9 tester-owned record is preserved, not independently corroborated by this chat.
 
-## My Week 10 slice and area
+## Proposed Week 10 slice and area — confirmation pending
 
 - **Bounded slice:** complete and maintain the evidence for C0 canteen-account independent verification, [#61](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/61): exact tested version, expected/actual results, safe proof and unresolved live boundary.
 - **Primary area:** testing/integration, especially account roles and session lifecycle. Responsibility covers the test procedure, readable results and reproducibility, not exclusive control of application source.
@@ -25,9 +25,9 @@ Supporting evidence for the [one shared report](weekly-report.md), not a separat
 - **Evidence gap:** The record describes captured screenshots but contains no direct image link. Repository inspection found only older assistant screenshots, so they have not been substituted as proof of my November 9 test.
 - **Next action:** Supply the original safe screenshot path/URL and add the link to the original test result. Keep passwords, cookies and personal data out of proof.
 
-## Receipt 2 — Week 10 feedback and ownership follow-up
+## Draft receipt 2 — documentation prepared by AI at Galan’s request
 
-- **What I did:** Requested this update through my connected CoderRaaju account; selected the C0 evidence follow-up/testing-integration scope and linked my existing result into the shared report and audit.
+- **What I did:** Galan requested an evidence update using the connected CoderRaaju account; AI prepared the proposed C0 evidence/testing-integration scope and links. This is not Bal Raju’s personal confirmation or new contribution claim.
 - **Evidence:** [Shared report](weekly-report.md#individual-contribution-entries--one-row-per-student), [team area map](ai-use-and-code-ownership-audit.md#codebase-area-map--current-source-of-truth).
 - **How checked:** AI assistance compared the current main-branch documents with the recorded test. The existing Galan and Ansh entries were preserved.
 - **What changed:** The contribution now distinguishes the recorded C0 local pass from missing screenshot proof, unexecuted #72 testing and unverified live hosting.
@@ -57,4 +57,14 @@ Current-source links explain navigation; the November 9 result is tied only to i
 - [ ] Execute #72 valid/conflict checks against a recorded commit; attach actual result and proof.
 - [ ] Keep any hosted check separate under [#65](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/65), coordinated by Galan.
 
-**AI disclosure:** AI helped inspect source/evidence and draft these documents. No new test was run on my behalf and labelled as my independent result.
+**AI disclosure:** AI helped inspect source/evidence and draft these documents at Galan’s request. Bal Raju has not confirmed these new entries. New assistant checks must be recorded separately and cannot become his independent result.
+
+## Direct evidence links — November 10 follow-up
+
+- [Bal Raju individual evidence receipt (draft pending personal confirmation)](individual-evidence-receipt-bal-raju.md)
+- [Fresh assistant-run C0 check and exact source](c0-fresh-assistant-check-2026-11-10.md)
+- [C0 workspace screenshot](evidence/c0-assistant-workspace-2026-11-10.jpg)
+- [Disabled-account screenshot](evidence/c0-assistant-disabled-2026-11-10.jpg)
+- [Automated test output](evidence/c0-assistant-tests-2026-11-10.txt)
+
+These new links prove the dated assistant check only. They do not prove a Bal Raju-run test or a #72 room-booking pass.

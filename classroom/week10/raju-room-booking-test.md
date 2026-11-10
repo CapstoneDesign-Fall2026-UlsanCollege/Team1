@@ -1,8 +1,8 @@
 # Bal Raju — #72 independent booking test record
 
-**Tester:** Bal Raju (@CoderRaaju)  
-**Prepared:** November 10, 2026, with AI documentation assistance  
-**Issue:** [#72](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/72)  
+**Proposed tester:** Bal Raju (@CoderRaaju), personal confirmation pending
+**Prepared:** November 10, 2026, by AI at Galan’s request; requester identity clarified after the initial publication
+**Issue:** [#72](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/72)
 **Status:** Prepared only — not executed. This is separate from the C0 local pass.
 
 ## Start point
@@ -42,3 +42,13 @@ A valid same-day special-room booking saves and appears after reload. A second b
 | Next action | Bal Raju runs the check by November 11; if blocked, records the exact blocker and recovery owner |
 
 No human pass, assistant-run substitute or live result is claimed by this prepared document.
+
+## Direct evidence links — November 10 follow-up
+
+- [Bal Raju individual evidence receipt (draft pending personal confirmation)](individual-evidence-receipt-bal-raju.md)
+- [Fresh assistant-run C0 check and exact source](c0-fresh-assistant-check-2026-11-10.md)
+- [C0 workspace screenshot](evidence/c0-assistant-workspace-2026-11-10.jpg)
+- [Disabled-account screenshot](evidence/c0-assistant-disabled-2026-11-10.jpg)
+- [Automated test output](evidence/c0-assistant-tests-2026-11-10.txt)
+
+These new links prove the dated assistant check only. They do not prove a Bal Raju-run test or a #72 room-booking pass.

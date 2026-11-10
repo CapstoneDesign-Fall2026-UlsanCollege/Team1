@@ -1,0 +1,18 @@
+✔ login, role boundaries, session restore, disabled accounts and logout (5161.9202ms)
+✔ student creation requires admin, validates input and handles duplicate IDs (653.4709ms)
+✔ student persistence hashes passwords and rolls back when profile creation fails (1993.7038ms)
+✔ profile reads only the signed-in student and rejects admin and anonymous access (540.0034ms)
+✔ canteen-head login, session restore and workspace boundaries are enforced on every role (1069.0771ms)
+✔ only admin provisions staff; role injection is rejected and no password or hash is returned (3079.3183ms)
+✔ disable signs out every staff session and enable never restores old sessions or alters other roles (709.6264ms)
+✔ role migration appends the enum once and refuses unknown schemas (1.7652ms)
+✔ canteen-head sessions expire after eight hours (488.2329ms)
+✔ MySQL staff writes use a fixed role and cannot modify student/admin status (1.8245ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8775.1702
