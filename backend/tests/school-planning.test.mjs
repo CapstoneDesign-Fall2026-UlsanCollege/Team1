@@ -1,3 +1,4 @@
+import {ensureTeacherSchema} from '../dist/teacher-workspace.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import mysql from 'mysql2/promise';
@@ -67,7 +68,7 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
     await sql('INSERT INTO student_semesters VALUES(2,1),(3,1),(5,1)');
     await sql("INSERT INTO class_schedules VALUES(1,1,1,'09:00','10:00','Legacy location'),(2,2,1,'09:00','10:00','Other location')");
     const before=JSON.stringify({users:await sql('SELECT * FROM users ORDER BY id'),profiles:await sql('SELECT * FROM student_profiles ORDER BY user_id'),offerings:await sql('SELECT * FROM course_offerings ORDER BY id')});
-    await ensureSchoolSchema(pool);await ensureSchoolSchema(pool);
+    await ensureSchoolSchema(pool);await ensureSchoolSchema(pool);await ensureTeacherSchema(pool);await ensureTeacherSchema(pool);
     assert.equal(JSON.stringify({users:await sql('SELECT * FROM users ORDER BY id'),profiles:await sql('SELECT * FROM student_profiles ORDER BY user_id'),offerings:await sql('SELECT * FROM course_offerings ORDER BY id')}),before);
     function app(){return createDatabaseApp(pool,{today:()=>today,jobs:async page=>({jobs:[],total:0,page,pageSize:30,fetchedAt:new Date().toISOString()})});}
     server=app().listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));
@@ -355,6 +356,88 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
         assert.equal((await request(rosterPath,'GET',undefined,role)).status,role?403:401);
       }
       for(const query of ['date=2028-01-01','date=2026-02-30','date=2026-11-01&page=0','date=2026-11-01&page=abc'])assert.equal((await request('/admin/school/classes/'+classA+'/students?'+query)).status,400);
+    });
+    await t.test('teacher accounts, scoped rosters, homework and homeroom attendance',async t=>{
+      today='2026-11-01';await ensureActivitySchema(pool);
+      const state=await data('/admin/school'),firstTeacher=state.teachers.find(t=>t.staff_code==='PLANNER-01').id,secondTeacher=state.teachers.find(t=>t.staff_code==='PLANNER-02').id;
+      const offering=state.subjects.find(s=>s.course_code==='PLAN-MUSIC'&&state.links.some(l=>l.class_id===classA&&l.offering_id===s.id)).id;
+      // Fixture uses one active subject assignment and Sunday first lesson for each teacher/class.
+      await sql('UPDATE school_offering_teachers SET teacher_id=? WHERE offering_id=2',[secondTeacher]);
+      await sql("DELETE FROM class_schedules WHERE day_of_week=7 AND start_time='10:00:00'");
+      await sql("INSERT INTO class_schedules(course_offering_id,day_of_week,start_time,end_time) VALUES(?,7,'10:00','11:00'),(2,7,'10:00','11:00')",[offering]);
+      const usersBefore=Number((await sql('SELECT COUNT(*) n FROM users'))[0].n);
+      const staff={teacher_id:firstTeacher,login_id:'teacher_one',password:'teacher-test-password',role:'admin'};
+      const create=await request('/admin/teacher-accounts','POST',staff);assert.equal(create.status,201);const userId=(await create.json()).id;
+      const create2=await request('/admin/teacher-accounts','POST',{...staff,teacher_id:secondTeacher,login_id:'teacher_two'});assert.equal(create2.status,201);
+      async function signTeacher(login,role){const r=await request('/auth/login','POST',{login_id:login,password:staff.password},null);assert.equal(r.status,200);cookies[role]=r.headers.get('set-cookie').split(';')[0];}
+      await signTeacher('teacher_one','teacher');await signTeacher('teacher_two','otherTeacher');
+      let homeworkId,version,rosterStudents;
+      await t.test('admin links teacher accounts atomically; duplicate link rolls back user insert and every role is isolated',async()=>{
+       assert.equal((await sql('SELECT role FROM users WHERE id=?',[userId]))[0].role,'teacher');
+       assert.equal((await request('/admin/teacher-accounts','POST',{...staff,login_id:'orphan_attempt'})).status,409);
+       assert.equal((await sql("SELECT id FROM users WHERE login_id='orphan_attempt'")).length,0);
+       assert.equal(Number((await sql('SELECT COUNT(*) n FROM users'))[0].n),usersBefore+2);
+       for(const role of ['alice','canteen','teacher',null])assert.equal((await request('/admin/teacher-accounts','GET',undefined,role)).status,role?403:401);
+       for(const role of ['admin','alice','canteen',null])assert.equal((await request('/teacher/dashboard','GET',undefined,role)).status,role?403:401);
+       for(const path of ['/admin/school','/student/profile','/canteen/home'])assert.equal((await request(path,'GET',undefined,'teacher')).status,403);
+      });
+      await t.test('schedule and roster follow linked teacher, effective membership and current term, ignoring forged teacher IDs',async()=>{
+       const d=await data('/teacher/dashboard?teacher_id='+secondTeacher,'teacher');
+       assert.equal(d.teacher.id,firstTeacher);assert.ok(d.homerooms.some(c=>c.class_id===classA));assert.ok(!d.homerooms.some(c=>c.class_id===classB));
+       assert.ok(d.lessons.every(l=>d.assignments.some(a=>a.offering_id===l.course_offering_id)));
+       rosterStudents=(await data('/teacher/classes/'+classA+'/students','teacher')).students;
+       assert.ok(rosterStudents.length>100);assert.ok(rosterStudents.every(s=>!('email'in s)&&!('password_hash'in s)));
+       const forbiddenClass=(await mutate('/admin/school/classes','POST',{year_id:yearId,grade_label:'8',name:'Private',is_active:true},201)).id;
+       assert.equal((await request('/teacher/classes/'+forbiddenClass+'/students','GET',undefined,'teacher')).status,403);
+       today='2027-02-01';assert.equal((await data('/teacher/dashboard','teacher')).assignments.length,0);today='2026-11-01';
+      });
+      await t.test('homework persists, scopes student reads, rejects foreign subjects and enforces edit revisions/archive',async()=>{
+       const body={class_id:classA,offering_id:offering,title:'Read chapter one',instructions:'Answer questions 1–3.',due_on:'2026-11-04'};
+       const r=await request('/teacher/homework','POST',body,'teacher');assert.equal(r.status,201);homeworkId=(await r.json()).id;
+       assert.ok((await data('/student/homework?student_user_id=3','alice')).homework.some(h=>h.id===homeworkId));
+       assert.ok(!(await data('/student/homework','bob')).homework.some(h=>h.id===homeworkId));
+       assert.equal((await request('/teacher/homework','POST',{...body,class_id:classB,offering_id:2},'teacher')).status,403);
+       assert.equal((await request('/teacher/homework','POST',{...body,due_on:'2026-02-30'},'teacher')).status,400);
+       assert.equal((await request('/teacher/homework','POST',{...body,due_on:'2027-01-01'},'teacher')).status,400);
+       const edit={...body,version:1,is_active:false};
+       assert.equal((await request('/teacher/homework/'+homeworkId,'PUT',edit,'otherTeacher')).status,403);
+       assert.equal((await request('/teacher/homework/'+homeworkId,'PUT',edit,'teacher')).status,200);
+       assert.equal((await request('/teacher/homework/'+homeworkId,'PUT',edit,'teacher')).status,409);
+       assert.ok(!(await data('/student/homework','alice')).homework.some(h=>h.id===homeworkId));
+      });
+      await t.test('attendance is homeroom-only, initially unmarked, date/membership validated, atomic and revision protected',async()=>{
+       const path='/teacher/classes/'+classA+'/attendance',query=path+'?date=2026-11-01';
+       const initial=await data(query,'teacher');version=initial.version;assert.equal(version,0);assert.ok(initial.students.every(s=>s.status===''));
+       assert.equal((await request(query,'GET',undefined,'otherTeacher')).status,403);
+       assert.equal((await request(path+'?date=2026-11-02','GET',undefined,'teacher')).status,400);
+       const body={date:'2026-11-01',version:0,records:[{student_user_id:initial.students[0].id,status:'present'}]};
+       const foreign={student_user_id:3,status:'absent'};
+       assert.equal((await request(path,'PUT',{...body,records:[...body.records,foreign]},'teacher')).status,400);
+       assert.equal((await sql('SELECT * FROM school_attendance WHERE class_id=?',[classA])).length,0);
+       assert.equal((await request(path,'PUT',{...body,records:[body.records[0],body.records[0]]},'teacher')).status,400);
+       const large={...body,records:initial.students.map(s=>({student_user_id:s.id,status:'present'}))};
+       assert.ok(JSON.stringify(large).length>4096);
+       assert.equal((await request(path,'PUT',large,'teacher')).status,200);
+       const saved=await data(query,'teacher');assert.equal(saved.version,1);assert.ok(saved.students.every(s=>s.status==='present'));
+       assert.equal((await request(path,'PUT',{...body,records:[{...body.records[0],status:'absent'}]},'teacher')).status,409);
+       assert.ok((await data(query,'teacher')).students.every(s=>s.status==='present'));
+       const edits={date:'2026-11-01',version:1,records:[{...body.records[0],status:'late'}]};
+       const competing=await Promise.all([request(path,'PUT',edits,'teacher'),request(path,'PUT',edits,'teacher')]);assert.deepEqual(competing.map(r=>r.status).sort(),[200,409]);
+       today='2026-11-02';const transferred=await data(path+'?date=2026-11-02','teacher');assert.ok(!transferred.students.some(s=>s.id===2));today='2026-11-01';
+       const logs=await sql("SELECT * FROM activity_logs WHERE actor_role='teacher'");assert.ok(logs.some(l=>l.record_type==='school_attendance'));assert.ok(logs.some(l=>l.record_type==='school_homework'));assert.ok(!JSON.stringify(logs).includes('Answer questions'));
+      });
+      await t.test('ambiguous or inactive homeroom and deactivated accounts do not retain access',async()=>{
+       await sql("INSERT INTO class_schedules(course_offering_id,day_of_week,start_time,end_time) VALUES(2,7,'10:00','11:00')");
+       await sql('INSERT IGNORE INTO school_class_offerings VALUES(?,2)',[classA]);
+       assert.equal((await request('/teacher/classes/'+classA+'/attendance?date=2026-11-01','GET',undefined,'teacher')).status,403);
+       await sql('DELETE FROM school_class_offerings WHERE class_id=? AND offering_id=2',[classA]);
+       await sql('UPDATE school_teachers SET is_active=0 WHERE id=?',[firstTeacher]);assert.equal((await request('/teacher/dashboard','GET',undefined,'teacher')).status,403);await sql('UPDATE school_teachers SET is_active=1 WHERE id=?',[firstTeacher]);
+       assert.equal((await request('/admin/teacher-accounts/'+userId+'/status','PUT',{is_active:false})).status,200);
+       assert.equal((await request('/teacher/dashboard','GET',undefined,'teacher')).status,401);
+       await request('/admin/teacher-accounts/'+userId+'/status','PUT',{is_active:true});
+       assert.equal((await request('/teacher/dashboard','GET',undefined,'teacher')).status,401);await signTeacher('teacher_one','teacher');
+       assert.equal((await request('/teacher/dashboard','GET',undefined,'teacher')).status,200);
+      });
     });
   }finally{
     if(server){server.closeAllConnections();await new Promise(r=>server.close(r));}await pool?.end();

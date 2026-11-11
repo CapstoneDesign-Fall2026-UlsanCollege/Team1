@@ -1,3 +1,4 @@
+import {ensureTeacherSchema} from './teacher-workspace.js';
 import {ensureActivitySchema} from './activity-log.js';
 import 'dotenv/config';
 import mysql from 'mysql2/promise';
@@ -24,6 +25,7 @@ const port = Number(process.env.PORT ?? 3000);
 async function start() {
   await ensureCanteenRole(pool);
   await ensureSchoolSchema(pool);
+  await ensureTeacherSchema(pool);
   await ensureCanteenMenuSchema(pool);
   await pool.query(canteenInfoSchema);
   await pool.query(resetSchema);

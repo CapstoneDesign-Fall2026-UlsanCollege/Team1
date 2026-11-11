@@ -14,7 +14,7 @@ export type CanteenAccountStore = {
 export async function ensureCanteenRole(pool: Pool) {
   const [rows] = await pool.query<RowDataPacket[]>("SHOW COLUMNS FROM users LIKE 'role'");
   const type = rows[0]?.Type;
-  if (type === "enum('admin','student','canteen_head')") return;
+  if (type === "enum('admin','student','canteen_head')" || type === "enum('admin','student','canteen_head','teacher')") return;
   if (type !== "enum('admin','student')") throw new Error('Unexpected users.role schema. Review migration 006 before starting.');
   await pool.query("ALTER TABLE users MODIFY COLUMN role ENUM('admin','student','canteen_head') NOT NULL DEFAULT 'student'");
 }

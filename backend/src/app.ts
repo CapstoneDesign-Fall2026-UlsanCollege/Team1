@@ -13,10 +13,11 @@ import { scheduleRouter, ScheduleError, type ScheduleStore } from './schedules.j
 import { studentAdminRouter, type StudentAdminStore } from './student-admin.js';
 import { canteenAccountsRouter, type CanteenAccountStore } from './canteen-accounts.js';
 
-export type Account = { id: number; login_id: string; password_hash: string; role: 'admin' | 'student' | 'canteen_head'; is_active: number };
+export type Account = { id: number; login_id: string; password_hash: string; role: 'admin' | 'student' | 'canteen_head' | 'teacher'; is_active: number };
 export type Accounts = {
   withActor?: (user:{id:number;login_id:string;role:string},next:()=>void)=>void;
   school?: express.Router;
+  teacherWorkspace?: (invalidate:(id:number)=>void)=>express.Router;
   campus?: express.Router;
   canteenAccounts?: CanteenAccountStore;
   favourites?: FavouriteStore;
@@ -49,6 +50,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], allowedHeaders: ['Content-Type', 'X-StudentHub'] }));
   app.use('/api/student/job-favourites', express.json({ limit: '200kb' }));
   app.use('/api/canteen', express.json({ limit: '32kb' }));
+  app.use('/api/teacher', express.json({ limit: '64kb' }));
   app.use(express.json({ limit: '4kb' }));
   const sessions = new Map<string, { id: number; expires: number }>();
   const attempts = new Map<string, { count: number; expires: number }>();
@@ -119,7 +121,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
     if(accounts.withActor)accounts.withActor(res.locals.user,next);else next();
   });
   // Enforce workspace boundaries before individual routers, including future canteen routes.
-  for (const [prefix, role] of [['admin','admin'],['student','student'],['canteen','canteen_head']] as const) {
+  for (const [prefix, role] of [['admin','admin'],['student','student'],['canteen','canteen_head'],['teacher','teacher']] as const) {
     app.use('/api/' + prefix, (_req,res,next) => {
       if(res.locals.user.role !== role) {res.status(403).json({message:'You do not have access to this workspace.'}); return;}
       next();
@@ -127,6 +129,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
   }
   if (accounts.canteenAccounts) app.use('/api', canteenAccountsRouter(accounts.canteenAccounts,invalidate));
   if (accounts.campus) app.use('/api', accounts.campus);
+  if (accounts.teacherWorkspace) app.use('/api',accounts.teacherWorkspace(invalidate));
   if (accounts.school) app.use('/api', accounts.school);
   if (accounts.resets) app.use('/api', resetRouter(accounts.resets, invalidate));
   if (accounts.favourites) app.use('/api', favouritesRouter(accounts.favourites));
@@ -228,7 +231,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
       throw error;
     }
   });
-  for (const role of ['admin', 'student', 'canteen_head']) {
+  for (const role of ['admin', 'student', 'canteen_head', 'teacher']) {
     app.get('/api/' + (role === 'canteen_head' ? 'canteen' : role) + '/home', (_req, res) => {
       if (res.locals.user.role !== role) {
         res.status(403).json({ message: 'You do not have access to this page.' }); return;

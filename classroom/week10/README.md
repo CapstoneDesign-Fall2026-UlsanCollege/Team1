@@ -35,3 +35,5 @@ Personal confirmations, accepted backups and independent current school/booking 
 - [Clean sample school labels: local backup and verification](school-data-labels.md)
 
 - [Student dashboard, homeroom and canteen checks](student-dashboard-check.md)
+
+- [Teacher workspace: schedule, rosters, homework and homeroom attendance — actual checks](teacher-workspace-check.md)

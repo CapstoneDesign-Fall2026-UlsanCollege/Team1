@@ -33,7 +33,7 @@ onMounted(load)
  <p v-if="busy" role="status">Loading activity…</p>
  <p v-else-if="!error&&!logs.length" class="empty">No changes match these filters.</p>
  <article v-for="entry in logs" :key="entry.id" class="entry">
-  <div class="entry-head"><strong>{{entry.actor_login}}</strong><span>{{entry.actor_role==='admin'?'Administrator':'Canteen head'}}</span><time>{{time(entry.occurred_at)}} NPT</time></div>
+  <div class="entry-head"><strong>{{entry.actor_login}}</strong><span>{{entry.actor_role==='admin'?'Administrator':entry.actor_role==='teacher'?'Teacher':'Canteen head'}}</span><time>{{time(entry.occurred_at)}} NPT</time></div>
   <p><span class="badge">{{entry.action}}</span> {{label(entry.record_type)}} · Record {{entry.record_key}}</p>
   <details><summary>{{entry.changed_fields.length}} changed field{{entry.changed_fields.length===1?'':'s'}} · View details</summary><div class="table-wrap"><table><thead><tr><th>Field</th><th>Before</th><th>After</th></tr></thead><tbody><tr v-for="field in entry.changed_fields" :key="field"><th>{{field}}</th><td>{{value(entry.before_values?.[field])}}</td><td>{{value(entry.after_values?.[field])}}</td></tr></tbody></table></div></details>
  </article>

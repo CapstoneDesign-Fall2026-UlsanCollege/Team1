@@ -1,0 +1,78 @@
+✔ activity log: atomic history, actor isolation, privacy and read-only filters (1539.574ms)
+✔ login, role boundaries, session restore, disabled accounts and logout (5076.9655ms)
+✔ student creation requires admin, validates input and handles duplicate IDs (601.624ms)
+✔ student persistence hashes passwords and rolls back when profile creation fails (1901.9389ms)
+✔ profile reads only the signed-in student and rejects admin and anonymous access (512.0821ms)
+✔ canteen-head login, session restore and workspace boundaries are enforced on every role (1304.5613ms)
+✔ only admin provisions staff; role injection is rejected and no password or hash is returned (2923.6265ms)
+✔ disable signs out every staff session and enable never restores old sessions or alters other roles (714.8206ms)
+✔ role migration appends the enum once and refuses unknown schemas (1.2696ms)
+✔ canteen-head sessions expire after eight hours (484.7198ms)
+✔ MySQL staff writes use a fixed role and cannot modify student/admin status (1.5003ms)
+✔ menu dates use Nepal time and reject impossible calendar dates (30.8543ms)
+✔ menu validation rejects invalid prices, names, IDs and oversized lists (2.0427ms)
+✔ canteen hours and closure notices validate without inventing hours (1.0864ms)
+﹣ isolated MySQL daily menu lifecycle (0.1827ms) # SKIP
+✔ saved assignments reload; removal targets one offering and is admin-only (1036.4925ms)
+✔ local database connections remain unchanged unless TLS is enabled (1.4705ms)
+✔ TLS refuses missing certificates and invalid enable flags (0.9324ms)
+✔ TLS preserves verification and handles escaped PEM newlines (1.3502ms)
+✔ catalogue search finds jobs beyond page one and reuses a shared catalogue (53.8432ms)
+✔ favourites are private, normalized, removable, and restricted to student accounts (898.316ms)
+✔ Seoul adapter maps jobs, coalesces requests, caches pages and keeps the key server-side (60.2268ms)
+✔ Seoul failures are sanitized, failures can retry, and empty results are supported (4.9731ms)
+✔ job endpoint requires student authentication and validates pages (754.1765ms)
+✔ student course and timetable queries require both semester membership and profile major (4.3018ms)
+✔ major assignments require admin and major, permit same course in two majors, and reject duplicates (284.0215ms)
+✔ reset privacy, admin verification, hashing, replay protection and session revocation (2609.4908ms)
+✔ combined deployment supports HTTPS origin and strict secure login cookies (968.0151ms)
+✔ meeting validation rejects invalid times, days and identifiers (3.5647ms)
+✔ schedule routes enforce roles, student scope and complete admin lifecycle (874.5674ms)
+✔ database transaction rolls back conflicts and commits valid meetings (2.9456ms)
+✔ room recurrence overlap checks actual weekdays and date-range boundaries (3.0295ms)
+✔ school dates follow Nepal midnight rather than the server or Korea timezone (31.1346ms)
+✔ school planning rejects invalid dates, identifiers and blank labels (1.8771ms)
+▶ isolated MySQL school structure, mapping and student scope
+  ✔ every visible workspace read endpoint is wired through the production app factory (311.4665ms)
+  ✔ legacy records remain readable before explicit school-mode activation (106.4096ms)
+  ✔ explicit school setup and years preserve records and reject invalid overlap (350.2677ms)
+  ✔ same class label works across grades and years, not within the same grade/year (186.6734ms)
+  ✔ terms and legacy subjects require explicit valid school mapping (298.3219ms)
+  ✔ student academic scope follows explicit class membership, not legacy major or forged IDs (199.4425ms)
+  ✔ dated transfer and ending membership preserve history with no major fallback (240.0594ms)
+  ✔ new school subjects and meetings use class conflicts and adjacent boundaries (178.9413ms)
+  ✔ concurrent membership changes require a fresh revision and keep one open record (38.723ms)
+  ✔ data survives restart and users/profile credentials stay unchanged (531.1339ms)
+  ✔ grade library, stable teachers and timetable drops reject duplicate, stale and cross-class clashes (821.9998ms)
+  ✔ account directory filters grade before limiting and isolates teacher timetable reads (1503.4755ms)
+  ✔ 40-room layout, yearly classroom moves and recurring lab bookings are isolated and conflict-safe (903.6632ms)
+  ✔ #72 same-day save survives read-back, overlap leaves no row, adjacent slot succeeds (208.8614ms)
+  ℹ VALID: HTTP 201; separate GET matches saved fields; SQL count increased by one. Fixture: {"room_id":207,"class_id":2,"offering_id":2,"teacher_id":2,"day_of_week":7,"start_time":"14:00","end_time":"15:00","starts_on":"2026-11-15","ends_on":"2026-11-15","repeats_weekly":false}
+  ℹ CONFLICT: HTTP 409; SQL count unchanged; original GET record and planning revision unchanged.
+  ℹ BOUNDARY: adjacent 15:00–16:00 returns HTTP 201 and survives separate GET.
+  ✔ student dashboard scopes homeroom, room and daily lessons to effective membership and active term (335.8911ms)
+API request failed: Fixture membership failure
+  ✔ school enrollment atomically creates account/profile/membership and supports paged class rosters (6141.3921ms)
+  ▶ teacher accounts, scoped rosters, homework and homeroom attendance
+    ✔ admin links teacher accounts atomically; duplicate link rolls back user insert and every role is isolated (560.4901ms)
+    ✔ schedule and roster follow linked teacher, effective membership and current term, ignoring forged teacher IDs (99.3723ms)
+    ✔ homework persists, scopes student reads, rejects foreign subjects and enforces edit revisions/archive (195.2612ms)
+    ✔ attendance is homeroom-only, initially unmarked, date/membership validated, atomic and revision protected (273.5198ms)
+    ✔ ambiguous or inactive homeroom and deactivated accounts do not retain access (595.166ms)
+  ✔ teacher accounts, scoped rosters, homework and homeroom attendance (3662.5757ms)
+✔ isolated MySQL school structure, mapping and student scope (18595.9243ms)
+✔ semester details restrict access, list all linked students, and guard deletion (802.6055ms)
+✔ student edits validate and allowlist fields (2.8963ms)
+✔ semester changes validate targets, preserve retained assignments and roll back failures (1.4657ms)
+✔ directory and profile updates are admin-only, validate input and retain login identity (658.6699ms)
+✔ student update is atomic and refuses nonstudent targets (0.9205ms)
+✔ creation validates optional semester IDs (2.0775ms)
+✔ account, profile and semester assignment commit together or roll back together (853.929ms)
+ℹ tests 64
+ℹ suites 0
+ℹ pass 63
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 20158.0463

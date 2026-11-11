@@ -161,3 +161,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **What I did:** Defined admission year + grade/section + student number; requested automatic prefix generation without renaming existing accounts, implemented with coding assistance.
 - **Evidence:** [Format, actual checks and screenshot](school-workspace-usability.md#structured-admission-ids--november-9), [format utility](../../frontend/src/student-id.ts), [checks](../../frontend/tests/student-id.test.mjs).
 - **How checked:** Assistant ran the frontend build and 17 frontend checks; browser verified 6A/6B prefix changes with a padded student number. No persistent account was created for this check.
+
+## Teacher dashboard — November 10–11
+
+- **What I did:** Defined teacher schedule, assigned-class students, homework and homeroom attendance; requested implementation with coding assistance in #78–80.
+- **Evidence:** [Actual checks/source/screenshots](teacher-workspace-check.md), [operator guide](../../docs/teacher-workspace.md), [full 74-pass output](evidence/teacher-full-backend-2026-11-11.txt).
+- **How checked:** Assistant-run isolated API/MySQL tests and a fictional browser workflow, including teacher homework → student read-back and attendance save/reload. Local schema migration preserved existing record counts.
+- **Limits:** Independent human and hosted verification remain separate. No other member’s implementation/test work is claimed.

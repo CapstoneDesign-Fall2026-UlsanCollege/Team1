@@ -2,12 +2,12 @@
 import {onMounted,ref} from 'vue'
 import {scheduleApi} from '../schedules'
 import StudentIcon from './StudentIcon.vue'
-type Destination='school'|'profile'|'semester'|'course'|'schedule'|'jobs'|'home'|'life'|'settings'|'eat'
+type Destination='homework'|'school'|'profile'|'semester'|'course'|'schedule'|'jobs'|'home'|'life'|'settings'|'eat'
 const props=defineProps<{items:{page:Destination;title:string;icon:string}[]}>()
 const emit=defineEmits<{open:[page:Destination];context:[school:{name:string;level:string}|null]}>()
 const school=ref<{name:string;level:string}|null>(null),loading=ref(false),error=ref('')
-const hints:Partial<Record<Destination,string>>={school:'Class, room & homeroom teacher',schedule:'Your weekly routine',course:'Subjects & teachers',eat:'Menu, hours & location',profile:'Your personal information',jobs:'Search and saved jobs',semester:'Assigned semesters'}
-const order:Destination[]=['school','schedule','course','eat','profile','jobs','semester']
+const hints:Partial<Record<Destination,string>>={homework:'Assignments from your teachers',school:'Class, room & homeroom teacher',schedule:'Your weekly routine',course:'Subjects & teachers',eat:'Menu, hours & location',profile:'Your personal information',jobs:'Search and saved jobs',semester:'Assigned semesters'}
+const order:Destination[]=['school','schedule','homework','course','eat','profile','jobs','semester']
 function features(){return order.flatMap(page=>props.items.filter(item=>item.page===page))}
 async function load(){loading.value=true;error.value='';try{const data=await scheduleApi('student/school');school.value=data.school;emit('context',data.school)}catch(e){error.value=e instanceof Error?e.message:'Unable to load school information.'}finally{loading.value=false}}
 onMounted(load)

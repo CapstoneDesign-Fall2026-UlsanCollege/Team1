@@ -5,7 +5,7 @@ import {ScheduleError} from './schedules.js';
 
 type Actor={id:number;login_id:string;role:string};
 const actorContext=new AsyncLocalStorage<Actor|null>();
-export function withActivityActor(actor:Actor,next:()=>void){actorContext.run(['admin','canteen_head'].includes(actor.role)?actor:null,next)}
+export function withActivityActor(actor:Actor,next:()=>void){actorContext.run(['admin','canteen_head','teacher'].includes(actor.role)?actor:null,next)}
 const actorSql='SET @sh_actor_id=?, @sh_actor_login=?, @sh_actor_role=?';
 // Each checked-out connection carries only the authenticated request's actor.
 // Never release a connection to the pool before clearing that context.
@@ -37,6 +37,10 @@ export const activitySchema=`CREATE TABLE IF NOT EXISTS activity_logs (
 type Area={keys:string[];fields:string[];hidden?:string[];label:string};
 // Explicit allowlist. Secrets/profile contents never enter stored JSON.
 export const activityAreas:Record<string,Area>={
+ school_teacher_accounts:{keys:['user_id'],fields:['teacher_id'],label:'Teacher login links'},
+ school_homework:{keys:['id'],fields:['class_id','offering_id','teacher_id','created_by','assigned_on','due_on','is_active','version'],hidden:['title','instructions'],label:'Class homework'},
+ school_attendance_sheets:{keys:['class_id','attendance_date'],fields:['version','updated_by'],label:'Attendance sheets'},
+ school_attendance:{keys:['class_id','attendance_date','student_user_id'],fields:['recorded_by'],hidden:['status'],label:'Student attendance'},
  users:{keys:['id'],fields:['role','is_active'],hidden:['login_id','password_hash'],label:'Accounts'},
  student_profiles:{keys:['user_id'],fields:[],hidden:['full_name','university','major','year_of_study','email','phone_number','address'],label:'Student profiles'},
  semesters:{keys:['id'],fields:['name','academic_year','start_date','end_date'],label:'Terms'},
@@ -80,7 +84,7 @@ export async function ensureActivitySchema(pool:Pool){
    await pool.query(`CREATE TRIGGER ${ident(name)} AFTER ${event} ON ${ident(table)} FOR EACH ROW
    BEGIN
     DECLARE changes JSON;
-    IF @sh_actor_id IS NOT NULL AND @sh_actor_id>0 AND @sh_actor_role IN ('admin','canteen_head') AND @sh_actor_login IS NOT NULL THEN
+    IF @sh_actor_id IS NOT NULL AND @sh_actor_id>0 AND @sh_actor_role IN ('admin','canteen_head','teacher') AND @sh_actor_login IS NOT NULL THEN
      SET changes=JSON_ARRAY();
      ${changes}
      IF JSON_LENGTH(changes)>0 THEN

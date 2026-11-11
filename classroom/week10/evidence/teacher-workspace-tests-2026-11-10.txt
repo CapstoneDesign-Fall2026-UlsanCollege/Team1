@@ -1,0 +1,40 @@
+✔ room recurrence overlap checks actual weekdays and date-range boundaries (2.8211ms)
+✔ school dates follow Nepal midnight rather than the server or Korea timezone (27.4914ms)
+✔ school planning rejects invalid dates, identifiers and blank labels (1.9583ms)
+▶ isolated MySQL school structure, mapping and student scope
+  ✔ every visible workspace read endpoint is wired through the production app factory (365.5883ms)
+  ✔ legacy records remain readable before explicit school-mode activation (107.509ms)
+  ✔ explicit school setup and years preserve records and reject invalid overlap (367.7902ms)
+  ✔ same class label works across grades and years, not within the same grade/year (234.5629ms)
+  ✔ terms and legacy subjects require explicit valid school mapping (312.5408ms)
+  ✔ student academic scope follows explicit class membership, not legacy major or forged IDs (198.5961ms)
+  ✔ dated transfer and ending membership preserve history with no major fallback (205.3973ms)
+  ✔ new school subjects and meetings use class conflicts and adjacent boundaries (210.6522ms)
+  ✔ concurrent membership changes require a fresh revision and keep one open record (46.3272ms)
+  ✔ data survives restart and users/profile credentials stay unchanged (567.1919ms)
+  ✔ grade library, stable teachers and timetable drops reject duplicate, stale and cross-class clashes (904.5505ms)
+  ✔ account directory filters grade before limiting and isolates teacher timetable reads (1769.6705ms)
+  ✔ 40-room layout, yearly classroom moves and recurring lab bookings are isolated and conflict-safe (904.091ms)
+  ✔ #72 same-day save survives read-back, overlap leaves no row, adjacent slot succeeds (191.2874ms)
+  ℹ VALID: HTTP 201; separate GET matches saved fields; SQL count increased by one. Fixture: {"room_id":207,"class_id":2,"offering_id":2,"teacher_id":2,"day_of_week":7,"start_time":"14:00","end_time":"15:00","starts_on":"2026-11-15","ends_on":"2026-11-15","repeats_weekly":false}
+  ℹ CONFLICT: HTTP 409; SQL count unchanged; original GET record and planning revision unchanged.
+  ℹ BOUNDARY: adjacent 15:00–16:00 returns HTTP 201 and survives separate GET.
+  ✔ student dashboard scopes homeroom, room and daily lessons to effective membership and active term (303.6848ms)
+API request failed: Fixture membership failure
+  ✔ school enrollment atomically creates account/profile/membership and supports paged class rosters (6337.6648ms)
+  ▶ teacher accounts, scoped rosters, homework and homeroom attendance
+    ✔ admin links teacher accounts atomically; duplicate link rolls back user insert and every role is isolated (705.8041ms)
+    ✔ schedule and roster follow linked teacher, effective membership and current term, ignoring forged teacher IDs (100.9736ms)
+    ✔ homework persists, scopes student reads, rejects foreign subjects and enforces edit revisions/archive (182.0625ms)
+    ✔ attendance is homeroom-only, initially unmarked, date/membership validated, atomic and revision protected (287.0608ms)
+    ✔ ambiguous or inactive homeroom and deactivated accounts do not retain access (631.0556ms)
+  ✔ teacher accounts, scoped rosters, homework and homeroom attendance (4078.9408ms)
+✔ isolated MySQL school structure, mapping and student scope (19856.345ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20613.0558

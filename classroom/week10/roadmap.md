@@ -34,3 +34,7 @@ After this milestone: complete independent student/teacher checks, fresh-clone s
 ## Owner-requested canteen extension — November 5
 
 C2/C3 (#55–56) now have local menu availability, canteen hours/location and dated notices, Nepal dates/new NPR prices with old KRW preserved. [Actual regression and browser results](canteen-owner-check.md). Galan owns the implementation; real school details, independent checks and deployment still need verification. This extension does not replace the existing #72 handoff milestone.
+
+## Owner-requested teacher workspace — November 10–11
+
+Teacher access, current schedule/class rosters, scoped homework and homeroom attendance are implemented locally in #78–80. [Actual results and screenshots](teacher-workspace-check.md): 74 backend checks passed with no skips, 17 frontend checks and builds passed. This extension does not close #72’s independent-human gate or the separate live deployment gate.

@@ -1,0 +1,23 @@
+✔ menu dates use Nepal time and reject impossible calendar dates (26.7993ms)
+✔ menu validation rejects invalid prices, names, IDs and oversized lists (1.5717ms)
+✔ canteen hours and closure notices validate without inventing hours (0.8712ms)
+▶ isolated MySQL daily menu lifecycle
+  ✔ anonymous, student and academic admin access is enforced (174.0546ms)
+  ✔ draft, publish, edit and unpublish survive database reads (164.2162ms)
+  ✔ server restart retains the saved menu; date rollover hides yesterday (587.0964ms)
+  ✔ invalid writes roll back without creating a menu (90.5471ms)
+  ✔ simultaneous first writes and stale edits cannot overwrite a menu (56.0277ms)
+  ✔ item availability persists, retains name/price and stays isolated by date (633.739ms)
+  ✔ canteen information drafts, Nepal weekday hours and dated closure notices persist (642.0648ms)
+  ✔ saved item suggestions use latest NPR prices and require canteen access (80.7666ms)
+  ✔ multi-day copy creates missing drafts and skips existing dates without overwriting (239.8549ms)
+  ✔ legacy won prices survive currency migration (91.1246ms)
+✔ isolated MySQL daily menu lifecycle (3623.2314ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4220.5798

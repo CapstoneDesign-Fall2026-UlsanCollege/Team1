@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-11",
+  "database": "local studenthub",
+  "operation": "Add teacher role and four additive tables; register audit triggers. No teacher accounts created.",
+  "before": {
+    "users": 40,
+    "student_profiles": 36,
+    "school_teachers": 20,
+    "school_memberships": 34,
+    "school_room_bookings": 8
+  },
+  "after": {
+    "users": 40,
+    "student_profiles": 36,
+    "school_teachers": 20,
+    "school_memberships": 34,
+    "school_room_bookings": 8
+  },
+  "countsUnchanged": true
+}
