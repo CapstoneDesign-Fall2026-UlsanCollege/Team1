@@ -1,3 +1,4 @@
+import {validateStudentEdit} from './student-admin.js';
 import {Router} from 'express';
 import type {Pool,RowDataPacket,ResultSetHeader} from 'mysql2/promise';
 import {ScheduleError} from './schedules.js';
@@ -21,6 +22,8 @@ export function studentIdentitiesRouter(pool:Pool,invalidate:(id:number)=>void,t
  router.put(path,async(req,res)=>{
   const id=schoolId(Number(req.params.id)),membership=schoolId(req.body?.membership_id),date=req.body?.admitted_on,number=req.body?.student_number,expected=req.body?.expected_login_id;
   if(!isMenuDate(date)||date>today()||typeof number!=='string'||typeof expected!=='string'||!expected||expected.length>50)throw new ScheduleError(400,'Confirm the admission date, student number and current login ID.');
+  const profile=req.body?.profile===undefined?undefined:validateStudentEdit(req.body.profile);
+  if(profile===null||profile?.semester_ids!==undefined)throw new ScheduleError(400,'Check the student profile fields.');
   const c=await pool.getConnection();let login='';
   try{
    await c.beginTransaction();await c.execute('SELECT version FROM school_planning_lock WHERE id=1 FOR UPDATE');
@@ -33,6 +36,10 @@ export function studentIdentitiesRouter(pool:Pool,invalidate:(id:number)=>void,t
    if(login===expected)throw new ScheduleError(400,'This is already the student’s login ID.');
    const [r]=await c.execute<ResultSetHeader>("UPDATE users SET login_id=? WHERE id=? AND role='student' AND login_id=?",[login,id,expected]);
    if(r.affectedRows!==1)throw new ScheduleError(409,'The student changed elsewhere. Reload before saving.');
+   if(profile){
+    await c.execute('UPDATE student_profiles SET full_name=?,university=?,major=?,year_of_study=?,email=?,phone_number=?,address=? WHERE user_id=?',[profile.full_name,profile.university,profile.major,profile.year_of_study,profile.email,profile.phone_number,profile.address,id]);
+    await c.execute('UPDATE users SET is_active=? WHERE id=?',[profile.is_active?1:0,id]);
+   }
    await c.commit();
   }catch(e){await c.rollback();if((e as {code?:string}).code==='ER_DUP_ENTRY')throw new ScheduleError(409,'This login ID is already in use. Choose a different student number.');throw e}finally{c.release()}
   invalidate(id);

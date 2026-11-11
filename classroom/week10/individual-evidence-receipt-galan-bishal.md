@@ -182,3 +182,5 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [Issue #82](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/82), [actual checks, source and screenshots](student-login-id-check.md).
 - **How checked:** Assistant-run builds, 30 isolated school/API checks and fictional browser navigation/editor inspection. Existing working passwords and IDs were not changed.
 - **What changed:** Confirmed admission details generate the structured ID; duplicate/stale saves are rejected, records/passwords preserved. Independent human/live checks remain pending.
+
+- **Student editor follow-up:** Requested merging profile and login controls; implemented one compact form, optional ID fields and transactional combined saving with coding assistance. [Actual checks and screenshot](student-login-id-check.md#unified-editor-follow-up--november-11).

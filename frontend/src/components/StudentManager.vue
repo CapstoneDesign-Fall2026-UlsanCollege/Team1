@@ -33,15 +33,17 @@ async function load(){
   catch(e){error.value=e instanceof Error?e.message:'Unable to load students.'}
   finally{loading.value=false}
 }
-function changedLogin(login:string){if(!draft.value)return;draft.value.login_id=login;students.value=students.value.map(s=>s.id===draft.value?.id?{...s,login_id:login}:s);message.value='Login ID updated. The existing password and linked records are unchanged.'}
-function edit(student:Student){draft.value={...student,semester_ids:[...student.semester_ids]};message.value='';error.value=''}
+const identity=ref<{enabled:boolean;valid:boolean;payload:any}>({enabled:false,valid:true,payload:null})
+function edit(student:Student){identity.value={enabled:false,valid:true,payload:null};draft.value={...student,semester_ids:[...student.semester_ids]};message.value='';error.value=''}
 async function save(){
-  if(!draft.value||busy.value)return
+  if(!draft.value||busy.value||(identity.value.enabled&&!identity.value.valid))return
   busy.value=true;emit('saving',true);error.value='';message.value=''
   const value={...draft.value,year_of_study:draft.value.year_of_study==null||String(draft.value.year_of_study)===''?null:Number(draft.value.year_of_study)}
   try{
     const {semester_ids,...profile}=value
-    await scheduleApi('admin/students/'+value.id,'PUT',school.value?profile:value)
+    if(school.value&&identity.value.enabled){
+      const result=await scheduleApi('admin/school/students/'+value.id+'/login-id','PUT',{...identity.value.payload,profile});value.login_id=result.login_id
+    }else await scheduleApi('admin/students/'+value.id,'PUT',school.value?profile:value)
     students.value=students.value.map(s=>s.id===value.id?value:s)
     draft.value=null;message.value='Saved '+value.full_name+'.'
   }catch(e){error.value=e instanceof Error?e.message:'Unable to save student.'}
@@ -60,7 +62,7 @@ watch(()=>props.revision,()=>{void refresh().catch(e=>{error.value=String(e)})})
     <form v-if="!school||grade" class="search-bar" @submit.prevent="load"><label for="student-search">Name or login ID<input id="student-search" v-model="search" type="search" maxlength="150" placeholder="Search students" :disabled="loading||busy||!!draft"></label><button :disabled="loading||busy||!!draft"><StudentIcon name="search" />Search / refresh</button></form>
     <p v-if="error" class="error" role="alert">{{error}}</p><p v-if="message" class="success" role="status">{{message}}</p>
     <form v-if="draft" class="editor" @submit.prevent="save">
-      <h3>Edit {{draft.login_id}}</h3><p class="muted">{{ school ? 'Update this student’s profile or account access. Change class membership in School classes.' : 'Update the profile and assigned semesters.' }}</p>
+      <h3>Edit {{draft.full_name}}</h3><p class="muted">{{ school ? 'Update this student’s profile or account access. Change class membership in School classes.' : 'Update the profile and assigned semesters.' }}</p>
       <fieldset :disabled="busy"><div class="edit-grid">
         <label>Full name<input v-model="draft.full_name" required maxlength="150"></label>
         <label>{{school ? 'School' : 'University'}}<input v-model="draft.university" required maxlength="150"></label>
@@ -68,7 +70,7 @@ watch(()=>props.revision,()=>{void refresh().catch(e=>{error.value=String(e)})})
         <label v-if="!school">Year of study<input v-model.number="draft.year_of_study" type="number" min="1" max="255" step="1"></label>
         <label>Email<input v-model="draft.email" type="email" maxlength="254"></label>
         <label>Phone<input v-model="draft.phone_number" type="tel" maxlength="30"></label>
-        <label class="wide">Address<textarea v-model="draft.address" rows="2" maxlength="500"></textarea></label>
+        <label class="wide">Address<textarea v-model="draft.address" rows="1" maxlength="500"></textarea></label>
         <label>Account access<select v-model="draft.is_active"><option :value="true">Enabled</option><option :value="false">Disabled</option></select></label>
       </div>
       <fieldset v-if="!school" class="semester-picker"><legend>Assigned semesters</legend>
@@ -77,10 +79,10 @@ watch(()=>props.revision,()=>{void refresh().catch(e=>{error.value=String(e)})})
         <div class="semester-options"><label v-for="term in semesters" :key="term.id" class="semester-option"><input v-model="draft.semester_ids" type="checkbox" :value="term.id"><span>{{term.name}} {{term.academic_year}}</span></label></div>
         <p v-if="!draft.semester_ids.length" class="muted">No semesters selected. This student will have no semester courses or timetable.</p>
       </fieldset>
+      <StudentLoginId v-if="school" :student="draft" @state="identity=$event" />
       <p v-if="!draft.is_active" class="muted">This student will be unable to log in or continue using their current session after saving.</p>
-      <div class="actions"><button><StudentIcon name="save" />{{busy?'Saving…':'Save changes'}}</button><button type="button" class="secondary" @click="draft=null;error=''"><StudentIcon name="cancel" />Cancel</button></div></fieldset>
+      <div class="actions"><button :disabled="identity.enabled&&!identity.valid"><StudentIcon name="save" />{{busy?'Saving…':'Save changes'}}</button><button type="button" class="secondary" @click="draft=null;error=''"><StudentIcon name="cancel" />Cancel</button></div></fieldset>
     </form>
-    <StudentLoginId v-if="draft&&school" :student="draft" @busy="busy=$event;emit('saving',$event)" @changed="changedLogin" />
     <p v-if="loading" role="status">Loading students…</p>
     <template v-else-if="!school||grade"><p class="muted">{{students.length}} results · Up to 100 shown. Search to narrow the list.</p><p v-if="!students.length&&!error">No matching students.</p>
       <div class="student-rows"><article v-for="student in students" :key="student.id" class="student-row"><div><strong>{{student.full_name}}</strong><p>{{student.login_id}} · {{school ? (student.grade_label ? 'Grade '+student.grade_label+' · Class '+student.class_name : 'No class assignment') : student.major || 'Major not provided'}}</p></div><span class="status" :class="{disabled:!student.is_active}">{{student.is_active?'Enabled':'Disabled'}}</span><button title="Edit" class="secondary" :disabled="busy||!!draft" :aria-label="'Edit '+student.full_name" @click="edit(student)"><StudentIcon name="edit" /></button></article></div>
@@ -88,6 +90,7 @@ watch(()=>props.revision,()=>{void refresh().catch(e=>{error.value=String(e)})})
   </section>
 </template>
 <style scoped>
+.editor .actions button{width:auto;flex:0 0 auto;padding:10px 18px;margin:0}.editor .actions{justify-content:flex-end;gap:10px;margin-top:14px}.editor .edit-grid{gap:10px}.editor input,.editor select,.editor textarea{padding:9px}.editor .wide{grid-column:span 2}@media(max-width:600px){.editor .wide{grid-column:1/-1}.editor{padding:14px}.editor .actions{justify-content:flex-start}}
 .directory-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.directory-heading h2{margin:0}.directory-heading button{width:auto;padding:10px 14px;font-size:13px}
 
 .semester-picker{margin-top:22px;padding-top:16px;border-top:1px solid #bfd5ca}.semester-picker legend{font-weight:600}.semester-options{display:grid;gap:8px;max-height:240px;overflow:auto}.semester-option{display:flex;align-items:center;gap:12px;padding:12px;background:white;border:1px solid #c8d9cf;border-radius:8px}.semester-option input{width:18px;height:18px;margin:0;flex-shrink:0}

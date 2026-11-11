@@ -24,3 +24,11 @@ Saving changes only users.login_id. The integer user ID, password, active status
 [Admin API](../../backend/src/student-identities.ts), [ID editor](../../frontend/src/components/StudentLoginId.vue), [directory/Create action](../../frontend/src/components/StudentManager.vue), [test](../../backend/tests/school-planning.test.mjs).
 
 These are assistant-run local checks, not independent teammate or hosted verification. Issue #82 remains open for those separate checks.
+
+## Unified editor follow-up — November 11
+
+The separate login card/save button is superseded. Profile and optional login details now share one form and one Save changes action. Check Change login ID to show admission fields; leave it unchecked to retain the current login. Save/Cancel are compact and side by side; address is a smaller field. Create student account remains the separate creation action.
+
+When changing an ID, profile + login + active status save in one transaction. Invalid/duplicate IDs roll back all changes; password and student membership remain unchanged. [Updated isolated checks: 30 passed, no failures/skips](evidence/student-merged-editor-tests-2026-11-11.txt). Both production builds passed. Fictional browser verified one form, no nested form, aligned Save/Cancel, optional fields and Save disabled until admission details are complete; unchecking restores ordinary profile saving. API tests exercise the combined save and duplicate rollback; browser did not enter or submit a new credential.
+
+[Current merged editor screenshot](evidence/student-merged-editor.jpg). Earlier separate-card screenshot is historical, not the current UI. Independent human/live checks remain pending.

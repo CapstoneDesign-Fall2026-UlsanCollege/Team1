@@ -479,6 +479,7 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       for(const role of ['alice','canteen','teacher'])assert.equal((await request(path,'GET',undefined,role)).status,403);
       const body={expected_login_id:student.login_id,membership_id:membership.id,admitted_on:'2026-04-15',student_number:'061'};
       const before={profile:await sql('SELECT * FROM student_profiles WHERE user_id=?',[student.id]),memberships:await sql('SELECT * FROM school_memberships WHERE student_user_id=?',[student.id])};
+      const {user_id,...profile}=before.profile[0];body.profile={...profile,is_active:true,full_name:'Updated Fictional Student'};
       assert.equal((await request(path,'PUT',{...body,admitted_on:'2027-01-01'})).status,400);
       assert.equal((await request(path,'PUT',{...body,student_number:'000'})).status,400);
       const [foreign]=await sql('SELECT id FROM school_memberships WHERE student_user_id<>? LIMIT 1',[student.id]);
@@ -487,11 +488,12 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       const expected=structuredStudentLogin(body.admitted_on,membership.grade_label,membership.class_name,body.student_number);
       const duplicate=await sql("INSERT INTO users(login_id,password_hash,role) VALUES(?,?,'student')",[expected,student.password_hash]);
       assert.equal((await request(path,'PUT',body)).status,409);
+      assert.deepEqual(await sql('SELECT * FROM student_profiles WHERE user_id=?',[student.id]),before.profile);
       assert.equal((await sql('SELECT login_id FROM users WHERE id=?',[student.id]))[0].login_id,student.login_id);
       await sql('DELETE FROM users WHERE id=?',[duplicate.insertId]);
       const saved=await request(path,'PUT',body);assert.equal(saved.status,200,JSON.stringify(await saved.clone().json()));assert.equal((await saved.json()).login_id,expected);
       const [after]=await sql('SELECT * FROM users WHERE id=?',[student.id]);assert.equal(after.password_hash,student.password_hash);assert.equal(after.role,'student');assert.equal(after.is_active,student.is_active);
-      assert.deepEqual(await sql('SELECT * FROM student_profiles WHERE user_id=?',[student.id]),before.profile);
+      assert.deepEqual(await sql('SELECT * FROM student_profiles WHERE user_id=?',[student.id]),[{...before.profile[0],full_name:'Updated Fictional Student'}]);
       assert.deepEqual(await sql('SELECT * FROM school_memberships WHERE student_user_id=?',[student.id]),before.memberships);
       assert.equal((await request('/auth/me','GET',undefined,'enrolled')).status,401);
       assert.equal((await request('/auth/login','POST',{login_id:student.login_id,password:fixturePassword},null)).status,401);
