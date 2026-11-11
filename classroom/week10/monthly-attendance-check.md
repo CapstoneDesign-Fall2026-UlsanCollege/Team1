@@ -49,3 +49,7 @@ Galan also requested a checkbox instead of the directory dropdown. Teacher list 
 [Monthly register UI](../../frontend/src/components/MonthlyAttendance.vue) · [scoped read and totals](../../backend/src/teacher-workspace.ts) · [tests](../../backend/tests/school-planning.test.mjs) · [review fixture](../../backend/scripts/teacher-review.mjs).
 
 Independent human and hosted verification remain pending. No percentages, absence thresholds, grading decisions or carry-over of late marks between months are inferred. For setup and teacher account provisioning, see the [teacher guide](../../docs/teacher-workspace.md).
+
+## Compact toolbar follow-up — November 11
+
+At Galan’s request, Class, Month, Find a student, Save selected day and Refresh register now share one aligned row on wider screens. The editing-date hint sits on a short line below it. Mobile uses a wrapping two-column layout. Build passed; assistant browser measured all five controls at the same top position (469px), and a 390×844 mobile override had equal document/scroll widths (375px). [Current toolbar proof](evidence/attendance-single-row-toolbar.jpg). No API, calculation or data changes.
