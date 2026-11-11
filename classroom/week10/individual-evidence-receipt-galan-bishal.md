@@ -175,3 +175,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [Issue #81](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/81), [source, actual results and safe screenshots](monthly-attendance-check.md).
 - **How checked:** Assistant ran builds, 28 school/teacher checks, 17 existing frontend checks and a fictional browser save/read-back. Actual saved totals preserved three late marks while adding one adjusted absence.
 - **Limits:** Independent human/live checks remain pending; no teacher or pupil working data was changed for browser proof.
+
+## Individual student login access — November 11
+
+- **What I did:** Requested individual existing-student login ID changes and a Create student account action like teacher access; implemented with coding assistance.
+- **Evidence:** [Issue #82](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/82), [actual checks, source and screenshots](student-login-id-check.md).
+- **How checked:** Assistant-run builds, 30 isolated school/API checks and fictional browser navigation/editor inspection. Existing working passwords and IDs were not changed.
+- **What changed:** Confirmed admission details generate the structured ID; duplicate/stale saves are rejected, records/passwords preserved. Independent human/live checks remain pending.

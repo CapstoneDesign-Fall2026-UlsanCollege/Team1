@@ -52,6 +52,10 @@ Prepared with coding assistance; each member must review/write their own entry. 
 | Ansh Sharma | Manually tested the subject planner: added English to Grade 2 Class A, assigned a teacher, scheduled a Tuesday lesson, and verified it appeared in the weekly timetable. | [Subject Planner Test Report](Subject%20Planner%20Test%20Report.md) |
 | Buddha Raj Giri | Pending own entry. | Pending. |
 
+## Student login access follow-up — November 11
+
+Galan requested and implemented with coding assistance the individual Change login ID editor and Create student account shortcut. [Issue #82](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/82); [30-pass local check and fictional screenshots](student-login-id-check.md). No existing working account IDs/passwords changed; independent/live checks remain separate.
+
 ## Blockers or risks
 
 | Blocker/risk | Owner | Next action |

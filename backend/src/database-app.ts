@@ -1,3 +1,4 @@
+import {studentIdentitiesRouter} from './student-identities.js';
 import {teacherWorkspaceRouter} from './teacher-workspace.js';
 import {activityPool,activityRouter,withActivityActor} from './activity-log.js';
 import {Router} from 'express';
@@ -29,7 +30,7 @@ async function find(column: 'id' | 'login_id', value: number | string) {
   return rows[0] as Account | undefined;
 }
 return createApp(
-  { teacherWorkspace:invalidate=>teacherWorkspaceRouter(pool,invalidate,options.today), withActor:withActivityActor, school:Router().use(schoolPlanningRouter(pool, options.today)).use(activityRouter(pool)), campus:Router().use(canteenMenuRouter(pool, options.today)).use(canteenInfoRouter(pool, options.today)), canteenAccounts: mysqlCanteenAccounts(pool), semesterDetails: semesterDetailsRouter(pool), favourites: mysqlFavourites(pool), jobs: options.jobs ?? createSeoulJobs(), resets: mysqlResets(pool), byLogin: login => find('login_id', login), byId: id => find('id', id), majorPlanning: majorPlanningRouter(pool),
+  { studentIdentities:invalidate=>studentIdentitiesRouter(pool,invalidate,options.today), teacherWorkspace:invalidate=>teacherWorkspaceRouter(pool,invalidate,options.today), withActor:withActivityActor, school:Router().use(schoolPlanningRouter(pool, options.today)).use(activityRouter(pool)), campus:Router().use(canteenMenuRouter(pool, options.today)).use(canteenInfoRouter(pool, options.today)), canteenAccounts: mysqlCanteenAccounts(pool), semesterDetails: semesterDetailsRouter(pool), favourites: mysqlFavourites(pool), jobs: options.jobs ?? createSeoulJobs(), resets: mysqlResets(pool), byLogin: login => find('login_id', login), byId: id => find('id', id), majorPlanning: majorPlanningRouter(pool),
     courseAssignments: () => courseAssignments(pool), removeOffering: id => removeOffering(pool, id), schedules: mysqlSchedules(pool),
     updateProfessor: (id, professor) => updateOfferingProfessor(pool, id, professor), studentAdmin: mysqlStudentAdmin(pool) },
   student => createStudent(pool, student),

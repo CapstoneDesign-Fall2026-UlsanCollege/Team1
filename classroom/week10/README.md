@@ -39,3 +39,5 @@ Personal confirmations, accepted backups and independent current school/booking 
 - [Teacher workspace: schedule, rosters, homework and homeroom attendance — actual checks](teacher-workspace-check.md)
 
 - [Monthly attendance, three-late totals and Schedule checkbox — actual checks](monthly-attendance-check.md)
+
+- [Individual student login access: Create action, ID change, tests and screenshots](student-login-id-check.md) — November 11.

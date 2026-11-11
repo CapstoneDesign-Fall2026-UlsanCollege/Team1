@@ -17,6 +17,7 @@ export type Account = { id: number; login_id: string; password_hash: string; rol
 export type Accounts = {
   withActor?: (user:{id:number;login_id:string;role:string},next:()=>void)=>void;
   school?: express.Router;
+  studentIdentities?: (invalidate:(id:number)=>void)=>express.Router;
   teacherWorkspace?: (invalidate:(id:number)=>void)=>express.Router;
   campus?: express.Router;
   canteenAccounts?: CanteenAccountStore;
@@ -129,6 +130,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
   }
   if (accounts.canteenAccounts) app.use('/api', canteenAccountsRouter(accounts.canteenAccounts,invalidate));
   if (accounts.campus) app.use('/api', accounts.campus);
+  if (accounts.studentIdentities) app.use('/api',accounts.studentIdentities(invalidate));
   if (accounts.teacherWorkspace) app.use('/api',accounts.teacherWorkspace(invalidate));
   if (accounts.school) app.use('/api', accounts.school);
   if (accounts.resets) app.use('/api', resetRouter(accounts.resets, invalidate));

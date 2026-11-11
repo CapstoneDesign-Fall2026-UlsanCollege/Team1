@@ -1,3 +1,4 @@
+import {structuredStudentLogin} from '../dist/student-identities.js';
 import {attendanceTotals,ensureTeacherSchema} from '../dist/teacher-workspace.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
@@ -12,6 +13,12 @@ import {ensureActivitySchema} from '../dist/activity-log.js';
 import {ensureSchoolSchema} from '../dist/school-schema.js';
 import {bookingDatesMeet} from '../dist/school-rooms.js';
 import {schoolDate,schoolDates,schoolId,schoolText} from '../dist/school-planning.js';
+
+test('structured student identity validates admission details and pads the eight-digit login',()=>{
+ assert.equal(structuredStudentLogin('2026-04-15','6','A','61'),'26061061');
+ assert.equal(structuredStudentLogin('2024-04-15','12','i','999'),'24129999');
+ for(const args of [['2026-02-30','6','A','1'],['2026-04-15','0','A','1'],['2026-04-15','13','A','1'],['2026-04-15','6','J','1'],['2026-04-15','6','A','000'],['2026-04-15','6','A','1000']])assert.throws(()=>structuredStudentLogin(...args));
+});
 
 test('monthly attendance retains raw marks and converts each three late marks into one absence',()=>{
  assert.deepEqual(attendanceTotals(['present','absent','late','late','late','excused'],8),{present:1,absent:1,late:3,excused:1,marked:6,unmarked:2,lateAbsences:1,adjustedAbsences:2,remainingLates:0});
@@ -463,6 +470,36 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
        assert.equal((await request('/teacher/dashboard','GET',undefined,'teacher')).status,401);await signTeacher('teacher_one','teacher');
        assert.equal((await request('/teacher/dashboard','GET',undefined,'teacher')).status,200);
       });
+    });
+    await t.test('individual student identity preserves records/password, rejects collisions and revokes old sessions',async()=>{
+      const [student]=await sql("SELECT * FROM users WHERE login_id='enrolled_one'");
+      const path='/admin/school/students/'+student.id+'/login-id';
+      const initial=await data(path),membership=initial.memberships[0];assert.ok(membership);
+      assert.equal((await request(path,'GET',undefined,null)).status,401);
+      for(const role of ['alice','canteen','teacher'])assert.equal((await request(path,'GET',undefined,role)).status,403);
+      const body={expected_login_id:student.login_id,membership_id:membership.id,admitted_on:'2026-04-15',student_number:'061'};
+      const before={profile:await sql('SELECT * FROM student_profiles WHERE user_id=?',[student.id]),memberships:await sql('SELECT * FROM school_memberships WHERE student_user_id=?',[student.id])};
+      assert.equal((await request(path,'PUT',{...body,admitted_on:'2027-01-01'})).status,400);
+      assert.equal((await request(path,'PUT',{...body,student_number:'000'})).status,400);
+      const [foreign]=await sql('SELECT id FROM school_memberships WHERE student_user_id<>? LIMIT 1',[student.id]);
+      assert.equal((await request(path,'PUT',{...body,membership_id:foreign.id})).status,400);
+      assert.equal((await request(path,'PUT',{...body,expected_login_id:'stale'})).status,409);
+      const expected=structuredStudentLogin(body.admitted_on,membership.grade_label,membership.class_name,body.student_number);
+      const duplicate=await sql("INSERT INTO users(login_id,password_hash,role) VALUES(?,?,'student')",[expected,student.password_hash]);
+      assert.equal((await request(path,'PUT',body)).status,409);
+      assert.equal((await sql('SELECT login_id FROM users WHERE id=?',[student.id]))[0].login_id,student.login_id);
+      await sql('DELETE FROM users WHERE id=?',[duplicate.insertId]);
+      const saved=await request(path,'PUT',body);assert.equal(saved.status,200,JSON.stringify(await saved.clone().json()));assert.equal((await saved.json()).login_id,expected);
+      const [after]=await sql('SELECT * FROM users WHERE id=?',[student.id]);assert.equal(after.password_hash,student.password_hash);assert.equal(after.role,'student');assert.equal(after.is_active,student.is_active);
+      assert.deepEqual(await sql('SELECT * FROM student_profiles WHERE user_id=?',[student.id]),before.profile);
+      assert.deepEqual(await sql('SELECT * FROM school_memberships WHERE student_user_id=?',[student.id]),before.memberships);
+      assert.equal((await request('/auth/me','GET',undefined,'enrolled')).status,401);
+      assert.equal((await request('/auth/login','POST',{login_id:student.login_id,password:fixturePassword},null)).status,401);
+      const login=await request('/auth/login','POST',{login_id:expected,password:fixturePassword},null);assert.equal(login.status,200);cookies.enrolled=login.headers.get('set-cookie').split(';')[0];
+      assert.equal((await data('/auth/me','enrolled')).user.id,student.id);
+      assert.equal((await request(path,'PUT',body)).status,409);
+      assert.equal((await request(path,'PUT',{...body,expected_login_id:expected})).status,400);
+      assert.equal((await request('/admin/school/students/1/login-id')).status,404);
     });
   }finally{
     if(server){server.closeAllConnections();await new Promise(r=>server.close(r));}await pool?.end();

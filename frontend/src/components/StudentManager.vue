@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {dismissAfterFourSeconds} from '../temporary-message'
+import StudentLoginId from './StudentLoginId.vue'
 import StudentIcon from './StudentIcon.vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { scheduleApi, type Semester } from '../schedules'
@@ -16,7 +17,7 @@ async function chooseGrade(){classId.value=0;await load()}
 async function refresh(){context.value=await scheduleApi('admin/school');if(!years.value.some((y:any)=>y.id===yearId.value)){yearId.value=years.value.find((y:any)=>y.start_date<=context.value.today&&y.end_date>=context.value.today)?.id??years.value[0]?.id??0;chooseYear()}await load()}
 
 const props=defineProps<{ revision:number; selectedLogin?:string }>()
-const emit=defineEmits<{saving:[value:boolean]}>()
+const emit=defineEmits<{saving:[value:boolean];create:[]}>()
 const students=ref<Student[]>([]), search=ref(''), draft=ref<Student|null>(null)
 const loading=ref(false), busy=ref(false), error=ref(''), message=ref('')
 dismissAfterFourSeconds(message)
@@ -32,6 +33,7 @@ async function load(){
   catch(e){error.value=e instanceof Error?e.message:'Unable to load students.'}
   finally{loading.value=false}
 }
+function changedLogin(login:string){if(!draft.value)return;draft.value.login_id=login;students.value=students.value.map(s=>s.id===draft.value?.id?{...s,login_id:login}:s);message.value='Login ID updated. The existing password and linked records are unchanged.'}
 function edit(student:Student){draft.value={...student,semester_ids:[...student.semester_ids]};message.value='';error.value=''}
 async function save(){
   if(!draft.value||busy.value)return
@@ -51,7 +53,7 @@ watch(()=>props.revision,()=>{void refresh().catch(e=>{error.value=String(e)})})
 </script>
 <template>
   <section class="card student-manager">
-    <p class="eyebrow">STUDENT DIRECTORY</p><h2>Student list & editing</h2>
+    <div class="directory-heading"><div><p class="eyebrow">STUDENT DIRECTORY</p><h2>Student list & editing</h2></div><button type="button" :disabled="busy||!!draft" @click="emit('create')"><StudentIcon name="add"/>Create student account</button></div>
     <p class="muted">Find a student, update their profile, or change account access.</p>
     <fieldset v-if="school" class="grade-filters" :disabled="loading||busy||!!draft"><label>Academic year<select v-model="yearId" @change="chooseYear"><option :value="0">Choose a year</option><option v-for="y in years" :key="y.id" :value="y.id">{{y.name}}</option></select></label><label>Grade<select v-model="grade" @change="chooseGrade"><option value="">Choose a grade</option><option v-for="g in grades" :key="g" :value="g">Grade {{g}}</option><option value="__unassigned">Not assigned to a class</option></select></label><label v-if="grade && grade !== '__unassigned'">Class<select v-model="classId" @change="load"><option :value="0">All classes in grade</option><option v-for="c in classes" :key="c.id" :value="c.id">Class {{c.name}}</option></select></label><label>Membership as of<input v-model="asOf" type="date" :min="selectedYear?.start_date" :max="selectedYear?.end_date" @change="load"></label></fieldset>
     <p v-if="school&&!grade" class="muted">Select a grade to see its students, or choose students not assigned to a class.</p>
@@ -78,6 +80,7 @@ watch(()=>props.revision,()=>{void refresh().catch(e=>{error.value=String(e)})})
       <p v-if="!draft.is_active" class="muted">This student will be unable to log in or continue using their current session after saving.</p>
       <div class="actions"><button><StudentIcon name="save" />{{busy?'Saving…':'Save changes'}}</button><button type="button" class="secondary" @click="draft=null;error=''"><StudentIcon name="cancel" />Cancel</button></div></fieldset>
     </form>
+    <StudentLoginId v-if="draft&&school" :student="draft" @busy="busy=$event;emit('saving',$event)" @changed="changedLogin" />
     <p v-if="loading" role="status">Loading students…</p>
     <template v-else-if="!school||grade"><p class="muted">{{students.length}} results · Up to 100 shown. Search to narrow the list.</p><p v-if="!students.length&&!error">No matching students.</p>
       <div class="student-rows"><article v-for="student in students" :key="student.id" class="student-row"><div><strong>{{student.full_name}}</strong><p>{{student.login_id}} · {{school ? (student.grade_label ? 'Grade '+student.grade_label+' · Class '+student.class_name : 'No class assignment') : student.major || 'Major not provided'}}</p></div><span class="status" :class="{disabled:!student.is_active}">{{student.is_active?'Enabled':'Disabled'}}</span><button title="Edit" class="secondary" :disabled="busy||!!draft" :aria-label="'Edit '+student.full_name" @click="edit(student)"><StudentIcon name="edit" /></button></article></div>
@@ -85,6 +88,8 @@ watch(()=>props.revision,()=>{void refresh().catch(e=>{error.value=String(e)})})
   </section>
 </template>
 <style scoped>
+.directory-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.directory-heading h2{margin:0}.directory-heading button{width:auto;padding:10px 14px;font-size:13px}
+
 .semester-picker{margin-top:22px;padding-top:16px;border-top:1px solid #bfd5ca}.semester-picker legend{font-weight:600}.semester-options{display:grid;gap:8px;max-height:240px;overflow:auto}.semester-option{display:flex;align-items:center;gap:12px;padding:12px;background:white;border:1px solid #c8d9cf;border-radius:8px}.semester-option input{width:18px;height:18px;margin:0;flex-shrink:0}
 .student-manager{margin-top:24px}.grade-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0}.search-bar button{flex:0 0 auto;width:auto}.student-manager input,.student-manager select{box-sizing:border-box}.search-bar,.actions{display:flex;align-items:end;gap:12px;flex-wrap:wrap}.search-bar label{flex:1;min-width:180px}.search-bar button{margin-bottom:0}.editor{margin:20px 0;padding:20px;border:1px solid #bfd5ca;background:#f5f9f7;border-radius:12px}.editor h3{margin-top:0}fieldset{border:0;padding:0;min-width:0}.edit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px}.wide{grid-column:1/-1}label{display:block;font-size:14px;font-weight:600}input,textarea,select{width:100%;margin-top:6px;border:1px solid #b9cbc2;border-radius:8px;padding:11px;font:inherit;background:white;color:#263b32}.actions{margin-top:18px}.student-rows{max-height:440px;overflow:auto}.student-row{display:flex;align-items:center;gap:14px;border-bottom:1px solid #e0e8e3;padding:16px 0;flex-wrap:wrap}.student-row>div{flex:1;min-width:160px;overflow-wrap:anywhere}.student-row p{font-size:13px;margin:6px 0;color:#617368}.student-row button{padding:9px 14px;font-size:13px}.status{font-size:12px;padding:6px 10px;background:#e7f2eb;color:#2a6244;border-radius:20px}.status.disabled{background:#f5e9e6;color:#8a4034}.success{padding:12px;background:#e7f2eb;color:#2a6244;border-radius:8px}
 </style>
