@@ -76,3 +76,7 @@ The existing Activity Log triggers for older tables are retained; teacher writes
 Galan requested a directory-first Accounts → Teacher list. The default view now renders one compact table with teacher/name status, staff code, subject and homeroom. No schedule grids are rendered until Schedule → Show teaching schedules is chosen. Academic year, term, subject and name/staff-code filters remain available. Returning to Hidden — teacher list restores the compact table without changing data or filters.
 
 Actual assistant checks: frontend production build passed; local browser showed 20 teacher rows plus the header and zero routine tables by default. Show teaching schedules produced 20 routine tables; Mathematics narrowed to one teacher/routine. Returning to Hidden removed all routine tables while preserving that subject filter. Restored All subjects afterward. [Compact directory proof](evidence/admin-teacher-list-compact.jpg). No account, timetable or database records changed.
+
+## Monthly attendance follow-up — November 11
+
+The original daily-only attendance screen is superseded by the [monthly register](monthly-attendance-check.md), with O/X/-/E marks, daily editing and three-late adjusted absence totals. The daily API/revision safeguards remain in use. The Teacher list dropdown described above is superseded by a Schedule checkbox. Earlier screenshots remain historical.

@@ -78,6 +78,11 @@ async function roster(db:DB,classId:number,date:string){
 async function transaction<T>(pool:Pool,run:(c:PoolConnection)=>Promise<T>){
  const c=await pool.getConnection();try{await c.beginTransaction();await c.execute('SELECT version FROM school_planning_lock WHERE id=1 FOR UPDATE');const value=await run(c);await c.commit();return value}catch(e){await c.rollback();throw e}finally{c.release()}
 }
+export function attendanceTotals(statuses:string[],eligibleDays:number){
+ const present=statuses.filter(s=>s==='present').length,absent=statuses.filter(s=>s==='absent').length,late=statuses.filter(s=>s==='late').length,excused=statuses.filter(s=>s==='excused').length;
+ const lateAbsences=Math.floor(late/3);
+ return {present,absent,late,excused,marked:present+absent+late+excused,unmarked:Math.max(0,eligibleDays-present-absent-late-excused),lateAbsences,adjustedAbsences:absent+lateAbsences,remainingLates:late%3};
+}
 export function teacherWorkspaceRouter(pool:Pool,invalidate:(id:number)=>void,today=()=>schoolDate()){
  const router=Router();
  router.get('/admin/teacher-accounts',async(_req,res)=>{
@@ -150,6 +155,27 @@ export function teacherWorkspaceRouter(pool:Pool,invalidate:(id:number)=>void,to
   if(!(await homerooms(db,t.id,date)).some(c=>c.class_id===classId))throw new ScheduleError(403,'Attendance is limited to your homeroom in an active term.');
   return roster(db,classId,date);
  }
+ router.get('/teacher/classes/:id/attendance/month',async(req,res)=>{
+  const id=schoolId(Number(req.params.id)),month=req.query.month;
+  if(typeof month!=='string'||!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)||!isMenuDate(month+'-01'))throw new ScheduleError(400,'Choose a valid month.');
+  const dates=Array.from({length:31},(_,i)=>month+'-'+String(i+1).padStart(2,'0')).filter(isMenuDate);
+  const value=await transaction(pool,async c=>{
+   const t=await teacher(c,res.locals.user.id),owned:string[]=[];
+   for(const date of dates)if(date<=today()&&(await homerooms(c,t.id,date)).some(cl=>cl.class_id===id))owned.push(date);
+   if(!owned.length)throw new ScheduleError(403,'No homeroom attendance is available to you in this month.');
+   const memberships=await rows(c,`SELECT u.id,u.login_id,p.full_name,DATE_FORMAT(m.starts_on,'%Y-%m-%d') starts_on,DATE_FORMAT(m.ends_on,'%Y-%m-%d') ends_on FROM school_memberships m JOIN users u ON u.id=m.student_user_id JOIN student_profiles p ON p.user_id=u.id WHERE m.class_id=? AND m.starts_on<=? AND (m.ends_on IS NULL OR m.ends_on>?) AND u.is_active=1 ORDER BY p.full_name,u.id`,[id,owned[owned.length-1],owned[0]]);
+   const saved=await rows(c,`SELECT student_user_id,status,DATE_FORMAT(attendance_date,'%Y-%m-%d') date FROM school_attendance WHERE class_id=? AND attendance_date BETWEEN ? AND ?`,[id,dates[0],dates[dates.length-1]]);
+   const sheets=await rows(c,`SELECT version,DATE_FORMAT(attendance_date,'%Y-%m-%d') date FROM school_attendance_sheets WHERE class_id=? AND attendance_date BETWEEN ? AND ?`,[id,dates[0],dates[dates.length-1]]);
+   const students=[...new Map(memberships.map(m=>[m.id,m])).values()].flatMap(student=>{
+    const periods=memberships.filter(m=>m.id===student.id);
+    const eligible=owned.filter(d=>periods.some(m=>m.starts_on<=d&&(!m.ends_on||m.ends_on>d)));
+    if(!eligible.length)return [];
+    const marks=Object.fromEntries(saved.filter(r=>r.student_user_id===student.id&&eligible.includes(r.date)).map(r=>[r.date,r.status]));
+    return [{id:student.id,login_id:student.login_id,full_name:student.full_name,eligible,marks,totals:attendanceTotals(Object.values(marks),eligible.length)}];
+   });
+   return {month,today:today(),days:dates.map(date=>({date,day:new Date(date+'T00:00:00Z').getUTCDay()||7,editable:owned.includes(date),version:sheets.find(s=>s.date===date)?.version??0})),students};
+  });res.json(value);
+ });
  router.get('/teacher/classes/:id/attendance',async(req,res)=>{
   const id=schoolId(Number(req.params.id)),date=dateOf(req.query.date);
   const students=await attendanceScope(pool,res.locals.user.id,id,date);

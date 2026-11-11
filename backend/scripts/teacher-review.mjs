@@ -13,7 +13,7 @@ const config={host:process.env.DB_HOST??'127.0.0.1',port:Number(process.env.DB_P
 const name='studenthub_teacher_review_'+randomBytes(6).toString('hex');
 if(!/^studenthub_teacher_review_[a-f0-9]{12}$/.test(name))throw Error('Unsafe fixture schema name');
 const root=await mysql.createConnection(config);let pool,server,closing=false;
-async function close(){if(closing)return;closing=true;if(server){server.closeAllConnections();await new Promise(r=>server.close(r))}await pool?.end();try{await root.query('DROP DATABASE IF EXISTS `'+name+'`')}finally{await root.end()}}
+async function close(){if(closing)return;closing=true;if(server){server.closeAllConnections();await new Promise(r=>server.close(r))}await pool?.end();try{await root.query('DROP DATABASE IF EXISTS `'+name+'`')}finally{await root.end();process.stdin.pause()}}
 try{
  await root.query('CREATE DATABASE `'+name+'`');pool=mysql.createPool({...config,database:name,connectionLimit:5});
     for(const statement of [
@@ -45,6 +45,15 @@ try{
  await pool.query('INSERT INTO school_class_offerings VALUES(1,1),(2,2),(2,3)');
  await pool.query('INSERT INTO school_offering_teachers VALUES(1,1),(2,1),(3,2)');
  for(const day of [7,1,2,3,4,5])for(const [off,start,end,room]of [[1,'10:00','11:00','Room 101'],[2,'11:00','12:00','Room 102'],[3,'10:00','11:00','Room 102']])await pool.execute('INSERT INTO class_schedules(course_offering_id,day_of_week,start_time,end_time,location) VALUES(?,?,?,?,?)',[off,day,start,end,room]);
+ // Optional, explicitly fictional saved marks for monthly-register browser checks.
+ if(process.env.TEACHER_REVIEW_ATTENDANCE==='1'){
+  const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kathmandu',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  for(const [day,status]of [[1,'late'],[2,'late'],[3,'late'],[4,'absent']]){
+   const date=today.slice(0,7)+'-'+String(day).padStart(2,'0');if(date>today)continue;
+   await pool.execute('INSERT INTO school_attendance_sheets VALUES(1,?,1,2)',[date]);
+   await pool.execute("INSERT INTO school_attendance(class_id,attendance_date,student_user_id,status,recorded_by) VALUES(1,?,4,?,2),(1,?,5,'present',2)",[date,status,date]);
+  }
+ }
  await ensureActivitySchema(pool);
  process.env.SERVE_FRONTEND='true';process.env.NODE_ENV='test';delete process.env.FRONTEND_ORIGIN;
  server=createDatabaseApp(pool).listen(3019,'127.0.0.1');

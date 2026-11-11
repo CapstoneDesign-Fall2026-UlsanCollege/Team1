@@ -1,4 +1,4 @@
-import {ensureTeacherSchema} from '../dist/teacher-workspace.js';
+import {attendanceTotals,ensureTeacherSchema} from '../dist/teacher-workspace.js';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import mysql from 'mysql2/promise';
@@ -12,6 +12,12 @@ import {ensureActivitySchema} from '../dist/activity-log.js';
 import {ensureSchoolSchema} from '../dist/school-schema.js';
 import {bookingDatesMeet} from '../dist/school-rooms.js';
 import {schoolDate,schoolDates,schoolId,schoolText} from '../dist/school-planning.js';
+
+test('monthly attendance retains raw marks and converts each three late marks into one absence',()=>{
+ assert.deepEqual(attendanceTotals(['present','absent','late','late','late','excused'],8),{present:1,absent:1,late:3,excused:1,marked:6,unmarked:2,lateAbsences:1,adjustedAbsences:2,remainingLates:0});
+ for(const late of [0,1,2,3,4,5,6,7]){const t=attendanceTotals(['absent',...Array(late).fill('late')],late+1);assert.equal(t.adjustedAbsences,1+Math.floor(late/3));assert.equal(t.remainingLates,late%3);assert.equal(t.late,late)}
+ assert.equal(attendanceTotals([],31).adjustedAbsences,0);
+});
 
 test('room recurrence overlap checks actual weekdays and date-range boundaries',()=>{
  const a={starts_on:'2026-11-01',ends_on:'2026-11-30',day_of_week:7};
@@ -425,6 +431,25 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
        const competing=await Promise.all([request(path,'PUT',edits,'teacher'),request(path,'PUT',edits,'teacher')]);assert.deepEqual(competing.map(r=>r.status).sort(),[200,409]);
        today='2026-11-02';const transferred=await data(path+'?date=2026-11-02','teacher');assert.ok(!transferred.students.some(s=>s.id===2));today='2026-11-01';
        const logs=await sql("SELECT * FROM activity_logs WHERE actor_role='teacher'");assert.ok(logs.some(l=>l.record_type==='school_attendance'));assert.ok(logs.some(l=>l.record_type==='school_homework'));assert.ok(!JSON.stringify(logs).includes('Answer questions'));
+      });
+      await t.test('monthly attendance scopes each day/membership, counts raw and adjusted totals and rejects other teachers',async()=>{
+       const path='/teacher/classes/'+classA+'/attendance/month?month=2026-11';
+       assert.equal((await request(path,'GET',undefined,'otherTeacher')).status,403);
+       assert.equal((await request('/teacher/classes/'+classA+'/attendance/month?month=2026-13','GET',undefined,'teacher')).status,400);
+       const initial=await data(path,'teacher');assert.equal(initial.days.length,30);assert.ok(initial.days.filter(d=>d.date>'2026-11-01').every(d=>!d.editable));
+       const pupil=rosterStudents.find(s=>s.id!==2).id;
+       const set=async(date,status)=>{
+        today=date;const daily=await data('/teacher/classes/'+classA+'/attendance?date='+date,'teacher');
+        assert.equal((await request('/teacher/classes/'+classA+'/attendance','PUT',{date,version:daily.version,records:[{student_user_id:pupil,status}]},'teacher')).status,200);
+       };
+       await set('2026-11-02','late');await set('2026-11-03','late');await set('2026-11-04','late');await set('2026-11-05','absent');
+       const month=await data(path,'teacher'),p=month.students.find(s=>s.id===pupil);
+       assert.equal(p.totals.late,3);assert.equal(p.totals.absent,1);assert.equal(p.totals.adjustedAbsences,2);assert.equal(p.totals.present,1);assert.equal(p.totals.marked,5);
+       assert.equal(month.students.find(s=>s.id===2).eligible.length,1);
+       assert.equal(Object.keys(p.marks).length,5);
+       assert.ok(!JSON.stringify(month.students).includes('password'));assert.ok(!('email'in p));
+       assert.equal((await request('/teacher/classes/'+classA+'/attendance/month?month=2027-02','GET',undefined,'teacher')).status,403);
+       today='2026-11-01';
       });
       await t.test('ambiguous or inactive homeroom and deactivated accounts do not retain access',async()=>{
        await sql("INSERT INTO class_schedules(course_offering_id,day_of_week,start_time,end_time) VALUES(2,7,'10:00','11:00')");

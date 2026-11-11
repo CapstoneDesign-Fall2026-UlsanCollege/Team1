@@ -168,3 +168,10 @@ Supporting evidence for my row in the [one shared Week 10 report](weekly-report.
 - **Evidence:** [Actual checks/source/screenshots](teacher-workspace-check.md), [operator guide](../../docs/teacher-workspace.md), [full 74-pass output](evidence/teacher-full-backend-2026-11-11.txt).
 - **How checked:** Assistant-run isolated API/MySQL tests and a fictional browser workflow, including teacher homework → student read-back and attendance save/reload. Local schema migration preserved existing record counts.
 - **Limits:** Independent human and hosted verification remain separate. No other member’s implementation/test work is claimed.
+
+## Monthly attendance and directory checkbox — November 11
+
+- **What I did:** Requested a monthly spreadsheet-style register, O/X/- symbols, totals and three-late-to-one-absence conversion, plus a Schedule checkbox in the admin directory; implemented with coding assistance.
+- **Evidence:** [Issue #81](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/81), [source, actual results and safe screenshots](monthly-attendance-check.md).
+- **How checked:** Assistant ran builds, 28 school/teacher checks, 17 existing frontend checks and a fictional browser save/read-back. Actual saved totals preserved three late marks while adding one adjusted absence.
+- **Limits:** Independent human/live checks remain pending; no teacher or pupil working data was changed for browser proof.

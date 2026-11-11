@@ -37,3 +37,5 @@ Personal confirmations, accepted backups and independent current school/booking 
 - [Student dashboard, homeroom and canteen checks](student-dashboard-check.md)
 
 - [Teacher workspace: schedule, rosters, homework and homeroom attendance — actual checks](teacher-workspace-check.md)
+
+- [Monthly attendance, three-late totals and Schedule checkbox — actual checks](monthly-attendance-check.md)
