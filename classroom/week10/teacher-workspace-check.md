@@ -70,3 +70,9 @@ In the working local app, sign in as administrator → Accounts → Teacher acce
 Independent human and hosted verification remain pending. Attendance is one daily status, not per-period attendance. Existing weekly assignments determine authorization on the selected date; historical timetable revisions and school closure calendars are not reconstructed. Partial marking is allowed; no automatic “all present”, attendance deletion, homework submission/marking or file attachments are included. Homework is text-only, up to 2,000 characters; current-term scope applies to writes. Grades/marks and parent accounts remain outside this slice.
 
 The existing Activity Log triggers for older tables are retained; teacher writes use the newly registered teacher tables. No live deployment was performed. Galan coordinates a non-author walkthrough and the separate hosting decision.
+
+## Administrator Teacher list follow-up — November 11
+
+Galan requested a directory-first Accounts → Teacher list. The default view now renders one compact table with teacher/name status, staff code, subject and homeroom. No schedule grids are rendered until Schedule → Show teaching schedules is chosen. Academic year, term, subject and name/staff-code filters remain available. Returning to Hidden — teacher list restores the compact table without changing data or filters.
+
+Actual assistant checks: frontend production build passed; local browser showed 20 teacher rows plus the header and zero routine tables by default. Show teaching schedules produced 20 routine tables; Mathematics narrowed to one teacher/routine. Returning to Hidden removed all routine tables while preserving that subject filter. Restored All subjects afterward. [Compact directory proof](evidence/admin-teacher-list-compact.jpg). No account, timetable or database records changed.

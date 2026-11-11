@@ -20,3 +20,5 @@ node --env-file=backend/.env backend/scripts/teacher-review.mjs
 ```
 
 Open the printed localhost URL. The terminal gives temporary fictional login credentials; never publish them. Enter stop to close the review server and remove its disposable schema. The helper requires MySQL permission to create/drop a fixture schema.
+
+**Administrator directory:** Accounts → Teacher list is a compact directory by default. Use Schedule → Show teaching schedules to reveal the full routines; subject/name filters work in either view. Teacher access remains the separate place to create or disable teacher logins.
