@@ -6,3 +6,5 @@
 - [Weekly issue links](issues.md)
 
 Prepared by Galan Bishal with coding assistance. Logs describe assistant-run checks, not independent teammate or hosted results.
+
+- [November 12 issue verification: full DB suite, mobile path and remaining closure blockers](issue-verification-2026-11-12.md)

@@ -13,3 +13,7 @@ Mobile admin text is compact (13–14px body/labels, smaller headings); form inp
 - Earlier 390px inspection reached class planner and saved an English subject to the fictional grade library. That was preparation, not a completed teacher-assignment/save/reload result.
 - Final browser verification on November 12 was blocked: browser creation timed out, then inventory returned a browser-service initialization error. No new screenshot or successful full mobile path is claimed.
 - Repeat on a physical phone: choose class → library subject → teacher → Confirm subject → reload/read back; Add lesson → choose day/time → save/reload; check conflict case and normal scrolling. Keep #83 open until actual results are recorded.
+
+## Subsequent browser verification — November 12
+
+Browser access recovered. Assignment/save/reload, conflicting-time rejection, persisted teacher and 390px/320px fit were verified in a fictional disposable database. [Exact steps, results and safe screenshots](issue-verification-2026-11-12.md). Corrected a mobile heading specificity override; final heading is 24px. Physical-phone/non-author/live checks remain separate.
