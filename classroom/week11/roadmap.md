@@ -16,7 +16,7 @@ flowchart TD
     C["WORKS LOCALLY<br/>Manage login accounts and password requests<br/>See who changed school records<br/>Run automatic code checks"]
     NOW["NEXT: CHECK WITH PEOPLE<br/>Try the main tasks on a real phone<br/>Ask another teammate to repeat them<br/>Fix any problems they find"]
     SETUP["NEXT: MAKE SETUP EASY<br/>Write complete setup instructions<br/>Confirm a new person can run the project"]
-    HOST["IN PROGRESS: PUT THE SITE ONLINE<br/>Railway Hobby purchased<br/>Deploy the latest code<br/>Check that school data is safe"]
+    HOST["SITE ONLINE: CHECK LIVE DATA<br/>Railway Hobby purchased and deployment active<br/>Latest website loads successfully<br/>Verify signed-in tasks and school data"]
     CHECK{"Do login, saving and main tasks<br/>work on the live website?"}
     FIX["Fix the first failing task<br/>and test it again"]
     FINISH(["READY FOR FINAL DEMO<br/>Show the working website<br/>Share test proof and instructions"])
@@ -39,7 +39,7 @@ flowchart TD
 
 **Teacher dashboard is stretch work.** It stays separate from the main route to the final demo. The administrator's teacher list and subject planning remain part of the main project.
 
-**Current position:** the main features work locally. Real-phone/teammate checks, easy setup and live verification are still needed. Railway Hobby has now been purchased; deployment is in progress, not yet confirmed successful.
+**Current position:** the main features work locally and the Railway site is online. Real-phone/teammate checks, easy setup, signed-in live tasks and database verification are still needed. [Current deployment proof](railway-deployment-2026-11-12.md).
 
 <details>
 <summary><strong>Open technical details, evidence and issue links</strong></summary>
@@ -72,7 +72,7 @@ The original separate manual homeroom assignment/history design is **not** imple
 | 3 | Confirm hosting decision, back up/verify data, deploy a recorded commit, and prove authentication, permissions and saved read-back on the live URL | Galan Bishal | [#65](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/65) |
 | 4 | Rehearse the core demo, update one shared report and confirmed personal contributions, document remaining limitations, and publish final release evidence | Team members confirm their own parts; Galan coordinates | [#60](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/60) |
 
-Hosting preparation can proceed alongside local QA/setup. Galan confirmed the Railway Hobby purchase on November 12. Deployment and database verification are in progress. The earlier November 12 HTTP check returned **404**; it is historical evidence, not proof of the next deployment. A Pages build alone is not a working backend deployment.
+Galan confirmed the Railway Hobby purchase on November 12. The GitHub-connected deployment is now active and public HTML/assets return **200**. Database contents and signed-in workflows still need checking. The earlier **404** is historical; [recovery evidence](railway-deployment-2026-11-12.md) records the change. A Pages build alone is not a working backend deployment.
 
 ## Stretch section — teacher dashboard
 
