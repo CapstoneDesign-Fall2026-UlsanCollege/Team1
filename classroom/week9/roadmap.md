@@ -1,5 +1,6 @@
 # StudentHub — revised school roadmap
 
+> Historical checkpoint. See the [current Week 11 roadmap](../week11/roadmap.md), updated November 12, 2026; teacher dashboard is stretch scope.
 **Updated:** November 3, 2026 · [Design Doc v2](design-doc-v2.md)
 
 StudentHub primarily supports school administration in Nepal. Each class has a usual classroom; shared labs and activity rooms have day/time bookings. The earlier general classroom-finder scope remains cancelled. Homeroom classes are student groups, separate from physical rooms. Job search remains optional for high-school users; its new audience gating is planned.

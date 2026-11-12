@@ -1,4 +1,4 @@
-# Week 11 — Testing and mobile administration
+# Week 11 — Core release, testing and stretch scope
 
 - [Automated testing guide: real StudentHub commands](automated-testing-guide.md)
 - [Actual local checks and CI status](testing-evidence.md)
@@ -8,3 +8,5 @@
 Prepared by Galan Bishal with coding assistance. Logs describe assistant-run checks, not independent teammate or hosted results.
 
 - [November 12 issue verification: full DB suite, mobile path and remaining closure blockers](issue-verification-2026-11-12.md)
+
+- [Current project roadmap — completed implementation, remaining core work and teacher-dashboard stretch](roadmap.md)

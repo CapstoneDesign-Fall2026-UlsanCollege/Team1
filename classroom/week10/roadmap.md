@@ -1,5 +1,6 @@
 # Week 10 Final Demo Roadmap — current checkpoint
 
+> Historical checkpoint. See the [current Week 11 roadmap](../week11/roadmap.md), updated November 12, 2026; teacher dashboard is stretch scope.
 **Team:** Team 1 — StudentHub<br>
 **Updated:** November 9, 2026<br>
 **Checkpoint:** November 11, end of day
