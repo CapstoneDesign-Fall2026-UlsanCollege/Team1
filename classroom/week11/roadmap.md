@@ -4,31 +4,45 @@
 **Updated:** November 12, 2026 · **Owner:** Galan Bishal, with coding assistance  
 **Direction:** Nepal middle/high-school administration. This supersedes the [Week 9 plan](../week9/roadmap.md) and [Week 10 checkpoint](../week10/roadmap.md).
 
-## Roadmap at a glance
+## Project flowchart
+
+Read from top to bottom. Each arrow means **the next step**. Green boxes already work on our laptop; yellow boxes still need finishing; blue boxes are optional. Text labels carry the same meaning as the colours.
 
 ```mermaid
 flowchart TD
-    A["COMPLETED LOCALLY<br/>School years, grades and class membership<br/>Student accounts and individual login-ID changes<br/>Teacher directory and subject planning<br/>Class timetable and derived homeroom teacher"]
-    B["COMPLETED LOCALLY<br/>Usual classroom allocation and special-room bookings<br/>Student My Class, grouped timetable and canteen<br/>Canteen-head menus, hours, prices and sold-out controls<br/>Password-reset requests and Activity Log"]
-    C["CURRENT CHECKPOINT<br/>78 backend checks passed — no skips<br/>17 frontend checks passed and build passed<br/>Mobile-width assignment, save, conflict and reload verified<br/>GitHub automated checks configured and passed"]
-    D["1 · FINISH CORE QA<br/>Physical-phone assignment and scrolling<br/>Independent teammate repeats valid and conflict paths<br/>Review real school data and remaining acceptance gaps"]
-    E["2 · MAKE SETUP REPEATABLE · #77<br/>Complete baseline and migration instructions<br/>Safe first-admin bootstrap<br/>Verify a fresh clone with an empty database"]
-    F["3 · RESTORE HOSTING · #65<br/>Owner confirms Railway plan and hosting readiness<br/>Back up and verify database before migration<br/>Deploy a recorded commit and verify login/persistence"]
-    G["4 · FINAL RELEASE · #60<br/>Repeat admin, student and canteen paths live<br/>Link human checks, screenshots and known limitations<br/>Rehearse final demo and publish the handoff"]
-    T["STRETCH · TEACHER DASHBOARD<br/>Already implemented locally · #78–81<br/>Teacher login, own schedule and class students<br/>Homework and monthly homeroom attendance<br/>Needs independent and hosted checks"]
-    J["OPTIONAL · HIGH-SCHOOL JOB SEARCH · #69<br/>Existing search, filters and favourites retained<br/>School-level and setting enforcement still unfinished"]
-    A --> B --> C --> D --> E --> F --> G
-    C -.-> T
-    C -.-> J
-    classDef done fill:#e0eee6,stroke:#356353,color:#183c30;
-    classDef next fill:#fff0cf,stroke:#c4963e,color:#594016;
-    classDef stretch fill:#eef0fa,stroke:#8a88b0,color:#34334c;
+    START(["StudentHub for Mahendra School"])
+    A["WORKS LOCALLY<br/>Manage students and classes<br/>Assign subjects and teachers<br/>Prepare class timetables"]
+    B["WORKS LOCALLY<br/>Assign classrooms and book special rooms<br/>Manage the school canteen<br/>Students see their own class and menu"]
+    C["WORKS LOCALLY<br/>Manage login accounts and password requests<br/>See who changed school records<br/>Run automatic code checks"]
+    NOW["NEXT: CHECK WITH PEOPLE<br/>Try the main tasks on a real phone<br/>Ask another teammate to repeat them<br/>Fix any problems they find"]
+    SETUP["NEXT: MAKE SETUP EASY<br/>Write complete setup instructions<br/>Confirm a new person can run the project"]
+    HOST["IN PROGRESS: PUT THE SITE ONLINE<br/>Railway Hobby purchased<br/>Deploy the latest code<br/>Check that school data is safe"]
+    CHECK{"Do login, saving and main tasks<br/>work on the live website?"}
+    FIX["Fix the first failing task<br/>and test it again"]
+    FINISH(["READY FOR FINAL DEMO<br/>Show the working website<br/>Share test proof and instructions"])
+    TEACHER["OPTIONAL EXTRA: TEACHER DASHBOARD<br/>Already built and checked locally<br/>Own schedule and class students<br/>Homework and attendance<br/>Still needs further review"]
+    JOBS["OPTIONAL EXTRA: HIGH-SCHOOL JOBS<br/>Search and favourites already exist<br/>School access restrictions still need work"]
+    START --> A --> B --> C --> NOW --> SETUP --> HOST --> CHECK
+    CHECK -->|No| FIX --> CHECK
+    CHECK -->|Yes| FINISH
+    C -. Optional .-> TEACHER
+    C -. Optional .-> JOBS
+    classDef done fill:#e2f1e8,stroke:#2e6848,stroke-width:2px,color:#163e29;
+    classDef next fill:#fff2ce,stroke:#a57922,stroke-width:2px,color:#503b10;
+    classDef extra fill:#e9effa,stroke:#5577a7,stroke-width:2px,color:#233e64;
+    classDef finish fill:#ffffff,stroke:#345c49,stroke-width:2px,color:#173e2b;
     class A,B,C done;
-    class D,E,F,G next;
-    class T,J stretch;
+    class NOW,SETUP,HOST,CHECK,FIX next;
+    class TEACHER,JOBS extra;
+    class START,FINISH finish;
 ```
 
-Green means implemented and checked locally, **not** a verified live release. Gold is remaining core delivery work. Purple is stretch/optional and does not block the core demo. Classroom allocation and lab booking remain core; the cancelled general classroom-finder is not being restored.
+**Teacher dashboard is stretch work.** It stays separate from the main route to the final demo. The administrator's teacher list and subject planning remain part of the main project.
+
+**Current position:** the main features work locally. Real-phone/teammate checks, easy setup and live verification are still needed. Railway Hobby has now been purchased; deployment is in progress, not yet confirmed successful.
+
+<details>
+<summary><strong>Open technical details, evidence and issue links</strong></summary>
 
 ## Completed implementation
 
@@ -58,7 +72,7 @@ The original separate manual homeroom assignment/history design is **not** imple
 | 3 | Confirm hosting decision, back up/verify data, deploy a recorded commit, and prove authentication, permissions and saved read-back on the live URL | Galan Bishal | [#65](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/65) |
 | 4 | Rehearse the core demo, update one shared report and confirmed personal contributions, document remaining limitations, and publish final release evidence | Team members confirm their own parts; Galan coordinates | [#60](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/60) |
 
-Hosting preparation can proceed alongside local QA/setup. The earlier November 10 purchase target has passed; this roadmap makes no new payment/deployment promise. The November 12 Railway check returned **404**. A Pages build alone is not a working backend deployment.
+Hosting preparation can proceed alongside local QA/setup. Galan confirmed the Railway Hobby purchase on November 12. Deployment and database verification are in progress. The earlier November 12 HTTP check returned **404**; it is historical evidence, not proof of the next deployment. A Pages build alone is not a working backend deployment.
 
 ## Stretch section — teacher dashboard
 
@@ -88,3 +102,5 @@ Job search, filters and favourites already exist. [#69](https://github.com/Capst
 ## Current evidence and limits
 
 The [November 12 verification](issue-verification-2026-11-12.md) records 78 backend passes with all isolated DB suites enabled, 17 frontend passes, successful build, actual phone-width subject save/reload/conflict checks and the live 404. These are assistant-run local checks. Physical-phone, independent teammate and hosted acceptance remain distinct. An implemented feature may still have an open issue because its remaining acceptance criteria are not met.
+
+</details>
