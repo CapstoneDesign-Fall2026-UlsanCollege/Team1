@@ -1,0 +1,8 @@
+# Week 11 — Testing and mobile administration
+
+- [Automated testing guide: real StudentHub commands](automated-testing-guide.md)
+- [Actual local checks and CI status](testing-evidence.md)
+- [Mobile assignment fix and verification limits](mobile-admin-check.md)
+- [Weekly issue links](issues.md)
+
+Prepared by Galan Bishal with coding assistance. Logs describe assistant-run checks, not independent teammate or hosted results.

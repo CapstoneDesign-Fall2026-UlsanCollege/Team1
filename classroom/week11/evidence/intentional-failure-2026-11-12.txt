@@ -1,0 +1,34 @@
+Controlled detection check: intentionally wrong expectation in temporary test copy. Production code and original test unchanged. Expected nonzero exit. Actual exit: 1
+✖ admission year, grade and section produce five fixed digits with padded sequence (3.9846ms)
+✔ unsupported labels, impossible dates and invalid student numbers fail instead of colliding (0.5802ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 620.7988
+
+✖ failing tests:
+
+test at frontend\tests\.student-id-detection.test.mjs:7:1
+✖ admission year, grade and section produce five fixed digits with padded sequence (3.9846ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '26061'
+  - 'WRONG_EXPECTATION'
+  
+      at TestContext.<anonymous> (file:///C:/Users/galan/Documents/Codex/2026-10-01/hey-x20/school-foundation/frontend/tests/.student-id-detection.test.mjs:8:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '26061',
+    expected: 'WRONG_EXPECTATION',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

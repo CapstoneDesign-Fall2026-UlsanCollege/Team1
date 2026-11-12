@@ -1,0 +1,29 @@
+
+> frontend@0.0.0 test
+> node --test tests/*.test.mjs
+
+✔ weekday selector stays within Sunday-start week across month/year boundaries (3.9246ms)
+✔ saved names fill prices only for an exact normalized match; new names stay editable (0.4457ms)
+✔ old stored keyword is ignored and clearing the input reloads unfiltered jobs (6.4957ms)
+✔ Refresh clears a submitted keyword and availability and returns to the full first page (2.9904ms)
+✔ favourites show saved details without the catalogue keyword or availability restrictions (1.3674ms)
+✔ a late keyword response cannot replace a cleared search or its page count (0.9081ms)
+✔ Korean schedules parse conservatively (3.981ms)
+✔ every known day and entire shift must fit; unknowns are optional (0.8832ms)
+✔ class conflicts include overnight spillover and boundary times (0.6752ms)
+✔ other-class teaching blocks only overlapping lessons within term (1.6942ms)
+✔ supervising own class is allowed; another room booking still blocks (0.6058ms)
+✔ missing or invalid times are not advertised as available (0.3023ms)
+✔ admission year, grade and section produce five fixed digits with padded sequence (3.195ms)
+✔ unsupported labels, impossible dates and invalid student numbers fail instead of colliding (0.4708ms)
+✔ same Sunday-Friday routine is shown once; IDs and source order do not split it (16.1498ms)
+✔ subject, time, room or teacher exceptions each stay separate (0.7157ms)
+✔ empty days and Saturday schedules remain explicit without inventing lessons (1.4498ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 885.0697
