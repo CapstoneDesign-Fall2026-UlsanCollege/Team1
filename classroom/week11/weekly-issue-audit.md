@@ -20,6 +20,6 @@ Reviewed existing weekly filenames, selected reports/check notes and the reposit
 
 ## Closure rule
 
-Only #85 can close once its indexing files are published: its promise is this documentation audit, not delivery/testing of every feature. Do not bulk-close the feature issues. #77 fresh-clone setup, #83 phone verification and the independent/live gates need their actual results. #84's local checks are recorded but its Actions run must be read before calling CI passed.
+Only #85 can close once its indexing files are published: its promise is this documentation audit, not delivery/testing of every feature. Do not bulk-close the feature issues. #77 fresh-clone setup, #83 phone verification and the independent/live gates need their actual results. #84's local checks and successful [Actions run](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/actions/runs/43168848988) are recorded; neither verifies physical-phone or independent/live behavior.
 
 The user requested more activity. This audit adds useful navigation and preserves real evidence rather than empty commits, generic comments or retrospective grade claims.
