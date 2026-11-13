@@ -7,9 +7,9 @@ import SchoolSubjectPlanner from './SchoolSubjectPlanner.vue'
 
 import { scheduleApi, days } from '../schedules'
 
-const props = defineProps<{ selectedTab?: string; active?: boolean }>()
+const props = defineProps<{ selectedTab?: string; active?: boolean; setupOnly?: boolean }>()
 
-const emit = defineEmits<{ changed: [configured: boolean]; saving: [value: boolean]; create:[id:number]; rooms:[id:number] }>()
+const emit = defineEmits<{ changed: [configured: boolean]; saving: [value: boolean]; create:[id:number]; rooms:[id:number]; panel:[value:string] }>()
 
 type Year = { id: number; name: string; start_date: string; end_date: string }
 
@@ -207,6 +207,8 @@ async function findStudents() {
 
 }
 
+watch(tab,value=>{if(value!=='structure')emit('panel',value)})
+watch(() => props.setupOnly, value => { tab.value=value?'structure':props.selectedTab??'class' })
 watch(() => props.selectedTab, value => { if (value && ['class','roster','teachers','classrooms','structure', 'members', 'subjects'].includes(value)) tab.value = value })
 
 onMounted(load)
@@ -239,7 +241,7 @@ onMounted(load)
 
         <fieldset class="filters" :disabled="busy"><label>Academic year<select v-model="yearId" @change="resetSelection"><option :value="0">Choose a year</option><option v-for="y in state.years" :key="y.id" :value="y.id">{{ y.name }}</option></select></label><label>Homeroom class<select v-model="classId" @change="Object.assign(meeting, { id: 0, course_offering_id: 0 })"><option :value="0">Choose a class</option><option v-for="c in classes" :key="c.id" :value="c.id">{{ className(c) }}{{ c.is_active ? '' : ' · Inactive' }}</option></select></label></fieldset>
 
-        <nav class="tabs" aria-label="Class workspace"><button v-for="item in [{id:'class',name:'Overview'},{id:'roster',name:'Students'},{id:'subjects',name:'Subjects & timetable'},{id:'teachers',name:'Teachers'},{id:'classrooms',name:'Rooms'},{id:'structure',name:'Year & class setup'}]" :key="item.id" type="button" :class="{secondary:tab!==item.id}" :aria-current="tab===item.id?'page':undefined" :disabled="busy" @click="tab=item.id">{{item.name}}</button></nav>
+        <nav v-if="!setupOnly" class="tabs" aria-label="Class workspace"><button v-for="item in [{id:'class',name:'Overview'},{id:'roster',name:'Students'},{id:'subjects',name:'Subjects & timetable'},{id:'teachers',name:'Teachers'},{id:'classrooms',name:'Rooms'}]" :key="item.id" type="button" :class="{secondary:tab!==item.id}" :aria-current="tab===item.id?'page':undefined" :disabled="busy" @click="tab=item.id">{{item.name}}</button></nav>
         <details v-if="tab==='class'" class="class-browser"><summary>Browse classes ({{classes.length}})</summary><div class="class-switcher"><button v-for="c in classes" :key="c.id" type="button" class="secondary" :aria-pressed="classId===c.id" @click="classId=c.id">Grade {{c.grade_label}} · Class {{c.name}}<small>{{roomLabel(c)}}</small></button></div></details>
         <ClassDetails v-if="['class','roster','teachers','classrooms'].includes(tab)&&selectedClass" :state="state" :class-id="classId" :view="tab" @open="tab=$event" @create="emit('create',$event)" @rooms="emit('rooms',$event)" />
         <p v-if="['class','roster','teachers','classrooms'].includes(tab)&&!selectedClass" class="muted">Create or choose a class to open its workspace.</p>

@@ -33,6 +33,7 @@ const schoolMode = ref(false), schoolName = ref(''), visitedSchool = ref(false),
 const adminSections = [
   { id: 'dashboard', title: 'Overview', icon: 'home' },
   { id: 'school', title: 'School classes', icon: 'course' },
+  { id: 'setup', title: 'Year & class setup', icon: 'semester' },
   { id: 'rooms', title: 'Rooms', icon: 'home' },
   { id: 'students', title: 'Accounts', icon: 'profile' },
   { id: 'transfer', title: 'School data', icon: 'course' },
@@ -46,8 +47,9 @@ const legacySections = [
 ]
 const sectionTitle = computed(() => adminSection.value === 'dashboard' ? 'School overview' : [...adminSections, ...legacySections].find(s => s.id === adminSection.value)?.title ?? 'School workspace')
 function goSection(section: string, panel?: string) {
+  if(section==='school'&&panel==='structure'){section='setup';panel=undefined}
   adminSection.value = section
-  if (section === 'school') { visitedSchool.value = true; if (panel) schoolPanel.value = panel }
+  if (section === 'school'||section==='setup') { visitedSchool.value = true; if (section==='school'&&panel) schoolPanel.value = panel }
   if (section === 'students' && panel) studentPanel.value = panel
 }
 const user = ref<User | null>(null)
@@ -149,7 +151,7 @@ onMounted(async () => {
         <SchoolTransfer v-if="adminSection === 'transfer'" @saving="savingSchool = $event" />
         <ActivityLog v-if="adminSection === 'activity'" />
         <SchoolRoomBoard :initial-class="initialRoomClass" v-if="adminSection === 'rooms'" @saving="savingSchool = $event" />
-        <SchoolManager :active="adminSection === 'school'" :selected-tab="schoolPanel" @create="enrollClass" @rooms="openClassRooms" v-if="visitedSchool" v-show="adminSection === 'school'" @changed="schoolMode = $event; dashboardRevision++" @saving="savingSchool = $event" />
+        <SchoolManager @panel="schoolPanel=$event" :active="adminSection === 'school'||adminSection==='setup'" :setup-only="adminSection==='setup'" :selected-tab="adminSection==='setup'?'structure':schoolPanel" @create="enrollClass" @rooms="openClassRooms" v-if="visitedSchool" v-show="adminSection === 'school'||adminSection==='setup'" @changed="schoolMode = $event; dashboardRevision++" @saving="savingSchool = $event" />
         <p v-if="schoolMode && adminSection === 'students'" class="account-tip"><StudentIcon name="course" />School class assignments are managed in <button type="button" @click="goSection('school')">School classes</button>.</p>
         <div v-show="adminSection === 'students'" class="student-tabs" role="group" aria-label="Account actions"><button type="button" :class="{ secondary: studentPanel !== 'directory' }" :aria-pressed="studentPanel === 'directory'" @click="studentPanel = 'directory'"><StudentIcon name="profile" />Student list</button><button type="button" :class="{ secondary: studentPanel !== 'create' }" :aria-pressed="studentPanel === 'create'" @click="studentPanel = 'create'"><StudentIcon name="add" />Create student</button><button type="button" :class="{secondary:studentPanel!=='canteen'}" :aria-pressed="studentPanel==='canteen'" @click="studentPanel='canteen'">Canteen staff</button><button type="button" :class="{secondary:studentPanel!=='teachers'}" :aria-pressed="studentPanel==='teachers'" @click="studentPanel='teachers'">Teacher list</button><button type="button" :class="{secondary:studentPanel!=='teacher-access'}" :aria-pressed="studentPanel==='teacher-access'" @click="studentPanel='teacher-access'">Teacher access</button></div>
         <TeacherAccounts :initial-teacher="initialTeacher" v-if="adminSection==='students'&&studentPanel==='teacher-access'" />

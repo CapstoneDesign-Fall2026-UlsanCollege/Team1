@@ -15,3 +15,5 @@ Existing closed status is historical metadata, not a new test result. Open issue
 - [#87 CSV school-data transfer with preview and additive import](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/87)
 
 - [#88 Consistent admin controls and visible teacher creation — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/88)
+
+- [#89 Year & class setup main navigation — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/89)

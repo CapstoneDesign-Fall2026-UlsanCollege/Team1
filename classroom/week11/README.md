@@ -18,3 +18,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Configurable floors, rooms and CSV school-data transfer](school-data-transfer.md)
 
 - [Consistent admin controls and visible teacher creation](admin-layout-teacher-creation.md)
+
+- [Year & class setup in main navigation and overview](year-class-navigation.md)
