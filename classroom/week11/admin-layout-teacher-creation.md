@@ -27,3 +27,13 @@
 | Frontend checks | Production type check/build passed; all 17 existing frontend tests passed. | Build/test command results recorded during implementation |
 
 Browser writes used a disposable fictional database, not production. These are assistant-run checks, not an independent teammate pass. Hosted release verification is recorded separately in the issue after deployment.
+
+## Published release verification — November 14
+
+- Layout implementation: [2b63189](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/2b63189).
+- Teacher creation and login handoff: [03bf58d](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/03bf58d366d83249cb342d60c22316a363514570).
+- [GitHub automated checks passed](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/actions/runs/43487573781).
+- Railway deployment `e5f9e00a-8543-4e78-af19-b41aa9ff331e` showed Active and Deployment successful for the teacher-creation commit.
+- On the hosted site, logged in as an administrator, opened Accounts → Teacher list → Create teacher and verified the name/staff-code form. [Hosted screenshot](evidence/create-teacher-live-2026-11-14.png).
+- Hosted Activity Log measurements confirmed all three selects, both date inputs and both action buttons were 44 px high.
+- No teachers or login accounts were created in production during this release check. Actual creation/read-back and login-selection checks used the isolated fictional fixture described above.
