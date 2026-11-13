@@ -530,6 +530,33 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       const beforeTeacherConflict=await sql('SELECT * FROM class_schedules WHERE course_offering_id=? ORDER BY id',[offering]);
       const teacherConflict=await mutate('/admin/school/schedules/routine','POST',{...input,meeting_id:sunday,start_time:'21:00',end_time:'22:00'},409);assert.match(teacherConflict.message,/Thursday/);assert.deepEqual(await sql('SELECT * FROM class_schedules WHERE course_offering_id=? ORDER BY id',[offering]),beforeTeacherConflict);
     });
+    await t.test('copy-day copies a whole class routine, skips identical lessons and rolls back all target-day conflicts',async()=>{
+      const copyClass=(await mutate('/admin/school/classes','POST',{year_id:yearId,grade_label:'3',name:'Copy fixture',is_active:true},201)).id;
+      const teachers=[];for(const code of ['COPY-T1','COPY-T2'])teachers.push((await mutate('/admin/school/teachers','POST',{name:'Fictional '+code,staff_code:code},201)).id);
+      const offerings=[],courses=[];for(let i=0;i<2;i++){const course=(await mutate('/admin/school/grade-subjects','POST',{year_id:yearId,grade_label:'3',course_code:'COPY-'+i,course_name:'Copy subject '+i},201)).id;courses.push(course);offerings.push((await mutate('/admin/school/subjects','POST',{class_id:copyClass,course_id:course,semester_id:1,teacher_id:teachers[i]},201)).id)}
+      for(let i=0;i<2;i++)await mutate('/admin/school/schedules','POST',{course_offering_id:offerings[i],day_of_week:7,start_time:(10+i)+':00',end_time:(11+i)+':00',location:'Copy source'},201);
+      const saturday=(await mutate('/admin/school/schedules','POST',{course_offering_id:offerings[0],day_of_week:6,start_time:'14:00',end_time:'15:00',location:'Keep Saturday'},201)).id;
+      const input={class_id:copyClass,semester_id:1,source_day:7,target_days:[1,2]};
+      const first=await mutate('/admin/school/schedules/copy-day','POST',input);assert.deepEqual({added:first.added,skipped:first.skipped,source_count:first.source_count},{added:4,skipped:0,source_count:2});
+      const repeat=await mutate('/admin/school/schedules/copy-day','POST',input);assert.equal(repeat.added,0);assert.equal(repeat.skipped,4);
+      await mutate('/admin/school/schedules','POST',{course_offering_id:offerings[1],day_of_week:5,start_time:'11:00',end_time:'12:00',location:'Keep Friday'},201);
+      const allRows=()=>sql('SELECT * FROM class_schedules WHERE course_offering_id IN (?,?) ORDER BY id',offerings);
+      const before=await allRows(),revision=(await data('/admin/school')).revision;
+      const conflict=await mutate('/admin/school/schedules/copy-day','POST',{...input,target_days:[3,4,5]},409);assert.match(conflict.message,/Friday/);assert.deepEqual(await allRows(),before);assert.equal((await data('/admin/school')).revision,revision);
+      assert.equal((await allRows()).find(r=>r.id===saturday).location,'Keep Saturday');
+      const otherClass=(await mutate('/admin/school/classes','POST',{year_id:yearId,grade_label:'4',name:'Copy teacher conflict',is_active:true},201)).id;
+      await mutate('/admin/school/grade-subjects','POST',{year_id:yearId,grade_label:'4',course_id:courses[0]},201);
+      const otherOffering=(await mutate('/admin/school/subjects','POST',{class_id:otherClass,course_id:courses[0],semester_id:1,teacher_id:teachers[0]},201)).id;
+      await mutate('/admin/school/schedules','POST',{course_offering_id:otherOffering,day_of_week:4,start_time:'10:00',end_time:'11:00',location:'Other class'},201);
+      const teacherConflict=await mutate('/admin/school/schedules/copy-day','POST',{...input,target_days:[3,4]},409);assert.match(teacherConflict.message,/Thursday/);assert.deepEqual(await allRows(),before);
+      for(const target_days of [[],[7],[1,1],[0]])await mutate('/admin/school/schedules/copy-day','POST',{...input,target_days},400);
+      await mutate('/admin/school/schedules/copy-day','POST',{...input,class_id:otherClass,source_day:1,target_days:[2]},400);
+      assert.equal((await request('/admin/school/schedules/copy-day','POST',{...input,revision})).status,409);
+      for(const role of ['alice','canteen','teacher'])assert.equal((await request('/admin/school/schedules/copy-day','POST',{...input,revision},role)).status,403);
+      await sql('INSERT INTO school_class_offerings(class_id,offering_id) VALUES(?,?)',[otherClass,offerings[0]]);
+      await mutate('/admin/school/schedules/copy-day','POST',{...input,target_days:[3]},409);
+      await sql('DELETE FROM school_class_offerings WHERE class_id=? AND offering_id=?',[otherClass,offerings[0]]);
+    });
     await t.test('configurable floors and room numbers preserve links, reject duplicates and survive bootstrap',async()=>{
       const before=await data('/admin/school/rooms');const linked=before.assignments[0];assert.ok(linked);
       const room=before.rooms.find(r=>r.id===linked.room_id);

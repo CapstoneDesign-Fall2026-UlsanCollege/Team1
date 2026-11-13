@@ -332,6 +332,27 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
     const value=validateMeeting({...input,location:input.location === '' || input.location === undefined ? 'Not specified' : input.location});
     return mutate(pool,input.revision,c=>writeMeeting(c,value,id));
   }
+  router.post('/admin/school/schedules/copy-day',async(req,res)=>{
+    const input=req.body,classId=schoolId(input.class_id),termId=schoolId(input.semester_id),source=input.source_day,targets=input.target_days;
+    const validDay=(d:unknown)=>Number.isInteger(d)&&Number(d)>=1&&Number(d)<=7;
+    if(!validDay(source)||!Array.isArray(targets)||!targets.length||targets.length>6||new Set(targets).size!==targets.length||targets.some(d=>!validDay(d)||d===source))throw new ScheduleError(400,'Choose one source day and different destination days.');
+    const result=await mutate(pool,input.revision,async c=>{
+      const cl=await schoolClass(c,classId);if(!cl.is_active)throw new ScheduleError(400,'Choose an active class.');
+      if(!(await rows(c,'SELECT semester_id FROM school_terms WHERE semester_id=? AND year_id=?',[termId,cl.year_id])).length)throw new ScheduleError(400,'Choose a term linked to this class academic year.');
+      const lessons=await rows(c,`SELECT cs.*,EXISTS(SELECT 1 FROM school_class_offerings other WHERE other.offering_id=cs.course_offering_id AND other.class_id<>?) shared FROM class_schedules cs JOIN school_class_offerings l ON l.offering_id=cs.course_offering_id JOIN course_offerings co ON co.id=cs.course_offering_id WHERE l.class_id=? AND co.semester_id=? AND cs.day_of_week=? ORDER BY cs.start_time,cs.id`,[classId,classId,termId,source]);
+      if(!lessons.length)throw new ScheduleError(400,'The source day has no saved lessons in this class and term.');
+      if(lessons.length>100)throw new ScheduleError(400,'Copy at most 100 source lessons at a time.');
+      if(lessons.some(l=>l.shared))throw new ScheduleError(409,'A source subject is shared with another class. Review its individual lessons before copying a whole day.');
+      let added=0,skipped=0;
+      for(const day of targets)for(const lesson of lessons){
+        if(lesson.start_time.slice(5)!==':00'||lesson.end_time.slice(5)!==':00')throw new ScheduleError(400,'Source lessons must use whole-minute times. Edit them before copying.');
+        const value=validateMeeting({course_offering_id:lesson.course_offering_id,day_of_week:day,start_time:lesson.start_time.slice(0,5),end_time:lesson.end_time.slice(0,5),location:lesson.location||'Not specified'});
+        if((await rows(c,'SELECT id FROM class_schedules WHERE course_offering_id=? AND day_of_week=? AND start_time=? AND end_time=? AND location<=>? LIMIT 1',[value.course_offering_id,day,value.start_time,value.end_time,value.location])).length){skipped++;continue}
+        try{await writeMeeting(c,value);added++}catch(e){if(e instanceof ScheduleError)throw new ScheduleError(e.status,['','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'][day]+': '+e.message);throw e}
+      }
+      return {added,skipped,source_count:lessons.length};
+    });res.json({...result,message:`Routine copied: ${result.added} lessons added; ${result.skipped} identical lessons skipped.`});
+  });
   router.post('/admin/school/schedules/routine',async(req,res)=>{
     const input=req.body,meetingId=input.meeting_id===undefined?undefined:schoolId(input.meeting_id);
     const base=validateMeeting({...input,day_of_week:7,location:input.location === '' || input.location === undefined ? 'Not specified' : input.location});

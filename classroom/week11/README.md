@@ -24,3 +24,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Subject catalogue recovery for new grades](new-grade-subject-library.md)
 
 - [Save the same lesson Sunday–Friday](sunday-friday-routine.md)
+
+- [Copy a whole daily routine beside the timetable controls](copy-routine.md)
