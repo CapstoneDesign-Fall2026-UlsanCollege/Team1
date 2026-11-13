@@ -41,3 +41,6 @@ button > svg{width:20px;height:20px;vertical-align:middle;flex-shrink:0}button >
  #app .admin-workspace .subject-card{font-size:14px}
  #app .admin-workspace .subject-card small{font-size:12px}
 }
+
+/* Native selects share the same visible shape as text/date fields. */
+select{width:100%;min-height:44px;padding:10px 12px;border:1px solid #bccfc5;border-radius:8px;font:inherit;color:inherit;background:#fcfdfc}select:focus-visible{outline:2px solid #21896f;outline-offset:2px}
