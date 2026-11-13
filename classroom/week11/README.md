@@ -16,3 +16,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Laptop school data transferred to Railway: backups, exact checks and rollback](railway-data-migration-2026-11-12.md)
 
 - [Configurable floors, rooms and CSV school-data transfer](school-data-transfer.md)
+
+- [Consistent admin controls and visible teacher creation](admin-layout-teacher-creation.md)

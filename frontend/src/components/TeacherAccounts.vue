@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import {onMounted,onUnmounted,ref,watch} from 'vue'
 import {scheduleApi} from '../schedules'
+const props=defineProps<{initialTeacher?:number}>()
 const teachers=ref<any[]>([]),loading=ref(false),saving=ref(false),error=ref(''),message=ref(''),confirm=ref(0)
 const teacherId=ref(0),login=ref(''),password=ref('')
 let timer:ReturnType<typeof setTimeout>|undefined
 watch(message,v=>{clearTimeout(timer);if(v)timer=setTimeout(()=>message.value='',4000)})
 onUnmounted(()=>clearTimeout(timer))
-async function load(){loading.value=true;error.value='';try{teachers.value=(await scheduleApi('admin/teacher-accounts')).teachers}catch(e){error.value=e instanceof Error?e.message:'Unable to load teachers.'}finally{loading.value=false}}
+async function load(){loading.value=true;error.value='';try{teachers.value=(await scheduleApi('admin/teacher-accounts')).teachers;if(props.initialTeacher&&teachers.value.some(t=>t.id===props.initialTeacher&&t.is_active&&!t.user_id))teacherId.value=props.initialTeacher}catch(e){error.value=e instanceof Error?e.message:'Unable to load teachers.'}finally{loading.value=false}}
 async function create(){saving.value=true;error.value='';try{const r=await scheduleApi('admin/teacher-accounts','POST',{teacher_id:teacherId.value,login_id:login.value,password:password.value});message.value=r.message;teacherId.value=0;login.value='';await load()}catch(e){error.value=e instanceof Error?e.message:'Unable to create login.'}finally{password.value='';saving.value=false}}
 async function status(t:any){saving.value=true;error.value='';try{const r=await scheduleApi('admin/teacher-accounts/'+t.user_id+'/status','PUT',{is_active:!t.account_active});message.value=r.message;confirm.value=0;await load()}catch(e){error.value=e instanceof Error?e.message:'Unable to change access.'}finally{saving.value=false}}
 onMounted(load)

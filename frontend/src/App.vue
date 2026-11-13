@@ -23,7 +23,7 @@ import SchoolRoomBoard from './components/SchoolRoomBoard.vue'
 import SchoolDashboard from './components/SchoolDashboard.vue'
 type User = { id: number; login_id: string; role: 'admin' | 'student' | 'canteen_head' | 'teacher' }
 const adminSection = ref('dashboard')
-const initialStudentClass=ref(0),initialRoomClass=ref(0)
+const initialStudentClass=ref(0),initialRoomClass=ref(0),initialTeacher=ref(0)
 function enrollClass(id:number){initialStudentClass.value=id;goSection('students','create')}
 function openClassRooms(id:number){initialRoomClass.value=id;goSection('rooms')}
 const resetPage = ref(false)
@@ -152,8 +152,8 @@ onMounted(async () => {
         <SchoolManager :active="adminSection === 'school'" :selected-tab="schoolPanel" @create="enrollClass" @rooms="openClassRooms" v-if="visitedSchool" v-show="adminSection === 'school'" @changed="schoolMode = $event; dashboardRevision++" @saving="savingSchool = $event" />
         <p v-if="schoolMode && adminSection === 'students'" class="account-tip"><StudentIcon name="course" />School class assignments are managed in <button type="button" @click="goSection('school')">School classes</button>.</p>
         <div v-show="adminSection === 'students'" class="student-tabs" role="group" aria-label="Account actions"><button type="button" :class="{ secondary: studentPanel !== 'directory' }" :aria-pressed="studentPanel === 'directory'" @click="studentPanel = 'directory'"><StudentIcon name="profile" />Student list</button><button type="button" :class="{ secondary: studentPanel !== 'create' }" :aria-pressed="studentPanel === 'create'" @click="studentPanel = 'create'"><StudentIcon name="add" />Create student</button><button type="button" :class="{secondary:studentPanel!=='canteen'}" :aria-pressed="studentPanel==='canteen'" @click="studentPanel='canteen'">Canteen staff</button><button type="button" :class="{secondary:studentPanel!=='teachers'}" :aria-pressed="studentPanel==='teachers'" @click="studentPanel='teachers'">Teacher list</button><button type="button" :class="{secondary:studentPanel!=='teacher-access'}" :aria-pressed="studentPanel==='teacher-access'" @click="studentPanel='teacher-access'">Teacher access</button></div>
-        <TeacherAccounts v-if="adminSection==='students'&&studentPanel==='teacher-access'" />
-        <div v-if="adminSection==='students' && studentPanel==='teachers'" class="admin-section"><TeacherDirectory /></div>
+        <TeacherAccounts :initial-teacher="initialTeacher" v-if="adminSection==='students'&&studentPanel==='teacher-access'" />
+        <div v-if="adminSection==='students' && studentPanel==='teachers'" class="admin-section"><TeacherDirectory @saving="savingSchool=$event" @login="initialTeacher=$event;studentPanel='teacher-access'" /></div>
         <div v-show="adminSection==='students' && studentPanel==='canteen'" class="admin-section"><CanteenAccounts @saving="savingStaff=$event" /></div>
         <div v-show="adminSection === 'students' && studentPanel === 'create'" id="create-student" class="admin-section" tabindex="-1"><CreateStudent :initial-class="initialStudentClass" :revision="semesterRevision" @expired="sessionExpired" @saving="creatingStudent = $event" @created="studentRevision++" /></div>
         <div v-show="adminSection === 'students' && studentPanel === 'directory'" id="student-directory" class="admin-section" tabindex="-1"><StudentManager @create="goSection('students','create')" :selected-login="linkedStudent" :revision="studentRevision + dashboardRevision" @saving="editingStudent = $event" /></div>
