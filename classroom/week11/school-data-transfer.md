@@ -1,7 +1,9 @@
 # Configurable building and CSV school-data transfer
 
-**Owner:** Galan Bishal (@bishal482), with coding assistance  
-**Date:** November 13, 2026  
+**Owner:** Galan Bishal (@bishal482), with coding assistance
+
+**Date:** November 13, 2026
+
 **Issues:** [Building configuration #86](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/86), [CSV transfer #87](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/87)
 
 ## How to use the building controls
@@ -68,3 +70,13 @@ Assistant-run tests used randomly named disposable MySQL schemas, not the workin
 - [Mobile school-data screen](evidence/school-transfer-mobile.png)
 
 These are assistant-run checks. No independent teammate pass or live import into production is claimed here. Hosted availability is recorded separately after deployment verification.
+
+## Hosted verification and local launcher recovery
+
+- [Implementation commit 42dea6e](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/42dea6e8a0b0796298acc7879a38c46d7791d5d5).
+- [GitHub automated checks passed](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/actions/runs/43374265136). The separate Pages workflow is not backend deployment proof.
+- Railway deployment `b93a4afc-827c-448c-aa5f-b1c950770716` became Active/Deployment successful for this source commit.
+- [Sanitized hosted API evidence](evidence/school-transfer-hosted-2026-11-13.json): authenticated room read, CSV export and round-trip preview all returned HTTP 200. The preview reported 24 tables, 862 unchanged records, zero new records and zero updates. **Apply was not called against production.**
+- [Live import/export screen](evidence/school-transfer-hosted-screen.png) was opened after an administrator login at [the Railway site](https://team1-production.up.railway.app/).
+- The persistent local launcher initially lacked the school startup migration call. It now calls `ensureSchoolSchema` before teacher/audit setup, matching production. A restart at `127.0.0.1:3020` added the missing floor/transfer metadata and preserved the existing 40 rooms. Its own export/preview also returned 862 unchanged records with no apply.
+- The disposable browser-review database was removed after testing. The persistent local server remains available at `http://127.0.0.1:3020/` while its process and laptop stay running.

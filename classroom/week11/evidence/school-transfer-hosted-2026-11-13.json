@@ -1,0 +1,16 @@
+{
+  "hosted": true,
+  "source_commit": "42dea6e8a0b0796298acc7879a38c46d7791d5d5",
+  "deployment": "b93a4afc-827c-448c-aa5f-b1c950770716",
+  "roomReadStatus": 200,
+  "floors": 5,
+  "rooms": 40,
+  "exportStatus": 200,
+  "exportBytes": 11571,
+  "previewStatus": 200,
+  "tables": 24,
+  "added": 0,
+  "updated": 0,
+  "unchanged": 862,
+  "applied": false
+}
