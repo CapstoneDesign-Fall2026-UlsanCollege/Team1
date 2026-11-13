@@ -23,3 +23,7 @@
 - [Local navigation screenshot](evidence/year-class-main-navigation.png).
 
 These checks only navigated existing data. No school records were created or changed, and no independent teammate test is claimed. Hosted verification is recorded in the issue after deployment.
+
+## Hosted verification
+
+Railway deployment 4fd106f7-a465-45a7-9ad0-8f98487f471b became Active/Deployment successful for commit ba5fa63. On the live site, both the main navigation button and overview card opened Create academic year and the existing setup forms. [Hosted screenshot](evidence/year-class-main-navigation-live.png). No data was changed. [CI passed](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/actions/runs/43489441800).
