@@ -19,3 +19,5 @@ Existing closed status is historical metadata, not a new test result. Open issue
 - [#89 Year & class setup main navigation — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/89)
 
 - [#90 Subject catalogue recovery for new grades — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/90)
+
+- [#91 Sunday–Friday lesson routine — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/91)

@@ -505,6 +505,31 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       assert.equal((await request(path,'PUT',{...body,expected_login_id:expected})).status,400);
       assert.equal((await request('/admin/school/students/1/login-id')).status,404);
     });
+    await t.test('Sunday-Friday routine saves and edits atomically, preserves other periods and rejects late-day conflicts',async()=>{
+      const teacher=(await mutate('/admin/school/teachers','POST',{name:'Fictional Routine Teacher',staff_code:'ROUTINE-01'},201)).id;
+      const course=(await mutate('/admin/school/grade-subjects','POST',{year_id:yearId,grade_label:'1',course_code:'ROUTINE',course_name:'Fictional Routine'},201)).id;
+      const offering=(await mutate('/admin/school/subjects','POST',{class_id:classA,course_id:course,semester_id:1,teacher_id:teacher},201)).id;
+      const input={course_offering_id:offering,start_time:'19:00',end_time:'20:00',location:'Routine test'};
+      const saved=await mutate('/admin/school/schedules/routine','POST',input);assert.equal(saved.ids.length,6);assert.equal(saved.added,6);assert.equal(saved.updated,0);
+      let actual=await sql('SELECT * FROM class_schedules WHERE course_offering_id=? ORDER BY day_of_week',[offering]);assert.deepEqual(actual.map(m=>m.day_of_week),[1,2,3,4,5,7]);
+      const repeat=await mutate('/admin/school/schedules/routine','POST',input);assert.equal(repeat.added,0);assert.equal(repeat.updated,6);assert.equal((await sql('SELECT COUNT(*) n FROM class_schedules WHERE course_offering_id=?',[offering]))[0].n,6);
+      const sunday=actual.find(m=>m.day_of_week===7).id;
+      const saturday=(await mutate('/admin/school/schedules','POST',{...input,day_of_week:6},201)).id;
+      const other=(await mutate('/admin/school/schedules','POST',{...input,day_of_week:5,start_time:'20:00',end_time:'21:00'},201)).id;
+      const before=await sql('SELECT * FROM class_schedules WHERE course_offering_id=? ORDER BY id',[offering]);const revision=(await data('/admin/school')).revision;
+      const conflict=await mutate('/admin/school/schedules/routine','POST',{...input,meeting_id:sunday,start_time:'20:00',end_time:'21:00'},409);assert.match(conflict.message,/Friday/);
+      assert.deepEqual(await sql('SELECT * FROM class_schedules WHERE course_offering_id=? ORDER BY id',[offering]),before);assert.equal((await data('/admin/school')).revision,revision);
+      const update=await mutate('/admin/school/schedules/routine','POST',{...input,meeting_id:sunday,start_time:'18:00',end_time:'19:00'});assert.equal(update.updated,6);assert.equal(update.added,0);
+      actual=await sql("SELECT id,day_of_week,TIME_FORMAT(start_time,'%H:%i') start_time FROM class_schedules WHERE course_offering_id=?",[offering]);assert.ok(actual.filter(m=>![saturday,other].includes(m.id)).every(m=>m.start_time==='18:00'));assert.equal(actual.find(m=>m.id===saturday).start_time,'19:00');assert.equal(actual.find(m=>m.id===other).start_time,'20:00');
+      assert.equal((await request('/admin/school/schedules/routine','POST',{...input,revision})).status,409);
+      for(const role of ['alice','canteen','teacher'])assert.equal((await request('/admin/school/schedules/routine','POST',{...input,revision},role)).status,403);
+      await mutate('/admin/school/schedules/routine','POST',{...input,meeting_id:saturday},400);
+      await mutate('/admin/school/grade-subjects','POST',{year_id:yearId,grade_label:'2',course_id:course},201);
+      const otherOffering=(await mutate('/admin/school/subjects','POST',{class_id:classB,course_id:course,semester_id:1,teacher_id:teacher},201)).id;
+      await mutate('/admin/school/schedules','POST',{...input,course_offering_id:otherOffering,day_of_week:4,start_time:'21:00',end_time:'22:00'},201);
+      const beforeTeacherConflict=await sql('SELECT * FROM class_schedules WHERE course_offering_id=? ORDER BY id',[offering]);
+      const teacherConflict=await mutate('/admin/school/schedules/routine','POST',{...input,meeting_id:sunday,start_time:'21:00',end_time:'22:00'},409);assert.match(teacherConflict.message,/Thursday/);assert.deepEqual(await sql('SELECT * FROM class_schedules WHERE course_offering_id=? ORDER BY id',[offering]),beforeTeacherConflict);
+    });
     await t.test('configurable floors and room numbers preserve links, reject duplicates and survive bootstrap',async()=>{
       const before=await data('/admin/school/rooms');const linked=before.assignments[0];assert.ok(linked);
       const room=before.rooms.find(r=>r.id===linked.room_id);

@@ -313,9 +313,7 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
 
   // School-mode schedule edits use class links, not the legacy major label.
   // They are serialised with mapping and membership writes by the same lock.
-  async function saveMeeting(input:any,id?:number) {
-    const value=validateMeeting({...input,location:input.location === '' || input.location === undefined ? 'Not specified' : input.location});
-    return mutate(pool,input.revision,async c=>{
+  async function writeMeeting(c:PoolConnection,value:ReturnType<typeof validateMeeting>,id?:number) {
       if(!(await rows(c,'SELECT class_id FROM school_class_offerings WHERE offering_id=?',[value.course_offering_id])).length)throw new ScheduleError(400,'Link the subject to a school class before scheduling it.');
       if(id){const [old]=await rows(c,'SELECT course_offering_id FROM class_schedules WHERE id=?',[id]);if(!old)throw new ScheduleError(404,'Meeting not found.');if(old.course_offering_id!==value.course_offering_id)throw new ScheduleError(400,'Keep the original subject when editing.');}
       const clashes=await rows(c,`SELECT b.id FROM school_class_offerings a JOIN school_class_offerings other ON other.class_id=a.class_id JOIN course_offerings ca ON ca.id=a.offering_id JOIN course_offerings cb ON cb.id=other.offering_id JOIN semesters sa ON sa.id=ca.semester_id JOIN semesters sb ON sb.id=cb.semester_id JOIN class_schedules b ON b.course_offering_id=cb.id WHERE a.offering_id=? AND b.day_of_week=? AND b.start_time<? AND b.end_time>? AND b.id<>? AND sa.start_date<=sb.end_date AND sa.end_date>=sb.start_date LIMIT 1`,[value.course_offering_id,value.day_of_week,value.end_time,value.start_time,id??0]);
@@ -329,8 +327,30 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
       if(clashes.length)throw new ScheduleError(409,'Another subject for this class overlaps that time.');
       if(id){await c.execute('UPDATE class_schedules SET day_of_week=?,start_time=?,end_time=?,location=? WHERE id=?',[value.day_of_week,value.start_time,value.end_time,value.location,id]);return id;}
       const [r]=await c.execute<ResultSetHeader>('INSERT INTO class_schedules(course_offering_id,day_of_week,start_time,end_time,location) VALUES(?,?,?,?,?)',[value.course_offering_id,value.day_of_week,value.start_time,value.end_time,value.location]);return r.insertId;
-    });
   }
+  async function saveMeeting(input:any,id?:number) {
+    const value=validateMeeting({...input,location:input.location === '' || input.location === undefined ? 'Not specified' : input.location});
+    return mutate(pool,input.revision,c=>writeMeeting(c,value,id));
+  }
+  router.post('/admin/school/schedules/routine',async(req,res)=>{
+    const input=req.body,meetingId=input.meeting_id===undefined?undefined:schoolId(input.meeting_id);
+    const base=validateMeeting({...input,day_of_week:7,location:input.location === '' || input.location === undefined ? 'Not specified' : input.location});
+    const result=await mutate(pool,input.revision,async c=>{
+      const [old]=meetingId?await rows(c,'SELECT * FROM class_schedules WHERE id=?',[meetingId]):[];
+      if(meetingId&&(!old||old.course_offering_id!==base.course_offering_id))throw new ScheduleError(400,'Choose a saved lesson for this subject.');
+      if(old?.day_of_week===6)throw new ScheduleError(400,'Edit a Sunday–Friday lesson to update its school-day routine. Saturday is separate.');
+      const candidates=await rows(c,'SELECT * FROM class_schedules WHERE course_offering_id=? AND day_of_week IN (7,1,2,3,4,5) AND start_time=? AND end_time=? AND location<=>?',[base.course_offering_id,old?.start_time??base.start_time,old?.end_time??base.end_time,old?old.location:base.location]);
+      const ids:number[]=[];let added=0,updated=0;
+      for(const day of [7,1,2,3,4,5]){
+        const matching=candidates.filter(m=>m.day_of_week===day);
+        if(matching.length>1)throw new ScheduleError(409,'More than one lesson matches this routine on a weekday. Review individual lessons first.');
+        const existing=matching[0];try{ids.push(await writeMeeting(c,{...base,day_of_week:day},existing?.id))}catch(e){if(e instanceof ScheduleError)throw new ScheduleError(e.status,['','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'][day]+': '+e.message);throw e}
+        if(existing)updated++;else added++;
+      }
+      return {ids,added,updated};
+    });
+    res.json({...result,message:`Sunday–Friday routine saved: ${result.added} added, ${result.updated} updated.`});
+  });
   router.post('/admin/school/schedules',async(req,res)=>res.status(201).json({id:await saveMeeting(req.body),message:'School class meeting saved.'}));
   router.put('/admin/school/schedules/:id',async(req,res)=>res.json({id:await saveMeeting(req.body,schoolId(Number(req.params.id))),message:'School class meeting updated.'}));
   router.delete('/admin/school/schedules/:id',async(req,res)=>{
