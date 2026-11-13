@@ -26,3 +26,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Save the same lesson Sunday–Friday](sunday-friday-routine.md)
 
 - [Copy a whole daily routine beside the timetable controls](copy-routine.md)
+
+- [Compact timetable controls and drag edge scrolling](drag-edge-scrolling.md)

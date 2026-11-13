@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, reactive, ref, watch } from 'vue'
 import { days } from '../schedules'
+import {browserDragScroller} from '../drag-scroll'
 const props = defineProps<{ state: any; classId: number; yearId: number; busy: boolean; error?: string; classLabel?: string; save: (path: string, method: string, value: object) => Promise<any> }>()
 const cl = computed(() => props.state.classes.find((c: any) => c.id === props.classId))
 const terms = computed(() => props.state.terms.filter((t: any) => t.year_id === props.yearId))
@@ -32,6 +33,7 @@ const time = (hour: number) => String(hour).padStart(2, '0') + ':00'
 function inSlot(day: number, hour: number) { return meetings.value.filter((m: any) => m.day_of_week === day && minutes(m.start_time) < (hour + 1) * 60 && minutes(m.end_time) > hour * 60) }
 function pick(kind: string, id: number) { selected.value = { kind, id }; feedback.value = kind === 'catalog' ? 'Drop into Class subjects to choose a teacher in the popup form.' : 'Choose a timetable slot to review the lesson in a popup form.' }
 const root = ref<HTMLElement | null>(null), dragging = ref(false), pointerX = ref(0), pointerY = ref(0)
+const dragScroller=browserDragScroller(()=>root.value)
 let cleanupDrag: (() => void) | undefined, suppressClick = false
 function nativeDrag(event:DragEvent,kind:string,id:number){if(props.busy){event.preventDefault();return}pick(kind,id);event.dataTransfer?.setData('application/x-studenthub',JSON.stringify({kind,id}));if(event.dataTransfer)event.dataTransfer.effectAllowed='move'}
 function allowNativeDrop(event:DragEvent){event.preventDefault();if(event.dataTransfer)event.dataTransfer.dropEffect='move'}
@@ -44,7 +46,7 @@ function startPointer(event: PointerEvent, kind: string, id: number) {
   const startX = event.clientX, startY = event.clientY, source = event.currentTarget as HTMLElement
   source.setPointerCapture(event.pointerId)
   function move(e: PointerEvent) {
-    if (!dragging.value && Math.hypot(e.clientX - startX, e.clientY - startY) > 6) { dragging.value = true; pick(kind, id) }
+    if (!dragging.value && Math.hypot(e.clientX - startX, e.clientY - startY) > 6) { dragging.value = true; pick(kind, id);dragScroller.start(()=>({x:pointerX.value,y:pointerY.value})) }
     pointerX.value = e.clientX; pointerY.value = e.clientY
     if (dragging.value) e.preventDefault()
   }
@@ -59,10 +61,11 @@ function startPointer(event: PointerEvent, kind: string, id: number) {
     else void place(Number(destination.dataset.day), Number(destination.dataset.hour))
   }
   function cancel() { cleanupDrag?.() }
-  cleanupDrag = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', stop); window.removeEventListener('pointercancel', cancel); dragging.value = false; if (source.hasPointerCapture(event.pointerId)) source.releasePointerCapture(event.pointerId); cleanupDrag = undefined }
-  window.addEventListener('pointermove', move, { passive: false }); window.addEventListener('pointerup', stop); window.addEventListener('pointercancel', cancel)
+  function keyCancel(e:KeyboardEvent){if(e.key==='Escape'){cleanupDrag?.();selected.value=null;feedback.value='Drag cancelled.'}}
+  cleanupDrag = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', stop); window.removeEventListener('pointercancel', cancel);window.removeEventListener('blur',cancel);window.removeEventListener('keydown',keyCancel);source.removeEventListener('lostpointercapture',cancel);dragScroller.stop(); dragging.value = false; if (source.hasPointerCapture(event.pointerId)) source.releasePointerCapture(event.pointerId); cleanupDrag = undefined }
+  window.addEventListener('pointermove', move, { passive: false }); window.addEventListener('pointerup', stop); window.addEventListener('pointercancel', cancel);window.addEventListener('blur',cancel);window.addEventListener('keydown',keyCancel);source.addEventListener('lostpointercapture',cancel)
 }
-onBeforeUnmount(() => cleanupDrag?.())
+onBeforeUnmount(() => {cleanupDrag?.();dragScroller.stop()})
 const pendingSlot = ref<{day:number;hour:number}|null>(null)
 const popup = ref<HTMLDialogElement | null>(null), popupMode = ref(''), popupError = ref('')
 const draft = reactive({ course_id:0, offering_id:0, meeting_id:0, teacher_id:0, day_of_week:7, start_time:'10:00', end_time:'11:00', location:'' })
@@ -105,15 +108,16 @@ async function removeMeeting(id: number) { if (window.confirm('Remove this meeti
 async function removeSubject(id: number) { if (window.confirm('Unlink this subject from the class? Original records remain saved.')) await props.save('classes/' + props.classId + '/subjects/' + id, 'DELETE', {}) }
 async function addCatalog() { if (await props.save('grade-subjects', 'POST', { year_id: props.yearId, grade_label: cl.value.grade_label, ...(catalogForm.course_id ? { course_id: catalogForm.course_id } : { course_code: catalogForm.course_code, course_name: catalogForm.course_name }) })) Object.assign(catalogForm, { course_id: 0, course_code: '', course_name: '' }) }
 async function addTeacher() { if (await props.save('teachers', 'POST', teacherForm)) Object.assign(teacherForm, { name: '', staff_code: '' }) }
-watch(() => [props.classId, props.yearId], () => { selected.value = null; feedback.value = ''; search.value=''; termId.value = terms.value[0]?.id ?? 0 }, { immediate: true })
+watch(() => [props.classId, props.yearId], () => { cleanupDrag?.();selected.value = null; feedback.value = ''; search.value=''; termId.value = terms.value[0]?.id ?? 0 }, { immediate: true })
 watch(() => props.state, () => { if (!terms.value.some((t: any) => t.id === termId.value)) termId.value = terms.value[0]?.id ?? 0;  })
-watch(termId, () => { selected.value = null })
+watch(termId, () => { cleanupDrag?.();selected.value = null })
+watch(()=>props.busy,value=>{if(value)cleanupDrag?.()})
 </script>
 <template>
 <section ref="root" class="planner" :class="{ dragging }" :aria-busy="busy"><div v-if="dragging" class="drag-ghost" :style="{ left: pointerX + 14 + 'px', top: pointerY + 14 + 'px' }">Place selected subject</div>
   <div class="planner-top"><div><h3>Plan this class’s week</h3><p class="class-identity">{{classLabel || 'Grade '+cl?.grade_label+' · Class '+cl?.name}}</p><p>1. Tap a library subject · 2. Choose a teacher · 3. Save</p></div><label>School term<select v-model="termId" :disabled="busy"><option :value="0">Choose a term</option><option v-for="t in terms" :key="t.id" :value="t.id">{{ t.name }}</option></select></label></div>
   <p v-if="!terms.length" class="notice">Create or link a term in Years and classes first.</p>
-  <p role="status" class="notice">{{ feedback || 'Tap a library subject to assign its teacher. Use Add lesson on a class subject to set its day and time. Mouse dragging is also available. Nepal time (NPT).' }}</p>
+  <p role="status" class="notice">{{ feedback || 'Tap a library subject to assign its teacher. Use Add lesson on a class subject to set its day and time. Hold a dragged subject near the screen or timetable edge to scroll. Nepal time (NPT).' }}</p>
   <div class="workspace">
     <aside class="library"><h4>Grade {{ cl?.grade_label }} subject library <span>{{ gradeLibrary.length }}</span></h4>
       <label>Find a subject<input v-model="search" type="search" placeholder="Subject name or code"></label>
@@ -149,7 +153,7 @@ watch(termId, () => { selected.value = null })
 </section>
 </template>
 <style scoped>
-.week-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.week-actions .weekends{margin:0}.copy-routine{min-height:44px}.copy-days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.copy-days label{display:flex;align-items:center;gap:8px;margin:0;padding:10px;border:1px solid #dbe5df;border-radius:8px}.copy-days input{width:18px;height:18px;margin:0}.copy-days small{font-weight:400;color:#687a74}.copy-preview{max-height:180px;overflow:auto;padding-left:20px;font-size:13px;line-height:1.8}
+.week-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.week-actions .weekends{margin:0}.week-actions .copy-routine{min-height:34px;height:34px;padding:6px 11px;font-size:12px;font-weight:600;line-height:20px;border:1px solid #cbdcd0;background:#edf4ef;color:#376453}.week-actions .weekends{font-size:12px;font-weight:500;line-height:20px}.week-actions .weekends input{width:16px;height:16px;padding:0;min-height:0;accent-color:#376453}.copy-days{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.copy-days label{display:flex;align-items:center;gap:8px;margin:0;padding:10px;border:1px solid #dbe5df;border-radius:8px}.copy-days input{width:18px;height:18px;margin:0}.copy-days small{font-weight:400;color:#687a74}.copy-preview{max-height:180px;overflow:auto;padding-left:20px;font-size:13px;line-height:1.8}
 
 .catalog-suggestions{border-top:1px solid #dbe5df;padding-top:14px;margin-top:14px}.catalog-suggestions article{border:1px solid #dbe5df;border-radius:9px;padding:10px;background:#f7faf8}.catalog-suggestions strong,.catalog-suggestions small{display:block}.catalog-suggestions small{color:#65796e;font-size:11px;margin:4px 0}.catalog-suggestions button{width:100%;padding:8px 10px;font-size:12px;margin:6px 0 0;min-height:40px}
 

@@ -23,3 +23,5 @@ Existing closed status is historical metadata, not a new test result. Open issue
 - [#91 Sunday–Friday lesson routine — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/91)
 
 - [#92 Copy daily routine — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/92)
+
+- [#93 Compact toolbar and drag edge scrolling — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/93)
