@@ -1,3 +1,4 @@
+import {randomUUID} from 'node:crypto';
 import type { Pool } from 'mysql2/promise';
 
 // Additive only. Never infer a grade/class from a legacy major or rewrite accounts.
@@ -75,9 +76,27 @@ export const schoolSchema = [
 ];
 export async function ensureSchoolSchema(pool: Pool) {
   for (const sql of schoolSchema) await pool.query(sql);
+  await pool.query('CREATE TABLE IF NOT EXISTS school_transfer_identity (id INT PRIMARY KEY, identity CHAR(36) NOT NULL) ENGINE=InnoDB');
+  await pool.execute('INSERT IGNORE INTO school_transfer_identity(id,identity) VALUES(1,?)',[randomUUID()]);
+  await pool.query(`CREATE TABLE IF NOT EXISTS school_floors (floor_number INT PRIMARY KEY, label VARCHAR(60) NOT NULL) ENGINE=InnoDB`);
+  await pool.query(`CREATE TABLE IF NOT EXISTS school_building_settings (id INT PRIMARY KEY, initialized TINYINT NOT NULL DEFAULT 0) ENGINE=InnoDB`);
+  const [columns]:any=await pool.query("SHOW COLUMNS FROM school_rooms LIKE 'room_number'");
+  if(!columns.length)await pool.query('ALTER TABLE school_rooms ADD room_number VARCHAR(32) NULL UNIQUE');
+  await pool.query('UPDATE school_rooms SET room_number=CAST(id AS CHAR) WHERE room_number IS NULL');
+  await pool.query('INSERT IGNORE INTO school_building_settings(id,initialized) VALUES(1,0)');
+  const c=await pool.getConnection();
+  try{
+  await c.beginTransaction();
+  const [settings]:any=await c.query('SELECT initialized FROM school_building_settings WHERE id=1 FOR UPDATE');
+  if(settings[0].initialized){await c.commit();return;}
+  const [existing]:any=await c.query('SELECT id FROM school_rooms LIMIT 1');
   const specialNames=['Physics lab','Chemistry lab','Computer lab','Science lab','Dance room','Music room','Art room','Biology lab','Library','Activity room'];
-  for(let floor=1;floor<=5;floor++)for(let position=1;position<=8;position++){
+  if(!existing.length)for(let floor=1;floor<=5;floor++)for(let position=1;position<=8;position++){
     const id=floor*100+position,special=position>=7;
-    await pool.execute('INSERT IGNORE INTO school_rooms(id,floor_number,position_number,kind,name) VALUES(?,?,?,?,?)',[id,floor,position,special?'special':'regular',special?specialNames[(floor-1)*2+position-7]:'Classroom '+id]);
+    await c.execute('INSERT IGNORE INTO school_rooms(id,room_number,floor_number,position_number,kind,name) VALUES(?,?,?,?,?,?)',[id,String(id),floor,position,special?'special':'regular',special?specialNames[(floor-1)*2+position-7]:'Classroom '+id]);
   }
+  await c.query("INSERT IGNORE INTO school_floors(floor_number,label) SELECT DISTINCT floor_number,CONCAT('Floor ',floor_number) FROM school_rooms");
+  await c.query('UPDATE school_building_settings SET initialized=1 WHERE id=1');
+  await c.commit();
+  }catch(e){await c.rollback();throw e;}finally{c.release();}
 }

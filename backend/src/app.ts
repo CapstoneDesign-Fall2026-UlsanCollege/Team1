@@ -52,6 +52,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
   app.use('/api/student/job-favourites', express.json({ limit: '200kb' }));
   app.use('/api/canteen', express.json({ limit: '32kb' }));
   app.use('/api/teacher', express.json({ limit: '64kb' }));
+  app.use('/api/admin/school/transfer', express.json({limit:'8mb'}));
   app.use(express.json({ limit: '4kb' }));
   const sessions = new Map<string, { id: number; expires: number }>();
   const attempts = new Map<string, { count: number; expires: number }>();

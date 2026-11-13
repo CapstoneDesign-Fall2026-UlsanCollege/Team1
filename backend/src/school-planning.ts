@@ -1,3 +1,4 @@
+import {schoolTransferRouter} from './school-transfer.js';
 import bcrypt from 'bcryptjs';
 import {validateStudent} from './students.js';
 import { Router } from 'express';
@@ -76,6 +77,7 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
     if (res.locals.user.role !== 'admin') { res.status(403).json({message:'Administrators only.'}); return; }
     next();
   });
+  router.use(schoolTransferRouter(pool));
   router.use(schoolRoomRouter(pool,(revision,run)=>mutate(pool,revision,run)));
   // School enrollment creates all three records under the planning lock.
   router.post('/admin/school/students',async(req,res)=>{
@@ -343,7 +345,7 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
     const membership=memberships[0]??null;
     let room:RowDataPacket|null=null,homeroomTeacher:RowDataPacket|null=null,homeroomStatus='unassigned';let lessons:RowDataPacket[]=[];
     if(membership){
-      room=(await rows(pool,'SELECT r.id,r.name FROM school_class_rooms cr JOIN school_rooms r ON r.id=cr.room_id WHERE cr.class_id=? AND cr.year_id=?',[membership.class_id,membership.year_id]))[0]??null;
+      room=(await rows(pool,'SELECT r.id,r.room_number,r.name FROM school_class_rooms cr JOIN school_rooms r ON r.id=cr.room_id WHERE cr.class_id=? AND cr.year_id=?',[membership.class_id,membership.year_id]))[0]??null;
       const first=await rows(pool,`SELECT DISTINCT t.id,t.name,t.staff_code,t.is_active FROM school_class_offerings l JOIN course_offerings co ON co.id=l.offering_id JOIN school_terms st ON st.semester_id=co.semester_id AND st.year_id=? JOIN semesters s ON s.id=co.semester_id JOIN class_schedules cs ON cs.course_offering_id=co.id LEFT JOIN school_offering_teachers ot ON ot.offering_id=co.id LEFT JOIN school_teachers t ON t.id=ot.teacher_id WHERE l.class_id=? AND s.start_date<=? AND s.end_date>=? AND cs.day_of_week=7 AND cs.start_time='10:00:00'`,[membership.year_id,membership.class_id,date,date]);
       if(first.length===1&&first[0].id&&first[0].is_active){homeroomTeacher={id:first[0].id,name:first[0].name,staff_code:first[0].staff_code} as RowDataPacket;homeroomStatus='assigned'}
       else if(first.length>1)homeroomStatus='needs_review';

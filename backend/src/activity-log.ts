@@ -37,6 +37,7 @@ export const activitySchema=`CREATE TABLE IF NOT EXISTS activity_logs (
 type Area={keys:string[];fields:string[];hidden?:string[];label:string};
 // Explicit allowlist. Secrets/profile contents never enter stored JSON.
 export const activityAreas:Record<string,Area>={
+ school_floors:{keys:['floor_number'],fields:['label'],label:'Building floors'},
  school_teacher_accounts:{keys:['user_id'],fields:['teacher_id'],label:'Teacher login links'},
  school_homework:{keys:['id'],fields:['class_id','offering_id','teacher_id','created_by','assigned_on','due_on','is_active','version'],hidden:['title','instructions'],label:'Class homework'},
  school_attendance_sheets:{keys:['class_id','attendance_date'],fields:['version','updated_by'],label:'Attendance sheets'},
@@ -58,7 +59,7 @@ export const activityAreas:Record<string,Area>={
  school_teachers:{keys:['id'],fields:['staff_code','name','is_active'],label:'Teachers'},
  school_grade_subjects:{keys:['year_id','grade_label','course_id'],fields:[],label:'Grade subject library'},
  school_offering_teachers:{keys:['offering_id'],fields:['teacher_id'],label:'Subject teacher assignments'},
- school_rooms:{keys:['id'],fields:['floor_number','position_number','kind','name'],label:'Rooms'},
+ school_rooms:{keys:['id'],fields:['room_number','floor_number','position_number','kind','name'],label:'Rooms'},
  school_class_rooms:{keys:['year_id','class_id'],fields:['room_id'],label:'Usual classroom assignments'},
  school_room_bookings:{keys:['id'],fields:['room_id','class_id','offering_id','teacher_id','day_of_week','start_time','end_time','starts_on','ends_on','repeats_weekly','is_cancelled'],label:'Special-room bookings'},
  password_reset_requests:{keys:['id'],fields:['user_id','status','reviewed_by'],label:'Password request reviews'},

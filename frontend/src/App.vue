@@ -4,6 +4,7 @@ import { computed, nextTick, onMounted, ref } from 'vue'
 import TeacherWorkspace from './components/TeacherWorkspace.vue'
 import TeacherAccounts from './components/TeacherAccounts.vue'
 import ActivityLog from './components/ActivityLog.vue'
+import SchoolTransfer from './components/SchoolTransfer.vue'
 import CreateStudent from './components/CreateStudent.vue'
 import StudentManager from './components/StudentManager.vue'
 import TeacherDirectory from './components/TeacherDirectory.vue'
@@ -34,6 +35,7 @@ const adminSections = [
   { id: 'school', title: 'School classes', icon: 'course' },
   { id: 'rooms', title: 'Rooms', icon: 'home' },
   { id: 'students', title: 'Accounts', icon: 'profile' },
+  { id: 'transfer', title: 'School data', icon: 'course' },
   { id: 'activity', title: 'Activity Log', icon: 'schedule' },
   { id: 'requests', title: 'Requests', icon: 'settings' },
 ]
@@ -144,6 +146,7 @@ onMounted(async () => {
       <template v-if="user.role === 'admin'">
         <nav class="admin-nav" aria-label="Admin navigation"><button v-for="section in adminSections" :key="section.id" type="button" :disabled="savingSchool" :class="{ selected: adminSection === section.id }" :aria-current="adminSection === section.id ? 'page' : undefined" @click="goSection(section.id)"><StudentIcon :name="section.icon" />{{ section.title }}<span v-if="section.id === 'requests' && resetCount" class="badge">{{ resetCount }}</span></button></nav>
         <SchoolDashboard v-show="adminSection === 'dashboard'" :revision="dashboardRevision" @open="goSection" @mode="schoolMode = $event" @school="schoolName = $event" />
+        <SchoolTransfer v-if="adminSection === 'transfer'" @saving="savingSchool = $event" />
         <ActivityLog v-if="adminSection === 'activity'" />
         <SchoolRoomBoard :initial-class="initialRoomClass" v-if="adminSection === 'rooms'" @saving="savingSchool = $event" />
         <SchoolManager :active="adminSection === 'school'" :selected-tab="schoolPanel" @create="enrollClass" @rooms="openClassRooms" v-if="visitedSchool" v-show="adminSection === 'school'" @changed="schoolMode = $event; dashboardRevision++" @saving="savingSchool = $event" />

@@ -10,3 +10,6 @@ Index added November 12, 2026, by Galan Bishal with coding assistance. These are
 
 Existing closed status is historical metadata, not a new test result. Open issues retain their remaining criteria. No generic retrospective completion is claimed. [Current audit and limits](../week11/weekly-issue-audit.md).
 
+
+- [#86 Configurable floors and room numbers](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/86)
+- [#87 CSV school-data transfer with preview and additive import](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/87)

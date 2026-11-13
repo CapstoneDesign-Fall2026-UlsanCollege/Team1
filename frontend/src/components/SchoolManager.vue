@@ -27,7 +27,7 @@ type Meeting = { id: number; course_offering_id: number; day_of_week: number; st
 
 type State = { revision: number; profile: { name: string; level: string } | null; today: string; years: Year[]; classes: Class[]; terms: Term[]; subjects: Subject[]; links: { class_id: number; offering_id: number }[]; catalog: { id: number; course_code: string; course_name: string }[]; meetings: Meeting[] }
 
-const roomAssignments = ref<{year_id:number;class_id:number;room_id:number}[]|null>(null), roomError=ref(false)
+const roomAssignments = ref<{year_id:number;class_id:number;room_id:number;room_number:string}[]|null>(null), roomError=ref(false)
 
 const state = ref<State | null>(null), loading = ref(true), busy = ref(false), error = ref(''), message = ref('')
 
@@ -79,7 +79,7 @@ const availableOfferings = computed(() => state.value?.subjects.filter(s => term
 
 const meetings = computed(() => state.value?.meetings.filter(m => subjects.value.some(s => s.id === m.course_offering_id)) ?? [])
 
-const roomLabel = (c:Class) => {const assignment=roomAssignments.value?.find(a=>a.class_id===c.id && a.year_id===c.year_id);return roomError.value?'Room unavailable':roomAssignments.value===null?'Loading room…':assignment?'Room '+assignment.room_id:'Room not assigned'}
+const roomLabel = (c:Class) => {const assignment=roomAssignments.value?.find(a=>a.class_id===c.id && a.year_id===c.year_id);return roomError.value?'Room unavailable':roomAssignments.value===null?'Loading room…':assignment?'Room '+assignment.room_number:'Room not assigned'}
 
 const className = (c?: Class) => c ? `Grade ${c.grade_label} · Class ${c.name} · ${roomLabel(c)}` : 'Choose a class'
 

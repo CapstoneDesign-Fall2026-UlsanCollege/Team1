@@ -20,11 +20,39 @@ async function classRecord(c:PoolConnection,classId:number){
 }
 export function schoolRoomRouter(pool:Pool,change:Change){
   const router=Router();
-  router.get('/admin/school/rooms',async(_req,res)=>res.json({rooms:await rows(pool,'SELECT * FROM school_rooms ORDER BY floor_number DESC,position_number'),assignments:await rows(pool,'SELECT * FROM school_class_rooms'),bookings:await rows(pool,`SELECT b.id,b.room_id,b.class_id,b.offering_id,b.teacher_id,b.day_of_week,TIME_FORMAT(b.start_time,'%H:%i') start_time,TIME_FORMAT(b.end_time,'%H:%i') end_time,${dateColumns},b.repeats_weekly,b.is_cancelled,c.course_name,t.name teacher_name FROM school_room_bookings b JOIN course_offerings co ON co.id=b.offering_id JOIN courses c ON c.id=co.course_id JOIN school_teachers t ON t.id=b.teacher_id ORDER BY b.starts_on,b.start_time,b.id`)}));
+  const floorNumber=(v:unknown)=>{if(!Number.isInteger(v)||Number(v)<0||Number(v)>99)throw new ScheduleError(400,'Enter a floor number from 0 to 99.');return Number(v)};
+  const text=(v:unknown,max:number,label:string)=>{if(typeof v!=='string'||!v.trim()||v.trim().length>max)throw new ScheduleError(400,`Enter ${label} up to ${max} characters.`);return v.trim()};
+  router.put('/admin/school/floors/:floor',async(req,res)=>{
+    const floor=floorNumber(Number(req.params.floor)),label=text(req.body.label,60,'a floor label');
+    await change(req.body.revision,async c=>{await c.execute('INSERT INTO school_floors(floor_number,label) VALUES(?,?) ON DUPLICATE KEY UPDATE label=VALUES(label)',[floor,label]);});
+    res.json({message:'Floor saved.'});
+  });
+  router.post('/admin/school/rooms',async(req,res)=>{
+    const floor=floorNumber(req.body.floor_number),kind=req.body.kind;
+    if(!['regular','special'].includes(kind)||!Array.isArray(req.body.room_numbers)||!req.body.room_numbers.length||req.body.room_numbers.length>50)throw new ScheduleError(400,'Choose a room type and 1–50 room numbers.');
+    const numbers=req.body.room_numbers.map((v:unknown)=>text(v,32,'a room number'));
+    if(new Set(numbers.map((n:string)=>n.toLowerCase())).size!==numbers.length)throw new ScheduleError(400,'Each room number must be different.');
+    await change(req.body.revision,async c=>{
+      if(!(await rows(c,'SELECT floor_number FROM school_floors WHERE floor_number=?',[floor])).length)throw new ScheduleError(400,'Create this floor first.');
+      const [last]=await rows(c,'SELECT COALESCE(MAX(id),0) id FROM school_rooms');
+      const [position]=await rows(c,'SELECT COALESCE(MAX(position_number),0) position FROM school_rooms WHERE floor_number=?',[floor]);
+      for(let i=0;i<numbers.length;i++)await c.execute('INSERT INTO school_rooms(id,room_number,floor_number,position_number,kind,name) VALUES(?,?,?,?,?,?)',[Number(last.id)+i+1,numbers[i],floor,Number(position.position)+i+1,kind,(kind==='regular'?'Classroom ':'Special room ')+numbers[i]]);
+    });res.status(201).json({message:`${numbers.length} room(s) added.`});
+  });
+  router.get('/admin/school/rooms',async(_req,res)=>res.json({floors:await rows(pool,'SELECT * FROM school_floors ORDER BY floor_number DESC'),rooms:await rows(pool,'SELECT * FROM school_rooms ORDER BY floor_number DESC,position_number'),assignments:await rows(pool,'SELECT a.*,r.room_number FROM school_class_rooms a JOIN school_rooms r ON r.id=a.room_id'),bookings:await rows(pool,`SELECT b.id,b.room_id,b.class_id,b.offering_id,b.teacher_id,b.day_of_week,TIME_FORMAT(b.start_time,'%H:%i') start_time,TIME_FORMAT(b.end_time,'%H:%i') end_time,${dateColumns},b.repeats_weekly,b.is_cancelled,r.room_number,c.course_name,t.name teacher_name FROM school_room_bookings b JOIN school_rooms r ON r.id=b.room_id JOIN course_offerings co ON co.id=b.offering_id JOIN courses c ON c.id=co.course_id JOIN school_teachers t ON t.id=b.teacher_id ORDER BY b.starts_on,b.start_time,b.id`)}));
   router.put('/admin/school/rooms/:id',async(req,res)=>{
     const roomId=id(Number(req.params.id)),name=req.body.name;
     if(typeof name!=='string'||!name.trim()||name.trim().length>100)throw new ScheduleError(400,'Enter a room name up to 100 characters.');
-    await change(req.body.revision,async c=>{const [r]=await c.execute<ResultSetHeader>('UPDATE school_rooms SET name=? WHERE id=?',[name.trim(),roomId]);if(!r.affectedRows)throw new ScheduleError(404,'Room not found.');});res.json({message:'Room name saved.'});
+    await change(req.body.revision,async c=>{
+      const [room]=await rows(c,'SELECT * FROM school_rooms WHERE id=?',[roomId]);if(!room)throw new ScheduleError(404,'Room not found.');
+      const number=req.body.room_number===undefined?room.room_number:text(req.body.room_number,32,'a room number');
+      const floor=req.body.floor_number===undefined?room.floor_number:floorNumber(req.body.floor_number),kind=req.body.kind??room.kind;
+      if(!['regular','special'].includes(kind))throw new ScheduleError(400,'Choose a valid room type.');
+      if(!(await rows(c,'SELECT floor_number FROM school_floors WHERE floor_number=?',[floor])).length)throw new ScheduleError(400,'Choose an existing floor.');
+      if(kind!==room.kind && ((await rows(c,'SELECT room_id FROM school_class_rooms WHERE room_id=? LIMIT 1',[roomId])).length||(await rows(c,'SELECT id FROM school_room_bookings WHERE room_id=? LIMIT 1',[roomId])).length))throw new ScheduleError(409,'This room has assignments or booking history. Keep its current room type.');
+      const position=floor===room.floor_number?room.position_number:Number((await rows(c,'SELECT COALESCE(MAX(position_number),0)+1 position FROM school_rooms WHERE floor_number=?',[floor]))[0].position);
+      await c.execute('UPDATE school_rooms SET name=?,room_number=?,floor_number=?,position_number=?,kind=? WHERE id=?',[name.trim(),number,floor,position,kind,roomId]);
+    });res.json({message:'Room details saved.'});
   });
   router.post('/admin/school/room-assignments',async(req,res)=>{
     const classId=id(req.body.class_id),roomId=id(req.body.room_id);

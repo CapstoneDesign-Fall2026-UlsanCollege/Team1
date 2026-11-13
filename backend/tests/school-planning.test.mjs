@@ -1,3 +1,5 @@
+import {encodeCsv,decodeCsv} from '../dist/school-transfer.js';
+import {zipSync,unzipSync,strToU8,strFromU8} from 'fflate';
 import {structuredStudentLogin} from '../dist/student-identities.js';
 import {attendanceTotals,ensureTeacherSchema} from '../dist/teacher-workspace.js';
 import {test} from 'node:test';
@@ -502,6 +504,50 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       assert.equal((await request(path,'PUT',body)).status,409);
       assert.equal((await request(path,'PUT',{...body,expected_login_id:expected})).status,400);
       assert.equal((await request('/admin/school/students/1/login-id')).status,404);
+    });
+    await t.test('configurable floors and room numbers preserve links, reject duplicates and survive bootstrap',async()=>{
+      const before=await data('/admin/school/rooms');const linked=before.assignments[0];assert.ok(linked);
+      const room=before.rooms.find(r=>r.id===linked.room_id);
+      await mutate('/admin/school/floors/0','PUT',{label:'Ground floor'});
+      await mutate('/admin/school/rooms','POST',{floor_number:0,kind:'regular',room_numbers:['G01','G02']},201);
+      await mutate('/admin/school/rooms','POST',{floor_number:0,kind:'regular',room_numbers:['G01','G03']},409);
+      assert.equal((await data('/admin/school/rooms')).rooms.filter(r=>r.floor_number===0).length,2);
+      await mutate('/admin/school/rooms/'+room.id,'PUT',{name:room.name,room_number:'A-'+room.room_number});
+      const after=await data('/admin/school/rooms');assert.equal(after.assignments.find(a=>a.class_id===linked.class_id).room_id,room.id);
+      assert.deepEqual(after.bookings,before.bookings.map(b=>({...b,room_number:b.room_id===room.id?'A-'+room.room_number:b.room_number})));
+      await ensureSchoolSchema(pool);assert.equal((await data('/admin/school/rooms')).rooms.length,before.rooms.length+2);
+      assert.equal((await request('/admin/school/floors/0','PUT',{label:'No',revision:0},'alice')).status,403);
+      assert.equal((await request('/admin/school/rooms','POST',{floor_number:0,kind:'regular',room_numbers:['G04'],revision:0})).status,409);
+      await mutate('/admin/school/floors/100','PUT',{label:'Invalid'},400);
+    });
+    await t.test('CSV export/preview/apply is additive, atomic, stale-safe and excludes credentials',async()=>{
+      const r=await request('/admin/school/transfer/export');assert.equal(r.status,200);
+      const files=unzipSync(new Uint8Array(await r.arrayBuffer()));const manifest=JSON.parse(strFromU8(files['manifest.json']));
+      assert.equal(manifest.format,'studenthub-csv-v1');assert.ok(files['school_rooms.csv']);
+      const users=decodeCsv(strFromU8(files['users.csv']));assert.deepEqual(users[0],['id','login_id','role']);assert.ok(!users.slice(1).some(r=>r[2]==='admin'));
+      assert.ok(!Object.keys(files).some(f=>/password|reset|activity/.test(f)));
+      const packed=f=>Buffer.from(zipSync(f)).toString('base64');
+      const preview=async f=>{const response=await request('/admin/school/transfer/preview','POST',{package:packed(f)});const body=await response.json();assert.equal(response.status,200,JSON.stringify(body));return body};
+      const initial=await preview(files);assert.ok(initial.summary.every(s=>s.added===0&&s.updated===0));
+      const floors=decodeCsv(strFromU8(files['school_floors.csv']));floors.push(['9','New ninth floor']);
+      const subset={'manifest.json':files['manifest.json'],'school_floors.csv':strToU8(encodeCsv(floors))};
+      const prepared=await preview(subset);assert.equal((await sql('SELECT COUNT(*) n FROM school_floors WHERE floor_number=9'))[0].n,0);
+      const unchangedUsers=await sql('SELECT * FROM users ORDER BY id');
+      const applied=await request('/admin/school/transfer/apply','POST',{token:prepared.token});assert.equal(applied.status,200,JSON.stringify(await applied.clone().json()));
+      assert.equal((await sql('SELECT COUNT(*) n FROM school_floors WHERE floor_number=9'))[0].n,1);assert.deepEqual(await sql('SELECT * FROM users ORDER BY id'),unchangedUsers);
+      assert.equal((await sql('SELECT COUNT(*) n FROM school_rooms'))[0].n,42);
+      assert.equal((await request('/admin/school/transfer/apply','POST',{token:prepared.token})).status,409);
+      const stale=await preview(subset);await mutate('/admin/school/floors/9','PUT',{label:'Changed elsewhere'});
+      assert.equal((await request('/admin/school/transfer/apply','POST',{token:stale.token})).status,409);
+      const bad={...subset,'school_rooms.csv':strToU8(encodeCsv([['id','room_number','floor_number','position_number','kind','name'],[9001,'BAD',99,1,'regular','Invalid floor']]))};
+      assert.equal((await request('/admin/school/transfer/preview','POST',{package:packed(bad)})).status,400);
+      assert.equal((await sql('SELECT COUNT(*) n FROM school_rooms WHERE room_number=?',['BAD']))[0].n,0);
+      assert.equal((await request('/admin/school/transfer/export','GET',undefined,'alice')).status,403);
+      assert.equal((await request('/admin/school/transfer/preview','POST',{package:packed(subset)},'canteen')).status,403);
+      const external={'manifest.json':strToU8(JSON.stringify({...manifest,source:'another-school'})),'users.csv':strToU8(encodeCsv([['id','login_id','role'],[7001,'new_import_student','student']])),'student_profiles.csv':strToU8(encodeCsv([['user_id','full_name','university','major','year_of_study','email','phone_number','address'],[7001,'Imported Fictional Student','Fictional School',null,null,null,'0123456789',null]]))};
+      const p=await preview(external);assert.equal((await request('/admin/school/transfer/apply','POST',{token:p.token})).status,200);
+      const [newUser]=await sql("SELECT u.*,p.full_name,p.phone_number FROM users u JOIN student_profiles p ON p.user_id=u.id WHERE login_id='new_import_student'");assert.equal(newUser.is_active,0);assert.equal(newUser.role,'student');assert.equal(newUser.phone_number,'0123456789');assert.ok(newUser.password_hash);
+      const escalation={...external,'users.csv':strToU8(encodeCsv([['id','login_id','role'],[7001,'admin','admin']]))};assert.equal((await request('/admin/school/transfer/preview','POST',{package:packed(escalation)})).status,400);
     });
   }finally{
     if(server){server.closeAllConnections();await new Promise(r=>server.close(r));}await pool?.end();

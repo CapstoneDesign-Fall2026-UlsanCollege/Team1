@@ -11,7 +11,7 @@ const selectedClass=computed(()=>classChoices.value.find((c:any)=>c.id===classId
 const studentNumber=ref('')
 const idPrefix=computed(()=>studentIdPrefix(startsOn.value,grade.value,selectedClass.value?.name??''))
 const studentLoginId=computed(()=>schoolMode.value?schoolStudentId(idPrefix.value,studentNumber.value):form.login_id)
-const classroom=computed(()=>roomData.value?.assignments.find((a:any)=>a.class_id===classId.value&&a.year_id===schoolYear.value)?.room_id)
+const classroom=computed(()=>roomData.value?.assignments.find((a:any)=>a.class_id===classId.value&&a.year_id===schoolYear.value)?.room_number)
 const homeroom=computed(()=>{
   const c=context.value
   if(!c||!classId.value||!startsOn.value)return 'Choose a class and enrollment date'
