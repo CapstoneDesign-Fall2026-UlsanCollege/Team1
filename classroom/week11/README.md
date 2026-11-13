@@ -20,3 +20,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Consistent admin controls and visible teacher creation](admin-layout-teacher-creation.md)
 
 - [Year & class setup in main navigation and overview](year-class-navigation.md)
+
+- [Subject catalogue recovery for new grades](new-grade-subject-library.md)

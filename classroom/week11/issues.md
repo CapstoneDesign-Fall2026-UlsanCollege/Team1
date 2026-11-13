@@ -17,3 +17,5 @@ Existing closed status is historical metadata, not a new test result. Open issue
 - [#88 Consistent admin controls and visible teacher creation — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/88)
 
 - [#89 Year & class setup main navigation — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/89)
+
+- [#90 Subject catalogue recovery for new grades — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/90)
