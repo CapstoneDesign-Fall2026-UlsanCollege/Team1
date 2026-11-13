@@ -23,3 +23,7 @@ Scrolling stops on release, pointer cancellation, Escape, lost pointer capture, 
 - [Compact toolbar](evidence/compact-copy-toolbar.png), [short-screen drag check](evidence/drag-scroll-short-screen.png).
 
 No timetable records were saved by the drag check. Unit tests verify sustained stationary-cursor scrolling; the browser driver verified an actual drag and release, rather than a long physical hold. No independent human/physical-phone test is claimed. Hosted verification is recorded separately in the issue.
+
+## Hosted verification
+
+[CI passed for 9c54504](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/actions/runs/43496016062). The deployed frontend contains the edge-scrolling code and guidance. On the hosted timetable, Copy routine measured 34 px high with 12 px text at a 1000×600 viewport; its dialog was opened and cancelled without saving. [Live compact toolbar](evidence/compact-copy-toolbar-live.png). Actual drag movement was checked in the disposable local fixture, not against production data.
