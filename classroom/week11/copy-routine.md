@@ -26,3 +26,7 @@ Select **Copy routine**, next to **Include Saturday** above the weekly timetable
 - [Copy form](evidence/copy-routine-form.png), [read-back after repeat copy](evidence/copy-routine-result.png), [mobile form](evidence/copy-routine-mobile.png).
 
 No production timetable was copied by these checks. No independent teammate test is claimed. Hosted availability is recorded in the issue after deployment.
+
+## Hosted verification
+
+[CI passed for 7ed974b](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/actions/runs/43493876531). On Railway, Copy routine appeared beside Include Saturday and opened the source/destination form. The form was cancelled without copying production data. [Hosted screenshot](evidence/copy-routine-live.png). An authenticated empty request to the new endpoint returned HTTP 400 before any write. The persistent local preview was restarted with the new backend.
