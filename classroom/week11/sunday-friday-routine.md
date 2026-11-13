@@ -24,3 +24,7 @@ An error on any weekday prevents the entire save; the message names the failing 
 - [Lesson form with the new option](evidence/sunday-friday-form.png).
 
 No production lessons were changed by these tests. No independent teammate test is claimed. Hosted release availability is recorded separately in the issue.
+
+## Published checks
+
+All 84 backend tests passed with no skips; all 17 frontend tests passed. [CI passed for implementation 1046d86](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/actions/runs/43492195358). On Railway, the new routine endpoint rejected an empty request with HTTP 400 before any write. The live Computer Studies lesson form offered Sunday–Friday (same time daily); it was selected and then cancelled without saving. [Hosted form screenshot](evidence/sunday-friday-live-form.png). The local preview was restarted with the updated backend.
