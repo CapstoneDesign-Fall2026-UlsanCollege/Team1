@@ -25,3 +25,6 @@ Existing closed status is historical metadata, not a new test result. Open issue
 - [#92 Copy daily routine — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/92)
 
 - [#93 Compact toolbar and drag edge scrolling — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/93)
+
+- [#94 Accounts navigation spacing](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/94)
+- [#95 Shared administration spacing and responsive audit — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/95)

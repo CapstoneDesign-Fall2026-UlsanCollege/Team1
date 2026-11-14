@@ -1,0 +1,99 @@
+/* Administration layout contract. Keep scheduling canvases and lesson cards local
+   to their components; these rules cover ordinary forms and grouped actions. */
+#app .admin-workspace {
+  --admin-border: #d8e4dd;
+  --admin-control-height: 44px;
+  --admin-gap: 12px;
+}
+
+#app .admin-workspace :is(.fields, .filters, .staff-fields, .popup-fields, .form-grid) > label {
+  margin: 0;
+}
+#app .admin-workspace :is(.fields, .filters, .staff-fields, .popup-fields, .form-grid) > label > :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  margin-top: 6px;
+}
+#app .admin-workspace :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="hidden"]), select) {
+  height: var(--admin-control-height);
+  min-height: var(--admin-control-height);
+  padding: 10px 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+#app .admin-workspace textarea {
+  padding: 10px 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  line-height: 1.5;
+}
+#app .admin-workspace :is(input, select, textarea, button):focus-visible {
+  outline: 2px solid #21896f;
+  outline-offset: 2px;
+}
+#app .admin-workspace :is(.fields, .filters, .staff-fields, .popup-fields, .form-grid) {
+  gap: var(--admin-gap);
+}
+#app .admin-workspace :is(.fields, .filters, .staff-fields, .popup-fields, .form-grid) > * { min-width: 0; }
+#app .admin-workspace :is(.heading, .panel-heading) {
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 400px) {
+  #app .admin-workspace .school-manager :is(.fields, .filters) { grid-template-columns: minmax(0, 1fr); }
+}
+#app .admin-workspace :is(.heading, .panel-heading) > button {
+  margin: 0;
+}
+#app .admin-workspace .card > .heading .eyebrow {
+  margin: 0 0 8px;
+}
+#app .admin-workspace :is(.save-buttons, .access-actions, .heading-actions, .popup-actions) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+#app .admin-workspace :is(.save-buttons, .access-actions, .heading-actions, .popup-actions) > button {
+  margin: 0;
+  min-height: var(--admin-control-height);
+}
+#app .admin-workspace .student-create :is(.password-control, .semester-control) {
+  align-items: center;
+  gap: 8px;
+}
+#app .admin-workspace .student-create :is(.password-control, .semester-control) > :is(input, select, button) {
+  margin-top: 0;
+  min-height: var(--admin-control-height);
+}
+#app .admin-workspace .teacher-access .fields { margin-bottom: 12px; }
+#app .admin-workspace .teacher-access fieldset > button { margin: 12px 0 0; min-height: 44px; }
+#app .admin-workspace .teacher-access .table-scroll { margin-top: 16px; }
+#app .admin-workspace .access-controls { gap: 12px; }
+#app .admin-workspace .card { border-color: var(--admin-border); }
+#app .admin-workspace > .card,
+#app .admin-workspace > .admin-section > .card { padding: 24px; }
+#app .admin-workspace dialog { border: 1px solid var(--admin-border); border-radius: 14px; padding: 24px; }
+#app .admin-workspace dialog .heading { flex-direction: row; align-items: center; }
+#app .admin-workspace dialog .heading > button { flex-shrink: 0; }
+#app .admin-workspace dialog :is(.popup-heading, .dialog-heading) { gap: 12px; align-items: flex-start; }
+#app .admin-workspace dialog :is(.popup-heading, .dialog-heading) > div { min-width: 0; }
+#app .admin-workspace dialog :is(.popup-heading, .dialog-heading) > button {
+  flex-shrink: 0;
+  white-space: nowrap;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 12px;
+}
+#app .admin-workspace .copy-days > label { margin: 0; min-height: 44px; }
+#app .admin-workspace .admin-nav.accounts-navigation { margin-bottom: 14px; }
+
+@media (max-width: 600px) {
+  #app .admin-workspace :is(.fields, .filters, .staff-fields, .popup-fields, .form-grid) > label { margin: 0; }
+  #app .admin-workspace :is(input, select, textarea) { font-size: 16px; }
+  #app .admin-workspace .save-buttons { width: 100%; }
+  #app .admin-workspace .save-buttons > button { flex: 1 1 160px; min-width: 0; }
+  #app .admin-workspace > .card,
+  #app .admin-workspace > .admin-section > .card { padding: 14px; }
+  #app .admin-workspace dialog { padding: 16px; }
+}

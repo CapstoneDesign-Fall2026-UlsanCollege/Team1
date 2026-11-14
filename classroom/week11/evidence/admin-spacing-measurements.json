@@ -1,0 +1,1833 @@
+{
+  "date": "2026-11-14",
+  "environment": "Assistant-run browser; local persistent school database; no data saved",
+  "measurements": [
+    {
+      "page": "Overview",
+      "controls": [],
+      "labelMargins": [],
+      "navGap": "16px",
+      "pageOverflow": -15,
+      "width": 320
+    },
+    {
+      "page": "School classes",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px"
+      ],
+      "navGap": "16px",
+      "pageOverflow": -15,
+      "width": 320
+    },
+    {
+      "page": "Year & class setup",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "16px",
+      "pageOverflow": -15,
+      "width": 320
+    },
+    {
+      "page": "Rooms",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [],
+      "navGap": "16px",
+      "pageOverflow": -15,
+      "width": 320
+    },
+    {
+      "page": "School data",
+      "controls": [],
+      "labelMargins": [],
+      "navGap": "16px",
+      "pageOverflow": -15,
+      "width": 320
+    },
+    {
+      "page": "Activity Log",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "16px",
+      "pageOverflow": -15,
+      "width": 320
+    },
+    {
+      "page": "Requests",
+      "controls": [],
+      "labelMargins": [],
+      "navGap": "16px",
+      "pageOverflow": 0,
+      "width": 320
+    },
+    {
+      "page": "Accounts",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 320
+    },
+    {
+      "page": "Student list",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 320
+    },
+    {
+      "page": "Create student",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "0px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "0px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 320
+    },
+    {
+      "page": "Teacher list",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 320
+    },
+    {
+      "page": "Teacher access",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 320
+    },
+    {
+      "page": "Canteen staff",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 320
+    },
+    {
+      "page": "Overview",
+      "controls": [],
+      "labelMargins": [],
+      "navGap": "16px",
+      "pageOverflow": -15,
+      "width": 390
+    },
+    {
+      "page": "School classes",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px"
+      ],
+      "navGap": "16px",
+      "pageOverflow": -15,
+      "width": 390
+    },
+    {
+      "page": "Year & class setup",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "16px",
+      "pageOverflow": -15,
+      "width": 390
+    },
+    {
+      "page": "Rooms",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [],
+      "navGap": "16px",
+      "pageOverflow": -15,
+      "width": 390
+    },
+    {
+      "page": "School data",
+      "controls": [],
+      "labelMargins": [],
+      "navGap": "16px",
+      "pageOverflow": -15,
+      "width": 390
+    },
+    {
+      "page": "Activity Log",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "16px",
+      "pageOverflow": -15,
+      "width": 390
+    },
+    {
+      "page": "Requests",
+      "controls": [],
+      "labelMargins": [],
+      "navGap": "16px",
+      "pageOverflow": 0,
+      "width": 390
+    },
+    {
+      "page": "Accounts",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 390
+    },
+    {
+      "page": "Student list",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 390
+    },
+    {
+      "page": "Create student",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "0px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "0px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 390
+    },
+    {
+      "page": "Teacher list",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 390
+    },
+    {
+      "page": "Teacher access",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 390
+    },
+    {
+      "page": "Canteen staff",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 390
+    },
+    {
+      "page": "Overview",
+      "controls": [],
+      "labelMargins": [],
+      "navGap": "28px",
+      "pageOverflow": -15,
+      "width": 768
+    },
+    {
+      "page": "School classes",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px"
+      ],
+      "navGap": "28px",
+      "pageOverflow": -15,
+      "width": 768
+    },
+    {
+      "page": "Year & class setup",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "28px",
+      "pageOverflow": -15,
+      "width": 768
+    },
+    {
+      "page": "Rooms",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [],
+      "navGap": "28px",
+      "pageOverflow": -15,
+      "width": 768
+    },
+    {
+      "page": "School data",
+      "controls": [],
+      "labelMargins": [],
+      "navGap": "28px",
+      "pageOverflow": -15,
+      "width": 768
+    },
+    {
+      "page": "Activity Log",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "28px",
+      "pageOverflow": -15,
+      "width": 768
+    },
+    {
+      "page": "Requests",
+      "controls": [],
+      "labelMargins": [],
+      "navGap": "28px",
+      "pageOverflow": 0,
+      "width": 768
+    },
+    {
+      "page": "Accounts",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 768
+    },
+    {
+      "page": "Student list",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [],
+      "navGap": "14px",
+      "pageOverflow": 0,
+      "width": 768
+    },
+    {
+      "page": "Create student",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "0px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "0px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 768
+    },
+    {
+      "page": "Teacher list",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 768
+    },
+    {
+      "page": "Teacher access",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 768
+    },
+    {
+      "page": "Canteen staff",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 768
+    },
+    {
+      "page": "Overview",
+      "controls": [],
+      "labelMargins": [],
+      "navGap": "28px",
+      "pageOverflow": -15,
+      "width": 1280
+    },
+    {
+      "page": "School classes",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px"
+      ],
+      "navGap": "28px",
+      "pageOverflow": -15,
+      "width": 1280
+    },
+    {
+      "page": "Year & class setup",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "28px",
+      "pageOverflow": -15,
+      "width": 1280
+    },
+    {
+      "page": "Rooms",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "5px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [],
+      "navGap": "28px",
+      "pageOverflow": -15,
+      "width": 1280
+    },
+    {
+      "page": "School data",
+      "controls": [],
+      "labelMargins": [],
+      "navGap": "28px",
+      "pageOverflow": -15,
+      "width": 1280
+    },
+    {
+      "page": "Activity Log",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "28px",
+      "pageOverflow": -15,
+      "width": 1280
+    },
+    {
+      "page": "Requests",
+      "controls": [],
+      "labelMargins": [],
+      "navGap": "28px",
+      "pageOverflow": 0,
+      "width": 1280
+    },
+    {
+      "page": "Accounts",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 1280
+    },
+    {
+      "page": "Student list",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [],
+      "navGap": "14px",
+      "pageOverflow": 0,
+      "width": 1280
+    },
+    {
+      "page": "Create student",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "0px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "0px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 1280
+    },
+    {
+      "page": "Teacher list",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": 0,
+      "width": 1280
+    },
+    {
+      "page": "Teacher access",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "SELECT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 1280
+    },
+    {
+      "page": "Canteen staff",
+      "controls": [
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        },
+        {
+          "border": "1px",
+          "height": 44,
+          "marginTop": "6px",
+          "tag": "INPUT"
+        }
+      ],
+      "labelMargins": [
+        "0px",
+        "0px"
+      ],
+      "navGap": "14px",
+      "pageOverflow": -15,
+      "width": 1280
+    }
+  ]
+}

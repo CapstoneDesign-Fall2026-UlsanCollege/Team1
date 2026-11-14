@@ -28,3 +28,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Copy a whole daily routine beside the timetable controls](copy-routine.md)
 
 - [Compact timetable controls and drag edge scrolling](drag-edge-scrolling.md)
+
+- [Administration spacing audit: controls, cards, actions and responsive checks](admin-spacing-audit.md)
