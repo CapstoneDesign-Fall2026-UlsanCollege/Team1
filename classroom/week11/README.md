@@ -30,3 +30,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Compact timetable controls and drag edge scrolling](drag-edge-scrolling.md)
 
 - [Administration spacing audit: controls, cards, actions and responsive checks](admin-spacing-audit.md)
+
+- [Create students, teachers and canteen staff from list popups](account-create-popups.md)

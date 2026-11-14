@@ -190,6 +190,20 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       assert.equal((await data('/student/courses','bob')).courses.length,2);
       assert.equal(JSON.stringify({users:await sql('SELECT * FROM users ORDER BY id'),profiles:await sql('SELECT * FROM student_profiles ORDER BY user_id'),offerings:await sql('SELECT * FROM course_offerings WHERE id<=3 ORDER BY id')}),before);
     });
+    await t.test('teacher creation persists a catalog subject before any timetable assignment',async()=>{
+      const teacher=(await mutate('/admin/school/teachers','POST',{name:'Fictional Subject Teacher',staff_code:'SUBJECT-01',course_id:3},201)).id;
+      const directory=await data('/admin/school/teacher-directory?year_id='+yearId);
+      const saved=directory.teachers.find(t=>t.id===teacher);
+      assert.equal(saved.subject_course_id,3);
+      assert.ok(saved.subject_name);
+      assert.equal(directory.assignments.filter(a=>a.teacher_id===teacher).length,0);
+      const before=(await sql('SELECT COUNT(*) total FROM school_teachers'))[0].total;
+      await mutate('/admin/school/teachers','POST',{name:'Invalid Subject',staff_code:'SUBJECT-BAD',course_id:999999},400);
+      assert.equal((await sql('SELECT COUNT(*) total FROM school_teachers'))[0].total,before);
+      assert.equal((await sql('SELECT course_id FROM school_teacher_subjects WHERE teacher_id=?',[teacher]))[0].course_id,3);
+      await sql('DELETE FROM school_teacher_subjects WHERE teacher_id=?',[teacher]);
+      await sql('DELETE FROM school_teachers WHERE id=?',[teacher]);
+    });
     await t.test('grade library, stable teachers and timetable drops reject duplicate, stale and cross-class clashes',async()=>{
       const teacher=(await mutate('/admin/school/teachers','POST',{name:'Fictional Planner Teacher',staff_code:'PLANNER-01'},201)).id;
       const other=(await mutate('/admin/school/teachers','POST',{name:'Fictional Other Teacher',staff_code:'PLANNER-02'},201)).id;

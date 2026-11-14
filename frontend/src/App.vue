@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { apiFetch } from './api'
+import {dismissAfterFourSeconds} from './temporary-message'
 import { computed, nextTick, onMounted, ref } from 'vue'
 import TeacherWorkspace from './components/TeacherWorkspace.vue'
 import TeacherAccounts from './components/TeacherAccounts.vue'
@@ -29,6 +30,11 @@ function openClassRooms(id:number){initialRoomClass.value=id;goSection('rooms')}
 const resetPage = ref(false)
 const resetCount = ref(0)
 const studentPanel = ref('directory')
+const studentCreateDialog=ref<HTMLDialogElement|null>(null),studentCreateOpen=ref(false),studentCreatedMessage=ref('')
+dismissAfterFourSeconds(studentCreatedMessage)
+async function openStudentCreate(){adminSection.value='students';studentPanel.value='directory';studentCreateOpen.value=true;await nextTick();studentCreateDialog.value?.showModal()}
+function closeStudentCreate(){if(creatingStudent.value)return;studentCreateDialog.value?.close();studentCreateOpen.value=false;initialStudentClass.value=0}
+function studentCreated(keepOpen:boolean){studentRevision.value++;if(!keepOpen){studentCreateDialog.value?.close();studentCreateOpen.value=false;initialStudentClass.value=0;studentCreatedMessage.value='Student account created and added to the list.'}}
 const schoolMode = ref(false), schoolName = ref(''), visitedSchool = ref(false), dashboardRevision = ref(0), savingSchool = ref(false), schoolPanel = ref('class')
 const adminSections = [
   { id: 'dashboard', title: 'Overview', icon: 'home' },
@@ -47,6 +53,7 @@ const legacySections = [
 ]
 const sectionTitle = computed(() => adminSection.value === 'dashboard' ? 'School overview' : [...adminSections, ...legacySections].find(s => s.id === adminSection.value)?.title ?? 'School workspace')
 function goSection(section: string, panel?: string) {
+  if(section==='students'&&panel==='create'){void openStudentCreate();return}
   if(section==='school'&&panel==='structure'){section='setup';panel=undefined}
   adminSection.value = section
   if (section === 'school'||section==='setup') { visitedSchool.value = true; if (section==='school'&&panel) schoolPanel.value = panel }
@@ -152,11 +159,11 @@ onMounted(async () => {
         <ActivityLog v-if="adminSection === 'activity'" />
         <SchoolRoomBoard :initial-class="initialRoomClass" v-if="adminSection === 'rooms'" @saving="savingSchool = $event" />
         <SchoolManager @panel="schoolPanel=$event" :active="adminSection === 'school'||adminSection==='setup'" :setup-only="adminSection==='setup'" :selected-tab="adminSection==='setup'?'structure':schoolPanel" @create="enrollClass" @rooms="openClassRooms" v-if="visitedSchool" v-show="adminSection === 'school'||adminSection==='setup'" @changed="schoolMode = $event; dashboardRevision++" @saving="savingSchool = $event" />
-        <div v-show="adminSection === 'students'" class="student-tabs" role="group" aria-label="Account actions"><button type="button" :class="{ secondary: studentPanel !== 'directory' }" :aria-pressed="studentPanel === 'directory'" @click="studentPanel = 'directory'"><StudentIcon name="profile" />Student list</button><button type="button" :class="{ secondary: studentPanel !== 'create' }" :aria-pressed="studentPanel === 'create'" @click="studentPanel = 'create'"><StudentIcon name="add" />Create student</button><button type="button" :class="{secondary:studentPanel!=='canteen'}" :aria-pressed="studentPanel==='canteen'" @click="studentPanel='canteen'">Canteen staff</button><button type="button" :class="{secondary:studentPanel!=='teachers'}" :aria-pressed="studentPanel==='teachers'" @click="studentPanel='teachers'">Teacher list</button><button type="button" :class="{secondary:studentPanel!=='teacher-access'}" :aria-pressed="studentPanel==='teacher-access'" @click="studentPanel='teacher-access'">Teacher access</button></div>
+        <div v-show="adminSection === 'students'" class="student-tabs" role="group" aria-label="Account actions"><button type="button" :class="{ secondary: studentPanel !== 'directory' }" :aria-pressed="studentPanel === 'directory'" @click="studentPanel = 'directory'"><StudentIcon name="profile" />Student list</button><button type="button" :class="{secondary:studentPanel!=='canteen'}" :aria-pressed="studentPanel==='canteen'" @click="studentPanel='canteen'">Canteen staff</button><button type="button" :class="{secondary:studentPanel!=='teachers'}" :aria-pressed="studentPanel==='teachers'" @click="studentPanel='teachers'">Teacher list</button><button type="button" :class="{secondary:studentPanel!=='teacher-access'}" :aria-pressed="studentPanel==='teacher-access'" @click="studentPanel='teacher-access'">Teacher access</button></div>
         <TeacherAccounts :initial-teacher="initialTeacher" v-if="adminSection==='students'&&studentPanel==='teacher-access'" />
         <div v-if="adminSection==='students' && studentPanel==='teachers'" class="admin-section"><TeacherDirectory @saving="savingSchool=$event" @login="initialTeacher=$event;studentPanel='teacher-access'" /></div>
         <div v-show="adminSection==='students' && studentPanel==='canteen'" class="admin-section"><CanteenAccounts @saving="savingStaff=$event" /></div>
-        <div v-show="adminSection === 'students' && studentPanel === 'create'" id="create-student" class="admin-section" tabindex="-1"><CreateStudent :initial-class="initialStudentClass" :revision="semesterRevision" @expired="sessionExpired" @saving="creatingStudent = $event" @created="studentRevision++" /></div>
+        <dialog ref="studentCreateDialog" class="account-create-dialog student-create-dialog" aria-labelledby="student-dialog-title" @cancel.prevent="closeStudentCreate"><div class="heading"><h2 id="student-dialog-title">Create student</h2><button type="button" class="secondary" :disabled="creatingStudent" @click="closeStudentCreate">Close</button></div><CreateStudent v-if="studentCreateOpen" :initial-class="initialStudentClass" :revision="semesterRevision" @expired="closeStudentCreate();sessionExpired()" @saving="creatingStudent = $event" @created="studentCreated" @cancel="closeStudentCreate" /></dialog><p v-if="adminSection==='students'&&studentPanel==='directory'&&studentCreatedMessage" role="status" class="success">{{studentCreatedMessage}}</p>
         <div v-show="adminSection === 'students' && studentPanel === 'directory'" id="student-directory" class="admin-section" tabindex="-1"><StudentManager @create="goSection('students','create')" :selected-login="linkedStudent" :revision="studentRevision + dashboardRevision" @saving="editingStudent = $event" /></div>
         <div v-if="!schoolMode" v-show="adminSection === 'semesters'" id="manage-semesters" class="admin-section" tabindex="-1"><SemesterDetails :revision="semesterRevision + studentRevision + courseRevision" @student="openSemesterStudent" @courses="openSemesterArea($event, 'courses')" @timetable="openSemesterTimetable" @changed="semesterRevision++; studentRevision++" /><CreateSemester @created="semesterRevision++; studentRevision++" /></div>
         <div v-if="!schoolMode" v-show="adminSection === 'semesters'" id="assign-students" class="admin-section" tabindex="-1"><AssignSemester :revision="semesterRevision + studentRevision" @assigned="studentRevision++" /></div>

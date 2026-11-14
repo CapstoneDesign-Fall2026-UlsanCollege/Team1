@@ -28,3 +28,5 @@ Existing closed status is historical metadata, not a new test result. Open issue
 
 - [#94 Accounts navigation spacing](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/94)
 - [#95 Shared administration spacing and responsive audit — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/95)
+
+- [#96 Account creation popups and teacher subject — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/96)

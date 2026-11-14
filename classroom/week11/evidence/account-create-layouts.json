@@ -1,0 +1,294 @@
+{
+  "environment": "Assistant-run isolated fictional fixture",
+  "date": "2026-11-14",
+  "checks": [
+    {
+      "dialog": "Create student",
+      "closeHeight": 48.84375,
+      "contentOverflow": 0,
+      "fields": [
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        }
+      ],
+      "left": 17,
+      "right": 288,
+      "viewport": 320,
+      "viewportOverflow": 0,
+      "width": 271
+    },
+    {
+      "dialog": "Create canteen staff",
+      "closeHeight": 48.84375,
+      "contentOverflow": 0,
+      "fields": [
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        }
+      ],
+      "left": 17,
+      "right": 288,
+      "viewport": 320,
+      "viewportOverflow": 0,
+      "width": 271
+    },
+    {
+      "dialog": "Create teacher",
+      "closeHeight": 48.84375,
+      "contentOverflow": 0,
+      "fields": [
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        }
+      ],
+      "left": 17,
+      "right": 288,
+      "viewport": 320,
+      "viewportOverflow": 0,
+      "width": 271
+    },
+    {
+      "dialog": "Create student",
+      "closeHeight": 48.84375,
+      "contentOverflow": 0,
+      "fields": [
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        }
+      ],
+      "left": 17,
+      "right": 358,
+      "viewport": 390,
+      "viewportOverflow": 0,
+      "width": 341
+    },
+    {
+      "dialog": "Create canteen staff",
+      "closeHeight": 48.84375,
+      "contentOverflow": 0,
+      "fields": [
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        }
+      ],
+      "left": 17,
+      "right": 358,
+      "viewport": 390,
+      "viewportOverflow": 0,
+      "width": 341
+    },
+    {
+      "dialog": "Create teacher",
+      "closeHeight": 48.84375,
+      "contentOverflow": 0,
+      "fields": [
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        }
+      ],
+      "left": 17,
+      "right": 358,
+      "viewport": 390,
+      "viewportOverflow": 0,
+      "width": 341
+    },
+    {
+      "dialog": "Create student",
+      "closeHeight": 51.5,
+      "contentOverflow": 0,
+      "fields": [
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        }
+      ],
+      "left": 230,
+      "right": 1050,
+      "viewport": 1280,
+      "viewportOverflow": 0,
+      "width": 820
+    },
+    {
+      "dialog": "Create canteen staff",
+      "closeHeight": 51.5,
+      "contentOverflow": 0,
+      "fields": [
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        }
+      ],
+      "left": 400,
+      "right": 880,
+      "viewport": 1280,
+      "viewportOverflow": 0,
+      "width": 480
+    },
+    {
+      "dialog": "Create teacher",
+      "closeHeight": 51.5,
+      "contentOverflow": 0,
+      "fields": [
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        },
+        {
+          "border": "1px",
+          "height": 44
+        }
+      ],
+      "left": 392.5,
+      "right": 872.5,
+      "viewport": 1280,
+      "viewportOverflow": 0,
+      "width": 480
+    }
+  ]
+}

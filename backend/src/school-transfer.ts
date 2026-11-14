@@ -22,6 +22,7 @@ export const transferSpecs:Spec[]=[
  spec('student_profiles','user_id,full_name,university,major,year_of_study,email,phone_number,address','user_id',{user_id:'users'}),
  spec('school_teacher_accounts','user_id,teacher_id','user_id',{user_id:'users',teacher_id:'school_teachers'}),
  spec('courses','id,course_code,course_name,credits,description','course_code'),
+ spec('school_teacher_subjects','teacher_id,course_id','teacher_id',{teacher_id:'school_teachers',course_id:'courses'}),
  spec('school_grade_subjects','year_id,grade_label,course_id','year_id,grade_label,course_id',{year_id:'school_years',course_id:'courses'}),
  spec('course_offerings','id,course_id,semester_id,major,professor,section','course_id,semester_id,major,section',{course_id:'courses',semester_id:'semesters'}),
  spec('school_class_offerings','class_id,offering_id','class_id,offering_id',{class_id:'school_classes',offering_id:'course_offerings'}),

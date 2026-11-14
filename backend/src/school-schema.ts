@@ -45,6 +45,10 @@ export const schoolSchema = [
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, staff_code VARCHAR(40) NOT NULL UNIQUE,
     name VARCHAR(150) NOT NULL, is_active TINYINT NOT NULL DEFAULT 1
   ) ENGINE=InnoDB`,
+  `CREATE TABLE IF NOT EXISTS school_teacher_subjects (
+    teacher_id INT UNSIGNED PRIMARY KEY, course_id INT UNSIGNED NOT NULL,
+    FOREIGN KEY(teacher_id) REFERENCES school_teachers(id), FOREIGN KEY(course_id) REFERENCES courses(id)
+  ) ENGINE=InnoDB`,
   `CREATE TABLE IF NOT EXISTS school_grade_subjects (
     year_id INT UNSIGNED NOT NULL, grade_label VARCHAR(30) NOT NULL, course_id INT UNSIGNED NOT NULL,
     PRIMARY KEY(year_id,grade_label,course_id),

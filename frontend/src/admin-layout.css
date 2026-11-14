@@ -9,6 +9,7 @@
 #app .admin-workspace :is(.fields, .filters, .staff-fields, .popup-fields, .form-grid) > label {
   margin: 0;
 }
+#app .admin-workspace .form-grid > div > label { margin: 0; }
 #app .admin-workspace :is(.fields, .filters, .staff-fields, .popup-fields, .form-grid) > label > :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
   margin-top: 6px;
 }
@@ -35,6 +36,8 @@
 }
 #app .admin-workspace :is(.fields, .filters, .staff-fields, .popup-fields, .form-grid) > * { min-width: 0; }
 #app .admin-workspace :is(.heading, .panel-heading) {
+  display: flex;
+  justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
 }
@@ -74,6 +77,13 @@
 #app .admin-workspace > .card,
 #app .admin-workspace > .admin-section > .card { padding: 24px; }
 #app .admin-workspace dialog { border: 1px solid var(--admin-border); border-radius: 14px; padding: 24px; }
+#app .admin-workspace .account-create-dialog { width: min(480px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); overflow: auto; color: inherit; }
+#app .admin-workspace .account-create-dialog::backdrop { background: #173d2d80; }
+#app .admin-workspace .student-create-dialog { width: min(820px, calc(100vw - 24px)); }
+#app .admin-workspace .student-create-dialog .student-create { margin: 0; padding: 0; border: 0; box-shadow: none; }
+#app .admin-workspace .student-create-dialog .student-create > :is(.eyebrow, h2) { display: none; }
+#app .admin-workspace .staff-accounts > .heading h2 { margin: 0; }
+#app .admin-workspace .account-create-dialog .heading h2 { margin: 0; }
 #app .admin-workspace dialog .heading { flex-direction: row; align-items: center; }
 #app .admin-workspace dialog .heading > button { flex-shrink: 0; }
 #app .admin-workspace dialog :is(.popup-heading, .dialog-heading) { gap: 12px; align-items: flex-start; }

@@ -204,7 +204,7 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
   });
   router.get('/admin/school/teacher-directory',async(req,res)=>{
     const yearId=schoolId(Number(req.query.year_id));await year(pool,yearId);
-    const teachers=await rows(pool,'SELECT id,staff_code,name,is_active FROM school_teachers ORDER BY name,id');
+    const teachers=await rows(pool,'SELECT t.id,t.staff_code,t.name,t.is_active,c.id subject_course_id,c.course_code subject_code,c.course_name subject_name FROM school_teachers t LEFT JOIN school_teacher_subjects ts ON ts.teacher_id=t.id LEFT JOIN courses c ON c.id=ts.course_id ORDER BY t.name,t.id');
     const assignments=await rows(pool,`SELECT ot.teacher_id,co.id offering_id,c.course_name,c.course_code,cl.id class_id,cl.grade_label,cl.name class_name,s.id semester_id,s.name term_name,
       DATE_FORMAT(s.start_date,'%Y-%m-%d') start_date,DATE_FORMAT(s.end_date,'%Y-%m-%d') end_date,
       cs.id meeting_id,cs.day_of_week,TIME_FORMAT(cs.start_time,'%H:%i') start_time,TIME_FORMAT(cs.end_time,'%H:%i') end_time
@@ -251,7 +251,7 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
   }
   router.post('/admin/school/teachers',async(req,res)=>{
     const name=schoolText(req.body.name,150,'a teacher name'),code=schoolText(req.body.staff_code,40,'a unique staff code');
-    const id=await mutate(pool,req.body.revision,async c=>{await requireSchool(c);const [r]=await c.execute<ResultSetHeader>('INSERT INTO school_teachers(staff_code,name) VALUES(?,?)',[code,name]);return r.insertId;});
+    const id=await mutate(pool,req.body.revision,async c=>{await requireSchool(c);const courseId=req.body.course_id==null?null:schoolId(req.body.course_id);if(courseId&&!(await rows(c,'SELECT id FROM courses WHERE id=?',[courseId])).length)throw new ScheduleError(400,'Choose an existing teaching subject.');const [r]=await c.execute<ResultSetHeader>('INSERT INTO school_teachers(staff_code,name) VALUES(?,?)',[code,name]);if(courseId)await c.execute('INSERT INTO school_teacher_subjects(teacher_id,course_id) VALUES(?,?)',[r.insertId,courseId]);return r.insertId;});
     res.status(201).json({id,message:'Teacher added to the directory.'});
   });
   router.post('/admin/school/grade-subjects',async(req,res)=>{

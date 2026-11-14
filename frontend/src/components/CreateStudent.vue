@@ -71,7 +71,7 @@ async function loadSemesters() {
 onMounted(loadSemesters)
 watch(() => props.revision, loadSemesters)
 
-const emit = defineEmits<{ expired: []; saving: [value: boolean]; created: [] }>()
+const emit = defineEmits<{ expired: []; saving: [value: boolean]; created: [keepOpen:boolean]; cancel: [] }>()
 const emptyForm = () => ({
   login_id: '', password: '', full_name: '', university: 'Mahendra School',
   major: '', year_of_study: 1, email: '', phone_number: '', address: '',
@@ -114,10 +114,11 @@ async function submit(event:SubmitEvent) {
     if (term) success.value += ` Assigned to ${term.name} ${term.academic_year}.`
     Object.assign(form, emptyForm())
     studentNumber.value=''
-    emit('created');await loadSemesters()
+    await loadSemesters()
     if(!keepClass&&schoolMode.value){grade.value='';classId.value=0}
     await nextTick()
-    document.getElementById('student-name')?.focus()
+    if(keepClass)document.getElementById('student-name')?.focus()
+    emit('created',keepClass)
   } catch (e) {
     error.value = e instanceof TypeError
       ? 'Connection lost. Creation may have completed. Check before retrying; duplicate IDs will be rejected.'
@@ -180,7 +181,7 @@ async function submit(event:SubmitEvent) {
       </fieldset>
       </details>
       <p v-if="error" class="error" role="alert">{{ error }}</p>
-      <div class="create-actions"><span>{{schoolMode?'Account and class enrollment save together.':'Account and semester assignment save together.'}}</span><div class="save-buttons"><button type="submit" :disabled="saving || semesterLoading || !!semesterError || (schoolMode&&(!classId||!studentLoginId))" value="create"><StudentIcon name="save" />{{ saving ? 'Creating student…' : 'Create student' }}</button><button type="submit" class="secondary" :disabled="saving || semesterLoading || !!semesterError || (schoolMode&&(!classId||!studentLoginId))" value="another">Save &amp; add another</button></div></div>
+      <div class="create-actions"><span>{{schoolMode?'Account and class enrollment save together.':'Account and semester assignment save together.'}}</span><div class="save-buttons"><button type="submit" :disabled="saving || semesterLoading || !!semesterError || (schoolMode&&(!classId||!studentLoginId))" value="create"><StudentIcon name="save" />{{ saving ? 'Creating student…' : 'Create student' }}</button><button type="submit" class="secondary" :disabled="saving || semesterLoading || !!semesterError || (schoolMode&&(!classId||!studentLoginId))" value="another">Save &amp; add another</button><button type="button" class="secondary" :disabled="saving" @click="emit('cancel')">Cancel</button></div></div>
     </form>
   </section>
 </template>

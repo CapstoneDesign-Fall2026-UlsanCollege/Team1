@@ -56,6 +56,7 @@ export const activityAreas:Record<string,Area>={
  school_terms:{keys:['semester_id'],fields:['year_id'],label:'School term links'},
  school_memberships:{keys:['id'],fields:['student_user_id','year_id','class_id','starts_on','ends_on'],label:'Student class membership'},
  school_class_offerings:{keys:['class_id','offering_id'],fields:[],label:'Class subject links'},
+ school_teacher_subjects:{keys:['teacher_id'],fields:['course_id'],label:'Teacher teaching subjects'},
  school_teachers:{keys:['id'],fields:['staff_code','name','is_active'],label:'Teachers'},
  school_grade_subjects:{keys:['year_id','grade_label','course_id'],fields:[],label:'Grade subject library'},
  school_offering_teachers:{keys:['offering_id'],fields:['teacher_id'],label:'Subject teacher assignments'},
