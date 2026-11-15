@@ -51,3 +51,16 @@ The normal server applies the additive parent schema at startup. Existing accoun
 Fixed a shared full-width form-button rule squeezing the student search input. Search now uses a two-column grid on wider screens and stacked controls on phones. The production frontend build passed. Assistant browser checks at 800, 390 and 320 pixels confirmed input widths of 424, 288 and 218 pixels, with no horizontal dialog overflow. Searching and selecting the fictional Aarav Example record populated its P-prefixed login. [Measurements](evidence/parent-child-search-layout.json) · [Screenshot](evidence/parent-child-search-fixed.jpg). This corrects the earlier incomplete popup layout check.
 
 Parent creation now shows missing child-selection/guardian-verification steps beside Save. The submit button remains clickable unless a request is running; native required-field validation and explicit save guards explain missing inputs. Backend guardian and child authorization remain enforced. Frontend production build passed.
+
+
+## Galan's reported manual checks — November 16, 2026
+
+Galan Bishal reported the following results in the project chat after the parent-form fixes:
+
+| Check | Reported result |
+| --- | --- |
+| Parent creation and login flow | Worked well |
+| Remove a child link, then refresh the parent dashboard | Worked well; child access removal passed |
+| One parent linked to two children; switch between their records | Passed |
+
+These are user-reported checks, distinct from the assistant-run tests above. The exact tested commit, URL, device and screenshots were not supplied. Do not treat these reports as independent non-author testing, physical-phone evidence, or proof of every dashboard field. Further confirmation of those details and a direct attempt to access an unrelated student's record remains pending.
