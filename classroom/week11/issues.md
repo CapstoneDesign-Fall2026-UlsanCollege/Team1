@@ -34,3 +34,6 @@ Existing closed status is historical metadata, not a new test result. Open issue
 - [#97 Student profile QR card — Definition of Done and remaining browser check](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/97)
 
 - [#98 Simplify Profile and show QR on demand — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/98)
+
+- [#99 Parent accounts and dashboard — remaining independent verification](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/99)
+- [#101 Cross-role daily workflow integration verification — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/101)

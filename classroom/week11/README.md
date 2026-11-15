@@ -38,3 +38,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 
 - [Simpler Profile: one identity header, contact fields and QR popup](profile-simplification.md)
 - [Parent accounts, verified child links and dashboard — implementation and checks](parent-workspace.md)
+
+- [Daily workflow across admin, teacher, student, parent and canteen — test results and demo checklist](daily-workflow.md)

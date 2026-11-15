@@ -690,6 +690,33 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
        for(const day of ['02','03','04'])await sql("INSERT INTO school_attendance(class_id,attendance_date,student_user_id,status,recorded_by) VALUES(?,?,3,'late',1) ON DUPLICATE KEY UPDATE status='late'",[classB,'2026-11-'+day]);
        try{today='2026-11-04';const register=await data('/parent/children/3?month=2026-11','parent');assert.ok(register.attendance.totals.late>=3);assert.equal(register.attendance.totals.lateAbsences,Math.floor(register.attendance.totals.late/3));assert.equal((await data('/parent/children/3?month=2026-10','parent')).attendance.today_status,'late');}finally{today='2026-11-01';}
       });
+      await t.test('daily workflow carries admin enrollment, teacher records and canteen publication to student and parent',async()=>{
+       const created=await mutate('/admin/school/students','POST',{login_id:'daily_pupil',password:fixturePassword,full_name:'Fictional Daily Pupil',class_id:classA,starts_on:today},201);
+       const pupil=created.student.id;
+       const login=await request('/auth/login','POST',{login_id:'daily_pupil',password:fixturePassword},null);assert.equal(login.status,200);cookies.daily=login.headers.get('set-cookie').split(';')[0];
+       assert.equal((await request('/admin/parents/'+parentId+'/children','POST',{student_id:pupil,relationship:'Guardian',identity_verified:true})).status,201);
+       const studentHome=await data('/student/school','daily');assert.equal(studentHome.membership.class_id,classA);assert.ok(studentHome.homeroom_teacher);
+       const dashboard=await data('/teacher/dashboard','teacher');assert.ok(dashboard.homerooms.some(c=>c.class_id===classA));
+       assert.ok((await data('/teacher/classes/'+classA+'/students','teacher')).students.some(s=>s.id===pupil));
+       const assignment=dashboard.assignments.find(a=>a.class_id===classA);assert.ok(assignment);
+       const homework=await request('/teacher/homework','POST',{class_id:classA,offering_id:assignment.offering_id,title:'Daily workflow practice',instructions:'Complete the fictional practice exercise.',due_on:today},'teacher');assert.equal(homework.status,201);const homeworkId=(await homework.json()).id;
+       const attendancePath='/teacher/classes/'+classA+'/attendance';const sheet=await data(attendancePath+'?date='+today,'teacher');
+       assert.equal((await request(attendancePath,'PUT',{date:today,version:sheet.version,records:[{student_user_id:pupil,status:'present'}]},'teacher')).status,200);
+       const child=await data('/parent/children/'+pupil,'parent');assert.equal(child.current.class_id,classA);assert.equal(child.homeroom,studentHome.homeroom_teacher.name);assert.equal(child.attendance.today_status,'present');assert.ok(child.homework.some(h=>h.id===homeworkId));
+       assert.ok((await data('/student/homework','daily')).homework.some(h=>h.id===homeworkId));assert.ok(!(await data('/student/homework','bob')).homework.some(h=>h.id===homeworkId));
+       assert.equal((await request('/parent/children/'+pupil,'GET',undefined,'otherTeacher')).status,403);
+       await pool.query(canteenInfoSchema);
+       const current=(await data('/canteen/menu?date='+today,'canteen')).menu;
+       let version=current?.version??0;const menu={items:[{name:'Fictional school lunch',price:70,status:'available'}],published:false,version};
+       assert.equal((await request('/canteen/menu/'+today,'PUT',menu,'canteen')).status,200);version++;
+       assert.equal((await data('/student/canteen','daily')).menu,null);assert.equal((await data('/parent/canteen','parent')).menu,null);
+       const saved=(await data('/canteen/menu?date='+today,'canteen')).menu;
+       assert.equal((await request('/canteen/menu/'+today,'PUT',{items:saved.items,published:true,version},'canteen')).status,200);version++;
+       for(const [path,role]of [['/student/canteen','daily'],['/parent/canteen','parent']]){const m=(await data(path,role)).menu;assert.equal(m.currency,'NPR');assert.equal(m.items[0].name,'Fictional school lunch');assert.equal(m.items[0].price,70);}
+       assert.equal((await request('/canteen/menu/'+today,'PUT',{items:saved.items,published:true,version},'parent')).status,403);
+       assert.equal((await request('/canteen/menu/'+today,'PUT',{items:saved.items,published:false,version},'canteen')).status,200);
+       assert.equal((await data('/parent/canteen','parent')).menu,null);assert.equal((await data('/student/canteen','daily')).menu,null);
+      });
       await t.test('unlinking and disabling take effect immediately; stale link edits are refused',async()=>{
        let row=(await data('/admin/parents')).parents.find(p=>p.id===parentId).children.find(c=>c.student_user_id===2);
        const payload={relationship:'Father',is_active:false,identity_verified:true,version:row.version};
