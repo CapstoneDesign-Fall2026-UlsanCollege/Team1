@@ -13,6 +13,8 @@ test('QR PNG decodes to the same site and opaque fragment without student/contac
  const png=PNG.sync.read(await QRCode.toBuffer(url,{...qrOptions,type:'png'}));
  const decoded=jsQR(new Uint8ClampedArray(png.data),png.width,png.height);
  assert.equal(decoded?.data,url);assert.equal(new URL(url).search,'');
+ const compact=PNG.sync.read(await QRCode.toBuffer(studentCardUrl(token,'https://team1-production.up.railway.app','/'),{...qrOptions,width:180,type:'png'}));
+ assert.equal(jsQR(new Uint8ClampedArray(compact.data),compact.width,compact.height)?.data,'https://team1-production.up.railway.app/#student-card='+token);
  assert.equal(new URL(url).hash.slice(14),token);
  for(const invalid of ['2412061','<script>','a'.repeat(63),'A'.repeat(64),'https://other.example'])assert.throws(()=>studentCardUrl(invalid,'https://school.example','/'));
  assert.throws(()=>studentCardUrl(token,'https://school.example','https://other.example/'));

@@ -34,3 +34,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Create students, teachers and canteen staff from list popups](account-create-popups.md)
 
 - [Student QR card in Profile — implementation, permission tests and remaining phone check](student-profile-qr.md)
+
+- [Simpler Profile: one identity header, contact fields and QR popup](profile-simplification.md)

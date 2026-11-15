@@ -32,3 +32,5 @@ Existing closed status is historical metadata, not a new test result. Open issue
 - [#96 Account creation popups and teacher subject — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/96)
 
 - [#97 Student profile QR card — Definition of Done and remaining browser check](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/97)
+
+- [#98 Simplify Profile and show QR on demand — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/98)
