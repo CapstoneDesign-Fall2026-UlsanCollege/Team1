@@ -1,0 +1,9 @@
+{
+  "date": "2026-11-15",
+  "environment": "Railway production; no student records changed",
+  "anonymousStaffLookup": 401,
+  "administratorSignIn": 200,
+  "unknownReference": 404,
+  "unknownReferenceMessage": "This student card is unavailable or outside your assigned classes.",
+  "administratorCannotMintStudentCard": 403
+}

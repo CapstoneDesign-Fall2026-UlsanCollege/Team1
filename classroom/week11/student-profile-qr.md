@@ -43,6 +43,7 @@ The browser tool could not connect in this session (`Trusted RPC service is not 
 - [Backend results](evidence/student-card-backend-tests.txt)
 - [Frontend results](evidence/student-card-frontend-tests.txt)
 - [QR decoding test](../../../frontend/tests/student-card.test.mjs)
+- [Hosted API check, without student data or credentials](evidence/student-card-hosted-check.json)
 
-Hosted endpoint/release observations are recorded in [#97](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/97) after the source is deployed.
+Source [425b99c](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/425b99c) reached Railway. The live site returned HTTP 200 with the QR-card bundle. Anonymous staff lookup returned 401; an authenticated administrator received the expected 404 for a nonexistent reference (confirming the route and reference table work), and 403 when attempting the student-only card endpoint. No real student reference was minted by this hosted check. Both GitHub workflows passed for the source commit. Browser/phone verification remains open in [#97](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/97).
 
