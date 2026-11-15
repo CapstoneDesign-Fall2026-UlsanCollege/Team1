@@ -19,26 +19,27 @@ export function mysqlResets(pool: Pool): ResetStore {
   return {
     async request(login, email) {
       await pool.execute(`INSERT INTO password_reset_requests (user_id)
-        SELECT u.id FROM users u JOIN student_profiles p ON p.user_id=u.id
-        WHERE u.login_id=? AND LOWER(TRIM(p.email))=? AND u.role='student' AND u.is_active=1
+        SELECT u.id FROM users u LEFT JOIN student_profiles p ON p.user_id=u.id LEFT JOIN school_parent_profiles g ON g.user_id=u.id
+        WHERE u.login_id=? AND LOWER(TRIM(CASE WHEN u.role='parent' THEN g.email ELSE p.email END))=? AND u.role IN('student','parent') AND u.is_active=1
         ON DUPLICATE KEY UPDATE requested_at=IF(status='pending',requested_at,CURRENT_TIMESTAMP),
         reviewed_at=IF(status='pending',reviewed_at,NULL), reviewed_by=IF(status='pending',reviewed_by,NULL), status='pending'`, [login, email]);
     },
     async pending() {
-      const [rows] = await pool.query<RowDataPacket[]>(`SELECT r.id,r.user_id,u.login_id,p.full_name,p.email,r.requested_at
-        FROM password_reset_requests r JOIN users u ON u.id=r.user_id JOIN student_profiles p ON p.user_id=u.id
-        WHERE r.status='pending' AND u.role='student' AND u.is_active=1 ORDER BY r.requested_at`);
+      const [rows] = await pool.query<RowDataPacket[]>(`SELECT r.id,r.user_id,u.login_id,COALESCE(p.full_name,g.full_name) full_name,COALESCE(p.email,g.email) email,r.requested_at
+        FROM password_reset_requests r JOIN users u ON u.id=r.user_id LEFT JOIN student_profiles p ON p.user_id=u.id LEFT JOIN school_parent_profiles g ON g.user_id=u.id
+        WHERE r.status='pending' AND u.role IN('student','parent') AND u.is_active=1 ORDER BY r.requested_at`);
       return rows as ResetRequest[];
     },
     async resolve(id, adminId, hash) {
       const connection = await pool.getConnection();
       try {
         await connection.beginTransaction();
-        const [rows] = await connection.execute<RowDataPacket[]>(`SELECT r.user_id FROM password_reset_requests r
-          JOIN users u ON u.id=r.user_id WHERE r.id=? AND r.status='pending' AND u.role='student' AND u.is_active=1 FOR UPDATE`, [id]);
+        const [rows] = await connection.execute<RowDataPacket[]>(`SELECT r.user_id,u.role FROM password_reset_requests r
+          JOIN users u ON u.id=r.user_id WHERE r.id=? AND r.status='pending' AND u.role IN('student','parent') AND u.is_active=1 FOR UPDATE`, [id]);
         if (!rows.length) { await connection.rollback(); return undefined; }
         const userId = Number(rows[0]!.user_id);
         if (hash) await connection.execute('UPDATE users SET password_hash=? WHERE id=?', [hash, userId]);
+        if(hash&&rows[0]!.role==='parent')await connection.execute('UPDATE school_parent_profiles SET must_change_password=1 WHERE user_id=?',[userId]);
         await connection.execute('UPDATE password_reset_requests SET status=?,reviewed_at=CURRENT_TIMESTAMP,reviewed_by=? WHERE id=?', [hash ? 'completed' : 'rejected', adminId, id]);
         await connection.commit(); return userId;
       } catch (error) { await connection.rollback(); throw error; }
@@ -58,10 +59,10 @@ export function resetRouter(store: ResetStore, invalidate: (id: number) => void,
       attempt.count++; attempts.set(key, attempt);
       const { login_id, email } = req.body ?? {};
       if (typeof login_id !== 'string' || !/^[A-Za-z0-9_-]{1,50}$/.test(login_id.trim()) || typeof email !== 'string' || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-        res.status(400).json({ message: 'Enter your student ID and a valid registered email.' }); return;
+        res.status(400).json({ message: 'Enter your login ID and a valid registered email.' }); return;
       }
       await store.request(login_id.trim(), email.trim().toLowerCase());
-      res.json({ message: 'If these details match an active student account, your request is queued for administrator review. The administrator will verify your identity and contact you privately. If you cannot access your registered email, contact your administrator.' });
+      res.json({ message: 'If these details match an active student or parent account, your request is queued for administrator review. The administrator will verify your identity and contact you privately. If you cannot access your registered email, contact your administrator.' });
     });
     return router;
   }

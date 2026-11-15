@@ -9,6 +9,7 @@ import bcrypt from 'bcryptjs';
 import {randomBytes} from 'node:crypto';
 import {createDatabaseApp} from '../dist/database-app.js';
 import {canteenMenuSchema} from '../dist/canteen-menu.js';
+import {canteenInfoSchema} from '../dist/canteen-info.js';
 import {resetSchema} from '../dist/password-resets.js';
 import {favouritesSchema} from '../dist/job-favourites.js';
 import {ensureActivitySchema} from '../dist/activity-log.js';
@@ -645,6 +646,79 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       const p=await preview(external);assert.equal((await request('/admin/school/transfer/apply','POST',{token:p.token})).status,200);
       const [newUser]=await sql("SELECT u.*,p.full_name,p.phone_number FROM users u JOIN student_profiles p ON p.user_id=u.id WHERE login_id='new_import_student'");assert.equal(newUser.is_active,0);assert.equal(newUser.role,'student');assert.equal(newUser.phone_number,'0123456789');assert.ok(newUser.password_hash);
       const escalation={...external,'users.csv':strToU8(encodeCsv([['id','login_id','role'],[7001,'admin','admin']]))};assert.equal((await request('/admin/school/transfer/preview','POST',{package:packed(escalation)})).status,400);
+    });
+    await t.test('parent provisioning, first-password gate, child scope, resets, notices and audit are enforced',async t=>{
+      today='2026-11-01';await ensureTeacherSchema(pool);await ensureActivitySchema(pool);
+      const body={login_id:'Palice',password:'initial-parent-password',full_name:'Fictional Parent',email:'guardian@example.test',phone_number:'9800000001',student_id:2,relationship:'Father',identity_verified:true,role:'admin'};
+      let parentId;
+      async function parentLogin(login='Palice',password='initial-parent-password',key='parent'){
+       const response=await request('/auth/login','POST',{login_id:login,password},null);assert.equal(response.status,200);assert.equal((await response.clone().json()).user.role,'parent');cookies[key]=response.headers.get('set-cookie').split(';')[0];
+      }
+      await t.test('only admin creates verified links; failures are atomic and P login suggestions avoid collisions',async()=>{
+       for(const role of ['alice','canteen','teacher',null])assert.equal((await request('/admin/parents','POST',body,role)).status,role?403:401);
+       assert.equal((await data('/admin/parents/suggest-login?student_id=2')).login_id,'Palice');
+       const before=Number((await sql('SELECT COUNT(*) n FROM users'))[0].n);
+       for(const bad of [{...body,identity_verified:false},{...body,student_id:999999},{...body,password:'short'}])assert.equal((await request('/admin/parents','POST',bad)).status,400);
+       assert.equal(Number((await sql('SELECT COUNT(*) n FROM users'))[0].n),before);
+       const created=await request('/admin/parents','POST',body);assert.equal(created.status,201);parentId=(await created.json()).id;
+       const [saved]=await sql('SELECT * FROM users WHERE id=?',[parentId]);assert.equal(saved.role,'parent');assert.notEqual(saved.password_hash,body.password);assert.ok(await bcrypt.compare(body.password,saved.password_hash));
+       assert.equal((await request('/admin/parents','POST',body)).status,409);
+       assert.equal((await data('/admin/parents/suggest-login?student_id=2')).login_id,'PaliceB');
+       const matches=(await data('/admin/parents/students?search=alice')).students;assert.ok(matches.some(s=>s.id===2&&s.class_label));
+      });
+      await t.test('initial password gates every child route, then invalidates sessions after change',async()=>{
+       await parentLogin();assert.equal((await data('/parent/me','parent')).parent.must_change_password,1);
+       for(const path of ['/parent/children','/parent/children/2','/parent/notices','/parent/canteen'])assert.equal((await request(path,'GET',undefined,'parent')).status,403);
+       assert.equal((await request('/parent/password','POST',{current_password:'wrong-password',new_password:'new-parent-password'},'parent')).status,400);
+       const changed=await request('/parent/password','POST',{current_password:body.password,new_password:'new-parent-password'},'parent');assert.equal(changed.status,200);
+       assert.equal((await request('/parent/me','GET',undefined,'parent')).status,401);
+       await parentLogin('Palice','new-parent-password');assert.equal((await data('/parent/me','parent')).parent.must_change_password,0);
+       const loginOld=await request('/auth/login','POST',{login_id:'Palice',password:body.password},null);assert.equal(loginOld.status,401);
+      });
+      await t.test('parents see only linked children and read records without writing academic data',async()=>{
+       assert.deepEqual((await data('/parent/children','parent')).children.map(c=>c.id),[2]);
+       for(const path of ['/parent/children/3','/parent/children/5'])assert.equal((await request(path,'GET',undefined,'parent')).status,404);
+       const payload={student_id:3,relationship:'Father',identity_verified:true};
+       assert.equal((await request('/admin/parents/'+parentId+'/children','POST',payload,'parent')).status,403);
+       assert.equal((await request('/admin/parents/'+parentId+'/children','POST',payload)).status,201);
+       assert.equal((await data('/parent/children','parent')).children.length,2);
+       const child=await data('/parent/children/2?month=2026-11','parent');assert.equal(child.child.login_id,'alice');assert.equal(child.current.class_id,classA);assert.ok(Array.isArray(child.timetable));assert.ok(!JSON.stringify(child).includes('password_hash'));
+       for(const path of ['/admin/students','/student/profile','/teacher/dashboard','/canteen/menu','/staff/student-cards/'+'a'.repeat(64)])assert.equal((await request(path,'GET',undefined,'parent')).status,403);
+       assert.equal((await request('/teacher/classes/'+classA+'/attendance','PUT',{date:today,records:[]},'parent')).status,403);
+       assert.equal((await request('/parent/children/2?month=2026-13','GET',undefined,'parent')).status,400);
+       await sql("INSERT INTO school_attendance_sheets(class_id,attendance_date,updated_by) VALUES(?,'2026-11-02',1),(?,'2026-11-03',1),(?,'2026-11-04',1) ON DUPLICATE KEY UPDATE updated_by=1",[classB,classB,classB]);
+       for(const day of ['02','03','04'])await sql("INSERT INTO school_attendance(class_id,attendance_date,student_user_id,status,recorded_by) VALUES(?,?,3,'late',1) ON DUPLICATE KEY UPDATE status='late'",[classB,'2026-11-'+day]);
+       try{today='2026-11-04';const register=await data('/parent/children/3?month=2026-11','parent');assert.ok(register.attendance.totals.late>=3);assert.equal(register.attendance.totals.lateAbsences,Math.floor(register.attendance.totals.late/3));assert.equal((await data('/parent/children/3?month=2026-10','parent')).attendance.today_status,'late');}finally{today='2026-11-01';}
+      });
+      await t.test('unlinking and disabling take effect immediately; stale link edits are refused',async()=>{
+       let row=(await data('/admin/parents')).parents.find(p=>p.id===parentId).children.find(c=>c.student_user_id===2);
+       const payload={relationship:'Father',is_active:false,identity_verified:true,version:row.version};
+       assert.equal((await request('/admin/parents/'+parentId+'/children/2','PUT',payload)).status,200);
+       assert.equal((await request('/parent/children/2','GET',undefined,'parent')).status,404);
+       assert.equal((await request('/admin/parents/'+parentId+'/children/2','PUT',payload)).status,409);
+       assert.equal((await request('/admin/parents/'+parentId+'/children/2','PUT',{...payload,is_active:true,version:row.version+1})).status,200);
+       assert.equal((await request('/admin/parents/'+parentId+'/status','PUT',{is_active:false})).status,200);
+       assert.equal((await request('/parent/me','GET',undefined,'parent')).status,401);
+       assert.equal((await request('/admin/parents/'+parentId+'/status','PUT',{is_active:true})).status,200);await parentLogin('Palice','new-parent-password');
+      });
+      await t.test('published notices only, own contact updates, resets and CSV keep guardian access private',async()=>{
+       const notice={title:'Fictional school notice',message:'Fictional guardian notice content',starts_on:today,ends_on:'2026-11-02',published:false};
+       assert.equal((await request('/admin/notices','POST',notice,'parent')).status,403);
+       assert.equal((await request('/admin/notices','POST',notice)).status,201);assert.ok(!(await data('/parent/notices','parent')).notices.some(n=>n.title===notice.title));
+       const n=(await data('/admin/notices')).notices.find(n=>n.title===notice.title);assert.equal((await request('/admin/notices/'+n.id,'PUT',{...n,published:true})).status,200);assert.ok((await data('/parent/notices','parent')).notices.some(item=>item.id===n.id));
+       assert.equal((await request('/parent/contact','PUT',{email:'new-guardian@example.test',phone_number:'9800000002',full_name:'Cannot rename self',student_id:5},'parent')).status,200);assert.equal((await data('/parent/me','parent')).parent.full_name,body.full_name);
+       await pool.query(canteenInfoSchema);
+       await sql("INSERT INTO canteen_info(id,name,location,hours,notice,published,version) VALUES(1,'Fictional Canteen','School block','[]','',1,1) ON DUPLICATE KEY UPDATE published=1");
+       await sql("INSERT INTO canteen_menus(service_date,published,currency,items,version) VALUES(?,1,'NPR',?,1) ON DUPLICATE KEY UPDATE published=1,items=VALUES(items)",[today,JSON.stringify([{id:'fixture-meal',name:'Fictional rice',price:50,status:'available'}])]);
+       assert.equal((await data('/parent/canteen','parent')).menu.items[0].name,'Fictional rice');
+       await sql('UPDATE canteen_menus SET published=0 WHERE service_date=?',[today]);assert.equal((await data('/parent/canteen','parent')).menu,null);
+       const reset=await request('/auth/password-reset-requests','POST',{login_id:'Palice',email:'new-guardian@example.test'},null);assert.equal(reset.status,200);
+       const pending=(await data('/admin/password-reset-requests')).requests.find(r=>r.user_id===parentId);assert.ok(pending);
+       assert.equal((await request('/admin/password-reset-requests/'+pending.id+'/resolve','POST',{action:'reset',password:'reset-parent-password',identity_verified:true})).status,200);
+       assert.equal((await request('/parent/children','GET',undefined,'parent')).status,401);await parentLogin('Palice','reset-parent-password');assert.equal((await request('/parent/children','GET',undefined,'parent')).status,403);
+       const exported=await request('/admin/school/transfer/export');const files=unzipSync(new Uint8Array(await exported.arrayBuffer()));assert.ok(!files['school_parent_students.csv']&&!files['school_parent_profiles.csv']);assert.ok(!strFromU8(files['users.csv']).includes('Palice'));
+       const audit=await sql("SELECT * FROM activity_logs WHERE record_type IN('school_parent_students','school_parent_profiles','school_notices')");assert.ok(audit.some(a=>a.record_type==='school_parent_students'&&a.action==='update'));const text=JSON.stringify(audit);for(const secret of [body.password,body.email,'reset-parent-password',notice.message])assert.ok(!text.includes(secret));
+      });
     });
   }finally{
     if(server){server.closeAllConnections();await new Promise(r=>server.close(r));}await pool?.end();

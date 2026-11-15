@@ -37,6 +37,9 @@ export const activitySchema=`CREATE TABLE IF NOT EXISTS activity_logs (
 type Area={keys:string[];fields:string[];hidden?:string[];label:string};
 // Explicit allowlist. Secrets/profile contents never enter stored JSON.
 export const activityAreas:Record<string,Area>={
+ school_parent_profiles:{keys:['user_id'],fields:['must_change_password'],hidden:['full_name','email','phone_number'],label:'Parent profiles'},
+ school_parent_students:{keys:['parent_user_id','student_user_id'],fields:['relationship','is_active','verified_by','version'],label:'Verified parent–child links'},
+ school_notices:{keys:['id'],fields:['starts_on','ends_on','published','version','updated_by'],hidden:['title','message'],label:'School notices'},
  school_floors:{keys:['floor_number'],fields:['label'],label:'Building floors'},
  school_teacher_accounts:{keys:['user_id'],fields:['teacher_id'],label:'Teacher login links'},
  school_homework:{keys:['id'],fields:['class_id','offering_id','teacher_id','created_by','assigned_on','due_on','is_active','version'],hidden:['title','instructions'],label:'Class homework'},

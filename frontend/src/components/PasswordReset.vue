@@ -36,9 +36,9 @@ async function resolve(action: 'reset' | 'reject') {
   <section class="card reset-panel">
     <template v-if="!admin">
       <p class="eyebrow">ACCOUNT HELP</p><h2>Forgot password?</h2>
-      <p class="muted">Enter your student ID and the email saved in your profile. An administrator will review your request and verify your identity.</p>
+      <p class="muted">Enter your student or parent login ID and the email saved in your profile. An administrator will review your request and verify your identity.</p>
       <form v-if="!message" @submit.prevent="requestReset">
-        <label for="reset-login">Student ID<input id="reset-login" v-model="login" required maxlength="50" autocomplete="username" :disabled="busy"></label>
+        <label for="reset-login">Login ID<input id="reset-login" v-model="login" required maxlength="50" autocomplete="username" :disabled="busy"></label>
         <label for="reset-email">Registered email<input id="reset-email" v-model="email" type="email" required maxlength="254" autocomplete="email" :disabled="busy"></label>
         <button :disabled="busy"><StudentIcon name="save" />{{ busy ? 'Sending…' : 'Request password reset' }}</button>
       </form>
@@ -46,13 +46,13 @@ async function resolve(action: 'reset' | 'reject') {
     </template>
     <template v-else>
       <div class="reset-heading"><div><p class="eyebrow">ACCOUNT SUPPORT</p><h2>Password reset requests <span class="badge">{{ requests.length }}</span></h2></div><button type="button" class="secondary" :disabled="busy || !!selected" @click="load"><StudentIcon name="refresh" />Refresh</button></div>
-      <p class="muted">Verify identity through a trusted university contact or in person. A matching email in a request alone is not proof of identity.</p>
+      <p class="muted">Verify identity through a trusted school contact or in person. A matching email in a request alone is not proof of identity.</p>
       <p v-if="!requests.length && !error" class="muted">No pending requests.</p>
       <article v-for="request in requests" :key="request.id" class="request-row"><div><strong>{{ request.full_name }}</strong><p>{{ request.login_id }} · {{ request.email }}</p><small>{{ new Date(request.requested_at).toLocaleString() }}</small></div><button type="button" class="secondary" :disabled="busy || !!selected" @click="select(request)"><StudentIcon name="edit" />Review</button></article>
       <form v-if="selected" @submit.prevent="resolve('reset')">
         <h3>Review {{ selected.full_name }} ({{ selected.login_id }})</h3>
         <fieldset :disabled="busy">
-          <label class="verification"><input v-model="verified" type="checkbox" required>I verified this student's identity independently.</label>
+          <label class="verification"><input v-model="verified" type="checkbox" required>I verified this account holder’s identity independently.</label>
           <label>New password<input v-model="password" type="password" required minlength="12" maxlength="72" autocomplete="new-password"></label>
           <small>At least 12 characters; at most 72 UTF-8 bytes. Share privately after resetting.</small>
           <label>Confirm new password<input v-model="confirm" type="password" required minlength="12" maxlength="72" autocomplete="new-password"></label>

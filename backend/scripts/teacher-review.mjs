@@ -7,6 +7,7 @@ import {ensureSchoolSchema} from '../dist/school-schema.js';
 import {ensureTeacherSchema} from '../dist/teacher-workspace.js';
 import {ensureActivitySchema} from '../dist/activity-log.js';
 import {canteenMenuSchema} from '../dist/canteen-menu.js';
+import {canteenInfoSchema} from '../dist/canteen-info.js';
 import {resetSchema} from '../dist/password-resets.js';
 import {favouritesSchema} from '../dist/job-favourites.js';
 const config={host:process.env.DB_HOST??'127.0.0.1',port:Number(process.env.DB_PORT??3307),user:process.env.DB_USER??'root',password:process.env.DB_PASSWORD};
@@ -28,7 +29,7 @@ try{
       canteenMenuSchema,resetSchema,favouritesSchema,
     ])await pool.query(statement);
 
- await ensureSchoolSchema(pool);await ensureTeacherSchema(pool);
+ await ensureSchoolSchema(pool);await ensureTeacherSchema(pool);await pool.query(canteenInfoSchema);
  const password=randomBytes(18).toString('base64url'),hash=await bcrypt.hash(password,4);
  for(const [id,login,role]of[[1,'review_admin','admin'],[2,'review_teacher','teacher'],[3,'review_teacher_b','teacher'],[4,'review_pupil_01','student'],[5,'review_pupil_02','student'],[6,'review_pupil_b','student']])await pool.execute('INSERT INTO users VALUES(?,?,?,?,1)',[id,login,hash,role]);
  await pool.query("INSERT INTO student_profiles(user_id,full_name,university) VALUES(4,'Aarav Example','Mahendra School'),(5,'Bina Example','Mahendra School'),(6,'Chandra Example','Mahendra School')");
@@ -58,6 +59,22 @@ try{
  process.env.SERVE_FRONTEND='true';process.env.NODE_ENV='test';delete process.env.FRONTEND_ORIGIN;
  server=createDatabaseApp(pool).listen(3019,'127.0.0.1');
  await new Promise((resolve,reject)=>{server.once('listening',resolve);server.once('error',reject)});
+ if(process.env.PARENT_REVIEW==='1'){
+  const base='http://127.0.0.1:3019/api';
+  async function api(path,body,cookie){const response=await fetch(base+path,{method:body?'POST':'GET',headers:{'Content-Type':'application/json','X-StudentHub':'1',...(cookie?{Cookie:cookie}:{})},...(body?{body:JSON.stringify(body)}:{})});if(!response.ok)throw Error('Parent fixture failed at '+path+': '+response.status);return {data:await response.json(),cookie:response.headers.get('set-cookie')?.split(';')[0]}}
+  const admin=(await api('/auth/login',{login_id:'review_admin',password})).cookie;
+  const guardian={login_id:'Preview_parent',password:password+'-initial',full_name:'Fictional Guardian',email:'guardian@example.test',phone_number:'9800000001',student_id:4,relationship:'Mother',identity_verified:true};
+  const created=await api('/admin/parents',guardian,admin);
+  await api('/admin/parents/'+created.data.id+'/children',{student_id:5,relationship:'Mother',identity_verified:true},admin);
+  const initial=(await api('/auth/login',{login_id:guardian.login_id,password:guardian.password})).cookie;
+  await api('/parent/password',{current_password:guardian.password,new_password:password},initial);
+  await api('/admin/parents',{...guardian,login_id:'Preview_parent_initial',password,full_name:'Fictional Initial Guardian'},admin);
+  const date=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Kathmandu',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  await api('/admin/notices',{title:'Fictional parent meeting',message:'Please review the timetable with your child before the school meeting.',starts_on:date,ends_on:'2027-04-14',published:true},admin);
+  await pool.execute("INSERT INTO school_homework(class_id,offering_id,teacher_id,created_by,assigned_on,due_on,title,instructions) VALUES(1,1,1,2,?,?,'Fictional maths practice','Complete the sample questions and bring your notebook.')",[date,date]);
+  await pool.execute("INSERT INTO canteen_menus(service_date,published,currency,items,version) VALUES(?,1,'NPR','[{\"id\":\"fixture-meal\",\"name\":\"School lunch\",\"price\":70,\"status\":\"available\"}]',1)",[date]);
+  console.log('Fictional parent logins: Preview_parent (ready), Preview_parent_initial (password change required). Same temporary review password below.');
+ }
  console.log('TEMPORARY FICTIONAL TEACHER REVIEW ONLY: http://127.0.0.1:3019/');
  console.log('Logins: review_admin, review_teacher, review_teacher_b, review_pupil_01');
  console.log('Temporary password (never publish): '+password);

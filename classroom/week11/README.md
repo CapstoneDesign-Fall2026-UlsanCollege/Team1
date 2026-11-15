@@ -37,3 +37,4 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Student QR card in Profile — implementation, permission tests and remaining phone check](student-profile-qr.md)
 
 - [Simpler Profile: one identity header, contact fields and QR popup](profile-simplification.md)
+- [Parent accounts, verified child links and dashboard — implementation and checks](parent-workspace.md)

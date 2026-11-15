@@ -1,4 +1,5 @@
 import {Router} from 'express';
+import {ensureParentSchema} from './parent-schema.js';
 import bcrypt from 'bcryptjs';
 import type {Pool,PoolConnection,RowDataPacket,ResultSetHeader} from 'mysql2/promise';
 import {ScheduleError} from './schedules.js';
@@ -35,11 +36,12 @@ export const teacherSchema=[
 export async function ensureTeacherSchema(pool:Pool){
  const [columns]=await pool.query<RowDataPacket[]>("SHOW COLUMNS FROM users LIKE 'role'");
  const type=columns[0]?.Type;
- if(type!=="enum('admin','student','canteen_head','teacher')"){
+ if(type!=="enum('admin','student','canteen_head','teacher')"&&type!=="enum('admin','student','canteen_head','teacher','parent')"){
   if(!["enum('admin','student')","enum('admin','student','canteen_head')"].includes(type))throw Error('Unexpected users.role schema; review teacher migration.');
   await pool.query("ALTER TABLE users MODIFY COLUMN role ENUM('admin','student','canteen_head','teacher') NOT NULL DEFAULT 'student'");
  }
  for(const sql of teacherSchema)await pool.query(sql);
+ await ensureParentSchema(pool);
 }
 type DB=Pick<Pool,'execute'>;
 async function rows(db:DB,sql:string,args:any[]=[]){return (await db.execute<RowDataPacket[]>(sql,args))[0]}

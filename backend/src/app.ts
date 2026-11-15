@@ -13,11 +13,12 @@ import { scheduleRouter, ScheduleError, type ScheduleStore } from './schedules.j
 import { studentAdminRouter, type StudentAdminStore } from './student-admin.js';
 import { canteenAccountsRouter, type CanteenAccountStore } from './canteen-accounts.js';
 
-export type Account = { id: number; login_id: string; password_hash: string; role: 'admin' | 'student' | 'canteen_head' | 'teacher'; is_active: number };
+export type Account = { id: number; login_id: string; password_hash: string; role: 'admin' | 'student' | 'canteen_head' | 'teacher' | 'parent'; is_active: number };
 export type Accounts = {
   withActor?: (user:{id:number;login_id:string;role:string},next:()=>void)=>void;
   school?: express.Router;
   studentIdentities?: (invalidate:(id:number)=>void)=>express.Router;
+  parents?: (invalidate:(id:number)=>void)=>express.Router;
   teacherWorkspace?: (invalidate:(id:number)=>void)=>express.Router;
   campus?: express.Router;
   canteenAccounts?: CanteenAccountStore;
@@ -123,7 +124,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
     if(accounts.withActor)accounts.withActor(res.locals.user,next);else next();
   });
   // Enforce workspace boundaries before individual routers, including future canteen routes.
-  for (const [prefix, role] of [['admin','admin'],['student','student'],['canteen','canteen_head'],['teacher','teacher']] as const) {
+  for (const [prefix, role] of [['admin','admin'],['student','student'],['canteen','canteen_head'],['teacher','teacher'],['parent','parent']] as const) {
     app.use('/api/' + prefix, (_req,res,next) => {
       if(res.locals.user.role !== role) {res.status(403).json({message:'You do not have access to this workspace.'}); return;}
       next();
@@ -132,6 +133,7 @@ export function createApp(accounts: Accounts, addStudent?: (student: NewStudent)
   if (accounts.canteenAccounts) app.use('/api', canteenAccountsRouter(accounts.canteenAccounts,invalidate));
   if (accounts.campus) app.use('/api', accounts.campus);
   if (accounts.studentIdentities) app.use('/api',accounts.studentIdentities(invalidate));
+  if (accounts.parents) app.use('/api',accounts.parents(invalidate));
   if (accounts.teacherWorkspace) app.use('/api',accounts.teacherWorkspace(invalidate));
   if (accounts.school) app.use('/api', accounts.school);
   if (accounts.resets) app.use('/api', resetRouter(accounts.resets, invalidate));
