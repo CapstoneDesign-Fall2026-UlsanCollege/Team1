@@ -8,7 +8,7 @@ import {bookingDatesMeet} from './school-rooms.js';
 import {isMenuDate,menuItems} from './canteen-menu.js';
 import {validateInfo} from './canteen-info.js';
 
-// Explicit domain allowlist: never transfer credentials, sessions, reset requests or audit history.
+// Explicit domain allowlist: never transfer credentials, sessions, QR references, reset requests or audit history.
 type Spec={table:string;fields:string[];key:string[];refs?:Record<string,string>;singleton?:boolean};
 const spec=(table:string,fields:string,key:string,refs:Record<string,string>={},singleton=false):Spec=>({table,fields:fields.split(','),key:key.split(','),refs,singleton});
 export const transferSpecs:Spec[]=[

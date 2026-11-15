@@ -1,0 +1,20 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import ts from 'typescript';
+import QRCode from 'qrcode';
+import jsQR from 'jsqr';
+import {PNG} from 'pngjs';
+const js=ts.transpileModule(readFileSync(new URL('../src/student-card.ts',import.meta.url),'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText;
+const {studentCardUrl,qrOptions}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));
+test('QR PNG decodes to the same site and opaque fragment without student/contact data',async()=>{
+ const token='a1'.repeat(32),url=studentCardUrl(token,'https://school.example','/Team1/');
+ assert.equal(url,'https://school.example/Team1/#student-card='+token);
+ const png=PNG.sync.read(await QRCode.toBuffer(url,{...qrOptions,type:'png'}));
+ const decoded=jsQR(new Uint8ClampedArray(png.data),png.width,png.height);
+ assert.equal(decoded?.data,url);assert.equal(new URL(url).search,'');
+ assert.equal(new URL(url).hash.slice(14),token);
+ for(const invalid of ['2412061','<script>','a'.repeat(63),'A'.repeat(64),'https://other.example'])assert.throws(()=>studentCardUrl(invalid,'https://school.example','/'));
+ assert.throws(()=>studentCardUrl(token,'https://school.example','https://other.example/'));
+ assert.equal(studentCardUrl(token,'http://127.0.0.1:3020','/'),'http://127.0.0.1:3020/#student-card='+token);
+});

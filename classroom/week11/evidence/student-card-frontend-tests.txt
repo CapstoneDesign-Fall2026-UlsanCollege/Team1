@@ -1,0 +1,34 @@
+
+> frontend@0.0.0 test
+> node --test tests/*.test.mjs
+
+✔ weekday selector stays within Sunday-start week across month/year boundaries (3.4351ms)
+✔ saved names fill prices only for an exact normalized match; new names stay editable (0.4003ms)
+✔ drag scrolling is neutral in the middle/outside and accelerates towards either edge (1.6014ms)
+✔ holding the cursor still at the bottom keeps scrolling until drop/cancel stops all frames (1.2001ms)
+✔ page scrolling takes priority, then the timetable scrolls vertically and sideways at its limits (0.5338ms)
+✔ leaving the edge stops movement, outside pointers do nothing, and restarting does not duplicate loops (0.3283ms)
+✔ old stored keyword is ignored and clearing the input reloads unfiltered jobs (6.4145ms)
+✔ Refresh clears a submitted keyword and availability and returns to the full first page (2.7939ms)
+✔ favourites show saved details without the catalogue keyword or availability restrictions (1.7932ms)
+✔ a late keyword response cannot replace a cleared search or its page count (1.217ms)
+✔ Korean schedules parse conservatively (3.9827ms)
+✔ every known day and entire shift must fit; unknowns are optional (0.8623ms)
+✔ class conflicts include overnight spillover and boundary times (0.6214ms)
+✔ other-class teaching blocks only overlapping lessons within term (1.9103ms)
+✔ supervising own class is allowed; another room booking still blocks (0.5189ms)
+✔ missing or invalid times are not advertised as available (0.2222ms)
+✔ QR PNG decodes to the same site and opaque fragment without student/contact data (112.7743ms)
+✔ admission year, grade and section produce five fixed digits with padded sequence (3.145ms)
+✔ unsupported labels, impossible dates and invalid student numbers fail instead of colliding (0.5417ms)
+✔ same Sunday-Friday routine is shown once; IDs and source order do not split it (16.1988ms)
+✔ subject, time, room or teacher exceptions each stay separate (0.8234ms)
+✔ empty days and Saturday schedules remain explicit without inventing lessons (1.5728ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1110.534

@@ -32,3 +32,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Administration spacing audit: controls, cards, actions and responsive checks](admin-spacing-audit.md)
 
 - [Create students, teachers and canteen staff from list popups](account-create-popups.md)
+
+- [Student QR card in Profile — implementation, permission tests and remaining phone check](student-profile-qr.md)

@@ -2,6 +2,7 @@
 import { apiFetch } from '../api'
 import { computed, ref } from 'vue'
 import StudentIcon from './StudentIcon.vue'
+import StudentIdCard from './StudentIdCard.vue'
 import JobFinder from './JobFinder.vue'
 import SchoolCanteen from './DailyMenu.vue'
 import StudentTimetable from './StudentTimetable.vue'
@@ -93,7 +94,7 @@ async function loadCourses(){ courseLoading.value=true; courseError.value=''; co
           <div v-else-if="profileError"><p class="error" role="alert">{{ profileError }}</p><button class="student-primary" @click="loadProfile">Try again</button></div>
           <template v-else-if="profile">
             <section class="profile-summary"><div class="student-avatar"><StudentIcon name="profile" /></div><div><h2>{{ profile.full_name }}</h2><p>Student ID: {{ loginId }}</p><p v-if="!schoolMode" class="student-muted">Major: {{ profile.major || 'Not provided' }}</p></div></section>
-            <section class="student-panel"><div class="panel-heading"><h2>Personal Information</h2><button class="edit-button" @click="editing = !editing">{{ editing ? 'Cancel' : 'Edit' }}</button></div><form v-if="editing" class="edit-form" @submit.prevent="saveProfile"><label>Email<input v-model="editForm.email" type="email" maxlength="254"></label><label>Phone<input v-model="editForm.phone_number" maxlength="30"></label><label>Address<textarea v-model="editForm.address" maxlength="500" rows="2"></textarea></label><button class="student-primary" :disabled="saving">{{ saving ? 'Saving…' : 'Save changes' }}</button></form><dl v-else><div v-for="[field, value] in profileRows" :key="String(field)"><dt>{{ field }}</dt><dd>{{ value ?? 'Not provided' }}</dd></div></dl></section>
+            <StudentIdCard /><section class="student-panel"><div class="panel-heading"><h2>Personal Information</h2><button class="edit-button" @click="editing = !editing">{{ editing ? 'Cancel' : 'Edit' }}</button></div><form v-if="editing" class="edit-form" @submit.prevent="saveProfile"><label>Email<input v-model="editForm.email" type="email" maxlength="254"></label><label>Phone<input v-model="editForm.phone_number" maxlength="30"></label><label>Address<textarea v-model="editForm.address" maxlength="500" rows="2"></textarea></label><button class="student-primary" :disabled="saving">{{ saving ? 'Saving…' : 'Save changes' }}</button></form><dl v-else><div v-for="[field, value] in profileRows" :key="String(field)"><dt>{{ field }}</dt><dd>{{ value ?? 'Not provided' }}</dd></div></dl></section>
           </template>
         </template>
         <JobFinder v-else-if="page === 'jobs'" :login-id="loginId" />

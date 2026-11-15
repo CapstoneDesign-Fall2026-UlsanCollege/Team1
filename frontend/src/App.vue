@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { apiFetch } from './api'
 import {dismissAfterFourSeconds} from './temporary-message'
-import { computed, nextTick, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import TeacherWorkspace from './components/TeacherWorkspace.vue'
 import TeacherAccounts from './components/TeacherAccounts.vue'
 import ActivityLog from './components/ActivityLog.vue'
@@ -17,6 +17,13 @@ import ScheduleManager from './components/ScheduleManager.vue'
 import StudentIcon from './components/StudentIcon.vue'
 import PasswordReset from './components/PasswordReset.vue'
 import StudentLife from './components/StudentLife.vue'
+import StudentCardLookup from './components/StudentCardLookup.vue'
+const scannedCard=ref('')
+function readCardLink(){scannedCard.value=window.location.hash.startsWith('#student-card=')?window.location.hash.slice(14):''}
+readCardLink()
+onMounted(()=>window.addEventListener('hashchange',readCardLink))
+onUnmounted(()=>window.removeEventListener('hashchange',readCardLink))
+function closeCardLink(){history.replaceState(null,'',window.location.pathname+window.location.search);scannedCard.value=''}
 import CanteenWorkspace from './components/CanteenWorkspace.vue'
 import CanteenAccounts from './components/CanteenAccounts.vue'
 import SchoolManager from './components/SchoolManager.vue'
@@ -121,7 +128,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <StudentLife v-if="user?.role === 'student'" :login-id="user.login_id" :busy="busy" :error="error" @logout="logout" />
+  <StudentCardLookup v-if="user&&scannedCard" :token="scannedCard" @close="closeCardLink" @logout="logout" />
+  <StudentLife v-else-if="user?.role === 'student'" :login-id="user.login_id" :busy="busy" :error="error" @logout="logout" />
   <TeacherWorkspace v-else-if="user?.role === 'teacher'" :login-id="user.login_id" :busy="busy" :error="error" @logout="logout" />
   <CanteenWorkspace v-else-if="user?.role === 'canteen_head'" :login-id="user.login_id" :busy="busy" :error="error" @logout="logout" />
   <template v-else>
@@ -138,7 +146,7 @@ onMounted(async () => {
       </div>
       <PasswordReset v-if="resetPage" @back="resetPage = false" />
       <form v-else class="card" @submit.prevent="login">
-        <p class="eyebrow">WELCOME BACK</p><h2>Log in to StudentHub</h2>
+        <p class="eyebrow">WELCOME BACK</p><h2>Log in to StudentHub</h2><p v-if="scannedCard" class="muted">Sign in as an administrator or an assigned teacher to view this student card.</p>
         <p class="muted">Use the account provided by your administrator.</p>
         <label for="login">Login ID</label>
         <input id="login" v-model="loginId" autocomplete="username" maxlength="50" required placeholder="Enter your login ID" :disabled="busy">

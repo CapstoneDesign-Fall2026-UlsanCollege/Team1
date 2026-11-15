@@ -1,0 +1,13 @@
+<script setup lang="ts">
+import {onMounted,ref,watch} from 'vue'
+import {apiFetch} from '../api'
+import {cardClass,type StudentCard} from '../student-card'
+const props=defineProps<{token:string}>(),emit=defineEmits<{close:[];logout:[]}>()
+const card=ref<StudentCard|null>(null),loading=ref(false),error=ref('')
+async function load(){card.value=null;error.value='';if(!/^[a-f0-9]{64}$/.test(props.token)){error.value='This student card link is invalid.';return;}loading.value=true;try{const r=await apiFetch('/api/staff/student-cards/'+props.token);const data=await r.json();if(!r.ok)throw new Error(data.message||'Unable to look up this card.');card.value=data.card}catch(e){error.value=e instanceof Error?e.message:'Unable to look up this card.'}finally{loading.value=false}}
+onMounted(load);watch(()=>props.token,load)
+</script>
+<template><main class="card-lookup"><section class="card"><div class="lookup-heading"><h1>Student card</h1><button type="button" class="secondary" @click="emit('close')">Back to dashboard</button></div><p v-if="loading" role="status">Checking the school record…</p><p v-if="error" class="error" role="alert">{{error}}</p><template v-if="card"><p class="lookup-badge">Current school record</p><h2>{{card.full_name}}</h2><dl><div><dt>Student ID</dt><dd>{{card.login_id}}</dd></div><div><dt>School</dt><dd>{{card.school}}</dd></div><div><dt>Class</dt><dd>{{cardClass(card)}}</dd></div><div v-if="card.membership"><dt>Academic year</dt><dd>{{card.membership.academic_year}}</dd></div><div><dt>Checked on</dt><dd>{{card.checked_on}} · Nepal time</dd></div></dl><p class="muted">A QR code identifies a record; confirm the person’s identity through your school’s usual process. No attendance has been recorded.</p></template><button v-if="error" type="button" class="secondary" @click="load">Try again</button><button type="button" class="secondary switch-account" @click="emit('logout')">Use another account</button></section></main></template>
+<style scoped>
+.card-lookup{max-width:760px;padding:24px 16px;min-height:100dvh}.lookup-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.lookup-heading h1{font-size:25px;margin:0}.card-lookup h2{font-size:23px}.card-lookup button{min-height:44px;font-size:13px;padding:10px 14px}.lookup-badge{background:#e9f3ec;border-radius:8px;padding:10px 12px;color:#315f4d}.card-lookup dl{margin:16px 0}.card-lookup dl>div{display:flex;gap:16px;justify-content:space-between;padding:12px 0;border-bottom:1px solid #dbe5df;font-size:14px}.card-lookup dd{margin:0;text-align:right;overflow-wrap:anywhere}.switch-account{margin:12px 0 0 8px}@media(max-width:400px){.card-lookup dl>div{flex-direction:column;gap:6px}.card-lookup dd{text-align:left}}
+</style>

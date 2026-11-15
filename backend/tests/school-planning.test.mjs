@@ -400,6 +400,37 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       const create2=await request('/admin/teacher-accounts','POST',{...staff,teacher_id:secondTeacher,login_id:'teacher_two'});assert.equal(create2.status,201);
       async function signTeacher(login,role){const r=await request('/auth/login','POST',{login_id:login,password:staff.password},null);assert.equal(r.status,200);cookies[role]=r.headers.get('set-cookie').split(';')[0];}
       await signTeacher('teacher_one','teacher');await signTeacher('teacher_two','otherTeacher');
+      await t.test('profile QR references are stable, private and limited to active assigned staff',async()=>{
+       const originalToday=today;try{
+       const own=await data('/student/id-card','alice'),other=await data('/student/id-card','bob');
+       assert.match(own.token,/^[a-f0-9]{64}$/);assert.notEqual(own.token,other.token);
+       assert.equal((await data('/student/id-card?student_id=3','alice')).token,own.token);
+       assert.equal((await data('/student/id-card','alice')).token,own.token);
+       assert.equal(own.card.login_id,'alice');assert.equal(own.card.membership.class_id,classA);
+       const path='/staff/student-cards/'+own.token;
+       assert.equal((await request(path,'GET',undefined,null)).status,401);
+       for(const role of ['alice','bob','canteen'])assert.equal((await request(path,'GET',undefined,role)).status,403);
+       assert.equal((await data(path)).card.full_name,'Fictional Alice');
+       assert.equal((await data(path,'teacher')).card.login_id,'alice');
+       assert.equal((await request(path,'GET',undefined,'otherTeacher')).status,404);
+       const serialized=JSON.stringify(await data(path));
+       for(const field of ['email','phone_number','address','password_hash','token'])assert.ok(!serialized.includes('"'+field+'"'));
+       assert.equal((await request('/staff/student-cards/'+'0'.repeat(64))).status,404);
+       assert.equal((await request('/staff/student-cards/not-valid')).status,404);
+       await sql('UPDATE users SET is_active=0 WHERE id=2');
+       assert.equal((await request(path)).status,404);
+       await sql('UPDATE users SET is_active=1 WHERE id=2');
+       await sql('UPDATE school_teachers SET is_active=0 WHERE id=?',[firstTeacher]);
+       assert.equal((await request(path,'GET',undefined,'teacher')).status,404);
+       await sql('UPDATE school_teachers SET is_active=1 WHERE id=?',[firstTeacher]);
+       await sql("UPDATE users SET login_id='alice_card_renamed' WHERE id=2");
+       assert.equal((await data(path)).card.login_id,'alice_card_renamed');
+       await sql("UPDATE users SET login_id='alice' WHERE id=2");
+       today='2028-01-01';assert.equal((await request(path,'GET',undefined,'teacher')).status,404);
+       assert.equal((await data(path)).card.membership.class_id,nextClass);
+       }finally{today=originalToday;await sql("UPDATE users SET login_id='alice',is_active=1 WHERE id=2");await sql('UPDATE school_teachers SET is_active=1 WHERE id=?',[firstTeacher]);}
+      });
+
       let homeworkId,version,rosterStudents;
       await t.test('admin links teacher accounts atomically; duplicate link rolls back user insert and every role is isolated',async()=>{
        assert.equal((await sql('SELECT role FROM users WHERE id=?',[userId]))[0].role,'teacher');
@@ -588,7 +619,7 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
     });
     await t.test('CSV export/preview/apply is additive, atomic, stale-safe and excludes credentials',async()=>{
       const r=await request('/admin/school/transfer/export');assert.equal(r.status,200);
-      const files=unzipSync(new Uint8Array(await r.arrayBuffer()));const manifest=JSON.parse(strFromU8(files['manifest.json']));
+      const files=unzipSync(new Uint8Array(await r.arrayBuffer()));assert.ok(!files['school_student_cards.csv']);const manifest=JSON.parse(strFromU8(files['manifest.json']));
       assert.equal(manifest.format,'studenthub-csv-v1');assert.ok(files['school_rooms.csv']);
       const users=decodeCsv(strFromU8(files['users.csv']));assert.deepEqual(users[0],['id','login_id','role']);assert.ok(!users.slice(1).some(r=>r[2]==='admin'));
       assert.ok(!Object.keys(files).some(f=>/password|reset|activity/.test(f)));

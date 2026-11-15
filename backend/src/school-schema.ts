@@ -80,6 +80,10 @@ export const schoolSchema = [
 ];
 export async function ensureSchoolSchema(pool: Pool) {
   for (const sql of schoolSchema) await pool.query(sql);
+  await pool.query(`CREATE TABLE IF NOT EXISTS school_student_cards (
+    student_user_id INT UNSIGNED PRIMARY KEY, token CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL UNIQUE,
+    FOREIGN KEY(student_user_id) REFERENCES users(id) ON DELETE CASCADE
+  ) ENGINE=InnoDB`);
   await pool.query('CREATE TABLE IF NOT EXISTS school_transfer_identity (id INT PRIMARY KEY, identity CHAR(36) NOT NULL) ENGINE=InnoDB');
   await pool.execute('INSERT IGNORE INTO school_transfer_identity(id,identity) VALUES(1,?)',[randomUUID()]);
   await pool.query(`CREATE TABLE IF NOT EXISTS school_floors (floor_number INT PRIMARY KEY, label VARCHAR(60) NOT NULL) ENGINE=InnoDB`);
