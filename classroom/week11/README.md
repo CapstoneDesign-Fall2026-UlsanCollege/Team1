@@ -40,3 +40,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Parent accounts, verified child links and dashboard — implementation and checks](parent-workspace.md)
 
 - [Daily workflow across admin, teacher, student, parent and canteen — test results and demo checklist](daily-workflow.md)
+
+- [Separate empty-school workspace for setup from the beginning](empty-school-workspace.md)
