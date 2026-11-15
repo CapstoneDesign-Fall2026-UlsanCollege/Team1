@@ -45,3 +45,7 @@ At a 390px simulated browser viewport, the final attendance page had no horizont
 Use PowerShell in the repository root, configure the backend environment as described in the main README, then build both packages. For a disposable school review, set `PARENT_REVIEW=1` and `TEACHER_REVIEW_ATTENDANCE=1` before running `backend/scripts/teacher-review.mjs` with the configured backend environment. The script prints temporary credentials privately, serves on port 3019, and deletes its own isolated review database after `stop`. Never record those passwords in evidence.
 
 The normal server applies the additive parent schema at startup. Existing accounts retain their roles; existing school records are preserved. No real guardian accounts are created automatically.
+
+## Child-search layout correction
+
+Fixed a shared full-width form-button rule squeezing the student search input. Search now uses a two-column grid on wider screens and stacked controls on phones. The production frontend build passed. Assistant browser checks at 800, 390 and 320 pixels confirmed input widths of 424, 288 and 218 pixels, with no horizontal dialog overflow. Searching and selecting the fictional Aarav Example record populated its P-prefixed login. [Measurements](evidence/parent-child-search-layout.json) · [Screenshot](evidence/parent-child-search-fixed.jpg). This corrects the earlier incomplete popup layout check.

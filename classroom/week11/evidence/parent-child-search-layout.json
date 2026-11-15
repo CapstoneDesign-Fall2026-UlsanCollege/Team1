@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-16",
+  "method": "Assistant-run local browser; fictional isolated fixture",
+  "measurements": [
+    {
+      "buttonWidth": 134.8671875,
+      "dialogScroll": 623,
+      "dialogWidth": 623,
+      "inputWidth": 424.1328125,
+      "viewport": 800
+    },
+    {
+      "buttonWidth": 288,
+      "dialogScroll": 324,
+      "dialogWidth": 324,
+      "inputWidth": 288,
+      "viewport": 390
+    },
+    {
+      "buttonWidth": 218,
+      "dialogScroll": 254,
+      "dialogWidth": 254,
+      "inputWidth": 218,
+      "viewport": 320
+    }
+  ],
+  "search": "Aarav returned the matching child; selecting it populated the P-prefixed login"
+}
