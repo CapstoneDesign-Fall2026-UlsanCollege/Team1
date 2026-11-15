@@ -32,6 +32,14 @@ Administrators publish dated announcements from **School notices**. Draft and ex
 - [Mobile attendance](evidence/parent-attendance-mobile.jpg) and [create-parent popup](evidence/parent-create-mobile.jpg) were captured from that fictional fixture, without credentials.
 - Browser form creation/password mutations were covered through API tests, not submitted through the browser. A physical-phone and independent human check remain pending; these results do not claim either.
 
+## Railway rollout
+
+Source [6977501](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/697750118a2ddde2c887fdd29cc6c18825ed49b2) was pushed to main. [GitHub CI passed](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/actions/runs/43740866612).
+
+Assistant-run live HTTP checks on November 16 confirmed the public root returned 200 and the served JavaScript contained the new parent dashboard. An approved administrator session received 200 from `/api/admin/parents` and `/api/admin/notices`, both initially empty; the same admin was denied `/api/parent/children` with 403. Guests received 401 from both parent/administrator paths. The test session was logged out. This verifies deployed route/schema availability, not a real guardian's full hosted workflow. No real parent accounts or links were created, and no production school data was replaced.
+
+At a 390px simulated browser viewport, the final attendance page had no horizontal page overflow, a 347px child selector and an internally scrolling register. This is a desktop browser viewport check, not physical-phone evidence.
+
 ## Reproduce locally
 
 Use PowerShell in the repository root, configure the backend environment as described in the main README, then build both packages. For a disposable school review, set `PARENT_REVIEW=1` and `TEACHER_REVIEW_ATTENDANCE=1` before running `backend/scripts/teacher-review.mjs` with the configured backend environment. The script prints temporary credentials privately, serves on port 3019, and deletes its own isolated review database after `stop`. Never record those passwords in evidence.
