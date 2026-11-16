@@ -647,6 +647,21 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       const [newUser]=await sql("SELECT u.*,p.full_name,p.phone_number FROM users u JOIN student_profiles p ON p.user_id=u.id WHERE login_id='new_import_student'");assert.equal(newUser.is_active,0);assert.equal(newUser.role,'student');assert.equal(newUser.phone_number,'0123456789');assert.ok(newUser.password_hash);
       const escalation={...external,'users.csv':strToU8(encodeCsv([['id','login_id','role'],[7001,'admin','admin']]))};assert.equal((await request('/admin/school/transfer/preview','POST',{package:packed(escalation)})).status,400);
     });
+    await t.test('quick floor creation saves its rooms atomically and preserves existing layouts',async()=>{
+      const input={floor_number:90,new_floor_label:'Fictional new floor',kind:'regular',room_numbers:['QUICK-01','QUICK-02']};
+      const before=await data('/admin/school/rooms');
+      await mutate('/admin/school/rooms','POST',input,201);
+      const saved=await data('/admin/school/rooms');assert.equal(saved.rooms.length,before.rooms.length+2);assert.equal(saved.floors.find(f=>f.floor_number===90).label,input.new_floor_label);
+      assert.deepEqual(saved.rooms.filter(r=>r.floor_number===90).map(r=>r.room_number),input.room_numbers);
+      for(const old of before.rooms)assert.deepEqual(saved.rooms.find(r=>r.id===old.id),old);
+      const revision=(await data('/admin/school')).revision;
+      await mutate('/admin/school/rooms','POST',{...input,floor_number:91,room_numbers:['NEW-UNCOMMITTED','QUICK-01']},409);
+      const rolled=await data('/admin/school/rooms');assert.ok(!rolled.floors.some(f=>f.floor_number===91));assert.ok(!rolled.rooms.some(r=>r.room_number==='NEW-UNCOMMITTED'));assert.equal((await data('/admin/school')).revision,revision);
+      await mutate('/admin/school/rooms','POST',{...input,room_numbers:['OTHER-ROOM']},409);
+      for(const bad of [{...input,floor_number:-1},{...input,new_floor_label:''},{...input,room_numbers:['Same','same']}])await mutate('/admin/school/rooms','POST',bad,400);
+      assert.equal((await request('/admin/school/rooms','POST',{...input,floor_number:92,revision:revision-1})).status,409);
+      for(const role of ['alice','teacher','canteen'])assert.equal((await request('/admin/school/rooms','POST',{...input,revision},role)).status,403);
+    });
     await t.test('parent provisioning, first-password gate, child scope, resets, notices and audit are enforced',async t=>{
       today='2026-11-01';await ensureTeacherSchema(pool);await ensureActivitySchema(pool);
       const body={login_id:'Palice',password:'initial-parent-password',full_name:'Fictional Parent',email:'guardian@example.test',phone_number:'9800000001',student_id:2,relationship:'Father',identity_verified:true,role:'admin'};

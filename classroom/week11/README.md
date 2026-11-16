@@ -44,3 +44,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Separate empty-school workspace for setup from the beginning](empty-school-workspace.md)
 
 - [Guided school setup: profile, year, term and class in order](guided-school-setup.md)
+
+- [Quick floor/room creation, tap-to-name rooms and school-name settings](quick-room-creation.md)

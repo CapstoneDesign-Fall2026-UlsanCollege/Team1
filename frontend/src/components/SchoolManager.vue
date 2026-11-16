@@ -73,7 +73,7 @@ const terms = computed(() => state.value?.terms.filter(t => t.year_id === yearId
 
 const legacyTerms = computed(() => state.value?.terms.filter(t => !t.year_id) ?? [])
 
-const guidedSetup = ref(false)
+const guidedSetup = ref(false), profileEditor = ref(false)
 const setupSteps = ['School', 'Academic year', 'School term', 'Classes', 'Ready']
 const setupStage = computed(() => !state.value?.profile ? 1 : !selectedYear.value ? 2 : !terms.value.length ? 3 : !classes.value.some(c => c.is_active) ? 4 : 5)
 
@@ -168,6 +168,8 @@ async function save(path: string, method: string, value: object) {
 
 }
 
+async function saveProfile(){if(await save('profile','PUT',profile))profileEditor.value=false}
+
 async function saveYear() {
 
   if (await save('years' + (yearForm.id ? '/' + yearForm.id : ''), yearForm.id ? 'PUT' : 'POST', yearForm)) Object.assign(yearForm, { id: 0, name: '', start_date: '', end_date: '' })
@@ -244,11 +246,11 @@ onMounted(load)
       </section>
 
 
-      <form v-if="!state.profile" class="card" @submit.prevent="save('profile', 'PUT', profile)"><fieldset :disabled="busy"><h3>Set up your school</h3><label>School name<input v-model="profile.name" required maxlength="150"></label><label>School level<select v-model="profile.level"><option value="middle">Middle school</option><option value="high">High school</option></select></label>
+      <button v-if="state.profile&&setupOnly&&!profileEditor" type="button" class="secondary" :disabled="busy" @click="profileEditor=true">Edit school name &amp; level</button><form v-if="!state.profile||profileEditor" class="card" @submit.prevent="saveProfile"><fieldset :disabled="busy"><h3>{{state.profile?'Edit school details':'Set up your school'}}</h3><label>School name<input v-model="profile.name" required maxlength="150"></label><label>School level<select v-model="profile.level"><option value="middle">Middle school</option><option value="high">High school</option></select></label>
 
         <p v-if="state.catalog.length||state.subjects.length">School mode changes student academic access to explicit class membership. Existing accounts, subjects and timetables stay saved; unmapped students will see an assignment-needed message.</p><p v-else>First save your school name and level. Next, we will create the academic year, school term and first class.</p>
 
-        <label class="check"><input v-model="profile.confirm_school_mode" type="checkbox" required>{{state.catalog.length||state.subjects.length?'I understand and will review the student and subject mappings.':'I confirm the school name and level are correct.'}}</label><button :disabled="!profile.confirm_school_mode">Save school and continue</button></fieldset></form>
+        <label class="check"><input v-model="profile.confirm_school_mode" type="checkbox" required>{{state.catalog.length||state.subjects.length?'I understand and will review the student and subject mappings.':'I confirm the school name and level are correct.'}}</label><button :disabled="!profile.confirm_school_mode">{{state.profile?'Save school details':'Save school and continue'}}</button><button v-if="state.profile" type="button" class="secondary" :disabled="busy" @click="profileEditor=false;Object.assign(profile,state.profile,{confirm_school_mode:false})">Cancel</button></fieldset></form>
 
       <template v-else>
 

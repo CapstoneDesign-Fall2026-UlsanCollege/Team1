@@ -30,10 +30,13 @@ export function schoolRoomRouter(pool:Pool,change:Change){
   router.post('/admin/school/rooms',async(req,res)=>{
     const floor=floorNumber(req.body.floor_number),kind=req.body.kind;
     if(!['regular','special'].includes(kind)||!Array.isArray(req.body.room_numbers)||!req.body.room_numbers.length||req.body.room_numbers.length>50)throw new ScheduleError(400,'Choose a room type and 1–50 room numbers.');
+    const newFloorLabel=req.body.new_floor_label===undefined?null:text(req.body.new_floor_label,60,'a floor label');
     const numbers=req.body.room_numbers.map((v:unknown)=>text(v,32,'a room number'));
     if(new Set(numbers.map((n:string)=>n.toLowerCase())).size!==numbers.length)throw new ScheduleError(400,'Each room number must be different.');
     await change(req.body.revision,async c=>{
-      if(!(await rows(c,'SELECT floor_number FROM school_floors WHERE floor_number=?',[floor])).length)throw new ScheduleError(400,'Create this floor first.');
+      const existingFloor=(await rows(c,'SELECT floor_number FROM school_floors WHERE floor_number=?',[floor])).length;
+      if(newFloorLabel!==null){if(existingFloor)throw new ScheduleError(409,'This floor already exists. Use Add rooms instead.');await c.execute('INSERT INTO school_floors(floor_number,label) VALUES(?,?)',[floor,newFloorLabel]);}
+      else if(!existingFloor)throw new ScheduleError(400,'Create this floor first.');
       const [last]=await rows(c,'SELECT COALESCE(MAX(id),0) id FROM school_rooms');
       const [position]=await rows(c,'SELECT COALESCE(MAX(position_number),0) position FROM school_rooms WHERE floor_number=?',[floor]);
       for(let i=0;i<numbers.length;i++)await c.execute('INSERT INTO school_rooms(id,room_number,floor_number,position_number,kind,name) VALUES(?,?,?,?,?,?)',[Number(last.id)+i+1,numbers[i],floor,Number(position.position)+i+1,kind,(kind==='regular'?'Classroom ':'Special room ')+numbers[i]]);
