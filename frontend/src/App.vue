@@ -48,8 +48,8 @@ function studentCreated(keepOpen:boolean){studentRevision.value++;if(!keepOpen){
 const schoolMode = ref(false), schoolName = ref(''), visitedSchool = ref(false), dashboardRevision = ref(0), savingSchool = ref(false), schoolPanel = ref('class')
 const adminSections = [
   { id: 'dashboard', title: 'Overview', icon: 'home' },
-  { id: 'school', title: 'School classes', icon: 'course' },
   { id: 'setup', title: 'Year & class setup', icon: 'semester' },
+  { id: 'school', title: 'School management', icon: 'course' },
   { id: 'rooms', title: 'Rooms', icon: 'home' },
   { id: 'students', title: 'Accounts', icon: 'profile' },
   { id: 'transfer', title: 'School data', icon: 'course' },

@@ -62,7 +62,7 @@ watch(()=>props.revision,()=>{void refresh().catch(e=>{error.value=String(e)})})
     <form v-if="!school||grade" class="search-bar" @submit.prevent="load"><label for="student-search">Name or login ID<input id="student-search" v-model="search" type="search" maxlength="150" placeholder="Search students" :disabled="loading||busy||!!draft"></label><button :disabled="loading||busy||!!draft"><StudentIcon name="search" />Search / refresh</button></form>
     <p v-if="error" class="error" role="alert">{{error}}</p><p v-if="message" class="success" role="status">{{message}}</p>
     <form v-if="draft" class="editor" @submit.prevent="save">
-      <h3>Edit {{draft.full_name}}</h3><p class="muted">{{ school ? 'Update this student’s profile or account access. Change class membership in School classes.' : 'Update the profile and assigned semesters.' }}</p>
+      <h3>Edit {{draft.full_name}}</h3><p class="muted">{{ school ? 'Update this student’s profile or account access. Change class membership in School management.' : 'Update the profile and assigned semesters.' }}</p>
       <fieldset :disabled="busy"><div class="edit-grid">
         <label>Full name<input v-model="draft.full_name" required maxlength="150"></label>
         <label>{{school ? 'School' : 'University'}}<input v-model="draft.university" required maxlength="150"></label>
