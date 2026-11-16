@@ -662,6 +662,17 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       assert.equal((await request('/admin/school/rooms','POST',{...input,floor_number:92,revision:revision-1})).status,409);
       for(const role of ['alice','teacher','canteen'])assert.equal((await request('/admin/school/rooms','POST',{...input,revision},role)).status,403);
     });
+    await t.test('next-step guide is admin-only, year-scoped and exposes counts without personal data',async()=>{
+      for(const role of ['alice','teacher','canteen',null])assert.equal((await request('/admin/school/next-steps','GET',undefined,role)).status,role?403:401);
+      const initial=await data('/admin/school/next-steps');assert.equal(initial.year.id,yearId);assert.equal(initial.counts.classes,Number((await sql('SELECT COUNT(*) n FROM school_classes WHERE year_id=? AND is_active=1',[yearId]))[0].n));
+      for(const v of Object.values(initial.counts))assert.ok(Number.isSafeInteger(v)&&v>=0);
+      const serialized=JSON.stringify(initial);for(const field of ['password','email','phone_number','login_id','full_name'])assert.ok(!serialized.includes(field));
+      const missing=(await mutate('/admin/school/classes','POST',{year_id:yearId,grade_label:'GUIDE','name':'Empty class',is_active:true},201)).id;
+      const after=await data('/admin/school/next-steps');for(const key of ['unroomed','grades_without_subjects','classes_without_subjects','classes_without_lessons','classes_without_students'])assert.equal(after.counts[key],initial.counts[key]+1,key);
+      await mutate('/admin/school/classes/'+missing,'PUT',{year_id:yearId,grade_label:'GUIDE',name:'Empty class',is_active:false});
+      const restored=await data('/admin/school/next-steps');assert.deepEqual(restored.counts,initial.counts);
+      const response=await request('/admin/school/next-steps');assert.equal(response.headers.get('cache-control'),'no-store');
+    });
     await t.test('parent provisioning, first-password gate, child scope, resets, notices and audit are enforced',async t=>{
       today='2026-11-01';await ensureTeacherSchema(pool);await ensureActivitySchema(pool);
       const body={login_id:'Palice',password:'initial-parent-password',full_name:'Fictional Parent',email:'guardian@example.test',phone_number:'9800000001',student_id:2,relationship:'Father',identity_verified:true,role:'admin'};

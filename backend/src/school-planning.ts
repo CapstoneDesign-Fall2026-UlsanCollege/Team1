@@ -1,3 +1,4 @@
+import {schoolNextSteps} from './school-next-steps.js';
 import {schoolTransferRouter} from './school-transfer.js';
 import bcrypt from 'bcryptjs';
 import {validateStudent} from './students.js';
@@ -107,6 +108,7 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
     const students=await rows(pool,'SELECT u.id,u.login_id,u.is_active,p.full_name '+filter+' ORDER BY p.full_name,u.id LIMIT 10 OFFSET '+((page-1)*10),values);
     res.json({students,total:Number(count.total),page,page_size:10,date});
   });
+  router.get('/admin/school/next-steps',async(_req,res)=>{res.set('Cache-Control','no-store');res.json(await schoolNextSteps(pool,today()));});
   router.get('/admin/school/summary', async (_req,res) => {
     const date=today();
     const [currentYear]=await rows(pool,`SELECT y.id,y.name,${yDates} FROM school_years y WHERE y.start_date<=? AND y.end_date>=? LIMIT 1`,[date,date]);

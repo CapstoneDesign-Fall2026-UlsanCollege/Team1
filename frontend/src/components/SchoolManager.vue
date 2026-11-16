@@ -9,7 +9,7 @@ import { scheduleApi, days } from '../schedules'
 
 const props = defineProps<{ selectedTab?: string; active?: boolean; setupOnly?: boolean }>()
 
-const emit = defineEmits<{ changed: [configured: boolean]; saving: [value: boolean]; create:[id:number]; rooms:[id:number]; panel:[value:string]; setup:[]; ready:[] }>()
+const emit = defineEmits<{ changed: [configured: boolean]; saving: [value: boolean]; create:[id:number]; rooms:[id:number]; panel:[value:string]; setup:[]; ready:[]; next:[] }>()
 
 type Year = { id: number; name: string; start_date: string; end_date: string }
 
@@ -267,7 +267,7 @@ onMounted(load)
 
         <p v-if="tab==='members'"><button type="button" class="secondary" @click="tab='roster'">← Back to class students</button></p>
 
-        <section v-if="guidedSetup&&setupStage===5" class="card setup-complete"><h3>Your school basics are ready</h3><p>The school, academic year, term and first class are saved.</p><p class="muted">Next, configure rooms, add subjects and teachers, then create student accounts. You can add more years, terms and classes here later.</p><button type="button" @click="guidedSetup=false;tab='class';emit('ready')">Open school management</button><button type="button" class="secondary" @click="guidedSetup=false;tab='structure'">Add more classes or review setup</button></section>
+        <section v-if="guidedSetup&&setupStage===5" class="card setup-complete"><h3>Your school basics are ready</h3><p>The school, academic year, term and first class are saved.</p><p class="muted">Next, configure rooms, add subjects and teachers, then create student accounts. You can add more years, terms and classes here later.</p><button type="button" @click="guidedSetup=false;emit('next')">See my next step</button><button type="button" class="secondary" @click="guidedSetup=false;tab='class';emit('ready')">Open school management</button><button type="button" class="secondary" @click="guidedSetup=false;tab='structure'">Add more classes or review setup</button></section>
         <template v-if="(tab === 'structure'||guidedSetup)&&(!guidedSetup||setupStage<5)">
 
           <form v-if="!guidedSetup||setupStage===2" class="card" @submit.prevent="saveYear"><fieldset :disabled="busy"><h3>{{ yearForm.id ? 'Edit academic year' : 'Create academic year' }}</h3><div class="fields"><label>Year label<input v-model="yearForm.name" required maxlength="80" placeholder="2026–2027"></label><label>Starts<input v-model="yearForm.start_date" type="date" required></label><label>Ends<input v-model="yearForm.end_date" type="date" required></label></div><button>{{guidedSetup?'Save year and continue':'Save academic year'}}</button><button v-if="selectedYear" type="button" class="secondary" @click="Object.assign(yearForm, selectedYear)">Edit selected year</button><button v-if="yearForm.id" type="button" class="secondary" @click="Object.assign(yearForm, { id: 0, name: '', start_date: '', end_date: '' })">Cancel edit</button></fieldset></form>
