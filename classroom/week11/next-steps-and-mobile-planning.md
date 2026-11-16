@@ -36,3 +36,9 @@ Safe fictional screenshots: [guide](evidence/next-step-guide-mobile.jpg), [tap-o
 ## Remaining acceptance
 
 **This is not a physical-iPhone pass.** Simulated-width clicks verified the tap-only paths and save/reload. A real touch-drag gesture in iPhone Chrome has not been independently verified. Galan should refresh the deployed site and repeat both tap and handle-drag paths on the phone. Keep the earlier [Ansh persistence failure](ansh-iphone-subject-persistence.md) and #83 acceptance open until an actual iPhone retest is recorded. No user school records or Railway data were modified by these fictional tests.
+
+## Railway rollout
+
+Guide implementation [a4c5ac8](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/a4c5ac8) and mobile controls [2dcc8df](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/2dcc8df) were pushed to main. [CI passed](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/actions/runs/43905804920).
+
+On November 17, the Railway root returned HTTP 200 and its served JavaScript contained the next-step guide, touch handles and Destination room picker. An approved existing administrator session read the new guide endpoint successfully (HTTP 200, 12 count fields, Cache-Control no-store); a guest received 401. The session was logged out. These are live availability/authorization checks, not a physical iPhone workflow pass. The persistent laptop workspace was restarted on port 3021 with existing data preserved.
