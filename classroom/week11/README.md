@@ -42,3 +42,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Daily workflow across admin, teacher, student, parent and canteen — test results and demo checklist](daily-workflow.md)
 
 - [Separate empty-school workspace for setup from the beginning](empty-school-workspace.md)
+
+- [Guided school setup: profile, year, term and class in order](guided-school-setup.md)

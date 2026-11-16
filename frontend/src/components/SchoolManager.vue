@@ -9,7 +9,7 @@ import { scheduleApi, days } from '../schedules'
 
 const props = defineProps<{ selectedTab?: string; active?: boolean; setupOnly?: boolean }>()
 
-const emit = defineEmits<{ changed: [configured: boolean]; saving: [value: boolean]; create:[id:number]; rooms:[id:number]; panel:[value:string] }>()
+const emit = defineEmits<{ changed: [configured: boolean]; saving: [value: boolean]; create:[id:number]; rooms:[id:number]; panel:[value:string]; setup:[]; ready:[] }>()
 
 type Year = { id: number; name: string; start_date: string; end_date: string }
 
@@ -73,6 +73,11 @@ const terms = computed(() => state.value?.terms.filter(t => t.year_id === yearId
 
 const legacyTerms = computed(() => state.value?.terms.filter(t => !t.year_id) ?? [])
 
+const guidedSetup = ref(false)
+const setupSteps = ['School', 'Academic year', 'School term', 'Classes', 'Ready']
+const setupStage = computed(() => !state.value?.profile ? 1 : !selectedYear.value ? 2 : !terms.value.length ? 3 : !classes.value.some(c => c.is_active) ? 4 : 5)
+
+
 const subjects = computed(() => state.value?.subjects.filter(s => state.value?.links.some(l => l.class_id === classId.value && l.offering_id === s.id)) ?? [])
 
 const availableOfferings = computed(() => state.value?.subjects.filter(s => terms.value.some(t => t.id === s.semester_id) && !subjects.value.some(v => v.id === s.id)) ?? [])
@@ -130,6 +135,12 @@ async function load() {
     if (state.value!.profile) Object.assign(profile, state.value!.profile)
 
     resetSelection(); await loadStudents()
+    if (setupStage.value < 5) {
+      guidedSetup.value = true
+      tab.value = 'structure'
+      if (!props.setupOnly) emit('setup')
+      if (selectedYear.value && !terms.value.length) Object.assign(termForm, { name: termForm.name || 'School term ' + selectedYear.value.name, start_date: selectedYear.value.start_date, end_date: selectedYear.value.end_date })
+    }
 
   } catch (e) { error.value = e instanceof Error ? e.message : 'Unable to load school planning.' }
 
@@ -221,46 +232,53 @@ onMounted(load)
 
   <section class="school-manager" :class="{ compact: tab === 'subjects' || tab === 'members', 'membership-view': tab === 'members' }">
 
-    <div class="heading"><div><p class="eyebrow">SCHOOL PLANNING</p><h2>{{tab==='structure'?'Years, grades and classes':'Class workspace'}}</h2></div><button type="button" class="secondary" :disabled="busy || loading" @click="load">Reload saved data</button></div>
+    <div class="heading"><div><p class="eyebrow">SCHOOL PLANNING</p><h2>{{guidedSetup?'Set up your school':tab==='structure'?'Years, grades and classes':'Class workspace'}}</h2></div><button type="button" class="secondary" :disabled="busy || loading" @click="load">Reload saved data</button></div>
 
     <p v-if="error" class="error" role="alert">{{ error }}</p><p v-if="message" class="success" role="status">{{ message }}</p><p v-if="loading" role="status">Loading school records…</p>
 
     <template v-if="state">
+      <section v-if="guidedSetup" class="setup-guide" aria-label="School setup progress">
+        <p class="eyebrow">{{setupStage < 5 ? 'STEP ' + setupStage + ' OF 4' : 'SETUP COMPLETE'}}</p>
+        <ol class="setup-steps"><li v-for="(step,index) in setupSteps" :key="step" :class="{complete:index+1<setupStage,current:index+1===setupStage}" :aria-current="index+1===setupStage?'step':undefined"><span>{{index+1<setupStage?'✓':index+1}}</span>{{step}}</li></ol>
+        <p class="muted">{{setupStage<5?'Your saved information stays in place. Complete the step below to continue.':'All four setup steps are saved. Choose where to go next.'}}</p>
+      </section>
+
 
       <form v-if="!state.profile" class="card" @submit.prevent="save('profile', 'PUT', profile)"><fieldset :disabled="busy"><h3>Set up your school</h3><label>School name<input v-model="profile.name" required maxlength="150"></label><label>School level<select v-model="profile.level"><option value="middle">Middle school</option><option value="high">High school</option></select></label>
 
-        <p>School mode changes student academic access to explicit class membership. Existing accounts, subjects and timetables stay saved; unmapped students will see an assignment-needed message.</p>
+        <p v-if="state.catalog.length||state.subjects.length">School mode changes student academic access to explicit class membership. Existing accounts, subjects and timetables stay saved; unmapped students will see an assignment-needed message.</p><p v-else>First save your school name and level. Next, we will create the academic year, school term and first class.</p>
 
-        <label class="check"><input v-model="profile.confirm_school_mode" type="checkbox" required>I understand and will review the student and subject mappings.</label><button :disabled="!profile.confirm_school_mode">Enable school planning</button></fieldset></form>
+        <label class="check"><input v-model="profile.confirm_school_mode" type="checkbox" required>{{state.catalog.length||state.subjects.length?'I understand and will review the student and subject mappings.':'I confirm the school name and level are correct.'}}</label><button :disabled="!profile.confirm_school_mode">Save school and continue</button></fieldset></form>
 
       <template v-else>
 
         <p class="school-title"><strong>{{ state.profile.name }}</strong> · {{ state.profile.level === 'middle' ? 'Middle school' : 'High school' }}</p>
 
-        <p v-if="tab === 'structure'" class="muted">A homeroom class is a student group within an academic year.</p>
+        <p v-if="tab === 'structure'&&(!guidedSetup||setupStage===4)" class="muted">A homeroom class is a student group within an academic year.</p>
 
-        <fieldset class="filters" :disabled="busy"><label>Academic year<select v-model="yearId" @change="resetSelection"><option :value="0">Choose a year</option><option v-for="y in state.years" :key="y.id" :value="y.id">{{ y.name }}</option></select></label><label>Homeroom class<select v-model="classId" @change="Object.assign(meeting, { id: 0, course_offering_id: 0 })"><option :value="0">Choose a class</option><option v-for="c in classes" :key="c.id" :value="c.id">{{ className(c) }}{{ c.is_active ? '' : ' · Inactive' }}</option></select></label></fieldset>
+        <fieldset v-if="!guidedSetup" class="filters" :disabled="busy"><label>Academic year<select v-model="yearId" @change="resetSelection"><option :value="0">Choose a year</option><option v-for="y in state.years" :key="y.id" :value="y.id">{{ y.name }}</option></select></label><label>Homeroom class<select v-model="classId" @change="Object.assign(meeting, { id: 0, course_offering_id: 0 })"><option :value="0">Choose a class</option><option v-for="c in classes" :key="c.id" :value="c.id">{{ className(c) }}{{ c.is_active ? '' : ' · Inactive' }}</option></select></label></fieldset>
 
-        <nav v-if="!setupOnly" class="tabs" aria-label="Class workspace"><button v-for="item in [{id:'class',name:'Overview'},{id:'roster',name:'Students'},{id:'subjects',name:'Subjects & timetable'},{id:'teachers',name:'Teachers'},{id:'classrooms',name:'Rooms'}]" :key="item.id" type="button" :class="{secondary:tab!==item.id}" :aria-current="tab===item.id?'page':undefined" :disabled="busy" @click="tab=item.id">{{item.name}}</button></nav>
-        <details v-if="tab==='class'" class="class-browser"><summary>Browse classes ({{classes.length}})</summary><div class="class-switcher"><button v-for="c in classes" :key="c.id" type="button" class="secondary" :aria-pressed="classId===c.id" @click="classId=c.id">Grade {{c.grade_label}} · Class {{c.name}}<small>{{roomLabel(c)}}</small></button></div></details>
+        <nav v-if="!setupOnly&&!guidedSetup" class="tabs" aria-label="Class workspace"><button v-for="item in [{id:'class',name:'Overview'},{id:'roster',name:'Students'},{id:'subjects',name:'Subjects & timetable'},{id:'teachers',name:'Teachers'},{id:'classrooms',name:'Rooms'}]" :key="item.id" type="button" :class="{secondary:tab!==item.id}" :aria-current="tab===item.id?'page':undefined" :disabled="busy" @click="tab=item.id">{{item.name}}</button></nav>
+        <details v-if="tab==='class'&&!guidedSetup" class="class-browser"><summary>Browse classes ({{classes.length}})</summary><div class="class-switcher"><button v-for="c in classes" :key="c.id" type="button" class="secondary" :aria-pressed="classId===c.id" @click="classId=c.id">Grade {{c.grade_label}} · Class {{c.name}}<small>{{roomLabel(c)}}</small></button></div></details>
         <ClassDetails v-if="['class','roster','teachers','classrooms'].includes(tab)&&selectedClass" :state="state" :class-id="classId" :view="tab" @open="tab=$event" @create="emit('create',$event)" @rooms="emit('rooms',$event)" />
         <p v-if="['class','roster','teachers','classrooms'].includes(tab)&&!selectedClass" class="muted">Create or choose a class to open its workspace.</p>
 
         <p v-if="tab==='members'"><button type="button" class="secondary" @click="tab='roster'">← Back to class students</button></p>
 
-        <template v-if="tab === 'structure'">
+        <section v-if="guidedSetup&&setupStage===5" class="card setup-complete"><h3>Your school basics are ready</h3><p>The school, academic year, term and first class are saved.</p><p class="muted">Next, configure rooms, add subjects and teachers, then create student accounts. You can add more years, terms and classes here later.</p><button type="button" @click="guidedSetup=false;tab='class';emit('ready')">Open school classes</button><button type="button" class="secondary" @click="guidedSetup=false;tab='structure'">Add more classes or review setup</button></section>
+        <template v-if="(tab === 'structure'||guidedSetup)&&(!guidedSetup||setupStage<5)">
 
-          <form class="card" @submit.prevent="saveYear"><fieldset :disabled="busy"><h3>{{ yearForm.id ? 'Edit academic year' : 'Create academic year' }}</h3><div class="fields"><label>Year label<input v-model="yearForm.name" required maxlength="80" placeholder="2026–2027"></label><label>Starts<input v-model="yearForm.start_date" type="date" required></label><label>Ends<input v-model="yearForm.end_date" type="date" required></label></div><button>Save academic year</button><button v-if="selectedYear" type="button" class="secondary" @click="Object.assign(yearForm, selectedYear)">Edit selected year</button><button v-if="yearForm.id" type="button" class="secondary" @click="Object.assign(yearForm, { id: 0, name: '', start_date: '', end_date: '' })">Cancel edit</button></fieldset></form>
+          <form v-if="!guidedSetup||setupStage===2" class="card" @submit.prevent="saveYear"><fieldset :disabled="busy"><h3>{{ yearForm.id ? 'Edit academic year' : 'Create academic year' }}</h3><div class="fields"><label>Year label<input v-model="yearForm.name" required maxlength="80" placeholder="2026–2027"></label><label>Starts<input v-model="yearForm.start_date" type="date" required></label><label>Ends<input v-model="yearForm.end_date" type="date" required></label></div><button>{{guidedSetup?'Save year and continue':'Save academic year'}}</button><button v-if="selectedYear" type="button" class="secondary" @click="Object.assign(yearForm, selectedYear)">Edit selected year</button><button v-if="yearForm.id" type="button" class="secondary" @click="Object.assign(yearForm, { id: 0, name: '', start_date: '', end_date: '' })">Cancel edit</button></fieldset></form>
 
           <template v-if="selectedYear">
 
-            <form class="card" @submit.prevent="saveClass"><fieldset :disabled="busy"><h3>{{ classForm.id ? 'Edit homeroom class' : 'Create homeroom class' }} · {{ selectedYear.name }}</h3><div class="fields"><label>Grade label<input v-model="classForm.grade_label" required maxlength="30" placeholder="2"></label><label>Class label<input v-model="classForm.name" required maxlength="50" placeholder="A"></label></div><label class="check"><input v-model="classForm.is_active" type="checkbox">Active</label><button>Save class</button><button v-if="selectedClass" type="button" class="secondary" @click="Object.assign(classForm, { ...selectedClass, is_active: Boolean(selectedClass.is_active) })">Edit selected class</button><button v-if="classForm.id" type="button" class="secondary" @click="Object.assign(classForm, { id: 0, grade_label: '', name: '', is_active: true })">Cancel edit</button></fieldset></form>
+            <form v-if="!guidedSetup||setupStage===4" class="card" @submit.prevent="saveClass"><fieldset :disabled="busy"><h3>{{ classForm.id ? 'Edit homeroom class' : 'Create homeroom class' }} · {{ selectedYear.name }}</h3><div class="fields"><label>Grade label<input v-model="classForm.grade_label" required maxlength="30" placeholder="2"></label><label>Class label<input v-model="classForm.name" required maxlength="50" placeholder="A"></label></div><label class="check"><input v-model="classForm.is_active" type="checkbox">Active</label><button>{{guidedSetup?'Save class and finish':'Save class'}}</button><button v-if="selectedClass" type="button" class="secondary" @click="Object.assign(classForm, { ...selectedClass, is_active: Boolean(selectedClass.is_active) })">Edit selected class</button><button v-if="classForm.id" type="button" class="secondary" @click="Object.assign(classForm, { id: 0, grade_label: '', name: '', is_active: true })">Cancel edit</button></fieldset></form>
 
-            <form class="card" @submit.prevent="saveTerm"><fieldset :disabled="busy"><h3>Terms in {{ selectedYear.name }}</h3><ul><li v-for="term in terms" :key="term.id">{{ term.name }} · {{ term.start_date }} – {{ term.end_date }}</li></ul><p v-if="!terms.length" class="muted">No terms linked yet.</p><label>Action<select v-model="termForm.mode"><option value="new">Create a school term</option><option value="map">Map an existing term after review</option></select></label>
+            <form v-if="!guidedSetup||setupStage===3" class="card" @submit.prevent="saveTerm"><fieldset :disabled="busy"><h3>Terms in {{ selectedYear.name }}</h3><ul><li v-for="term in terms" :key="term.id">{{ term.name }} · {{ term.start_date }} – {{ term.end_date }}</li></ul><p v-if="!terms.length" class="muted">No terms linked yet.</p><label>Action<select v-model="termForm.mode"><option value="new">Create a school term</option><option value="map">Map an existing term after review</option></select></label>
 
               <label v-if="termForm.mode === 'map'">Existing unmapped term<select v-model="termForm.semester_id" required><option :value="0" disabled>Choose a term</option><option v-for="term in legacyTerms" :key="term.id" :value="term.id">{{ term.name }} · {{ term.start_date }} – {{ term.end_date }}</option></select></label>
 
-              <div v-else class="fields"><label>Term name<input v-model="termForm.name" required maxlength="100"></label><label>Starts<input v-model="termForm.start_date" type="date" :min="selectedYear.start_date" :max="selectedYear.end_date" required></label><label>Ends<input v-model="termForm.end_date" type="date" :min="selectedYear.start_date" :max="selectedYear.end_date" required></label></div><button>Save term link</button></fieldset></form>
+              <div v-else class="fields"><label>Term name<input v-model="termForm.name" required maxlength="100"></label><label>Starts<input v-model="termForm.start_date" type="date" :min="selectedYear.start_date" :max="selectedYear.end_date" required></label><label>Ends<input v-model="termForm.end_date" type="date" :min="selectedYear.start_date" :max="selectedYear.end_date" required></label></div><button>{{guidedSetup?'Save term and continue':'Save term link'}}</button></fieldset></form>
 
           </template>
 
@@ -351,6 +369,8 @@ onMounted(load)
 
 
 <style scoped>
+.setup-guide{margin:20px 0;padding:18px;background:#edf4ef;border:1px solid #d8e4dd;border-radius:12px}.setup-guide .eyebrow{font-size:11px;margin:0 0 14px}.setup-guide .muted{margin:14px 0 0;font-size:13px}.setup-steps{display:flex;flex-wrap:wrap;list-style:none;padding:0;margin:0;gap:10px 18px}.setup-steps li{display:flex;align-items:center;gap:8px;color:#65786b;font-size:13px}.setup-steps li span{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:white;border:1px solid #c9d9cf}.setup-steps .current{color:#234f3d;font-weight:700}.setup-steps .current span{color:white;background:#315e4b;border-color:#315e4b}.setup-steps .complete span{background:#daeade;color:#275d40}.setup-complete p{line-height:1.6}@media(max-width:600px){.setup-guide{padding:14px}.setup-steps{gap:12px}.setup-steps li{font-size:12px}}
+
 .class-browser{margin:12px 0}.class-browser summary{cursor:pointer;color:#476c58;font-size:14px}.class-switcher{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.class-switcher button{padding:10px 14px;font-size:13px}.class-switcher small{display:block;font-size:11px;margin-top:4px}.class-switcher [aria-pressed="true"]{outline:2px solid #37614f}
 
 

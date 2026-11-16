@@ -1,18 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { scheduleApi } from '../schedules'
 import StudentIcon from './StudentIcon.vue'
 const props = defineProps<{ revision: number }>()
 const emit = defineEmits<{ open: [section: string, panel?: string]; mode: [enabled: boolean]; school: [name: string] }>()
 type Summary = { school: { name: string; level: string } | null; current_year: { name: string } | null; today: string; counts: { students: number; classes: number; unassigned: number } }
 const summary = ref<Summary | null>(null), loading = ref(true), error = ref('')
-const tasks = computed(() => [
-  { done: Boolean(summary.value?.school), title: 'School profile', detail: 'Choose your school name and level.', section: 'setup' },
-  { done: Boolean(summary.value?.current_year), title: 'Academic year', detail: 'Set the dates for your current year.', section: 'setup' },
-  { done: Boolean(summary.value && summary.value.counts.classes > 0), title: 'Grades and classes', detail: 'Create the student groups for this year.', section: 'setup' },
-  { done: Boolean(summary.value && summary.value.counts.students > 0 && summary.value.counts.unassigned === 0), title: 'Student membership', detail: 'Give each student the right class.', section: 'school', panel: 'members' },
-])
-const ready = computed(() => tasks.value.filter(t => t.done).length)
 let request = 0
 async function load() {
   const current = ++request; loading.value = true; error.value = ''
@@ -30,6 +23,7 @@ onMounted(load)
   <section class="school-overview" aria-label="School overview">
     <div class="overview-heading"><div><p class="eyebrow">YOUR SCHOOL AT A GLANCE</p><h2>A clear place to start.</h2><p class="intro">Classes, people and account support. Choose what you need to do today.</p></div><button type="button" class="refresh-overview" :disabled="loading" @click="load"><StudentIcon name="refresh" />Refresh overview</button></div>
     <p v-if="error" class="error" role="alert">{{ error }} Use Refresh overview to try again.</p>
+    <section v-if="summary&&!loading&&(!summary.school||!summary.current_year||!summary.counts.classes)" class="setup-card" style="margin-bottom:24px"><h3>Start with your school setup</h3><p class="intro">Follow the steps in order: School → Academic year → School term → Classes. Your progress is saved after each step.</p><button type="button" @click="emit('open','setup')">Continue school setup</button></section>
     <div class="overview-stats" :aria-busy="loading">
       <article class="stat"><span class="stat-icon"><StudentIcon name="profile" /></span><div><span>Active students</span><strong>{{ loading ? '…' : summary?.counts.students ?? '—' }}</strong><small>Enabled student accounts</small></div></article>
       <article class="stat"><span class="stat-icon blue"><StudentIcon name="course" /></span><div><span>Homeroom classes</span><strong>{{ loading ? '…' : summary?.counts.classes ?? '—' }}</strong><small>{{ summary?.current_year?.name ?? 'No current academic year' }}</small></div></article>
@@ -43,7 +37,7 @@ onMounted(load)
       <button type="button" class="task-card" @click="emit('open', 'requests')"><span class="task-icon"><StudentIcon name="settings" /></span><span class="task-copy"><small>ACCOUNT SUPPORT</small><strong>Review password requests</strong><span>Check student requests and help restore their account access.</span><em>Open requests <span aria-hidden="true">↗</span></em></span></button>
     </div>
     <div class="overview-lower">
-      <section class="setup-card"><div class="section-heading"><div><p class="eyebrow">SETUP GUIDE</p><h3>{{ ready === 4 ? 'Your school basics are ready' : 'Set up in four simple steps' }}</h3></div><span v-if="summary && !loading" class="setup-progress">{{ ready }}/4</span></div><p v-if="loading" role="status">Checking your setup…</p><p v-else-if="!summary" class="intro">Setup status is unavailable. Refresh to check it.</p><ol v-else class="setup-list"><li v-for="(task, i) in tasks" :key="task.title"><button type="button" @click="emit('open', task.section, task.panel)"><span class="step-number" :class="{ complete: task.done }">{{ task.done ? '✓' : i + 1 }}</span><span><strong>{{ task.title }}<small v-if="task.done">Ready</small></strong><span>{{ task.detail }}</span></span><span aria-hidden="true" class="step-arrow">›</span></button></li></ol></section>
+      <section class="setup-card"><p class="eyebrow">SETUP GUIDE</p><h3>School setup, one step at a time</h3><ol class="setup-list"><li v-for="(step,i) in ['School name and level','Academic year and dates','School term','Grades and classes']" :key="step"><button type="button" @click="emit('open','setup')"><span class="step-number">{{i+1}}</span><span><strong>{{step}}</strong><span>Setup opens at the first unfinished step.</span></span><span aria-hidden="true" class="step-arrow">›</span></button></li></ol><p class="intro">After the basics, add rooms, subjects, teachers and student accounts.</p></section>
       <section class="quick-card"><p class="eyebrow">QUICK ACTIONS</p><h3>A few useful shortcuts</h3><button type="button" @click="emit('open', 'students', 'create')"><StudentIcon name="add" /><span>Create a student account</span><span aria-hidden="true">›</span></button><button type="button" @click="emit('open', 'school', 'members')"><StudentIcon name="semester" /><span>Assign students to a class</span><span aria-hidden="true">›</span></button><button type="button" @click="emit('open', 'students', 'canteen')"><StudentIcon name="profile" /><span>Manage canteen staff access</span><span aria-hidden="true">›</span></button><p class="quick-note"><StudentIcon name="course" /><span>Food menus stay in the canteen head’s workspace, keeping academic administration focused.</span></p></section>
     </div>
   </section>

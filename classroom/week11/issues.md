@@ -37,3 +37,5 @@ Existing closed status is historical metadata, not a new test result. Open issue
 
 - [#99 Parent accounts and dashboard — remaining independent verification](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/99)
 - [#101 Cross-role daily workflow integration verification — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/101)
+
+- [#102 Guided first-school setup — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/102)
