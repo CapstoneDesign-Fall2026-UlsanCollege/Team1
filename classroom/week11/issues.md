@@ -43,3 +43,5 @@ Existing closed status is historical metadata, not a new test result. Open issue
 - [#103 Quick floor and room creation — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/103)
 
 - [#104 Direct subject-name scheduling — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/104)
+
+- [#105 Next-step guide and mobile planning — Definition of Done and iPhone retest](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/105)

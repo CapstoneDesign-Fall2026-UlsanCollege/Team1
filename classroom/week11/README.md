@@ -48,3 +48,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Quick floor/room creation, tap-to-name rooms and school-name settings](quick-room-creation.md)
 
 - [Click a subject name to open the lesson popup](subject-name-scheduling.md)
+
+- [Data-driven next-step guide and mobile subject/room planning](next-steps-and-mobile-planning.md)

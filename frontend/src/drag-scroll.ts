@@ -47,7 +47,7 @@ export function browserDragScroller(root:()=>HTMLElement|null){
     viewport:()=>({left:0,top:0,right:window.innerWidth,bottom:window.innerHeight}),
     scrollPage:dy=>{const page=document.scrollingElement;if(!page)return false;const before=page.scrollTop;page.scrollTop+=dy;return page.scrollTop!==before},
     surfaceAt:p=>{
-      const element=document.elementFromPoint(p.x,p.y)?.closest<HTMLElement>('.grid-scroll')
+      const element=document.elementFromPoint(p.x,p.y)?.closest<HTMLElement>('.grid-scroll, .building-scroll, .class-list, .library-list')
       if(!element||!root()?.contains(element))return null
       const bounds=element.getBoundingClientRect()
       return {bounds,scroll:(x,y)=>{element.scrollLeft+=x;element.scrollTop+=y}}
