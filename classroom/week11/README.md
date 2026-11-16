@@ -46,3 +46,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Guided school setup: profile, year, term and class in order](guided-school-setup.md)
 
 - [Quick floor/room creation, tap-to-name rooms and school-name settings](quick-room-creation.md)
+
+- [Click a subject name to open the lesson popup](subject-name-scheduling.md)
