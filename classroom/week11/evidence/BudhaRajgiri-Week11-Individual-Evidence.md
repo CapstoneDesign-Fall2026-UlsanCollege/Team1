@@ -39,8 +39,8 @@ This file records my individual checks. A check is marked **Passed** only where 
 | L5 | Check classroom | Correct classroom is shown, or a clear empty state appears | My Class screenshot displays Classroom 203 in the assigned state; a separate screenshot also shows the clear no-class state. | Passed — UI states observed |
 | L6 | Check homeroom teacher | Correct assigned teacher appears, or the UI clearly says unassigned | Assigned-state screenshot displays Bikash Thapa. The teacher's match to the authoritative school record remains unconfirmed because the API uses the timetable convention described in Section 11. | Passed — displayed value observed; authoritative assignment pending |
 | L7 | Check weekly timetable | Correct days, subjects, times and room details appear | Timetable page loaded and displayed Sunday–Friday, five lesson rows, teacher names, time ranges, Room 203 and the tiffin notice. Correctness against official school records and every day's schedule remains unverified; see Section 16. | Passed — timetable UI observed |
-| L8 | Refresh the page and revisit My Class | The page reloads and the same authorized data remains available | Pending | Pending |
-| L9 | Navigate to another feature and return | Navigation works and My Class still displays correctly | Pending | Pending |
+| L8 | Refresh the page and revisit My Class | The page reloads and the same authorized data remains available | I refreshed the page and revisited My Class; the page loaded and the student class information remained available. | Passed |
+| L9 | Navigate to another feature and return | Navigation works and My Class still displays correctly | I navigated to another feature and returned to My Class; navigation worked and the My Class page displayed correctly. | Passed |
 
 ## 4. Android phone test checklist
 
@@ -149,13 +149,13 @@ The repository contains an isolated MySQL test named **“student dashboard scop
 ## 12. Final result
 
 **GitHub Actions automated checks:** Passed — backend 44 passed / 3 skipped; frontend 25 passed; frontend build passed.  
-**Laptop browser checks L1–L7:** Passed — I opened the deployed site, signed in, viewed Home and both My Class states, and reviewed the displayed class/year/teacher/room information and timetable. The exact observations and limitations are recorded in Sections 13–16.  
-**Laptop My Class refresh (L8):** Pending — the Refresh control is visible, but I have not recorded a result from pressing it and confirming refreshed data.  
-**Laptop feature navigation (L9):** Pending — pages were opened and reviewed, but a distinct navigation-and-return test has not been recorded.  
+**Laptop browser checks L1–L9:** Passed — I opened the deployed site, signed in, viewed Home and both My Class states, reviewed the displayed class/year/teacher/room information and timetable, refreshed My Class, and navigated to another feature and back. The exact observations and limitations are recorded in Sections 13–16.  
+**Laptop My Class refresh (L8):** Passed — I refreshed the page and confirmed My Class loaded with the student information still available.  
+**Laptop feature navigation (L9):** Passed — I navigated to another feature and returned to My Class successfully.  
 **Android live UI checks:** Pending — physical-device checks have not been recorded.  
 **Live student data / timetable / teacher verification:** Partially verified at the UI level; authoritative school-record matching and the teacher-assignment convention still need confirmation.  
 **Live backend privacy verification:** Pending; automated profile-scope coverage and source review are recorded above, but a direct live authorization test has not been performed.  
-**Overall Week 11 personal live verification:** Partially completed — laptop checks L1–L7 are recorded as passed; remaining checks are listed above.
+**Overall Week 11 personal live verification:** Partially completed — all laptop checks L1–L9 are recorded as passed; Android and backend privacy checks remain outstanding.
 
 Laptop screenshots were supplied in this conversation and their visible results are documented in Sections 13–19. The original image files still need to be uploaded to the repository. I will not report Android, backend authorization, or unperformed interaction checks as passed.
 
