@@ -363,11 +363,11 @@ The user reports that they edited the email address through **Edit contact detai
 
 **Result:** the email-edit interaction is recorded as **Passed (user-reported)**. This confirms that the user was able to edit the email field and that the website accepted the change, according to the user's report.
 
-**Follow-up result:** the user refreshed the profile page and confirmed that the edited email was still displayed. Email persistence after page refresh is therefore recorded as **Passed (user-reported)**. Signing out and back in, database-level persistence, invalid-email validation, and phone/address editing have not been verified. No screenshot of the saved result was supplied with this confirmation. Use only a test email address in further checks; do not add private contact details to this report.
+**Follow-up result:** the user refreshed the profile page and confirmed that the edited email was still displayed. Email persistence after page refresh is therefore recorded as **Passed (user-reported)**. The user subsequently signed out and signed back in and confirmed that the edited email was still displayed. Persistence across a new sign-in is therefore recorded as **Passed (user-reported)**. Database-level persistence, invalid-email validation, and phone/address editing have not been independently verified. No screenshot of the saved result was supplied with this confirmation. Use only a test email address in further checks; do not add private contact details to this report.
 
 **Remaining profile checks:** verify the email after a page refresh or a new sign-in if not already done; test phone/address only with non-personal demo values; confirm the displayed profile belongs to the intended demo student.
 
 **Evidence source:** user's direct confirmation in this conversation. This is user-reported evidence, not an independently captured browser test.
 
 
-**Profile interaction update:** Show QR — user-reported passed; Download card — user-reported passed; Edit contact details (email field) — user-reported passed; edited email remains displayed after page refresh — user-reported passed. Phone/address editing and persistence after signing out and back in have not yet been confirmed.
+**Profile interaction update:** Show QR — user-reported passed; Download card — user-reported passed; Edit contact details (email field) — user-reported passed; edited email remains displayed after page refresh — user-reported passed. Email persistence after signing out and back in — user-reported passed. Phone/address editing has not yet been confirmed.
