@@ -82,7 +82,7 @@ Before committing screenshots, hide or crop student names, IDs, phone numbers, e
 ## 7. Related project evidence
 
 - [Student My Class issue #68](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68)
-- [Student dashboard implementation and earlier checks](../week10/student-dashboard-check.md)
+- [Student dashboard implementation and earlier checks](../../week10/student-dashboard-check.md)
 - [Week 11 automated testing evidence](../testing-evidence.md)
 - [Current project roadmap](../../../roadmap.md)
 
