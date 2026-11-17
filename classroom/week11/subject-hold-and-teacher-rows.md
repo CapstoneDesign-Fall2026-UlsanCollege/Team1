@@ -21,3 +21,9 @@ November 17 — Galan Bishal with coding assistance. Follow-up to [#106](https:/
 - [ ] Physical iPhone Chrome: quick tap opens the form; holding starts a drag; drop opens the destination form; save/reload persists; cancelling does not save. Repeat with a scheduled lesson and edge scrolling.
 
 Browser checks used only the disposable fictional review fixture. No school records were changed. The physical touch sequence is not claimed as tested by the desktop checks or the existing regression suite.
+
+## Rooms follow-up
+
+The same hold behavior now applies to class names on the Rooms board. Its separate arrow buttons and reserved arrow spacing are removed. Tapping still selects a class for the destination-room dropdown. Holding for 350 ms starts dragging; dropping on a room opens the assignment/booking form without saving automatically. Mouse dragging, edge scrolling and Escape/cancel cleanup remain.
+
+A search of all frontend source found no remaining double-arrow drag controls or handle classes. Production build, all 25 frontend tests and whitespace checks passed again. Physical iPhone class-name dragging and save/reload still require confirmation; the existing automated suite does not simulate that gesture.
