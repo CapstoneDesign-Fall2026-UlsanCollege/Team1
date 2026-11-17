@@ -98,13 +98,40 @@ Record only issues personally observed during this week's checks.
 |---|---|---|---|---|
 | Not recorded yet | — | — | — | — |
 
-## 9. Final result
+## 9. Automated CI check observed on November 17, 2026
 
-**Laptop checks:** Pending  
-**Android checks:** Pending  
-**Privacy / missing-teacher checks:** Pending  
-**Overall Week 11 personal verification:** Not yet completed
+A GitHub Actions run was triggered by the commit that added this evidence file. I inspected the actual workflow job and its log.
 
-I will update this report with the real device details, test date, actual results, screenshots and any reproducible issues after completing the checks. I will not report a pass based only on automated tests, prior-week screenshots or another teammate's work.
+- [GitHub Actions — StudentHub automated checks, run #64](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/actions/runs/44058674240)
+- [Frontend deployment workflow run #290](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/actions/runs/44058674222)
+
+| Automated check | Actual result | Status |
+|---|---:|---|
+| Backend TypeScript build | Successful | Passed |
+| Backend tests | 44 passed, 0 failed, 3 skipped (47 total) | Passed with skips |
+| Frontend tests | 25 passed, 0 failed | Passed |
+| Frontend production build | Successful; Vite built 164 modules | Passed |
+| GitHub Actions overall job | Completed successfully | Passed |
+
+The backend tests include a server-side profile-scope test that verifies the profile route reads only the signed-in student and rejects admin/anonymous access. This is automated API test evidence, not a direct test of another student's record in the live deployed database.
+
+**Important scope:** these are automated tests run by GitHub Actions on an Ubuntu runner. They do not verify the signed-in student experience in a real browser, a physical Android phone, or the current live school's records. Three backend database-fixture tests were skipped.
+
+## 10. Live website access and screenshot limitation
+
+I attempted to open the public deployment from the available web inspection environment, but the website could not be accessed there. This does not prove the website is down for users; it means I could not inspect its rendered pages or capture genuine Home/My Class screenshots from this environment.
+
+No placeholder, generated, or misleading application screenshots have been added. The actual laptop and Android screenshots listed in Section 6 remain pending. The GitHub Actions run linked above is the available automated-test evidence.
+
+## 11. Final result
+
+**GitHub Actions automated checks:** Passed — backend 44 passed / 3 skipped; frontend 25 passed; frontend build passed.  
+**Laptop live UI checks:** Pending — not personally observed.  
+**Android live UI checks:** Pending — physical device not accessible to this test run.  
+**Live student data / timetable / teacher verification:** Pending.  
+**Live backend privacy verification:** Pending; automated profile-scope coverage is recorded above.  
+**Overall Week 11 personal live verification:** Not yet completed.
+
+I will add actual device details, live test results and genuine screenshots after those checks are performed. I will not report a pass based only on CI, prior-week screenshots or another teammate's work.
 
 **Evidence owner:** BudhaRajgiri
