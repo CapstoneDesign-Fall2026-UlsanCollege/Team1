@@ -370,4 +370,13 @@ The user reports that they edited the email address through **Edit contact detai
 **Evidence source:** user's direct confirmation in this conversation. This is user-reported evidence, not an independently captured browser test.
 
 
-**Profile interaction update:** Show QR — user-reported passed; Download card — user-reported passed; Edit contact details (email field) — user-reported passed; edited email remains displayed after page refresh — user-reported passed. Email persistence after signing out and back in — user-reported passed. Phone/address editing has not yet been confirmed.
+**Profile interaction update:** Show QR — user-reported passed; Download card — user-reported passed; Edit contact details (email field) — user-reported passed; edited email remains displayed after page refresh — user-reported passed. Email persistence after signing out and back in — user-reported passed. Phone number editing — user-reported passed; the user confirmed the test phone number was saved and remained after signing out and signing back in. Address editing has not yet been confirmed.
+
+
+## 23. Student Profile phone-edit interaction — user-reported result, November 17, 2026
+
+The user reports completing the phone-number edit test using a test number and confirming that the updated phone number remained saved after signing out and signing back in.
+
+**Result:** phone number editing — **Passed (user-reported)**; persistence after a new sign-in — **Passed (user-reported)**.
+
+**Not independently verified:** whether the database value was updated, whether invalid phone formats are rejected, and whether address editing works. No screenshot was supplied with this confirmation. No actual phone number is recorded in this evidence file.
