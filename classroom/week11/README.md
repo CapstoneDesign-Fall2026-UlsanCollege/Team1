@@ -6,6 +6,7 @@
 - [Ansh Sharma's deployed iPhone subject-assignment persistence check — failed](ansh-iphone-subject-persistence.md)
 - [Ansh Sharma's iPhone special-room booking test — passed](ansh-room-booking-iphone-test.md)
 - [Ansh Sharma's individual evidence receipt](ansh-individual-evidence-receipt.md)
+- [CoderRaaju Week 11 individual assignment — independent canteen publication/privacy verification](coderraaju-individual-assignment.md)
 - [Weekly issue links](issues.md)
 
 Prepared by Galan Bishal with coding assistance. Logs describe assistant-run checks, not independent teammate or hosted results.
