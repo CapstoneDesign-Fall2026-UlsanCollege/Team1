@@ -158,3 +158,22 @@ The repository contains an isolated MySQL test named **“student dashboard scop
 I will add actual device details, live test results and genuine screenshots after those checks are performed. I will not report a pass based only on CI, prior-week screenshots or another teammate's work.
 
 **Evidence owner:** BudhaRajgiri
+
+
+## 13. Student Home screenshot review — evidence received November 17, 2026
+
+A screenshot of the signed-in StudentHub Home page was supplied in this conversation (1127 × 790 image). The following items are directly visible:
+
+- School heading: **Mahendra School**.
+- Main feature cards: **My Class**, **Timetable**, **Homework**, **Subjects**, **School Canteen**, and **Student Profile**.
+- The My Class card is visible with the description “Class, room & homeroom teacher”.
+- The Timetable card is visible with the description “Your weekly routine”.
+- Bottom navigation shows **Home**, **Timetable**, **Canteen**, and **Profile**.
+- The page has a vertical scrollbar and another card is partially visible below the displayed area.
+
+**What this screenshot verifies:** the Home page rendered and displayed the listed student feature entry points in the supplied screenshot.
+
+**What it does not verify:** opening My Class or Timetable, whether the student's class/room/teacher values are correct, whether timetable records load, whether refresh works, whether mobile layout works on a physical phone, or whether API privacy controls work. Those checks remain pending until their screens or test results are supplied.
+
+**Evidence handling:** this screenshot was provided in the conversation. It has not been uploaded as an image file into this GitHub repository, so this report records the observed result without claiming that a repository-hosted screenshot attachment exists.
+
