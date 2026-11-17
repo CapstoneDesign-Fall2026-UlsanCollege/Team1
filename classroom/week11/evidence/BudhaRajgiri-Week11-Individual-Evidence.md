@@ -255,3 +255,34 @@ A screenshot of the signed-in student's **Timetable** page was supplied in this 
 
 **Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
 
+
+
+## 17. Subjects screenshot review — evidence received November 17, 2026
+
+A screenshot of the signed-in student's **Subjects** page was supplied in this conversation (1130 × 773 image).
+
+### Observed result
+
+The page heading is **Subjects**, with a section titled **“Subjects mapped to your class”**. Six class-subject entries and their displayed teachers are visible:
+
+| Subject code | Subject | Teacher |
+|---|---|---|
+| SCH-ART | Art and Music | Jeevan Poudel |
+| SCH-COMP | Computer Studies | Farhan Khan |
+| SCH-ENG | English | Bikash Thapa |
+| SCH-HEALTH | Health Education | Gita Gurung |
+| SCH-MATH | Mathematics | Chandra Rai |
+| SCH-SCI | Science | Deepa Karki |
+
+Each row is labelled **Class subject**.
+
+### Test outcome
+
+**Observed:** the Subjects page rendered and displayed six class-subject mappings with teacher names.
+
+**Cross-screen consistency:** Computer Studies, English, Health Education, Mathematics and Science match the subject/teacher pairs visible in the timetable screenshot. Art and Music is an additional subject displayed on the Subjects page; it was not among the five timetable lessons visible in the supplied timetable screenshot. The screenshots alone do not establish whether Art and Music should have a scheduled lesson on another day or whether a timetable entry is missing.
+
+**Not independently verified:** whether these mappings match the authoritative school records, whether all subjects are listed below the visible scroll area, or whether the Art and Music timetable entry is scheduled elsewhere in the week.
+
+**Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
+
