@@ -308,3 +308,34 @@ A screenshot of the signed-in student's **Homework** page was supplied in this c
 
 **Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
 
+
+
+## 19. Student Profile screenshot review — evidence received November 17, 2026
+
+A screenshot of the signed-in student's **Student Profile** page was supplied in this conversation (1142 × 812 image).
+
+### Observed result
+
+- Page heading: **Student Profile**.
+- School: **Mahendra School**.
+- Student name displayed: **Anil Giri**.
+- Academic placement displayed: **Grade 10 · Class A · 2026–2027**.
+- The profile shows **Show QR** and **Download card** controls.
+- Contact details section shows Email, Phone and Address as **Not provided**.
+- An **Edit contact details** control is visible.
+- Bottom navigation shows Home, Timetable, Canteen and Profile.
+
+### Important account-identity discrepancy
+
+The student ID displayed on this profile screenshot does **not** match the student ID supplied earlier in this conversation for the demo login. To avoid publishing a personal identifier in this evidence report, neither full ID is repeated here. The user should confirm with the school administrator that the intended demo account and profile record are correctly linked before treating the account-identity check as passed. This may be a separate demo account or a data mismatch; the screenshot alone cannot determine which.
+
+### Test outcome
+
+**Observed:** the Student Profile page rendered and displayed the student's name, school, grade/class/year, QR/card controls and contact-detail empty states.
+
+**Not independently verified:** whether Show QR opens a valid code, whether Download card generates a correct card, whether Edit contact details saves changes, or whether the profile details match the authoritative school record. These interactions and the account-identity discrepancy remain pending.
+
+**Privacy note:** the screenshot contains personally identifying profile information. This report intentionally omits the full student ID and contact details.
+
+**Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
+
