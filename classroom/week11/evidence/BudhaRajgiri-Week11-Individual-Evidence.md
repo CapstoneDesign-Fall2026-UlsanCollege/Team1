@@ -286,3 +286,25 @@ Each row is labelled **Class subject**.
 
 **Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
 
+
+
+## 18. Homework screenshot review — evidence received November 17, 2026
+
+A screenshot of the signed-in student's **Homework** page was supplied in this conversation (1083 × 773 image).
+
+### Observed result
+
+- Page heading: **Homework**.
+- Main section: **Class homework**.
+- The page displays: **“No homework has been assigned to your current class.”**
+- A **Refresh** control is visible.
+- Bottom navigation shows Home, Timetable, Canteen and Profile.
+
+### Test outcome
+
+**Observed:** the Homework page rendered and displayed its empty-state message for the student's current class.
+
+**Not independently verified:** whether teachers have published homework for Grade 10 · Class A, whether the empty state is correct for the school's current records, whether homework appears after a teacher publishes an assignment, or whether Refresh retrieves newly assigned homework. The screenshot does not demonstrate an assignment being displayed or opened.
+
+**Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
+
