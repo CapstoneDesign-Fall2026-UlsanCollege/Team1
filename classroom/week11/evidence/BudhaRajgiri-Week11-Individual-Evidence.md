@@ -202,3 +202,27 @@ A screenshot of the signed-in student account's **My Class** page was supplied i
 
 **Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
 
+
+
+## 15. My Class assigned-state screenshot review — evidence received November 17, 2026
+
+A second screenshot of the signed-in student account's **My Class** page was supplied in this conversation (1112 × 783 image).
+
+### Observed result
+
+- School: **Mahendra School**.
+- Academic year: **2026–2027**.
+- Assigned class: **Grade 10 · Class A**.
+- Homeroom teacher displayed: **Bikash Thapa**.
+- Classroom displayed: **Room 203** (labelled “Classroom 203”).
+- **Refresh**, **Weekly timetable** and **Subjects** controls are visible.
+- Bottom navigation shows Home, Timetable, Canteen and Profile.
+
+### Test outcome
+
+**Observed:** the My Class page rendered the assigned-class state and displayed class, academic year, homeroom teacher and room details in the supplied screenshot. This provides screenshot evidence for the populated My Class UI state, in contrast to the earlier screenshot on this date that showed no class assigned.
+
+**Not independently verified:** whether the displayed assignment matches the authoritative school record; whether the Weekly timetable and Subjects controls open and show correct records; whether Refresh fetches updated data; or whether a second student is prevented from reading this student's records. Those checks remain pending.
+
+**Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
+
