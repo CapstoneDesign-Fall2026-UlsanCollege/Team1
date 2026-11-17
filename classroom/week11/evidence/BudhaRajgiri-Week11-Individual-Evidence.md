@@ -226,3 +226,32 @@ A second screenshot of the signed-in student account's **My Class** page was sup
 
 **Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
 
+
+
+## 16. Timetable screenshot review — evidence received November 17, 2026
+
+A screenshot of the signed-in student's **Timetable** page was supplied in this conversation (1122 × 777 image).
+
+### Observed result
+
+- Timetable heading: **Sunday–Friday**.
+- Summary text: **5 lessons per day**.
+- Five lesson rows are visible:
+  | Time | Subject | Teacher | Room |
+  |---|---|---|---|
+  | 10:00–11:00 | English | Bikash Thapa | Room 203 |
+  | 11:00–12:00 | Mathematics | Chandra Rai | Room 203 |
+  | 12:00–13:00 | Science | Deepa Karki | Room 203 |
+  | 14:00–15:00 | Computer Studies | Farhan Khan | Room 203 |
+  | 15:00–16:00 | Health Education | Gita Gurung | Room 203 |
+- A separate tiffin notice is displayed: **1–2 PM**.
+- Bottom navigation shows Home, Timetable, Canteen and Profile.
+
+### Test outcome
+
+**Observed:** the Timetable page loaded and displayed five lesson entries, teacher names, time ranges and Room 203, plus a tiffin notice. The English teacher shown matches the homeroom teacher shown on the My Class screenshot.
+
+**Not independently verified:** whether these entries are saved against the correct live school timetable; whether the same lessons actually repeat on every day Sunday–Friday; whether all other timetable dates/terms are correct; and whether the schedule changes correctly after a class transfer. The screenshot shows the Sunday–Friday heading and the listed schedule, but does not independently prove each day's records.
+
+**Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
+
