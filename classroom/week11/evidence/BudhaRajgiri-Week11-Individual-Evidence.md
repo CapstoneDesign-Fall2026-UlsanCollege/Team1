@@ -6,14 +6,14 @@
 **Project:** Student Life Hub  
 **Week:** 11  
 **Feature area:** #68 — Student My Class View  
-**Evidence status:** My screenshot reviews and profile interaction checks are recorded; laptop/Android My Class acceptance checks remain pending  
+**Evidence status:** Laptop browser checks L1–L7 completed and recorded from my live checks/screenshots; L8–L9, Android checks and backend privacy verification remain pending  
 **Live application:** https://team1-production.up.railway.app/
 
 ## 1. Objective
 
 Independently check the deployed StudentHub student experience on a laptop and an Android phone. The focus is whether a signed-in student can view only their own class information, assigned homeroom teacher (or a clear unassigned state), classroom and timetable, and whether the page remains usable after refresh and on a narrow screen.
 
-This file is an evidence record template. A check is marked **Pending** until I personally perform it and record the actual result. Existing automated tests and another teammate's results are not counted as my personal test.
+This file records my individual checks. A check is marked **Passed** only where I performed the check or supplied a screenshot/result that supports it. Existing automated tests and another teammate's results are not counted as my personal device test.
 
 ## 2. Test environment
 
@@ -32,13 +32,13 @@ This file is an evidence record template. A check is marked **Pending** until I 
 
 | No. | Test | Expected result | Actual result / evidence | Status |
 |---|---|---|---|---|
-| L1 | Open the deployed website | Website loads without an error | Pending | Pending |
-| L2 | Sign in using an approved student test account | Student account signs in successfully | Pending | Pending |
-| L3 | Open Home and select **My Class** | Student Home and My Class view load | Pending | Pending |
-| L4 | Check school year, grade and homeroom | Values match the signed-in demo student's assigned records | Pending | Pending |
-| L5 | Check classroom | Correct classroom is shown, or a clear empty state appears | Pending | Pending |
-| L6 | Check homeroom teacher | Correct assigned teacher appears, or the UI clearly says unassigned | Pending | Pending |
-| L7 | Check weekly timetable | Correct days, subjects, times and room details appear | Pending | Pending |
+| L1 | Open the deployed website | Website loads without an error | I opened the deployed StudentHub website on my laptop; the signed-in Home and feature pages loaded in the browser. Home screenshot review is recorded in Section 13. | Passed |
+| L2 | Sign in using an approved student test account | Student account signs in successfully | I signed in and reached the student Home, My Class, timetable, subjects, homework and profile pages shown in my supplied laptop screenshots. | Passed |
+| L3 | Open Home and select **My Class** | Student Home and My Class view load | Home and My Class loaded. Both unassigned and assigned My Class states are recorded in Sections 13–15. | Passed |
+| L4 | Check school year, grade and homeroom | Values match the signed-in demo student's assigned records | My Class screenshot displays academic year 2026–2027, Grade 10 · Class A and homeroom teacher Bikash Thapa. The profile/student-ID discrepancy and authoritative-record match still need administrator confirmation; this pass is for the displayed UI values only. | Passed — UI observed; record identity confirmation outstanding |
+| L5 | Check classroom | Correct classroom is shown, or a clear empty state appears | My Class screenshot displays Classroom 203 in the assigned state; a separate screenshot also shows the clear no-class state. | Passed — UI states observed |
+| L6 | Check homeroom teacher | Correct assigned teacher appears, or the UI clearly says unassigned | Assigned-state screenshot displays Bikash Thapa. The teacher's match to the authoritative school record remains unconfirmed because the API uses the timetable convention described in Section 11. | Passed — displayed value observed; authoritative assignment pending |
+| L7 | Check weekly timetable | Correct days, subjects, times and room details appear | Timetable page loaded and displayed Sunday–Friday, five lesson rows, teacher names, time ranges, Room 203 and the tiffin notice. Correctness against official school records and every day's schedule remains unverified; see Section 16. | Passed — timetable UI observed |
 | L8 | Refresh the page and revisit My Class | The page reloads and the same authorized data remains available | Pending | Pending |
 | L9 | Navigate to another feature and return | Navigation works and My Class still displays correctly | Pending | Pending |
 
@@ -121,7 +121,7 @@ The backend tests include a server-side profile-scope test that verifies the pro
 
 I attempted to open the public deployment from the available web inspection environment, but the website could not be accessed there. This does not prove the website is down for users; it means I could not inspect its rendered pages or capture genuine Home/My Class screenshots from this environment.
 
-No placeholder, generated, or misleading application screenshots have been added. The actual laptop and Android screenshots listed in Section 6 remain pending. The GitHub Actions run linked above is the available automated-test evidence.
+No placeholder, generated, or misleading application screenshots have been added. The laptop screenshots were supplied in this conversation and their visible results are documented in Sections 13–19, but the original images have not yet been uploaded to GitHub. Android screenshots and physical-device checks remain pending. The GitHub Actions run linked above is separate automated-test evidence.
 
 ## 11. Repository source review — November 17, 2026
 
@@ -149,13 +149,15 @@ The repository contains an isolated MySQL test named **“student dashboard scop
 ## 12. Final result
 
 **GitHub Actions automated checks:** Passed — backend 44 passed / 3 skipped; frontend 25 passed; frontend build passed.  
-**Laptop live UI checks:** Pending — not personally observed.  
-**Android live UI checks:** Pending — physical device not accessible to this test run.  
-**Live student data / timetable / teacher verification:** Pending.  
-**Live backend privacy verification:** Pending; automated profile-scope coverage is recorded above.  
-**Overall Week 11 personal live verification:** Not yet completed.
+**Laptop browser checks L1–L7:** Passed — I opened the deployed site, signed in, viewed Home and both My Class states, and reviewed the displayed class/year/teacher/room information and timetable. The exact observations and limitations are recorded in Sections 13–16.  
+**Laptop My Class refresh (L8):** Pending — the Refresh control is visible, but I have not recorded a result from pressing it and confirming refreshed data.  
+**Laptop feature navigation (L9):** Pending — pages were opened and reviewed, but a distinct navigation-and-return test has not been recorded.  
+**Android live UI checks:** Pending — physical-device checks have not been recorded.  
+**Live student data / timetable / teacher verification:** Partially verified at the UI level; authoritative school-record matching and the teacher-assignment convention still need confirmation.  
+**Live backend privacy verification:** Pending; automated profile-scope coverage and source review are recorded above, but a direct live authorization test has not been performed.  
+**Overall Week 11 personal live verification:** Partially completed — laptop checks L1–L7 are recorded as passed; remaining checks are listed above.
 
-I will add actual device details, live test results and genuine screenshots after those checks are performed. I will not report a pass based only on CI, prior-week screenshots or another teammate's work.
+Laptop screenshots were supplied in this conversation and their visible results are documented in Sections 13–19. The original image files still need to be uploaded to the repository. I will not report Android, backend authorization, or unperformed interaction checks as passed.
 
 **Evidence owner:** BudhaRajgiri
 
