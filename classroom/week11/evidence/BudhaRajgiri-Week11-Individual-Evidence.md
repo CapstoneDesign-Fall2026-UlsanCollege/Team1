@@ -6,7 +6,7 @@
 **Project:** Student Life Hub  
 **Week:** 11  
 **Feature area:** #68 — Student My Class View  
-**Evidence status:** Prepared; personal live checks are pending confirmation  
+**Evidence status:** Source review completed; personal live checks are pending confirmation  
 **Live application:** https://team1-production.up.railway.app/
 
 ## 1. Objective
@@ -123,7 +123,30 @@ I attempted to open the public deployment from the available web inspection envi
 
 No placeholder, generated, or misleading application screenshots have been added. The actual laptop and Android screenshots listed in Section 6 remain pending. The GitHub Actions run linked above is the available automated-test evidence.
 
-## 11. Final result
+## 11. Repository source review — November 17, 2026
+
+I reviewed the committed frontend, backend and test source for the #68 Student My Class flow. This is a code review of the repository, not a live website test.
+
+| Area | Verified in source | Review result |
+|---|---|---|
+| Student Home | [StudentHome.vue](../../../frontend/src/components/StudentHome.vue) | Loads the school context and provides a retry state if the request fails. The visible feature tabs depend on the pages supplied by the parent dashboard. |
+| My Class display | [StudentSchool.vue](../../../frontend/src/components/StudentSchool.vue) | Displays class/year, room and teacher information, has refresh/retry controls, and distinguishes no class, no room and no teacher states. |
+| Timetable display | [StudentTimetable.vue](../../../frontend/src/components/StudentTimetable.vue) | Loads the student's semesters and weekly schedule, shows loading/error/empty states, and labels school-mode time as Nepal time. |
+| My Class API authorization | [school-planning.ts](../../../backend/src/school-planning.ts) and [app.ts](../../../backend/src/app.ts) | The endpoint requires the student role and scopes membership using the authenticated session's user ID. The app also applies role boundaries to the student workspace. |
+| Timetable data scope | [school-planning.ts](../../../backend/src/school-planning.ts) and [schedules.ts](../../../backend/src/schedules.ts) | School-mode schedule queries use the authenticated student's effective membership and linked class offerings; the legacy schedule query also filters by the authenticated student ID. |
+| Relevant automated test source | [school-planning.test.mjs](../../../backend/tests/school-planning.test.mjs) | Contains My Class scope tests for two students, forged query IDs, unassigned students, room/teacher data, inactive teachers and role rejection. |
+
+### Code-review observation to confirm
+
+The current My Class API derives the homeroom teacher from a linked subject/teacher assignment that has a Sunday lesson starting at 10:00. The UI then displays that result as the homeroom teacher. This is a specific timetable convention, not an independent homeroom-teacher field. The team should confirm that every school using this feature will follow this convention, or consider storing a direct homeroom-teacher assignment. Until confirmed against actual school data, the live teacher result remains pending.
+
+### Automated-test limitation
+
+The repository contains an isolated MySQL test named **“student dashboard scopes homeroom, room and daily lessons to effective membership and active term”** in the school-planning test suite. The test is configured to skip unless `RUN_SCHOOL_DB_TESTS=1`. The November 17 CI result recorded three skipped database-fixture tests, so the existence of this test is not evidence that this MySQL scenario ran in that CI job. The separate backend profile-scope test did run, but it tests the profile endpoint rather than the full My Class endpoint.
+
+**Code-review conclusion:** the inspected route and query structure is designed to scope My Class and timetable data to the signed-in student. This review does not prove the deployed database has correct class/teacher/room assignments, that the live UI works, or that the skipped MySQL test passes in the current environment.
+
+## 12. Final result
 
 **GitHub Actions automated checks:** Passed — backend 44 passed / 3 skipped; frontend 25 passed; frontend build passed.  
 **Laptop live UI checks:** Pending — not personally observed.  
