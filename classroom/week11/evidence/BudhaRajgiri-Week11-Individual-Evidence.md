@@ -177,3 +177,28 @@ A screenshot of the signed-in StudentHub Home page was supplied in this conversa
 
 **Evidence handling:** this screenshot was provided in the conversation. It has not been uploaded as an image file into this GitHub repository, so this report records the observed result without claiming that a repository-hosted screenshot attachment exists.
 
+
+
+## 14. My Class screenshot review — evidence received November 17, 2026
+
+A screenshot of the signed-in student account's **My Class** page was supplied in this conversation (1117 × 781 image).
+
+### Observed result
+
+- Page title: **My Class**.
+- School shown: **Mahendra School**.
+- The page displays: **“No class is assigned to you for 2026-11-17. Ask your school administrator to check your enrollment.”**
+- A **Refresh** control is visible.
+- **Weekly timetable** and **Subjects** navigation controls are visible.
+- Bottom navigation shows Home, Timetable, Canteen and Profile.
+
+### Test outcome
+
+**Observed:** My Class page loaded and displayed the no-class/unassigned state for the date shown.
+
+**Not verified:** class name, room, homeroom teacher, or assigned-class timetable, because this account currently has no class assignment in the displayed result. The screenshot does not establish whether the account is intentionally unassigned or whether its enrollment needs correction. The school administrator should confirm the student's enrollment and, if this is meant to be a populated demo account, assign the correct school year/class before the assigned-class checks are repeated.
+
+**Privacy limitation:** this screenshot does not test whether another student's records are inaccessible; no attempt was made to access another student's private data.
+
+**Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
+
