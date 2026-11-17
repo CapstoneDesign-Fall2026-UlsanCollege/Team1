@@ -29,6 +29,9 @@
   -webkit-overflow-scrolling: touch;
 }
 #app dialog { max-width: calc(100vw - 24px); max-height: calc(100dvh - 24px); overscroll-behavior: contain; }
+#app .subject-teachers-table { width: 100%; min-width: 440px; table-layout: fixed; }
+#app .subject-teachers-table :is(th, td) { padding: 10px 12px; overflow-wrap: anywhere; }
+#app .subject-teachers-table :is(th, td):last-child { width: 90px; }
 
 @media (max-width: 900px), (pointer: coarse) {
   #app :is(.admin-workspace, .teacher-shell, .parent-shell, .canteen-shell, .student-view) {
