@@ -52,3 +52,5 @@ Prepared by Galan Bishal with coding assistance. Logs describe assistant-run che
 - [Click a subject name to open the lesson popup](subject-name-scheduling.md)
 
 - [Data-driven next-step guide and mobile subject/room planning](next-steps-and-mobile-planning.md)
+
+- [Mobile layout audit across all roles and remaining iPhone checks](mobile-layout-audit.md)

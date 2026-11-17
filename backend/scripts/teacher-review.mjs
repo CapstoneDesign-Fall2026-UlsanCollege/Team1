@@ -55,6 +55,12 @@ try{
    await pool.execute("INSERT INTO school_attendance(class_id,attendance_date,student_user_id,status,recorded_by) VALUES(1,?,4,?,2),(1,?,5,'present',2)",[date,status,date]);
   }
  }
+ if(process.env.UI_REVIEW==='1'){
+  await pool.execute("INSERT INTO users(login_id,password_hash,role,is_active) VALUES('review_canteen',?,'canteen_head',1)",[hash]);
+  await pool.execute('UPDATE semesters SET name=? WHERE id=1',['School term 2026–2027 · First academic term']);
+  await pool.query('INSERT INTO school_class_rooms(year_id,class_id,room_id) VALUES(1,1,101)');
+  console.log('Fictional responsive-review login: review_canteen. Same temporary password below.');
+ }
  await ensureActivitySchema(pool);
  process.env.SERVE_FRONTEND='true';process.env.NODE_ENV='test';delete process.env.FRONTEND_ORIGIN;
  server=createDatabaseApp(pool).listen(3019,'127.0.0.1');

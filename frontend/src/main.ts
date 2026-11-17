@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import './style.css'
 import './admin-layout.css'
+import './responsive-layout.css'
 import App from './App.vue'
 
 createApp(App).mount('#app')

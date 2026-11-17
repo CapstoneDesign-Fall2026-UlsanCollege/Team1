@@ -1,0 +1,125 @@
+/* Shared sizing contract, including WebKit's intrinsic date/time controls.
+   Calendars, timetables and attendance remain scrollable canvases. */
+#app :is(main, section, article, form, fieldset, dialog) { min-width: 0; }
+#app label { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+#app :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=hidden]):not([type=color]), select, textarea) {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+}
+#app :is(input[type=date], input[type=time], input[type=month]) {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 44px;
+  height: 44px;
+  line-height: 1.25;
+  -webkit-appearance: none;
+  appearance: none;
+}
+#app :is(input[type=date], input[type=time], input[type=month])::-webkit-date-and-time-value {
+  min-height: 1.25em;
+  text-align: left;
+}
+#app :is(.table-scroll, .table-wrap, .directory-table, .hours-scroll, .register-scroll, .grid-scroll, .building-scroll) {
+  min-width: 0;
+  max-width: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+#app dialog { max-width: calc(100vw - 24px); max-height: calc(100dvh - 24px); overscroll-behavior: contain; }
+
+@media (max-width: 900px), (pointer: coarse) {
+  #app :is(.admin-workspace, .teacher-shell, .parent-shell, .canteen-shell, .student-view) {
+    min-width: 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  #app :is(.fields, .filters, .staff-fields, .popup-fields, .form-grid, .edit-grid, .grade-filters, .context, .date-grid, .two-fields, .compact-filter-row, .availability-hours, .register-actions) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    align-items: stretch;
+  }
+  #app :is(.fields, .filters, .staff-fields, .popup-fields, .form-grid, .edit-grid, .grade-filters, .context, .date-grid, .two-fields, .compact-filter-row, .availability-hours, .register-actions) > * {
+    min-width: 0;
+    max-width: 100%;
+    grid-column: auto;
+  }
+  #app :is(.fields, .filters, .staff-fields, .popup-fields, .form-grid, .edit-grid, .grade-filters, .context, .date-grid, .two-fields, .compact-filter-row, .availability-hours, .register-actions) > label {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    font-size: 13px;
+  }
+  #app :is(input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=hidden]):not([type=color]), select, textarea) {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    font-size: 16px; /* Prevent iOS focus zoom. */
+  }
+  #app :is(.context, .fields, .filters, .two-fields) label > :is(input, select, textarea) { margin: 6px 0 0; }
+  #app :is(.heading, .panel-heading, .class-heading, .roster-heading, .section-heading, .board-heading, .toolbar, .welcome, .staff-heading) {
+    gap: 12px;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  #app :is(.heading, .panel-heading, .class-heading, .roster-heading, .section-heading, .board-heading, .toolbar, .welcome) > div { min-width: 0; max-width: 100%; }
+  #app :is(.overview-actions, .save-buttons, .popup-actions, .heading-actions, .building-actions, .save-bar) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 0;
+  }
+  #app :is(.overview-actions, .save-buttons, .popup-actions, .heading-actions, .building-actions) > button {
+    flex: 1 1 145px;
+    min-width: 0;
+    max-width: 100%;
+    margin: 0;
+    white-space: normal;
+    min-height: 44px;
+  }
+  #app .class-details { padding: 16px; margin: 12px 0; }
+  #app .class-heading > div { flex: 1 1 150px; }
+  #app .class-heading h3 { font-size: 18px; margin: 4px 0 8px; }
+  #app .class-heading p { margin: 0 0 6px; }
+  #app .class-heading .eyebrow { font-size: 10px; }
+  #app .class-heading > button { margin: 0; padding: 10px 12px; font-size: 12px; min-height: 44px; }
+  #app .class-details .context { padding: 12px; margin: 16px 0; background: #f2f6f3; border: 1px solid #dce6df; border-radius: 10px; }
+  #app .teacher-toolbar label { display: block; width: 100%; min-width: 0; }
+  #app .teacher-toolbar select { width: 100%; margin-top: 6px; }
+  #app .class-details > h3 { font-size: 17px; line-height: 1.4; overflow-wrap: anywhere; }
+  #app .parent-shell .child-toolbar { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  #app .parent-shell .child-toolbar label { width: 100%; max-width: none; margin: 0; }
+  #app .manage-menu .menu-row { grid-template-columns: minmax(0, 1fr); }
+  #app .manage-menu .menu-row > * { grid-column: auto; min-width: 0; }
+  #app .week-strip { grid-template-columns: repeat(7, minmax(44px, 1fr)); overflow-x: auto; }
+  #app .student-panel dl > div { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 12px 0; }
+  #app .student-panel dd { min-width: 0; margin: 0; text-align: left; overflow-wrap: anywhere; }
+  #app .student-bottom button { min-width: 0; flex: 1; padding: 8px 4px; min-height: 44px; }
+
+  /* Simple directories become readable cards; schedule/register tables do not. */
+  #app .mobile-records { display: block; width: 100%; min-width: 0; }
+  #app .mobile-records thead { display: none; }
+  #app .mobile-records tbody { display: grid; gap: 10px; }
+  #app .mobile-records tr { display: block; border: 1px solid #dce6df; border-radius: 10px; padding: 8px 12px; background: white; }
+  #app .mobile-records td { display: grid; grid-template-columns: minmax(78px, .7fr) minmax(0, 1.3fr); align-items: start; gap: 10px; border: 0; border-bottom: 1px solid #edf1ee; padding: 9px 0; font-size: 13px; white-space: normal; overflow-wrap: anywhere; }
+  #app .mobile-records td:last-child { border-bottom: 0; }
+  #app .mobile-records td::before { content: attr(data-label); color: #677d70; font-size: 12px; font-weight: 600; }
+  #app .mobile-records .record-value { display: block; min-width: 0; }
+  #app .mobile-records .record-value small { display: block; margin-top: 4px; }
+  #app .hours-scroll table { display: block; min-width: 0; width: 100%; }
+  #app .hours-scroll thead { display: none; }
+  #app .hours-scroll tbody { display: grid; gap: 10px; }
+  #app .hours-scroll tr { display: block; padding: 12px; border: 1px solid #dce6df; border-radius: 10px; }
+  #app .hours-scroll th { display: block; padding: 0 0 8px; background: transparent; border: 0; font-size: 14px; }
+  #app .hours-scroll td { display: block; padding: 8px 0; border: 0; }
+  #app .hours-scroll td::before { content: attr(data-label); display: block; font-size: 12px; color: #61786a; margin-bottom: 6px; }
+}
+
+@media (max-width: 380px) {
+  #app .class-details .summary-grid { grid-template-columns: minmax(0, 1fr); }
+  #app .mobile-records td { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+}

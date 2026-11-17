@@ -1,0 +1,65 @@
+{
+  "environment": "Assistant-run Chrome viewport; fictional disposable fixture; not physical iPhone/WebKit",
+  "checks": [
+    {
+      "escaped": [],
+      "pageWidth": 390,
+      "screen": "student-home-390",
+      "width": 390
+    },
+    {
+      "escaped": [],
+      "pageWidth": 390,
+      "screen": "My Class Class, room & homeroom teacher-390",
+      "width": 390
+    },
+    {
+      "escaped": [],
+      "pageWidth": 390,
+      "screen": "Timetable Your weekly routine-390",
+      "width": 390
+    },
+    {
+      "escaped": [],
+      "pageWidth": 390,
+      "screen": "Homework Assignments from your teachers-390",
+      "width": 390
+    },
+    {
+      "escaped": [],
+      "pageWidth": 390,
+      "screen": "Subjects Subjects & teachers-390",
+      "width": 390
+    },
+    {
+      "escaped": [],
+      "pageWidth": 390,
+      "screen": "School Canteen Menu, hours & location-390",
+      "width": 390
+    },
+    {
+      "escaped": [],
+      "pageWidth": 390,
+      "screen": "Student Profile Your personal information-390",
+      "width": 390
+    },
+    {
+      "escaped": [],
+      "pageWidth": 390,
+      "screen": "Job search Search and saved jobs-390",
+      "width": 390
+    },
+    {
+      "escaped": [],
+      "pageWidth": 390,
+      "screen": "student-profile-edit-390",
+      "width": 390
+    },
+    {
+      "escaped": [],
+      "pageWidth": 844,
+      "screen": "student-profile-edit-844",
+      "width": 844
+    }
+  ]
+}
