@@ -1,8 +1,8 @@
 # Ansh Sharma — Week 11 individual evidence receipt
 
-**Week:** 11 — MVP verification and release evidence  
-**Contributor:** Ansh Sharma (`anshsharma123`)  
-**Role:** Independent manual tester and evidence author  
+**Week:** 11 — MVP verification and release evidence
+**Contributor:** Ansh Sharma (`anshsharma123`)
+**Role:** Independent manual tester and evidence author
 **Date:** 2026-11-15 to 2026-11-17
 
 ## My contribution
