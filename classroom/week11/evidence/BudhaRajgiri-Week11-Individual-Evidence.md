@@ -339,3 +339,11 @@ The student ID displayed on this profile screenshot does **not** match the stude
 
 **Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
 
+
+
+## 20. Student Profile QR interaction — user-reported result, November 17, 2026
+
+The user reports that selecting **Show QR** opens the QR code correctly.
+
+**Result:** QR opening is recorded as user-reported successful interaction. No QR screenshot or independent scan/decoding result was supplied, so this does not verify that the QR payload contains the correct student identity or that an external scanner can read it.
+
