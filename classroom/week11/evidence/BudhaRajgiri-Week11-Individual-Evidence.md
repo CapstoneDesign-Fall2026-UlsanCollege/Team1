@@ -347,3 +347,11 @@ The user reports that selecting **Show QR** opens the QR code correctly.
 
 **Result:** QR opening is recorded as user-reported successful interaction. No QR screenshot or independent scan/decoding result was supplied, so this does not verify that the QR payload contains the correct student identity or that an external scanner can read it.
 
+
+
+## 21. Student Profile download-card interaction — user-reported result, November 17, 2026
+
+The user reports that selecting **Download card** successfully downloads the student card.
+
+**Result:** the download action is recorded as user-reported successful interaction. The downloaded file was not uploaded for inspection, so its file format, contents, student identity, and print layout have not been independently verified.
+
