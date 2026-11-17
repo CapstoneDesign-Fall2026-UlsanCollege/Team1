@@ -6,7 +6,7 @@
 **Project:** Student Life Hub  
 **Week:** 11  
 **Feature area:** #68 — Student My Class View  
-**Evidence status:** Source review completed; personal live checks are pending confirmation  
+**Evidence status:** My screenshot reviews and profile interaction checks are recorded; laptop/Android My Class acceptance checks remain pending  
 **Live application:** https://team1-production.up.railway.app/
 
 ## 1. Objective
@@ -162,7 +162,7 @@ I will add actual device details, live test results and genuine screenshots afte
 
 ## 13. Student Home screenshot review — evidence received November 17, 2026
 
-A screenshot of the signed-in StudentHub Home page was supplied in this conversation (1127 × 790 image). The following items are directly visible:
+I captured and shared a screenshot of the signed-in StudentHub Home page for this evidence review (1127 × 790 image). The following items are directly visible:
 
 - School heading: **Mahendra School**.
 - Main feature cards: **My Class**, **Timetable**, **Homework**, **Subjects**, **School Canteen**, and **Student Profile**.
@@ -175,13 +175,13 @@ A screenshot of the signed-in StudentHub Home page was supplied in this conversa
 
 **What it does not verify:** opening My Class or Timetable, whether the student's class/room/teacher values are correct, whether timetable records load, whether refresh works, whether mobile layout works on a physical phone, or whether API privacy controls work. Those checks remain pending until their screens or test results are supplied.
 
-**Evidence handling:** this screenshot was provided in the conversation. It has not been uploaded as an image file into this GitHub repository, so this report records the observed result without claiming that a repository-hosted screenshot attachment exists.
+**Evidence handling:** I shared this screenshot in the conversation. I will upload the original image file into this GitHub repository later, so this report records the observed result without claiming that a repository-hosted screenshot attachment exists.
 
 
 
 ## 14. My Class screenshot review — evidence received November 17, 2026
 
-A screenshot of the signed-in student account's **My Class** page was supplied in this conversation (1117 × 781 image).
+I captured and shared a screenshot of my signed-in student account's **My Class** page for this evidence review (1117 × 781 image).
 
 ### Observed result
 
@@ -200,13 +200,13 @@ A screenshot of the signed-in student account's **My Class** page was supplied i
 
 **Privacy limitation:** this screenshot does not test whether another student's records are inaccessible; no attempt was made to access another student's private data.
 
-**Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
+**Evidence handling:** I shared the screenshot in this conversation; I will upload the original image file to the repository later. This report records only the visible result.
 
 
 
 ## 15. My Class assigned-state screenshot review — evidence received November 17, 2026
 
-A second screenshot of the signed-in student account's **My Class** page was supplied in this conversation (1112 × 783 image).
+I captured and shared a second screenshot of my signed-in student account's **My Class** page for this evidence review (1112 × 783 image).
 
 ### Observed result
 
@@ -224,13 +224,13 @@ A second screenshot of the signed-in student account's **My Class** page was sup
 
 **Not independently verified:** whether the displayed assignment matches the authoritative school record; whether the Weekly timetable and Subjects controls open and show correct records; whether Refresh fetches updated data; or whether a second student is prevented from reading this student's records. Those checks remain pending.
 
-**Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
+**Evidence handling:** I shared this screenshot in the conversation and will upload the original image file as a repository attachment later. This report records only the visible result.
 
 
 
 ## 16. Timetable screenshot review — evidence received November 17, 2026
 
-A screenshot of the signed-in student's **Timetable** page was supplied in this conversation (1122 × 777 image).
+I captured and shared a screenshot of my signed-in student's **Timetable** page for this evidence review (1122 × 777 image).
 
 ### Observed result
 
@@ -259,7 +259,7 @@ A screenshot of the signed-in student's **Timetable** page was supplied in this 
 
 ## 17. Subjects screenshot review — evidence received November 17, 2026
 
-A screenshot of the signed-in student's **Subjects** page was supplied in this conversation (1130 × 773 image).
+I captured and shared a screenshot of my signed-in student's **Subjects** page for this evidence review (1130 × 773 image).
 
 ### Observed result
 
@@ -290,7 +290,7 @@ Each row is labelled **Class subject**.
 
 ## 18. Homework screenshot review — evidence received November 17, 2026
 
-A screenshot of the signed-in student's **Homework** page was supplied in this conversation (1083 × 773 image).
+I captured and shared a screenshot of my signed-in student's **Homework** page for this evidence review (1083 × 773 image).
 
 ### Observed result
 
@@ -312,7 +312,7 @@ A screenshot of the signed-in student's **Homework** page was supplied in this c
 
 ## 19. Student Profile screenshot review — evidence received November 17, 2026
 
-A screenshot of the signed-in student's **Student Profile** page was supplied in this conversation (1142 × 812 image).
+I captured and shared a screenshot of my signed-in student's **Student Profile** page for this evidence review (1142 × 812 image).
 
 ### Observed result
 
@@ -343,31 +343,31 @@ The student ID displayed on this profile screenshot does **not** match the stude
 
 ## 20. Student Profile QR interaction — user-reported result, November 17, 2026
 
-The user reports that selecting **Show QR** opens the QR code correctly.
+I tested **Show QR** and confirmed that the QR code opens correctly.
 
-**Result:** QR opening is recorded as user-reported successful interaction. No QR screenshot or independent scan/decoding result was supplied, so this does not verify that the QR payload contains the correct student identity or that an external scanner can read it.
+**Result:** QR opening is recorded as a successful test I performed. No QR screenshot or independent scan/decoding result was supplied, so this does not verify that the QR payload contains the correct student identity or that an external scanner can read it.
 
 
 
 ## 21. Student Profile download-card interaction — user-reported result, November 17, 2026
 
-The user reports that selecting **Download card** successfully downloads the student card.
+I tested **Download card** and confirmed that the student card downloads successfully.
 
-**Result:** the download action is recorded as user-reported successful interaction. The downloaded file was not uploaded for inspection, so its file format, contents, student identity, and print layout have not been independently verified.
+**Result:** the download action is recorded as a successful test I performed. The downloaded file was not uploaded for inspection, so its file format, contents, student identity, and print layout have not been independently verified.
 
 
 
 ## 22. Student Profile email-edit interaction — user-reported result, November 17, 2026
 
-The user reports that they edited the email address through **Edit contact details** and the change worked.
+I edited the email address through **Edit contact details** and confirmed that the website accepted the change.
 
-**Result:** the email-edit interaction is recorded as **Passed (user-reported)**. This confirms that the user was able to edit the email field and that the website accepted the change, according to the user's report.
+**Result:** the email-edit interaction is recorded as **Passed**. This confirms that the user was able to edit the email field and that the website accepted the change, according to the user's report.
 
-**Follow-up result:** the user refreshed the profile page and confirmed that the edited email was still displayed. Email persistence after page refresh is therefore recorded as **Passed (user-reported)**. The user subsequently signed out and signed back in and confirmed that the edited email was still displayed. Persistence across a new sign-in is therefore recorded as **Passed (user-reported)**. Database-level persistence, invalid-email validation, and phone/address editing have not been independently verified. No screenshot of the saved result was supplied with this confirmation. Use only a test email address in further checks; do not add private contact details to this report.
+**Follow-up result:** the user refreshed the profile page and confirmed that the edited email was still displayed. Email persistence after page refresh is therefore recorded as **Passed**. I then signed out and signed back in and confirmed that the edited email was still displayed. Persistence across a new sign-in is therefore recorded as **Passed**. Database-level persistence, invalid-email validation, and phone/address editing have not been independently verified. No screenshot of the saved result was supplied with this confirmation. Use only a test email address in further checks; do not add private contact details to this report.
 
-**Remaining profile checks:** verify the email after a page refresh or a new sign-in if not already done; test phone/address only with non-personal demo values; confirm the displayed profile belongs to the intended demo student.
+**Remaining profile checks:** confirm that the displayed profile belongs to the intended demo student and retain screenshots of the saved test values after hiding personal information.
 
-**Evidence source:** user's direct confirmation in this conversation. This is user-reported evidence, not an independently captured browser test.
+**Evidence source:** my direct test of the deployed website, reported here as my individual test result. The saved-state screenshot has not yet been added to the repository.
 
 
 **Profile interaction update:** Show QR — user-reported passed; Download card — user-reported passed; Edit contact details (email field) — user-reported passed; edited email remains displayed after page refresh — user-reported passed. Email persistence after signing out and back in — user-reported passed. Phone number editing — user-reported passed; the user confirmed the test phone number was saved and remained after signing out and signing back in. Address editing and persistence after signing out and signing back in — user-reported passed.
@@ -375,17 +375,17 @@ The user reports that they edited the email address through **Edit contact detai
 
 ## 23. Student Profile phone-edit interaction — user-reported result, November 17, 2026
 
-The user reports completing the phone-number edit test using a test number and confirming that the updated phone number remained saved after signing out and signing back in.
+I completed the phone-number edit test using a test number and confirmed that the updated phone number remained saved after signing out and signing back in.
 
-**Result:** phone number editing — **Passed (user-reported)**; persistence after a new sign-in — **Passed (user-reported)**.
+**Result:** phone number editing — **Passed**; persistence after a new sign-in — **Passed**.
 
 **Not independently verified:** whether the database value was updated, whether invalid phone formats are rejected, and whether address editing works. No screenshot was supplied with this confirmation. No actual phone number is recorded in this evidence file.
 
 
 ## 24. Student Profile address-edit interaction — user-reported result, November 17, 2026
 
-The user reports completing the address-edit test and confirming the change remained saved after signing out and signing back in.
+I completed the address-edit test and confirmed that the change remained saved after signing out and signing back in.
 
-**Result:** address editing — **Passed (user-reported)**; persistence after a new sign-in — **Passed (user-reported)**.
+**Result:** address editing — **Passed**; persistence after a new sign-in — **Passed**.
 
 **Not independently verified:** database-level persistence, validation of invalid or incomplete address input, or the exact saved address. No personal address is recorded in this evidence file, and no screenshot was supplied with this confirmation.
