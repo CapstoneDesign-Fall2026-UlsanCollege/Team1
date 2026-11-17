@@ -333,7 +333,7 @@ The student ID displayed on this profile screenshot does **not** match the stude
 
 **Observed:** the Student Profile page rendered and displayed the student's name, school, grade/class/year, QR/card controls and contact-detail empty states.
 
-**Not independently verified:** whether Show QR opens a valid code, whether Download card generates a correct card, whether Edit contact details saves changes, or whether the profile details match the authoritative school record. These interactions and the account-identity discrepancy remain pending.
+**Not independently verified at the time of this screenshot:** whether Show QR opens a valid code, whether Download card generates a correct card, whether Edit contact details saves changes, or whether the profile details match the authoritative school record. The user subsequently confirmed the QR, download and email-edit interactions in Sections 20–22 below. The account-identity discrepancy remains pending.
 
 **Privacy note:** the screenshot contains personally identifying profile information. This report intentionally omits the full student ID and contact details.
 
@@ -355,3 +355,19 @@ The user reports that selecting **Download card** successfully downloads the stu
 
 **Result:** the download action is recorded as user-reported successful interaction. The downloaded file was not uploaded for inspection, so its file format, contents, student identity, and print layout have not been independently verified.
 
+
+
+## 22. Student Profile email-edit interaction — user-reported result, November 17, 2026
+
+The user reports that they edited the email address through **Edit contact details** and the change worked.
+
+**Result:** the email-edit interaction is recorded as **Passed (user-reported)**. This confirms that the user was able to edit the email field and that the website accepted the change, according to the user's report.
+
+**Not independently verified:** whether the updated email remains saved after signing out and back in, whether it is persisted in the database, whether validation rejects an invalid email, or whether phone/address edits work. No screenshot of the saved result was supplied with this confirmation. Use only a test email address in further checks; do not add private contact details to this report.
+
+**Remaining profile checks:** verify the email after a page refresh or a new sign-in if not already done; test phone/address only with non-personal demo values; confirm the displayed profile belongs to the intended demo student.
+
+**Evidence source:** user's direct confirmation in this conversation. This is user-reported evidence, not an independently captured browser test.
+
+
+**Profile interaction update:** Show QR — user-reported passed; Download card — user-reported passed; Edit contact details (email field) — user-reported passed. Phone/address editing and post-refresh persistence have not yet been confirmed.
