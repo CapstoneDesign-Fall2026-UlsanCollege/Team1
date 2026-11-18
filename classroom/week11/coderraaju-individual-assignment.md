@@ -72,6 +72,12 @@ Menu must disappear again
 
 Codex ran the backend build and canteen suite against a temporary local MySQL 8.4.13 container with fictional accounts and data. All 14 tests passed, with zero skipped. The suite covered student draft privacy, publication and withdrawal, sold-out/restored availability, unchanged name and price, and persistence across restart. [Test output and tested revision](evidence/canteen-regression-2026-11-18.txt)
 
+## Hosted role precheck — November 18
+
+Codex used temporary demo accounts on the deployed StudentHub. The admin, student, teacher and canteen-head logins succeeded. The canteen-head menu, student canteen, student homework and teacher dashboard API reads returned HTTP 200. On the November 18 Nepal service date, the canteen head saw no saved menu and the student saw no published menu.
+
+The deployed menu is shared by service date. A demo login does not isolate the publication from other students, and the menu API has no delete operation to restore an unused date after creating a draft. No menu was written. The temporary logins were signed out and disabled. Demo student and teacher directory records remain for traceability. The deployed commit was not identified during this check.
+
 ## Actual result
 
 > This section must be completed only after I personally run the test.
