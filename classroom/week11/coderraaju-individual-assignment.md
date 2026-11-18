@@ -96,6 +96,19 @@ Codex performed the documentation and test work above using the CoderRaaju GitHu
 | Teacher login and dashboard | Login and `GET /api/teacher/dashboard` returned HTTP 200. |
 | Canteen-head login and menu read | Login and `GET /api/canteen/menu` returned HTTP 200. The current date had no saved menu. |
 
+## Canteen regression rerun — November 18
+
+Bal Raju reported that StudentHub worked well in his use. Codex rebuilt the backend and reran the canteen suite with fictional accounts and menus in isolated MySQL 8.4. The tested backend source and test files matched `main` at `899e09a`. All 14 checks passed, with zero failures or skips. [Rerun output](evidence/canteen-main-rerun-2026-11-18.txt) · [Shared weekly report](weekly-report.md#individual-contribution-rows)
+
+| Behavior | Observed result in the rerun |
+| --- | --- |
+| Draft privacy | Student read returned no menu while the saved menu was a draft. |
+| Publication | Student read returned the published menu for the service date. |
+| Availability | Sold-out status appeared in the student read while the item name and price stayed the same. Restored availability persisted across server restart. |
+| Withdrawal | Student read returned no menu after unpublishing. |
+
+These were HTTP and database checks in the isolated test environment. The earlier deployed precheck verified logins and role-specific reads. Step-by-step results for hosted browser menu changes are still pending.
+
 ## Personal browser test results
 
 > This section must be completed only after I personally run the test.
@@ -112,7 +125,7 @@ Codex performed the documentation and test work above using the CoderRaaju GitHu
 
 ## Overall result
 
-**Current status:** Automated canteen regression passed (14/14). Hosted role logins and API reads passed. The independent browser test and hosted menu changes are pending.
+**Current status:** The latest automated rerun passed (14/14), and the earlier hosted role logins and API reads passed. Bal Raju reported that the app worked well. Detailed independent browser results for hosted menu changes are pending.
 
 ## First failing step
 
