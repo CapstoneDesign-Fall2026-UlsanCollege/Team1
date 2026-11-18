@@ -4,6 +4,17 @@
 **Updated:** November 16, 2026 · **Owner:** Galan Bishal, with coding assistance
 **Direction:** Nepal middle/high-school administration. This supersedes the [Week 9 plan](classroom/week9/roadmap.md) and [Week 10 checkpoint](classroom/week10/roadmap.md).
 
+## Week 11 MVP verification and freeze gate — November 18, 2026
+
+**Team decision:** feature scope is frozen. The team is following the recovery/acceptance route rather than declaring the complete MVP stable.
+
+- [Shared Week 11 weekly report](classroom/week11/weekly-report.md)
+- [MVP verification checklist](classroom/week11/mvp-verification.md)
+- [Week 11 one-pager response](classroom/week11/one-pager.md)
+- [Week 11 work checklist](classroom/week11/work-checklist.md)
+
+The latest daily-workflow integration suite recorded 94 backend checks passing with zero failures/skips in isolated MySQL fixtures. However, Ansh's deployed iPhone subject-assignment test failed after refresh; canteen manual acceptance, fresh-clone setup, and full independent live role acceptance remain open. These are release gates, not reasons to expand feature scope.
+
 ## Project flowchart
 
 Read from top to bottom. Each arrow means **the next step**. Green boxes already work on our laptop; yellow boxes still need finishing; blue boxes are optional. Text labels carry the same meaning as the colours.
@@ -40,7 +51,7 @@ flowchart TD
 
 **Teacher dashboard is main-release work.** Its schedule, class roster, homework and attendance belong in the required final demo. **The parent dashboard is stretch work:** already implemented, with its remaining acceptance checks tracked separately. This priority change preserves all existing code and records.
 
-**Current position:** the main features work locally and the Railway site is online. Phone-persistence repair, independent acceptance, clean setup and complete live workflow checks remain. The daily workflow has 94 passing backend checks. [Current deployment proof](classroom/week11/railway-deployment-2026-11-12.md).
+**Current position (Week 11 freeze gate, November 18):** the Railway site is online and the daily cross-role workflow suite has 94 passing backend checks in isolated MySQL fixtures. The complete MVP is not yet accepted: the deployed iPhone subject-assignment persistence check failed after refresh, while canteen manual acceptance, fresh-clone setup and full independent authenticated live role checks remain. Feature scope is frozen; recover and verify these existing promised behaviors before final-demo readiness. See the [shared Week 11 report](classroom/week11/weekly-report.md), [MVP checklist](classroom/week11/mvp-verification.md) and [deployment proof](classroom/week11/railway-deployment-2026-11-12.md).
 
 <details>
 <summary><strong>Open technical details, evidence and issue links</strong></summary>
