@@ -1,5 +1,7 @@
 # ClassDecks — Team 1 Week 11 reference
 
+**Last reviewed:** November 18, 2026
+
 This file points to the official course presentation index and the written Week 11 class package.
 
 - [Official ClassDecks.md index](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/blob/main/ClassDecks.md)
