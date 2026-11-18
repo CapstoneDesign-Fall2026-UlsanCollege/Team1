@@ -6,7 +6,7 @@
 **Project:** Student Life Hub  
 **Week:** 11  
 **Feature area:** #68 — Student My Class View  
-**Evidence status:** Laptop browser checks L1–L9 are recorded as passed. iPhone checks are recorded separately in the dedicated iPhone test evidence file. Direct backend authorization verification remains outstanding.  
+**Evidence status:** Laptop browser checks L1–L9 are recorded as passed. iPhone checks are recorded separately in the dedicated iPhone test evidence file. Direct backend authorization verification P1–P3 is recorded as completed based on the user's confirmation.  
 **Live application:** https://team1-production.up.railway.app/
 
 ## 1. Objective
@@ -53,9 +53,9 @@ These checks require an approved demo/test account or a test record prepared by 
 
 | No. | Test | Expected result | Actual result / evidence | Status |
 |---|---|---|---|---|
-| P1 | View My Class while signed in as the demo student | Only that student's own class information is shown | Pending | Pending |
-| P2 | Check a demo class/student with no assigned homeroom teacher, if available | The page clearly shows no teacher is assigned; it does not invent a teacher | Pending | Pending |
-| P3 | Check backend authorization for another student's record | A direct unauthorized request is rejected by the server; UI hiding alone is not proof | Not run — endpoint and safe test procedure must be confirmed first | Pending |
+| P1 | View My Class while signed in as the demo student | Only that student's own class information is shown | Completed by the user; own-student My Class access was checked. | Passed — user-confirmed |
+| P2 | Check a demo class/student with no assigned homeroom teacher, if available | The page clearly shows no teacher is assigned; it does not invent a teacher | Completed by the user; the no-assigned-class/teacher state was checked. | Passed — user-confirmed |
+| P3 | Check backend authorization for another student's record | A direct unauthorized request is rejected by the server; UI hiding alone is not proof | User confirmed this check is complete. Record the test request/response or supporting evidence if required for independent review. | Passed — user-confirmed |
 
 ## 6. Laptop screenshot evidence
 
@@ -170,8 +170,8 @@ The repository contains an isolated MySQL test named **“student dashboard scop
 **Laptop feature navigation (L9):** Passed — I navigated to another feature and returned to My Class successfully.  
 **iPhone Chrome checks:** Recorded in the separate iPhone test evidence file, with uploaded screenshots and the user's confirmation that testing is complete.  
 **Live student data / timetable / teacher verification:** Partially verified at the UI level; authoritative school-record matching and the teacher-assignment convention still need confirmation.  
-**Live backend privacy verification:** Pending; automated profile-scope coverage and source review are recorded above, but a direct live authorization test has not been performed.  
-**Overall Week 11 personal live verification:** Laptop checks L1–L9 are passed; iPhone checks are recorded in the separate iPhone report; only direct backend authorization verification remains outstanding.
+**Live backend privacy verification (P1–P3):** Passed — the user confirmed that all three privacy/authorization checks are complete.  
+**Overall Week 11 personal live verification:** Laptop checks L1–L9, iPhone checks I1–I10, and privacy checks P1–P3 are recorded as passed based on the user's reported results.
 
 Laptop screenshots have been uploaded to this personal evidence folder and linked in Section 6. iPhone screenshots are linked in the separate iPhone test report. Direct backend authorization verification is not claimed as passed.
 
