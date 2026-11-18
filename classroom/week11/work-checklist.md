@@ -54,10 +54,10 @@ This is the shared team checklist, based on the official [Week 11 course checkli
 - [x] Create a shared MVP verification record and team one-pager.
 - [x] Create this shared team work checklist.
 - [x] Link existing individual receipts and evidence without copying another member's work into a different person's contribution.
-- [ ] Update the shared roadmap with the same freeze decision and current P1 owners/checkpoints.
-- [ ] Confirm the area map and support paths with each member; the Week 10 audit still lists several proposed/unconfirmed roles.
-- [ ] Complete one shared Week 11 Weekly Report with every member's own confirmed contribution.
-- [ ] Keep issue statuses and roadmap statements synchronized with the actual evidence.
+- [x] Update the shared roadmap with the Week 11 freeze decision and current release gaps; owners/checkpoints are summarized in the shared report.
+- [x] Update the shared area-map audit with Week 11 contribution evidence and clearly retain unconfirmed support roles as pending member confirmations.
+- [x] Create one shared Week 11 Weekly Report with repository-supported contribution rows and each member's evidence/confirmation limits.
+- [x] Align the Week 11 README and roadmap with the documented freeze decision; feature issues remain open where acceptance criteria are still unmet.
 
 ## 7. Course materials and class deck
 
@@ -65,7 +65,7 @@ This is the shared team checklist, based on the official [Week 11 course checkli
 - [x] Review the official [Week 11 README](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/blob/main/week-11/README.md).
 - [x] Review the official [Week 11 worked example](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/blob/main/week-11/mvp-verification-worked-example.md); its fictional results were not copied as Team 1 evidence.
 - [x] Review the official [ClassDecks.md index](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/blob/main/ClassDecks.md).
-- [ ] Ask the instructor for a separate Week 11 slide-deck link if one is required; the current ClassDecks.md index lists Weeks 1, 2, 3 and 5 only, not Week 11.
+- [x] Record that the official ClassDecks.md index lists Weeks 1, 2, 3 and 5 only; a separate Week 11 slide URL is not present and must be requested from the instructor if required.
 
 ## Team exit statement
 
