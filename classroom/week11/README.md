@@ -1,5 +1,7 @@
 # Week 11 — Team 1 MVP Verification and Freeze Gate
 
+- [Week 11 Tested-By Note](tested-by-note.md)
+
 - [Week 11 AI Use and Code Ownership Audit](ai-use-and-code-ownership-audit.md)
 
 ## Shared team deliverables

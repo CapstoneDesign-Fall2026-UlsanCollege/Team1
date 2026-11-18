@@ -45,3 +45,7 @@ Existing closed status is historical metadata, not a new test result. Open issue
 - [#104 Direct subject-name scheduling — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/104)
 
 - [#105 Next-step guide and mobile planning — Definition of Done and iPhone retest](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/105)
+
+## Week 11 freeze gate
+
+See the [shared report’s risks and priorities](weekly-report.md#risks-blockers-and-work-priority) and the [MVP verification checklist](mvp-verification.md) for owners, evidence and next checks.

@@ -1,0 +1,28 @@
+StudentHub canteen regression | 2026-11-18 (Asia/Seoul)
+Revision 44605899d71c3738993acd497141f5c91e06dbfd
+Node v24.22.1 | MySQL 8.4.13 | Local isolated fixtures
+Command: RUN_MENU_DB_TESTS=1 DB_HOST=127.0.0.1 DB_PORT=33317 DB_USER=root node --test backend/tests/canteen-menu.test.mjs
+
+✔ menu dates use Nepal time and reject impossible calendar dates (21.497703ms)
+✔ menu validation rejects invalid prices, names, IDs and oversized lists (1.15412ms)
+✔ canteen hours and closure notices validate without inventing hours (0.525568ms)
+▶ isolated MySQL daily menu lifecycle
+  ✔ anonymous, student and academic admin access is enforced (22.974968ms)
+  ✔ draft, publish, edit and unpublish survive database reads (37.442169ms)
+  ✔ server restart retains the saved menu; date rollover hides yesterday (311.83633ms)
+  ✔ invalid writes roll back without creating a menu (14.830737ms)
+  ✔ simultaneous first writes and stale edits cannot overwrite a menu (16.123445ms)
+  ✔ item availability persists, retains name/price and stays isolated by date (372.437848ms)
+  ✔ canteen information drafts, Nepal weekday hours and dated closure notices persist (336.295017ms)
+  ✔ saved item suggestions use latest NPR prices and require canteen access (15.777156ms)
+  ✔ multi-day copy creates missing drafts and skips existing dates without overwriting (33.679018ms)
+  ✔ legacy won prices survive currency migration (15.807461ms)
+✔ isolated MySQL daily menu lifecycle (1621.025182ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1820.723976

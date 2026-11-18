@@ -19,6 +19,7 @@ Verify the existing StudentHub final-demo promise, record actual results across 
 | Area | Team result | Evidence and limits |
 |---|---|---|
 | Automated daily workflow | 94 backend checks passed, 0 failed, 0 skipped with isolated MySQL fixtures. Covers role/session boundaries, student enrollment/scope, teacher homework and attendance, parent-linked read-back, canteen draft/publish/withdraw and audit behavior. | [Full suite](evidence/daily-workflow-full-suite.txt) · [Daily workflow note](daily-workflow.md). Automated fixture evidence, not a human live-demo pass. |
+| Canteen regression and hosted role access | Codex ran 14 isolated MySQL checks with zero failures or skips. Student, teacher and canteen-head hosted logins and API reads succeeded using temporary demo accounts. | [Regression output](evidence/canteen-regression-2026-11-18.txt) · [Hosted precheck](coderraaju-individual-assignment.md#hosted-role-precheck--november-18). Hosted menu changes and independent browser acceptance remain pending. |
 | Room booking | Automated valid save/read-back, overlap rejection and adjacent-time boundary passed. Ansh independently repeated valid booking persistence and overlap rejection on deployed iPhone. | [Automated evidence](evidence/daily-workflow-full-suite.txt) · [Ansh iPhone result](ansh-room-booking-iphone-test.md). |
 | Subject assignment on phone | Ansh independently tested deployed iPhone subject assignment. The assignment appeared immediately but disappeared after Safari refresh. | [Failure report](ansh-iphone-subject-persistence.md) · [#83](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/83). This is a real failed check, not a pass. |
 | Deployment and school data | Railway deployment active; public app availability checked. Approved school snapshot migrated to a separate Railway schema; 31 table row counts/checksums matched, 81 triggers preserved; read-only authenticated data checks and an admin-to-teacher 403 boundary recorded. | [Deployment](railway-deployment-2026-11-12.md) · [Migration](railway-data-migration-2026-11-12.md). Assistant-run, not independent team acceptance. |
@@ -66,6 +67,7 @@ P-level is work priority, not bug severity.
 - [Team Week 11 work checklist](work-checklist.md)
 - [Current roadmap](../../roadmap.md)
 - [Week 11 technical index](README.md)
-- [Code ownership / area map](../week10/ai-use-and-code-ownership-audit.md)
+- [Week 11 AI use and code ownership audit](ai-use-and-code-ownership-audit.md)
+- [Shared codebase area map](../week10/ai-use-and-code-ownership-audit.md)
 
 **Prepared as a shared evidence summary.** Each member is responsible for confirming the accuracy of their own contribution row. This report does not turn assistant-run tests into independent human results.
