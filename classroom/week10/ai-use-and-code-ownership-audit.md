@@ -1,7 +1,7 @@
 # AI Use and Code Ownership Audit
 
 **Team:** Team 1 — StudentHub<br>
-**Week / sprint / date:** Week 10 · Sprint 2 · updated November 10, 2026<br>
+**Week / sprint / date:** Weeks 10–11 · Sprint 2 · updated November 18, 2026<br>
 **Review point:** November 11, end of day; revisit at the Week 11 sprint checkpoint or whenever boundaries/roles change.
 
 This is the single current code-area map. Reports and the Working Agreement link here rather than duplicating it. Stewardship is shared context, not exclusive control or a permission gate. Other students may edit any area through the team's review process.
@@ -76,3 +76,34 @@ SchoolRoomBoard.submit sends stable IDs, one date, times and revision → school
 ## November 10 identity and fresh-check correction
 
 The requester clarified they are Galan Bishal, not Bal Raju. The CoderRaaju-authored documentation commit does not establish Bal Raju’s personal confirmation. His new scope remains proposed. [Fresh assistant-run evidence](c0-fresh-assistant-check-2026-11-10.md) has direct screenshots/output and is separate from the original reported November 9 test, #72 independent review and live verification.
+
+
+## Week 11 team review — November 18, 2026
+
+The Week 11 shared records now consolidate the whole team's MVP verification and freeze gate:
+
+- [Shared Week 11 weekly report](../week11/weekly-report.md)
+- [MVP verification checklist](../week11/mvp-verification.md)
+- [Week 11 one-pager response](../week11/one-pager.md)
+- [Week 11 work checklist](../week11/work-checklist.md)
+
+### Current contribution/evidence boundaries
+
+| Member | Week 11 evidence in repository | Review boundary |
+|---|---|---|
+| Galan Bishal (@bishal482) | Guided setup, next-step guide, quick floor/room creation, subject-name scheduling, touch planning, mobile layout and compact class cards; deployment/data migration and assistant-supported automated daily workflow records. [Individual commit record](../week11/individual_work.md) | Coding assistance and local/assistant-run tests are disclosed. Do not label them independent teammate acceptance. |
+| Ansh Sharma (@anshsharma123) | Physical iPhone special-room booking save/refresh/overlap test passed; physical iPhone subject assignment disappeared after refresh and was recorded as a failure. [Receipt](../week11/ansh-individual-evidence-receipt.md) | Independent manual result. Subject persistence requires fix and repeat test. |
+| Bal Raju (@CoderRaaju) | Assigned the canteen draft/publish/withdraw privacy verification; repeatable procedure is prepared. [Assignment](../week11/coderraaju-individual-assignment.md) | Actual test result, device/browser, commit and screenshots remain unrecorded; keep pending until he supplies them. |
+| Buddha Raj Giri (@BudhaRajgiri) | Personal laptop L1–L9, iPhone I1–I10 and P1–P3 reports with screenshots. [Laptop report](../week11/evidence/BudhaRajgiri/BudhaRajgiri-Week11-Individual-Evidence.md) · [iPhone report](../week11/evidence/BudhaRajgiri/BudhaRajgiri-Week11-iPhone-Test-Evidence.md) | User-confirmed personal evidence; it does not replace a team-wide independent security review or other role checks. |
+
+### Week 11 area/support follow-up
+
+- Student frontend: Galan's #76 implementation and Buddha's personal test evidence are separate contributions; Buddha's own area explanation/acceptance should be confirmed by him rather than inferred.
+- Administrator/room planning: Galan's implementation and assistant-run tests are documented; Ansh's physical iPhone room-booking check provides an independent manual check for that bounded workflow.
+- Canteen: Bal Raju's human verification is assigned but not yet evidenced; do not mark the canteen human gate passed.
+- Teacher workspace, deployment and integration tests: automated and assistant-run evidence is linked from the shared Week 11 report; a non-author teammate still needs to reproduce the full authenticated workflow.
+- Backups/support partners remain unconfirmed unless a member explicitly confirms them.
+
+**Freeze decision:** feature scope remains frozen. #83 subject-persistence recovery, canteen manual acceptance, clean-clone setup (#77), and full independent authenticated live role acceptance (#60/#65) remain release follow-ups. P-level is work priority, not bug severity.
+
+This update records repository evidence and its limits; it does not assign unconfirmed ownership, claim an oral explanation, or convert assistant-run tests into independent human checks.
