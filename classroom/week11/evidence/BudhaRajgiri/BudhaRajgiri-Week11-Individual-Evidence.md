@@ -64,21 +64,44 @@ These checks require an approved demo/test account or a test record prepared by 
 | P2 | Check a demo class/student with no assigned homeroom teacher, if available | The page clearly shows no teacher is assigned; it does not invent a teacher | Pending | Pending |
 | P3 | Check backend authorization for another student's record | A direct unauthorized request is rejected by the server; UI hiding alone is not proof | Not run — endpoint and safe test procedure must be confirmed first | Pending |
 
-## 6. Screenshot evidence to add
+## 6. Laptop screenshot evidence
 
-Save screenshots in this folder: `classroom/week11/evidence/BudhaRajgiri/`.
+The following genuine screenshots were captured during the laptop checks and uploaded to this personal evidence folder.
 
-Use these filenames after taking the screenshots:
+| Test area | Screenshot |
+|---|---|
+| Laptop Home | [Open laptop Home screenshot](./BudhaRajgiri-week11-laptop-home.png) |
+| Laptop My Class — assigned state | [Open laptop My Class screenshot](./BudhaRajgiri-week11-laptop-my-class.png) |
+| Laptop Timetable | [Open laptop Timetable screenshot](./BudhaRajgiri-week11-laptop-timetable.png) |
+| Laptop Subjects | [Open laptop Subjects screenshot](./BudhaRajgiri-week11-laptop-subjects.png) |
+| Laptop Homework | [Open laptop Homework screenshot](./BudhaRajgiri-week11-laptop-homework.png) |
+| Laptop Student Profile | [Open laptop Student Profile screenshot](./BudhaRajgiri-week11-laptop-profile.png) |
 
-- `BudhaRajgiri-week11-laptop-home.png`
-- `BudhaRajgiri-week11-laptop-my-class.png`
-- `BudhaRajgiri-week11-laptop-timetable.png`
-- `BudhaRajgiri-week11-iPhone-home.png`
-- `BudhaRajgiri-week11-android-my-class.png`
-- `BudhaRajgiri-week11-android-timetable.png`
+### Laptop Home
 
-Before committing screenshots, hide or crop student names, IDs, phone numbers, email addresses, passwords, QR codes and any other private information. Use only approved demo data.
+![Laptop Home page](./BudhaRajgiri-week11-laptop-home.png)
 
+### Laptop My Class
+
+![Laptop My Class page — assigned class](./BudhaRajgiri-week11-laptop-my-class.png)
+
+### Laptop Timetable
+
+![Laptop weekly timetable](./BudhaRajgiri-week11-laptop-timetable.png)
+
+### Laptop Subjects
+
+![Laptop Subjects page](./BudhaRajgiri-week11-laptop-subjects.png)
+
+### Laptop Homework
+
+![Laptop Homework page](./BudhaRajgiri-week11-laptop-homework.png)
+
+### Laptop Student Profile
+
+![Laptop Student Profile page](./BudhaRajgiri-week11-laptop-profile.png)
+
+**Privacy note:** The genuine Student Profile screenshot includes a student ID and contact information. It is included as requested, but this repository may be publicly viewable. Redact those details and replace the image before sharing the repository publicly if they are not approved for publication.
 ## 7. Related project evidence
 
 - [Student My Class issue #68](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/68)
