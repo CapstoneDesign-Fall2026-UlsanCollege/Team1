@@ -64,8 +64,13 @@ Menu must disappear again
 | 2. Student opens School Canteen | Draft menu is not visible |
 | 3. Publish the same menu | Publication succeeds |
 | 4. Student refreshes | Published item, name and price appear correctly |
+| 4a. Mark the published item sold out, then restore availability | The student sees both changes after refresh, with the same item name and price |
 | 5. Withdraw/unpublish menu | Menu becomes non-public |
 | 6. Student refreshes again | Withdrawn menu is no longer visible |
+
+## Automated precheck — November 18
+
+Codex ran the backend build and canteen suite against a temporary local MySQL 8.4.13 container with fictional accounts and data. All 14 tests passed, with zero skipped. The suite covered student draft privacy, publication and withdrawal, sold-out/restored availability, unchanged name and price, and persistence across restart. [Test output and tested revision](evidence/canteen-regression-2026-11-18.txt)
 
 ## Actual result
 
@@ -77,6 +82,7 @@ Menu must disappear again
 | Student draft privacy | PENDING | NOT TESTED |
 | Publish | PENDING | NOT TESTED |
 | Student published read-back | PENDING | NOT TESTED |
+| Sold out and restored after student refresh | PENDING | NOT TESTED |
 | Withdraw / unpublish | PENDING | NOT TESTED |
 | Student post-withdraw read-back | PENDING | NOT TESTED |
 
@@ -100,7 +106,7 @@ Use only safe screenshots. Do not include passwords, cookies, tokens, private co
 ## Repeatable test steps
 
 1. Sign in using the approved canteen-head test account.
-2. Choose the applicable canteen date.
+2. Use an approved demo school or a designated fixture for the current Nepal service date. Stop if the only available fixture is an active real menu.
 3. Create a harmless fictional test menu item.
 4. Save the menu as a draft only.
 5. Sign in separately as the approved student test account.
@@ -108,10 +114,11 @@ Use only safe screenshots. Do not include passwords, cookies, tokens, private co
 7. Confirm that the draft is not visible.
 8. Return to the canteen-head account and publish the same menu.
 9. Refresh the student page and confirm that the published menu matches the canteen-head item and price.
-10. Return to the canteen-head account and withdraw/unpublish the menu.
-11. Refresh the student page again.
-12. Confirm that the withdrawn menu is no longer visible.
-13. Record the actual result, first failure if any, tested revision and safe screenshots.
+10. Mark the published test item **Sold out**. Refresh as the student and verify the label, name and price. Restore **Available** and repeat the student check. Capture the two states.
+11. Return to the canteen-head account and withdraw/unpublish the menu.
+12. Refresh the student page again and confirm the withdrawn menu is hidden.
+13. Restore the fixture to its agreed pre-test state.
+14. Record the actual result, first failure if any, tested revision and safe screenshots.
 
 ## What this assignment proves
 
