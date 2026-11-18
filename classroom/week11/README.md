@@ -4,9 +4,10 @@
 
 - [Team 1 shared weekly report](weekly-report.md)
 - [Team 1 MVP verification checklist](mvp-verification.md)
+- [Team 1 worked example using actual project evidence](mvp-verification-worked-example.md)
 - [Team 1 Week 11 one-pager response](one-pager.md)
 - [Team 1 Week 11 work checklist](work-checklist.md)
-- [Week 11 class deck and official course-material reference](class-decks.md)
+- [ClassDecks — Week 11 reference](ClassDecks.md)
 
 **Team decision:** feature scope is frozen; the current evidence supports a recovery/acceptance route, not a claim that the complete MVP is stable. See the shared report and MVP checklist for the failed iPhone subject-persistence test and remaining human/setup/live gates.
 
