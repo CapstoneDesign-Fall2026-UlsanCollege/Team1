@@ -20,11 +20,11 @@ Complete the section for your current sprint at its final class meeting. These a
 
 ## Sprint 2 - MVP and Freeze (Week 11)
 
-- [ ] The MVP happy path has been tested and recorded.
-- [ ] Known bugs are labeled by severity and have an owner or plan.
-- [ ] New features are frozen or explicitly justified against the MVP contract.
-- [ ] The project has basic input/error handling or a documented limitation.
-- [ ] AI-assisted or outside material is reviewed, explainable, and attributed where relevant.
+- [x] The MVP happy path has been tested and recorded.
+- [x] Known bugs are labeled by severity and have an owner or plan.
+- [x] New features are frozen or explicitly justified against the MVP contract.
+- [x] The project has basic input/error handling or a documented limitation.
+- [x] AI-assisted or outside material is reviewed, explainable, and attributed where relevant.
 
 ## Sprint 3 - QA and Handoff (Week 14)
 
