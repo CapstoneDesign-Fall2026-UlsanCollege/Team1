@@ -1,5 +1,16 @@
 # Week 11 — Core release, testing and stretch scope
 
+## Sprint 2 freeze gate
+
+- [MVP verification checklist and recovery decision](mvp-verification-checklist.md)
+- [Shared Week 11 Weekly Report](weekly-report.md)
+- [Roadmap checkpoint](../../roadmap.md#week-11-freeze-checkpoint) and [issue priorities](issues.md#week-11-freeze-gate)
+- [Sprint 2 quality quick checks](../sprint-quality-quick-checks.md#sprint-2---mvp-and-freeze-week-11)
+- [AI use and code ownership area map](../week10/ai-use-and-code-ownership-audit.md)
+- [Galan Bishal’s individual evidence receipt](individual_work.md)
+
+## Supporting evidence
+
 - [Automated testing guide: real StudentHub commands](automated-testing-guide.md)
 - [Actual local checks and CI status](testing-evidence.md)
 - [Mobile assignment fix and verification limits](mobile-admin-check.md)

@@ -45,3 +45,16 @@ Existing closed status is historical metadata, not a new test result. Open issue
 - [#104 Direct subject-name scheduling — Definition of Done](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/104)
 
 - [#105 Next-step guide and mobile planning — Definition of Done and iPhone retest](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/105)
+
+## Week 11 freeze gate
+
+The priorities below are proposed for the next checkpoint. Use the [course priority guide](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/blob/80f90a307ecff2846cf1dd895fcc6b030ab28afd/student-starter-kit/docs/issue-priority-guide.md) when applying issue labels.
+
+| Issue or risk | Severity | Priority and reason | Owner and next check |
+| --- | --- | --- | --- |
+| [#83 Mobile subject persistence](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/83) | Major | P1. A required assignment disappeared after refresh on deployed iPhone Safari. [Evidence](ansh-iphone-subject-persistence.md) | Galan Bishal reproduces and fixes it. A teammate then confirms a fresh save/reload on the deployed revision. |
+| Hosted teacher and student read-back | Verification risk | P1. Required role flows have local evidence and still need a hosted run. [Checklist](mvp-verification-checklist.md) | Galan Bishal coordinates assignment of non-author testers for roster, homework, attendance, monthly totals and student read-back. |
+| [#54 Publication](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/54) and [#56 Availability](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/56) | Verification risk | P1. The promised student read-back still needs hosted evidence. | Bal Raju has a [publication test plan](coderraaju-individual-assignment.md). Galan Bishal coordinates hosted availability retest with approved fictional data. |
+| [#77 Fresh setup](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/77) | Setup risk | P2. A clean-clone setup remains a handoff gap while hosted demo recovery comes first. | Galan Bishal documents bootstrap and reproduces it from a clean clone and an empty isolated database. |
+
+[Current roadmap checkpoint](../../roadmap.md#week-11-freeze-checkpoint)

@@ -107,6 +107,12 @@ Job search, filters and favourites already exist. [#69](https://github.com/Capst
 5. Canteen head changes approved fictional menu availability; student refresh confirms it.
 6. Show the exact test/CI and human proof, followed by live read-back results. Demonstrate the parent dashboard only as an optional stretch feature if time allows.
 
+## Week 11 freeze checkpoint
+
+The [final core demo path](#final-core-demo-path) is frozen. The [Week 11 verification checklist](classroom/week11/mvp-verification-checklist.md) records a deployed iPhone subject-assignment failure and outstanding hosted checks. Follow the recovery route.
+
+Galan Bishal owns [#83](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/83). The next checkpoint is an independent iPhone Safari retest showing that a newly saved subject and teacher survive refresh on the identified deployed revision. Record the result and reassess the remaining [demo risks and verification gaps](classroom/week11/issues.md#week-11-freeze-gate).
+
 ## Current evidence and limits
 
 The latest [daily workflow verification](classroom/week11/daily-workflow.md) records **94 backend passes**, including admin enrollment, teacher homework/attendance, student/parent read-back and canteen publication. These are assistant-run isolated-database tests. [Ansh's deployed iPhone check](classroom/week11/ansh-iphone-subject-persistence.md) reported a subject missing after refresh; that failure still needs diagnosis and a recorded retest.

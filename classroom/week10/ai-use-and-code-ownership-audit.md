@@ -8,6 +8,12 @@ This is the single current code-area map. Reports and the Working Agreement link
 
 Prepared with coding assistance using the [course audit template](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/blob/main/student-starter-kit/templates/ai-use-and-code-ownership-audit.md). This records assistance, not permission to use AI in a restricted task. No teammate acceptance, oral explanation, independent review or test is invented.
 
+## Week 11 checkpoint
+
+The [Week 11 verification checklist](../week11/mvp-verification-checklist.md) and [issue list](../week11/issues.md#week-11-freeze-gate) use this area map. For [#83](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/83), Galan Bishal owns the investigation across mobile administration and school planning. A teammate should re-run the save/refresh case on deployed iPhone Safari and add the result to the Week 11 evidence. Authors should confirm the existing backup and support arrangements through the team review process.
+
+The Week 11 gate documentation was drafted with AI assistance from the course checklist and existing repository evidence. Teammates still need to confirm their own contribution and review entries.
+
 ## AI use notes
 
 | Change record | AI used? | Assistance | What was reviewed or changed | Evidence / limits |

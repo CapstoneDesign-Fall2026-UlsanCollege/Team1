@@ -20,11 +20,11 @@ Complete the section for your current sprint at its final class meeting. These a
 
 ## Sprint 2 - MVP and Freeze (Week 11)
 
-- [ ] The MVP happy path has been tested and recorded.
-- [ ] Known bugs are labeled by severity and have an owner or plan.
-- [ ] New features are frozen or explicitly justified against the MVP contract.
-- [ ] The project has basic input/error handling or a documented limitation.
-- [ ] AI-assisted or outside material is reviewed, explainable, and attributed where relevant.
+- [ ] MVP happy path. Galan Bishal coordinates the [iPhone retest and remaining hosted checks](week11/mvp-verification-checklist.md).
+- [ ] Bug severity and ownership. Galan Bishal reviews the [issue list](week11/issues.md#week-11-freeze-gate) and applies agreed priorities and severity in GitHub.
+- [x] Feature scope is frozen in the [roadmap checkpoint](../roadmap.md#week-11-freeze-checkpoint).
+- [x] Input/error handling has recorded evidence. The [iPhone room test](week11/ansh-room-booking-iphone-test.md) records a rejected overlapping booking; the [MVP checklist](week11/mvp-verification-checklist.md) records the subject persistence limitation.
+- [ ] AI-assisted work review. Each author confirms their own use and explanation in the [ownership audit](week10/ai-use-and-code-ownership-audit.md). Galan coordinates any missing area review.
 
 ## Sprint 3 - QA and Handoff (Week 14)
 
