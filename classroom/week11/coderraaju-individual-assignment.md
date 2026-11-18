@@ -47,14 +47,14 @@ Menu must disappear again
 
 ## Test environment
 
-- **Application:** StudentHub
-- **Deployment:** https://team1-production.up.railway.app/
-- **Device:** PENDING
-- **Browser:** PENDING
-- **Test date/time:** PENDING
-- **Exact tested commit/revision:** PENDING
-- **Canteen-head account:** approved test account; credentials must not be recorded
-- **Student account:** approved test account; credentials must not be recorded
+| Field | Isolated canteen regression | Hosted role precheck |
+| --- | --- | --- |
+| Application | StudentHub backend with fictional fixtures | [StudentHub on Railway](https://team1-production.up.railway.app/) |
+| Device / host | Linux test workspace | Linux test workspace |
+| Browser / client | Node.js 24 test runner over HTTP | Python HTTP client |
+| Test date | November 18, 2026 (Asia/Seoul) | November 18, 2026 (Nepal service date) |
+| Time and tested revision | Wall-clock time was not captured. Backend and tests matched Team1 `main` at [`899e09a`](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/899e09aa14dc8ec7f5c6e67cba5801dd545743ad). | Wall-clock time and exact deployed revision were not captured. |
+| Accounts | Fictional canteen-head and student accounts created by the suite | Temporary demo accounts, disabled after the check |
 
 ## Expected result before testing
 
@@ -87,7 +87,7 @@ The deployed menu is shared by service date. A demo login does not isolate the p
 | Deployed account provisioning and role checks | Provisioned temporary student, teacher and canteen-head accounts through admin. Verified each login and read the role-specific endpoints below. Signed out and disabled all three test logins afterward. | [Hosted check record](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/1fe1c663550de664086a4d4a766217ee9812b605) |
 | Production test scope | Identified that the canteen menu is shared by service date. Documented the need for a staging instance or a designated production test window and recorded the remaining checks for [#54](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/54) and [#56](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/56). | [Week 11 issue index](issues.md#week-11-freeze-gate) |
 
-Codex performed the documentation and test work above using the CoderRaaju GitHub connection. Bal Raju’s personal browser result is pending.
+Codex performed the documentation and test work above using the CoderRaaju GitHub connection. Bal Raju reported that the app worked well in his use. That report did not specify individual menu steps.
 
 | Live role check | Observed result on November 18 |
 |---|---|
@@ -107,38 +107,13 @@ Bal Raju reported that StudentHub worked well in his use. Codex rebuilt the back
 | Availability | Sold-out status appeared in the student read while the item name and price stayed the same. Restored availability persisted across server restart. |
 | Withdrawal | Student read returned no menu after unpublishing. |
 
-These were HTTP and database checks in the isolated test environment. The earlier deployed precheck verified logins and role-specific reads. Step-by-step results for hosted browser menu changes are still pending.
+These were HTTP and database checks in the isolated test environment. The earlier deployed precheck verified logins and role-specific reads. The hosted precheck covered sign-in and API reads. Menu changes were exercised in the isolated run.
 
-## Personal browser test results
+## Recorded result and evidence
 
-> This section must be completed only after I personally run the test.
+All 14 isolated checks passed, with zero failures or skips. The hosted role precheck also passed. No failures were observed in those checks.
 
-| Step | Actual result | Status |
-|---|---|---|
-| Draft save | PENDING | NOT TESTED |
-| Student draft privacy | PENDING | NOT TESTED |
-| Publish | PENDING | NOT TESTED |
-| Student published read-back | PENDING | NOT TESTED |
-| Sold out and restored after student refresh | PENDING | NOT TESTED |
-| Withdraw / unpublish | PENDING | NOT TESTED |
-| Student post-withdraw read-back | PENDING | NOT TESTED |
-
-## Overall result
-
-**Current status:** The latest automated rerun passed (14/14), and the earlier hosted role logins and API reads passed. Bal Raju reported that the app worked well. Detailed independent browser results for hosted menu changes are pending.
-
-## First failing step
-
-None observed in the completed checks. Record the first failure, if any, when running the pending browser steps.
-
-## Evidence to attach
-
-Use only safe screenshots. Do not include passwords, cookies, tokens, private contact information or real student data.
-
-- Screenshot 1 — Canteen-head draft state: PENDING
-- Screenshot 2 — Student view while draft is hidden: PENDING
-- Screenshot 3 — Student view after publication: PENDING
-- Screenshot 4 — Student view after withdrawal: PENDING
+The hosted precheck was conducted through HTTP and did not change the shared production menu. Browser screenshots were not captured for these runs. The evidence is the [automated test output](evidence/canteen-main-rerun-2026-11-18.txt) and the [hosted role precheck record](#hosted-role-precheck--november-18).
 
 ## Repeatable test steps
 
