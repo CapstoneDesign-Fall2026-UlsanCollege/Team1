@@ -60,6 +60,8 @@ P-level is work priority, not bug severity.
 ## Team evidence index
 
 - [Team Week 11 MVP verification](mvp-verification.md)
+- [Team 1 worked example using actual project evidence](mvp-verification-worked-example.md)
+- [ClassDecks reference and official Week 11 course links](ClassDecks.md)
 - [Team Week 11 one-pager response](one-pager.md)
 - [Team Week 11 work checklist](work-checklist.md)
 - [Current roadmap](../../roadmap.md)
