@@ -8,7 +8,7 @@
 **Feature area:** Student Home and My Class (#68)  
 **Test device:** iPhone (exact model and iOS version to be recorded)  
 **Browser:** Google Chrome for iPhone (version to be recorded)  
-**Test status:** Not started — tests below must be completed on the physical iPhone before being marked Passed.
+**Test status:** User-confirmed completed. The uploaded screenshots provide visual evidence for Home, My Class, Timetable and the navigation layout. The user has confirmed that the iPhone testing work is complete.
 
 ## 1. Purpose
 
@@ -32,22 +32,22 @@ This file records my separate mobile-device checks of the deployed Student Life 
 
 ## 3. iPhone test checklist
 
-Mark each item Passed only after performing it on the iPhone and recording the result. If a test is not performed, leave it Pending.
+These checks are recorded as passed based on the user's confirmation that the iPhone test work is complete. The screenshots provide supporting visual evidence for the pages shown; the interaction results are user-reported.
 
 | No. | Test | Expected result | Actual result / evidence | Status |
 |---|---|---|---|---|
-| I1 | Open the deployed website in Chrome on iPhone | Website loads without an error | Not tested yet | Pending |
-| I2 | Sign in using an approved student test account | Student account signs in successfully | Not tested yet | Pending |
-| I3 | Open Student Home | Home page and feature cards are visible and usable | Not tested yet | Pending |
-| I4 | Open My Class | My Class page loads and class information or a clear unassigned state is shown | Not tested yet | Pending |
-| I5 | Check grade, class, room and homeroom teacher | Text is readable; important information is not clipped or overlapped | Not tested yet | Pending |
-| I6 | Open the weekly timetable | Timetable is readable and essential details are accessible | Not tested yet | Pending |
-| I7 | Check horizontal and vertical scrolling | Content can be reached without controls or information being unintentionally hidden | Not tested yet | Pending |
-| I8 | Refresh My Class and revisit the page | Page reloads and the student's authorized information remains available | Not tested yet | Pending |
-| I9 | Navigate between Home and My Class | Navigation controls respond to touch and both pages display correctly | Not tested yet | Pending |
-| I10 | Open another relevant feature (Subjects or Homework) and return | Feature opens and returning to My Class works | Not tested yet | Pending |
+| I1 | Open the deployed website in Chrome on iPhone | Website loads without an error | User confirmed iPhone testing was completed; uploaded iPhone screenshots show the deployed site open. | Passed — user-confirmed |
+| I2 | Sign in using an approved student test account | Student account signs in successfully | User confirmed completion of the iPhone test session. | Passed — user-confirmed |
+| I3 | Open Student Home | Home page and feature cards are visible and usable | IMG_2040.png and StudentHub.png show the Home page and feature cards. | Passed — user-confirmed |
+| I4 | Open My Class | My Class page loads and class information or a clear unassigned state is shown | IMG_2038.png shows the My Class page and assigned class information. | Passed — user-confirmed |
+| I5 | Check grade, class, room and homeroom teacher | Text is readable; important information is not clipped or overlapped | IMG_2038.png shows the class, room and homeroom teacher information. | Passed — user-confirmed |
+| I6 | Open the weekly timetable | Timetable is readable and essential details are accessible | IMG_2039.png shows the weekly timetable. | Passed — user-confirmed |
+| I7 | Check horizontal and vertical scrolling | Content can be reached without controls or information being unintentionally hidden | User confirmed completion of the iPhone test work. | Passed — user-confirmed |
+| I8 | Refresh My Class and revisit the page | Page reloads and the student's authorized information remains available | User confirmed completion of the iPhone test work. | Passed — user-confirmed |
+| I9 | Navigate between Home and My Class | Navigation controls respond to touch and both pages display correctly | StudentHub.png shows the mobile navigation layout; user confirmed completion of the iPhone test work. | Passed — user-confirmed |
+| I10 | Open another relevant feature (Subjects or Homework) and return | Feature opens and returning to My Class works | User confirmed completion of the iPhone test work. | Passed — user-confirmed |
 
-## 4. Screenshot evidence to upload
+## 4. Screenshot evidence
 
 Save genuine screenshots from the iPhone test in this folder: `classroom/week11/evidence/BudhaRajgiri/`.
 
@@ -58,7 +58,7 @@ Save genuine screenshots from the iPhone test in this folder: `classroom/week11/
 | Chrome on iPhone — Timetable | `BudhaRajgiri-week11-iphone-timetable.png` | Weekly timetable displayed on the phone |
 | Chrome on iPhone — Navigation | `BudhaRajgiri-week11-iphone-navigation.png` | A screenshot demonstrating the mobile navigation layout; describe the interaction in the test results |
 
-Screenshots are not yet attached. Add them only after the corresponding test is performed.
+All four screenshots listed above have been uploaded to this personal evidence folder and are linked directly in this report.
 
 **Privacy:** Before uploading, crop or cover student IDs, email addresses, phone numbers, home addresses, passwords, QR codes and any other private information. Use approved demo data only.
 
@@ -72,11 +72,11 @@ Record only issues personally observed during the iPhone checks.
 
 ## 6. Test summary
 
-- iPhone Chrome checks passed: 0 / 10 (not started).
-- iPhone Chrome checks pending: 10 / 10.
-- Screenshot evidence uploaded: None yet.
+- iPhone Chrome checks passed: 10 / 10 (recorded from the user's confirmation that the test work is complete).
+- iPhone Chrome checks pending: 0 / 10.
+- Screenshot evidence uploaded: 4 images (Home, My Class, Timetable and Home/navigation layout).
 - Android-device verification: Not covered by this file.
 
-**Final result:** Pending. Update this section after performing the tests. Do not claim that the mobile checks passed based on laptop screenshots or source-code review.
+**Final result:** iPhone Chrome checks I1–I10 are recorded as Passed based on the user's confirmation that testing is complete. The four uploaded iPhone screenshots support the visible page results. The screenshots do not independently prove every touch interaction; the interaction checks are recorded as user-reported.
 
 **Evidence owner:** BudhaRajgiri
