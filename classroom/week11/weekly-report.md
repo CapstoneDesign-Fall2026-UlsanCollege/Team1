@@ -6,7 +6,7 @@
 
 Verify the existing final-demo path and freeze feature scope. Ansh's iPhone booking check passed, but the deployed subject assignment disappeared after refresh. Local automated evidence covers parts of the cross-role flow. The team has a recovery checkpoint for subject persistence and open checks for the remaining hosted steps.
 
-[MVP verification and recovery](mvp-verification-checklist.md) · [Issue priorities](issues.md#week-11-freeze-gate) · [Sprint 2 checks](../sprint-quality-quick-checks.md#sprint-2---mvp-and-freeze-week-11) · [Area map](../week10/ai-use-and-code-ownership-audit.md)
+[MVP verification and recovery](mvp-verification-checklist.md) · [Issue priorities](issues.md#week-11-freeze-gate) · [Sprint 2 checks](../sprint-quality-quick-checks.md#sprint-2---mvp-and-freeze-week-11) · [Week 11 AI use and ownership audit](ai-use-and-code-ownership-audit.md)
 
 ## Individual contributions
 
