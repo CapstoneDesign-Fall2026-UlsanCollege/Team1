@@ -51,8 +51,8 @@ This is the shared team checklist, based on the official [Week 11 course checkli
 
 ## 6. Close the Sprint 2 evidence loop
 
-- [x] Create a shared MVP verification record and team one-pager.
-- [x] Create this shared team work checklist.
+- [x] Create a shared MVP verification record, actual-evidence worked example and team one-pager.
+- [x] Create this shared team work checklist and the Week 11 ClassDecks reference file.
 - [x] Link existing individual receipts and evidence without copying another member's work into a different person's contribution.
 - [x] Update the shared roadmap with the Week 11 freeze decision and current release gaps; owners/checkpoints are summarized in the shared report.
 - [x] Update the shared area-map audit with Week 11 contribution evidence and clearly retain unconfirmed support roles as pending member confirmations.
