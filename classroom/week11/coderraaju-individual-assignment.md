@@ -78,7 +78,25 @@ Codex used temporary demo accounts on the deployed StudentHub. The admin, studen
 
 The deployed menu is shared by service date. A demo login does not isolate the publication from other students, and the menu API has no delete operation to restore an unused date after creating a draft. No menu was written. The temporary logins were signed out and disabled. Demo student and teacher directory records remain for traceability. The deployed commit was not identified during this check.
 
-## Actual result
+## Additional Week 11 work and evidence
+
+| Work | What was completed | Evidence |
+|---|---|---|
+| MVP freeze documentation | Added the shared verification checklist and weekly report. Linked the scope decision, the iPhone subject-persistence recovery, the issue priorities and the Sprint 2 checks. | [Documentation commit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/44605899d71c3738993acd497141f5c91e06dbfd) · [MVP checklist](mvp-verification-checklist.md) · [Weekly report](weekly-report.md) |
+| Automated canteen regression | Built the backend and ran the isolated MySQL suite. All 14 tests passed, including draft privacy, publish and withdraw, availability changes and persistence. | [Test output](evidence/canteen-regression-2026-11-18.txt) |
+| Deployed account provisioning and role checks | Provisioned temporary student, teacher and canteen-head accounts through admin. Verified each login and read the role-specific endpoints below. Signed out and disabled all three test logins afterward. | [Hosted check record](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/1fe1c663550de664086a4d4a766217ee9812b605) |
+| Production test scope | Identified that the canteen menu is shared by service date. Documented the need for a staging instance or a designated production test window and recorded the remaining checks for [#54](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/54) and [#56](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/56). | [Week 11 issue index](issues.md#week-11-freeze-gate) |
+
+Codex performed the documentation and test work above using the CoderRaaju GitHub connection. Bal Raju’s personal browser result is pending.
+
+| Live role check | Observed result on November 18 |
+|---|---|
+| Admin sign-in and account directory access | Login and student, teacher and canteen account lists returned HTTP 200. |
+| Student login and read-back | Login, `GET /api/student/homework` and `GET /api/student/canteen` returned HTTP 200. The current date had no visible menu. |
+| Teacher login and dashboard | Login and `GET /api/teacher/dashboard` returned HTTP 200. |
+| Canteen-head login and menu read | Login and `GET /api/canteen/menu` returned HTTP 200. The current date had no saved menu. |
+
+## Personal browser test results
 
 > This section must be completed only after I personally run the test.
 
@@ -94,11 +112,11 @@ The deployed menu is shared by service date. A demo login does not isolate the p
 
 ## Overall result
 
-**Current status:** NOT YET TESTED
+**Current status:** Automated canteen regression passed (14/14). Hosted role logins and API reads passed. The independent browser test and hosted menu changes are pending.
 
 ## First failing step
 
-PENDING
+None observed in the completed checks. Record the first failure, if any, when running the pending browser steps.
 
 ## Evidence to attach
 
@@ -139,7 +157,7 @@ If all steps pass, this provides a real non-author human verification of the can
 
 ## Week 11 contribution summary
 
-My Week 11 contribution is independent verification of one frozen final-demo behavior rather than implementation of a new feature. I will record the exact environment, expected result, actual result, tested revision and safe proof after running the deployed test.
+This assignment now records the Week 11 freeze documentation, the isolated canteen regression, and the deployed role checks performed with Codex. My remaining independent contribution is to run the canteen browser sequence and record the environment, tested revision, observed results and safe evidence.
 
 ## Next action
 
