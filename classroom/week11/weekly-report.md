@@ -32,17 +32,17 @@ Each row is limited to what is recorded in the repository. Members should correc
 
 | Member | Contribution recorded | Evidence / next action |
 |---|---|---|
-| Galan Bishal (@bishal482) | Implementation and coordination: guided setup, next-step guide, floor/room creation, subject-name scheduling, mobile planning/layout, compact class cards, deployment/data migration and automated daily-workflow evidence. | [Individual work and commit evidence](individual_work.md). Independent acceptance of his areas remains separate. |
-| Ansh Sharma (@anshsharma123) | Independent deployed iPhone test: special-room booking save/refresh and overlap rejection passed; subject assignment did not persist after refresh and was documented as failed. | [Individual receipt](ansh-individual-evidence-receipt.md) · [booking test](ansh-room-booking-iphone-test.md) · [subject failure](ansh-iphone-subject-persistence.md). Retest after #83 fix. |
-| Bal Raju (@CoderRaaju) | Assigned the independent canteen draft/publish/withdraw privacy test; repeatable procedure exists. | [Assignment](coderraaju-individual-assignment.md). Actual test environment, results and proof are still pending; not counted complete. |
-| Buddha Raj Giri (@BudhaRajgiri) | Reports completed laptop L1–L9, iPhone I1–I10 and privacy P1–P3 checks, with screenshot evidence linked in his personal folder. | [Laptop report](evidence/BudhaRajgiri/BudhaRajgiri-Week11-Individual-Evidence.md) · [iPhone report](evidence/BudhaRajgiri/BudhaRajgiri-Week11-iPhone-Test-Evidence.md). User-confirmed individual evidence. |
+| Galan Bishal (@bishal482) | Implemented guided school setup, the readiness guide, quick floor/room creation, and mobile subject and room planning. Documented Railway rollout and migration and the cross-role automated workflow with coding assistance. | [Implementation receipt](individual_work.md) · [Railway migration](railway-data-migration-2026-11-12.md) · [Daily workflow](daily-workflow.md). Owns #83 recovery and #77 clean-setup follow-up. |
+| Ansh Sharma (@anshsharma123) | Independently tested the deployed app on iPhone Safari. The valid special-room booking survived refresh and an overlapping booking was rejected. A subject/teacher assignment appeared after saving and disappeared after refresh. | [Individual receipt](ansh-individual-evidence-receipt.md) · [Tested-By Note](tested-by-note.md) · [Subject failure](ansh-iphone-subject-persistence.md). Repeat the assignment check after the #83 fix and record the deployed revision. |
+| Bal Raju (@CoderRaaju) | Week 11 work recorded under CoderRaaju includes the freeze documentation, the canteen verification plan, 14 passing isolated MySQL checks, and successful live demo logins and API reads. Codex prepared the documentation and ran the checks. | [Individual assignment](coderraaju-individual-assignment.md) · [Regression output](evidence/canteen-regression-2026-11-18.txt). Bal Raju’s independent browser test of draft privacy, publication, availability and withdrawal is pending. |
+| Buddha Raj Giri (@BudhaRajgiri) | Reported passing laptop checks L1–L9, iPhone Chrome checks I1–I10, and privacy checks P1–P3 for the student experience. Screenshots show the visible Home, My Class, timetable and navigation states. | [Laptop and privacy report](evidence/BudhaRajgiri/BudhaRajgiri-Week11-Individual-Evidence.md) · [iPhone report](evidence/BudhaRajgiri/BudhaRajgiri-Week11-iPhone-Test-Evidence.md). Interaction and privacy results are recorded as self-reported. |
 
 ## Risks, blockers and work priority
 
 | Issue / risk | Severity (only if a confirmed bug) | Priority | Owner / next check |
 |---|---|---|---|
 | #83 iPhone subject assignment disappears after refresh | Major | P1 | Implementation owner diagnoses/fixes; Ansh repeats save/refresh/read-back on physical iPhone |
-| #54–56 canteen publication human acceptance | Not a confirmed bug; verification gap | P1 | Bal Raju records draft hidden, publish visible, withdraw hidden, with device/revision/screenshots |
+| #54–56 canteen publication human acceptance | Not a confirmed bug; verification gap | P1 | Bal Raju records draft privacy, publication, sold-out and restored availability, and withdrawal on an agreed test fixture, with device, revision and screenshots |
 | #77 clean clone and empty DB setup | Not a confirmed bug; release risk | P1 | Galan coordinates; another teammate follows setup from a fresh clone |
 | #60/#65 full authenticated live release path | Not a confirmed bug; release risk | P1 | Galan coordinates; non-author teammate repeats admin/teacher/student/canteen path on one deployment |
 | Area map, backup roles and support confirmations | Not a confirmed bug; handoff risk | P2 | Each member confirms area and support path; update the shared audit |
@@ -67,6 +67,7 @@ P-level is work priority, not bug severity.
 - [Team Week 11 work checklist](work-checklist.md)
 - [Current roadmap](../../roadmap.md)
 - [Week 11 technical index](README.md)
+- [Week 11 Tested-By Note](tested-by-note.md)
 - [Week 11 AI use and code ownership audit](ai-use-and-code-ownership-audit.md)
 - [Shared codebase area map](../week10/ai-use-and-code-ownership-audit.md)
 
