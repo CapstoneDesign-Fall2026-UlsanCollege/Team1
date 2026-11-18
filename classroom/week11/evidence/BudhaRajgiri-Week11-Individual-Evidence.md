@@ -6,12 +6,12 @@
 **Project:** Student Life Hub  
 **Week:** 11  
 **Feature area:** #68 — Student My Class View  
-**Evidence status:** Laptop browser checks L1–L7 completed and recorded from my live checks/screenshots; L8–L9, Android checks and backend privacy verification remain pending  
+**Evidence status:** Laptop browser checks L1–L7 completed and recorded from my live checks/screenshots; L8–L9, iPhone checks and backend privacy verification remain pending  
 **Live application:** https://team1-production.up.railway.app/
 
 ## 1. Objective
 
-Independently check the deployed StudentHub student experience on a laptop and an Android phone. The focus is whether a signed-in student can view only their own class information, assigned homeroom teacher (or a clear unassigned state), classroom and timetable, and whether the page remains usable after refresh and on a narrow screen.
+Independently check the deployed StudentHub student experience on a laptop and an iPhone. The focus is whether a signed-in student can view only their own class information, assigned homeroom teacher (or a clear unassigned state), classroom and timetable, and whether the page remains usable after refresh and on a narrow screen.
 
 This file records my individual checks. A check is marked **Passed** only where I performed the check or supplied a screenshot/result that supports it. Existing automated tests and another teammate's results are not counted as my personal device test.
 
@@ -20,10 +20,10 @@ This file records my individual checks. A check is marked **Passed** only where 
 | Item | Actual value |
 |---|---|
 | Website | https://team1-production.up.railway.app/ |
-| Laptop model / OS | To be recorded |
-| Laptop browser and version | To be recorded |
-| Android phone model | To be recorded |
-| Android browser and version | To be recorded |
+| Laptop model / OS | ASUS VivoBook; Windows 11. Exact VivoBook model number not recorded. |
+| Laptop browser and version | Google Chrome; user confirmed it is up to date. Exact version number not recorded. |
+| iPhone model / OS | iPhone; exact model and iOS version not recorded yet. |
+| iPhone browser and version | Google Chrome for iPhone is planned for testing; exact version not recorded. |
 | Test date and local time (Korea) | To be recorded |
 | Student test account | Use an approved demo/test account; do not record password or token |
 | Deployed commit/version, if visible | To be recorded |
@@ -42,11 +42,11 @@ This file records my individual checks. A check is marked **Passed** only where 
 | L8 | Refresh the page and revisit My Class | The page reloads and the same authorized data remains available | I refreshed the page and revisited My Class; the page loaded and the student class information remained available. | Passed |
 | L9 | Navigate to another feature and return | Navigation works and My Class still displays correctly | I navigated to another feature and returned to My Class; navigation worked and the My Class page displayed correctly. | Passed |
 
-## 4. Android phone test checklist
+## 4. iPhone test checklist
 
 | No. | Test | Expected result | Actual result / evidence | Status |
 |---|---|---|---|---|
-| M1 | Open the deployed website on Android | Website loads successfully | Pending | Pending |
+| M1 | Open the deployed website on iPhone | Website loads successfully | Pending | Pending |
 | M2 | Sign in using the approved student test account | Student account signs in successfully | Pending | Pending |
 | M3 | Open Home and My Class | Both views are readable and usable | Pending | Pending |
 | M4 | Review class, classroom and teacher information | Information is readable without clipping or overlap | Pending | Pending |
@@ -73,7 +73,7 @@ Use these filenames after taking the screenshots:
 - `BudhaRajgiri-week11-laptop-home.png`
 - `BudhaRajgiri-week11-laptop-my-class.png`
 - `BudhaRajgiri-week11-laptop-timetable.png`
-- `BudhaRajgiri-week11-android-home.png`
+- `BudhaRajgiri-week11-iPhone-home.png`
 - `BudhaRajgiri-week11-android-my-class.png`
 - `BudhaRajgiri-week11-android-timetable.png`
 
@@ -86,7 +86,7 @@ Before committing screenshots, hide or crop student names, IDs, phone numbers, e
 - [Week 11 automated testing evidence](../testing-evidence.md)
 - [Current project roadmap](../../../roadmap.md)
 
-The Week 11 automated record reports frontend 17 passing tests, backend 41 passing tests and 3 skipped database suites, plus a successful frontend build and CI run. Those are team/project-level automated results; they are not my laptop, Android or live acceptance results.
+The Week 11 automated record reports frontend 17 passing tests, backend 41 passing tests and 3 skipped database suites, plus a successful frontend build and CI run. Those are team/project-level automated results; they are not my laptop, iPhone or live acceptance results.
 
 My Week 10 evidence recorded eight student-interface checks. Its privacy result was a UI-only check, and it explicitly left direct backend authorization verification outstanding. Week 11 testing must not claim that this server-side privacy check passed unless it is actually performed.
 
@@ -115,13 +115,13 @@ A GitHub Actions run was triggered by the commit that added this evidence file. 
 
 The backend tests include a server-side profile-scope test that verifies the profile route reads only the signed-in student and rejects admin/anonymous access. This is automated API test evidence, not a direct test of another student's record in the live deployed database.
 
-**Important scope:** these are automated tests run by GitHub Actions on an Ubuntu runner. They do not verify the signed-in student experience in a real browser, a physical Android phone, or the current live school's records. Three backend database-fixture tests were skipped.
+**Important scope:** these are automated tests run by GitHub Actions on an Ubuntu runner. They do not verify the signed-in student experience in a real browser, a physical iPhone, or the current live school's records. Three backend database-fixture tests were skipped.
 
 ## 10. Live website access and screenshot limitation
 
 I attempted to open the public deployment from the available web inspection environment, but the website could not be accessed there. This does not prove the website is down for users; it means I could not inspect its rendered pages or capture genuine Home/My Class screenshots from this environment.
 
-No placeholder, generated, or misleading application screenshots have been added. The laptop screenshots were supplied in this conversation and their visible results are documented in Sections 13–19, but the original images have not yet been uploaded to GitHub. Android screenshots and physical-device checks remain pending. The GitHub Actions run linked above is separate automated-test evidence.
+No placeholder, generated, or misleading application screenshots have been added. The laptop screenshots were supplied in this conversation and their visible results are documented in Sections 13–19, but the original images have not yet been uploaded to GitHub. iPhone screenshots and physical-device checks remain pending. The GitHub Actions run linked above is separate automated-test evidence.
 
 ## 11. Repository source review — November 17, 2026
 
@@ -152,12 +152,12 @@ The repository contains an isolated MySQL test named **“student dashboard scop
 **Laptop browser checks L1–L9:** Passed — I opened the deployed site, signed in, viewed Home and both My Class states, reviewed the displayed class/year/teacher/room information and timetable, refreshed My Class, and navigated to another feature and back. The exact observations and limitations are recorded in Sections 13–16.  
 **Laptop My Class refresh (L8):** Passed — I refreshed the page and confirmed My Class loaded with the student information still available.  
 **Laptop feature navigation (L9):** Passed — I navigated to another feature and returned to My Class successfully.  
-**Android live UI checks:** Pending — physical-device checks have not been recorded.  
+**iPhone live UI checks:** Pending — physical iPhone checks using Chrome have not yet been recorded.  
 **Live student data / timetable / teacher verification:** Partially verified at the UI level; authoritative school-record matching and the teacher-assignment convention still need confirmation.  
 **Live backend privacy verification:** Pending; automated profile-scope coverage and source review are recorded above, but a direct live authorization test has not been performed.  
-**Overall Week 11 personal live verification:** Partially completed — all laptop checks L1–L9 are recorded as passed; Android and backend privacy checks remain outstanding.
+**Overall Week 11 personal live verification:** Partially completed — all laptop checks L1–L9 are recorded as passed; iPhone and backend privacy checks remain outstanding.
 
-Laptop screenshots were supplied in this conversation and their visible results are documented in Sections 13–19. The original image files still need to be uploaded to the repository. I will not report Android, backend authorization, or unperformed interaction checks as passed.
+Laptop screenshots were supplied in this conversation and their visible results are documented in Sections 13–19. The original image files still need to be uploaded to the repository. I will not report iPhone, backend authorization, or unperformed interaction checks as passed.
 
 **Evidence owner:** BudhaRajgiri
 
