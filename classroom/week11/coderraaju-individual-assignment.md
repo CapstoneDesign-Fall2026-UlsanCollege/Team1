@@ -109,11 +109,21 @@ Bal Raju reported that StudentHub worked well in his use. Codex rebuilt the back
 
 These were HTTP and database checks in the isolated test environment. The earlier deployed precheck verified logins and role-specific reads. The hosted precheck covered sign-in and API reads. Menu changes were exercised in the isolated run.
 
-## Recorded result and evidence
+## Canteen test results
 
-All 14 isolated checks passed, with zero failures or skips. The hosted role precheck also passed. No failures were observed in those checks.
+Codex ran these checks using the StudentHub HTTP API and an isolated MySQL database with fictional data. Each student read used the student test session. [Test output](evidence/canteen-main-rerun-2026-11-18.txt)
 
-The hosted precheck was conducted through HTTP and did not change the shared production menu. Browser screenshots were not captured for these runs. The evidence is the [automated test output](evidence/canteen-main-rerun-2026-11-18.txt) and the [hosted role precheck record](#hosted-role-precheck--november-18).
+| Step | Actual result | Status |
+| --- | --- | --- |
+| Draft save | The canteen-head save returned HTTP 200. A separate read found the saved draft and its item price. | Passed |
+| Student draft privacy | The student endpoint returned no menu while the draft existed. | Passed |
+| Publish | The canteen-head publish request returned HTTP 200. | Passed |
+| Student published read-back | The student endpoint returned the published menu for the correct date. A later read returned the edited item name and price. | Passed |
+| Mark sold out and restore availability | The student read showed the sold-out status with the same item name and price. Restored availability was visible after a server restart. | Passed |
+| Withdraw / unpublish | The canteen-head unpublish request returned HTTP 200. | Passed |
+| Student post-withdraw read-back | The student endpoint returned no menu after withdrawal. | Passed |
+
+**Overall result:** 14 of 14 isolated checks passed, with zero failures or skips. The separate Railway precheck confirmed live demo sign-in and role-specific API reads. The menu changes in this table were tested in isolation. Bal Raju reported that StudentHub worked well in his use.
 
 ## Repeatable test steps
 
