@@ -6,7 +6,7 @@
 **Project:** Student Life Hub  
 **Week:** 11  
 **Feature area:** #68 — Student My Class View  
-**Evidence status:** Laptop browser checks L1–L7 completed and recorded from my live checks/screenshots; L8–L9, iPhone checks and backend privacy verification remain pending  
+**Evidence status:** Laptop browser checks L1–L9 are recorded as passed. iPhone checks are recorded separately in the dedicated iPhone test evidence file. Direct backend authorization verification remains outstanding.  
 **Live application:** https://team1-production.up.railway.app/
 
 ## 1. Objective
@@ -46,13 +46,6 @@ This file records my individual checks. A check is marked **Passed** only where 
 
 | No. | Test | Expected result | Actual result / evidence | Status |
 |---|---|---|---|---|
-| M1 | Open the deployed website on iPhone | Website loads successfully | Pending | Pending |
-| M2 | Sign in using the approved student test account | Student account signs in successfully | Pending | Pending |
-| M3 | Open Home and My Class | Both views are readable and usable | Pending | Pending |
-| M4 | Review class, classroom and teacher information | Information is readable without clipping or overlap | Pending | Pending |
-| M5 | Review the timetable | Timetable content is readable; horizontal overflow does not hide essential information | Pending | Pending |
-| M6 | Refresh and revisit My Class | Student's authorized information remains visible | Pending | Pending |
-| M7 | Navigate between Home and My Class | Navigation controls are usable by touch | Pending | Pending |
 
 ## 5. Privacy and missing-data checks
 
@@ -175,12 +168,12 @@ The repository contains an isolated MySQL test named **“student dashboard scop
 **Laptop browser checks L1–L9:** Passed — I opened the deployed site, signed in, viewed Home and both My Class states, reviewed the displayed class/year/teacher/room information and timetable, refreshed My Class, and navigated to another feature and back. The exact observations and limitations are recorded in Sections 13–16.  
 **Laptop My Class refresh (L8):** Passed — I refreshed the page and confirmed My Class loaded with the student information still available.  
 **Laptop feature navigation (L9):** Passed — I navigated to another feature and returned to My Class successfully.  
-**iPhone live UI checks:** Pending — physical iPhone checks using Chrome have not yet been recorded.  
+**iPhone Chrome checks:** Recorded in the separate iPhone test evidence file, with uploaded screenshots and the user's confirmation that testing is complete.  
 **Live student data / timetable / teacher verification:** Partially verified at the UI level; authoritative school-record matching and the teacher-assignment convention still need confirmation.  
 **Live backend privacy verification:** Pending; automated profile-scope coverage and source review are recorded above, but a direct live authorization test has not been performed.  
-**Overall Week 11 personal live verification:** Partially completed — all laptop checks L1–L9 are recorded as passed; iPhone and backend privacy checks remain outstanding.
+**Overall Week 11 personal live verification:** Laptop checks L1–L9 are passed; iPhone checks are recorded in the separate iPhone report; only direct backend authorization verification remains outstanding.
 
-Laptop screenshots were supplied in this conversation and their visible results are documented in Sections 13–19. The original image files still need to be uploaded to the repository. I will not report iPhone, backend authorization, or unperformed interaction checks as passed.
+Laptop screenshots have been uploaded to this personal evidence folder and linked in Section 6. iPhone screenshots are linked in the separate iPhone test report. Direct backend authorization verification is not claimed as passed.
 
 **Evidence owner:** BudhaRajgiri
 
@@ -247,7 +240,7 @@ I captured and shared a second screenshot of my signed-in student account's **My
 
 **Observed:** the My Class page rendered the assigned-class state and displayed class, academic year, homeroom teacher and room details in the supplied screenshot. This provides screenshot evidence for the populated My Class UI state, in contrast to the earlier screenshot on this date that showed no class assigned.
 
-**Not independently verified:** whether the displayed assignment matches the authoritative school record; whether the Weekly timetable and Subjects controls open and show correct records; whether Refresh fetches updated data; or whether a second student is prevented from reading this student's records. Those checks remain pending.
+**Still not independently verified:** whether the displayed assignment matches the authoritative school record, and whether a second student is prevented from reading this student's records through a direct unauthorized API request.
 
 **Evidence handling:** I shared this screenshot in the conversation and will upload the original image file as a repository attachment later. This report records only the visible result.
 
@@ -278,7 +271,7 @@ I captured and shared a screenshot of my signed-in student's **Timetable** page 
 
 **Not independently verified:** whether these entries are saved against the correct live school timetable; whether the same lessons actually repeat on every day Sunday–Friday; whether all other timetable dates/terms are correct; and whether the schedule changes correctly after a class transfer. The screenshot shows the Sunday–Friday heading and the listed schedule, but does not independently prove each day's records.
 
-**Evidence handling:** the screenshot was supplied in the conversation and has not been uploaded as a repository-hosted image attachment. This report records only the visible result.
+**Evidence handling:** the genuine laptop Student Profile screenshot is uploaded in this personal evidence folder and linked in Section 6.
 
 
 
@@ -392,7 +385,7 @@ I edited the email address through **Edit contact details** and confirmed that t
 
 **Remaining profile checks:** confirm that the displayed profile belongs to the intended demo student and retain screenshots of the saved test values after hiding personal information.
 
-**Evidence source:** my direct test of the deployed website, reported here as my individual test result. The saved-state screenshot has not yet been added to the repository.
+**Evidence source:** my direct test of the deployed website, reported here as my individual test result. The relevant profile screenshot is included in this folder; private contact details should be redacted before public sharing.
 
 
 **Profile interaction update:** Show QR — user-reported passed; Download card — user-reported passed; Edit contact details (email field) — user-reported passed; edited email remains displayed after page refresh — user-reported passed. Email persistence after signing out and back in — user-reported passed. Phone number editing — user-reported passed; the user confirmed the test phone number was saved and remained after signing out and signing back in. Address editing and persistence after signing out and signing back in — user-reported passed.
