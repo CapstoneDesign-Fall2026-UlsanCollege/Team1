@@ -28,6 +28,16 @@ An administrator can add an unused subject, choose a teacher, confirm the assign
 
 **Scoped retest passed.** Discrete Mathematics with Deepa Karki remained in the Grade 10 · Class A Class subjects list after the reported Safari refresh.
 
+## Severity and priority assessment
+
+**Severity:** Major
+
+The Week 11 failure affected the core administrator subject-assignment workflow on iPhone Safari. A subject and teacher appeared saved but disappeared after refresh.
+
+**Priority:** P1 — At risk
+
+The Week 12 Grade 10 · Class A retest passed, but the original Grade 6 · Class A failure path has not yet been retested. The core workflow is therefore at risk rather than proven fully resolved. It is not classified as P0 because the application is not shown to be completely blocked, and it is not P2 because a confirmed earlier failure still needs follow-through.
+
 ## Screenshot evidence
 
 | Step | Observation | Evidence |
