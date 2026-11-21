@@ -1,0 +1,9 @@
+PASS assignment: HTTP 201, explicit Grade 6 A / Moral Education / fictional Hari identifiers
+PASS fresh API read: same class/offering/teacher IDs
+PASS duplicate rejected without losing link: same class/offering/teacher IDs
+PASS stale revision rejected without losing link: same class/offering/teacher IDs
+PASS new administrator session: same class/offering/teacher IDs
+PASS application restart and login: same class/offering/teacher IDs
+PASS SQL read-back: one class link, matching teacher, no orphan duplicate offering
+RESULT: scoped API persistence all-clear; not a Safari or deployed-site fix claim
+CLEANUP: own random Week 12 schema removed
