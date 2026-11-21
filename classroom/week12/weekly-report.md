@@ -23,6 +23,7 @@ Carry the Week 11 #83 phone subject-persistence finding into a bounded QA decisi
 | QA checklist and proof | [Protocol](qa-checklist.md), [Galan result](galan-qa-result.md), [raw output](evidence/subject-persistence-2026-11-21.txt) — assistant-run API check passed |
 | Code and test commit | [ec7392c](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/ec7392ca572aba1560d865bc4ed1c09232f37056) — test harness only, no application fix |
 | Issue and next decision | [#83](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/83), [Week 12 roadmap checkpoint](roadmap.md) |
+| Final demo and handoff route | [Shared Final Demo Roadmap, Weeks 10–16](../final-demo-roadmap.md) — planned milestones, owners, proof and fallbacks |
 | Shared ownership map | [Existing source of truth](../week10/ai-use-and-code-ownership-audit.md#codebase-area-map--current-source-of-truth), [Week 11 review](../week11/ai-use-and-code-ownership-audit.md) — no stewardship change asserted |
 
 ## Individual entries — confirmation status explicit

@@ -5,6 +5,7 @@
 - [Galan's actual API QA result, commands and AI-use disclosure](galan-qa-result.md)
 - [Shared Weekly Report — recorded entries and remaining member confirmations](weekly-report.md)
 - [Week 12 flowchart: evidence, disposition and next owner](roadmap.md)
+- [Shared Final Demo Roadmap — Weeks 10–16](../final-demo-roadmap.md)
 
 This folder records one targeted QA follow-through from Week 11. It preserves the earlier failure evidence and records the current retest scope without claiming a broader fix than the evidence supports.
 
