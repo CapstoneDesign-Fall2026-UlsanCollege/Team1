@@ -21,7 +21,7 @@ Follow [#83](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issue
 | --- | --- | --- |
 | Ansh's November 19 deployed iPhone retest | Discrete Mathematics / Farhan Khan remained in Grade 6 A after refresh. [His note and screenshots](ansh-subject-persistence-retest.md) | Different subject/teacher combination; no diagnosis of the original cause |
 | November 21 targeted API check, run by Codex for Galan | Seven check groups passed: assign, fresh read, duplicate rejection, stale rejection, new session, app restart, SQL relationship/count read-back. [Protocol](qa-checklist.md), [result](galan-qa-result.md), [raw proof](evidence/subject-persistence-2026-11-21.txt), [test commit ec7392c](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/ec7392ca572aba1560d865bc4ed1c09232f37056) | Fictional isolated data, not Safari input, original production IDs or a deployed fix verification |
-| Exact deployed-context iPhone comparison | Galan's [639810d update](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/639810d3e388d107cd44fd52d0e80aba1d141e28) marks this complete in the shared report | Galan subsequently reported good results with no error and confirmed the reduced lists. [His feedback](galan-iphone-feedback.md). Exact combination/context, deployed revision, refresh steps and screenshots were not supplied; this remains user-reported completion |
+| Exact deployed-context iPhone comparison | Galan's [639810d update](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/639810d3e388d107cd44fd52d0e80aba1d141e28) marks this complete in the shared report | Galan subsequently reported good results with no error and confirmed the reduced lists. [His feedback](galan-iphone-feedback.md). Exact combination/context, deployed revision, refresh steps and an after-change persistence screenshot were not supplied; this remains user-reported completion |
 
 The API check used the production application factory and a random disposable MySQL schema. It did not change Railway or school records. No full MVP rerun or new application feature was needed.
 
@@ -48,7 +48,7 @@ The API check used the production application factory and a random disposable My
 
 ## Before November 25 end of day
 
-1. Galan links the exact-context comparison's actual result, tester/device, revision, selected school/year/class/term and subject/teacher details, plus safe proof. Do not repeat a completed test merely for paperwork if its existing receipt can be supplied.
+1. Galan’s no-error result is already linked; he supplies any available exact-context tester/device, revision, selected school/year/class/term and subject/teacher details, plus safe persistence proof. Do not repeat a completed test merely for paperwork if its existing receipt can be supplied.
 2. Compare that result with the original failure. If a mismatch repeated, document the confirmed failure and assign the smallest fix/retest. If it passed, state the exact scope and assess #83's acceptance criteria. If circumstances differed, record the difference instead of claiming the original failure fixed.
 3. Each member adds/confirms their own contribution in the single shared report. Confirm support/explanation roles personally.
 4. Update #83, the Week 12 checkpoint and final roadmap consistently after the new receipt is available. Preserve the earlier test records as history.
@@ -58,3 +58,5 @@ The API check used the production application factory and a random disposable My
 **AI use:** Codex read the course one-pager and current repository evidence, drafted this response and checklist, and linked the prior assistant-run test. No new human test, code explanation, cause, fix or team sign-off is claimed. A future fix PR should follow the [course work policy](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/blob/main/student-starter-kit/docs/project-work-policy.md) and disclose assistance using its [PR note](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/blob/main/student-starter-kit/templates/pr-with-ai-use-note.md).
 
 See the [Week 12 AI-use and code-ownership audit](ai-use-and-code-ownership-audit.md) for commit-level assistance, individual slice/area status and remaining explanation checks. It links the team's existing shared map rather than duplicating it.
+
+**Structured companion records:** [#83 bug report](bug-report-83.md), [peer notes / tested-by summary](peer-test-notes.md) and [change/attribution record](change-record.md). The [folder index](README.md#requirements-coverage) maps every course resource to its Team 1 response and distinguishes conditional items from genuinely unfinished human work.

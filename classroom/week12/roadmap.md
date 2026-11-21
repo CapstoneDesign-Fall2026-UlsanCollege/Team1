@@ -7,7 +7,7 @@ flowchart TD
     A["WEEK 11: PHONE SAVE FAILED<br/>Moral Education / Hari Adhikari disappeared after refresh"]
     B["WEEK 12: CURRENT PEER RETEST PASSED<br/>Grade 6 A, different subject and teacher<br/>Original failure remains linked"]
     C["API BOUNDARY CHECK PASSED<br/>Save, fresh reads, new login and restart<br/>Duplicate/stale writes preserve one link"]
-    D["NEXT: EXACT DEPLOYED-CONTEXT CHECK<br/>Galan coordinates, retester to confirm<br/>Record revision and class/term/subject/teacher IDs<br/>Due November 25, end of day"]
+    D["NEXT: RECONCILE CLOSURE EVIDENCE<br/>Galan reports successful phone use<br/>Exact original context and revision still unspecified<br/>Due November 25, end of day"]
     E{"What does the evidence show?"}
     F["Failure repeats: record proof<br/>Fix the confirmed cause and retest"]
     G["Pass: record exact scope<br/>Review issue acceptance before closure"]
@@ -21,3 +21,5 @@ flowchart TD
 Proof: [original failure](../week11/ansh-iphone-subject-persistence.md), [current peer result](ansh-subject-persistence-retest.md), [assistant API result](galan-qa-result.md), [issue #83](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/83), [shared report](weekly-report.md).
 
 **Work order:** inherited P1 clean setup and live acceptance gaps (#77, #60/#65, hosted canteen acceptance) remain ahead of documentation polish. #83 exact-context follow-up is P2 after the current scoped pass; historical severity remains Major. Neither this ordering nor the local API all-clear declares the full MVP stable. Teacher dashboard remains core; parent dashboard and optional jobs are not new release gates.
+
+**Current personal feedback:** [Galan reports good mobile results/no error](galan-iphone-feedback.md). His completion mark is retained. The provided image documents the original long list; remaining work is to reconcile original-context closure evidence, not erase his reported success. See the [bug report](bug-report-83.md) and [peer summary](peer-test-notes.md).

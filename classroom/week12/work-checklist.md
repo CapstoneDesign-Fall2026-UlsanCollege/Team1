@@ -20,7 +20,8 @@ Adapted to our actual work from the [course checklist](https://github.com/Capsto
 - [x] Link Ansh's own deployed iPhone result beside the Week 11 failure.
 - [x] Describe the changed subject/teacher combination and preserve that limitation.
 - [x] Keep assistant-run results distinct from personal/non-author evidence.
-- [ ] Link the details/proof for Galan's newly reported exact-context comparison. The [shared report checkbox](weekly-report.md#goal-and-commitment) was marked complete in 639810d; that edit is preserved.
+- [x] Link [Galan’s personal success/no-error feedback and original-list image](galan-iphone-feedback.md); preserve his completion mark.
+- [ ] Supply exact subject/teacher/context, revision and refresh sequence if using that feedback to verify the original failing combination.
 - [ ] Confirm whether the relevant peer followed written steps without coaching; do not infer it from screenshots.
 
 ## 4. Triage from evidence
@@ -28,7 +29,8 @@ Adapted to our actual work from the [course checklist](https://github.com/Capsto
 - [x] Record historical Major severity separately from current P2 follow-up and its reason.
 - [x] Link issue, affected frontend/API/storage area, owner and shared area map from [one-pager](one-pager.md).
 - [x] Distinguish a verification gap from a newly reproduced bug or genuine blocker.
-- [ ] Reconcile issue disposition with the newly reported comparison once its actual result is supplied.
+- [x] Record the supported disposition in the [structured bug report](bug-report-83.md): current scoped passes and Galan’s positive feedback, with original-context closure limits.
+- [ ] Review final closure when any remaining original-context acceptance evidence is available.
 
 ## 5. Choose a supported disposition
 
@@ -43,6 +45,7 @@ Adapted to our actual work from the [course checklist](https://github.com/Capsto
 - [x] Provide one [shared Weekly Report](weekly-report.md), with recorded evidence and confirmation limits.
 - [x] Keep P1 setup/live acceptance gaps before polish and parent-dashboard stretch work.
 - [ ] Each member confirms their own current contribution and evidence.
-- [ ] Attach the reported exact-context receipt and align the issue/roadmap status to its result.
+- [x] Link [personal receipt](galan-iphone-feedback.md), [peer notes](peer-test-notes.md), [change record](change-record.md) and [current audit](ai-use-and-code-ownership-audit.md).
+- [ ] Resolve remaining exact-context closure details; do not infer them from the before-change image.
 
 See [one-pager](one-pager.md) for the actual outcome and next actions. This checklist does not require a second copy of Week 11 evidence or claim those historical checks were performed again.

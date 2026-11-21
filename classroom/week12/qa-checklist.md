@@ -29,6 +29,6 @@ Run `subject-persistence-check.mjs` after building the backend. It uses configur
 
 **Actual output and disposition:** recorded after execution in [Galan's QA result](galan-qa-result.md). The existing peer note remains [Ansh's own record](ansh-subject-persistence-retest.md); this assistant run will not be attributed to him.
 
-## Remaining physical-device check
+## Original-context closure evidence
 
-Galan coordinates with Ansh (proposed retester, not a new confirmed commitment) before November 25 end of day: on an agreed test class/term, record deployed revision, repeat the original subject/teacher combination or explain why unavailable, then compare class/term IDs before and after refresh. Capture safe proof. If it fails, repeat once and retain the first failure. Keep #83 open until its boundary is resolved.
+Galan has since reported successful phone use with no error; [personal receipt](galan-iphone-feedback.md). Its exact combination and refresh sequence are unspecified. For closure, Galan coordinates with a retester if needed (Ansh proposed, not newly committed) before November 25 end of day: on an agreed test class/term, record deployed revision, repeat the original subject/teacher combination or explain why unavailable, then compare class/term IDs before and after refresh. Capture safe proof. If it fails, repeat once and retain the first failure. Keep #83 open until its boundary is resolved.

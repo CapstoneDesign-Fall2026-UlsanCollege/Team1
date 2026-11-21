@@ -13,7 +13,7 @@ Carry the Week 11 #83 phone subject-persistence finding into a bounded QA decisi
 - [x] Complete the exact deployed-context iPhone comparison before closing #83.
 - [ ] Each member confirms their own current contribution and support role.
 
-The exact-context completion checkbox was marked by Galan in [639810d](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/639810d3e388d107cd44fd52d0e80aba1d141e28). It is preserved as reported completion. The result, device/revision/context and direct proof still need linking; earlier pending next-action wording below describes the preceding evidence state. See the [current one-pager](one-pager.md) and [work checklist](work-checklist.md) for reconciliation.
+The completion checkbox was marked by Galan in [639810d](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/639810d3e388d107cd44fd52d0e80aba1d141e28) and is preserved. He subsequently reported good results/no error and supplied the original-list image. [Personal receipt](galan-iphone-feedback.md). Exact subject/teacher/context, deployed revision and explicit refresh sequence remain unspecified; this is reported successful use, not an independently recorded repeat of the original combination.
 
 ## Evidence
 
@@ -21,6 +21,7 @@ The exact-context completion checkbox was marked by Galan in [639810d](https://g
 | --- | --- |
 | Carried-in freeze and risk | [Week 11 report](../week11/weekly-report.md) — frozen scope; incomplete acceptance |
 | Original failure | [November 15 iPhone record](../week11/ansh-iphone-subject-persistence.md) — preserve unchanged |
+| Structured triage and peer summary | [Bug report](bug-report-83.md), [peer notes / tested-by summary](peer-test-notes.md), [change/attribution record](change-record.md) |
 | Current peer result | [Ansh's November 19 retest](ansh-subject-persistence-retest.md) — scoped pass, different subject/teacher |
 | QA checklist and proof | [Protocol](qa-checklist.md), [Galan result](galan-qa-result.md), [raw output](evidence/subject-persistence-2026-11-21.txt) — assistant-run API check passed |
 | Code and test commit | [ec7392c](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/ec7392ca572aba1560d865bc4ed1c09232f37056) — test harness only, no application fix |
@@ -51,10 +52,10 @@ The exact-context completion checkbox was marked by Galan in [639810d](https://g
 
 ## Bridge to handoff
 
-Galan coordinates the exact-context iPhone check and links the disposition from #83 before November 25 end of day. Members add/confirm their own entries. Use the existing setup/area-map checks for the next handoff trial after the current QA boundary is resolved.
+Galan coordinates any remaining exact-context closure evidence and links the supported disposition from #83 before November 25 end of day; his already-reported successful use remains recorded. Members add/confirm their own entries. Use the existing setup/area-map checks for the next handoff trial after the current QA boundary is resolved.
 
 Prepared with AI assistance from existing repository records and the [course Week 12 requirements](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/tree/main/week-12); not a team sign-off or a claim of newly performed human work.
 
 ## Galan’s follow-up confirmation — November 21
 
-Galan replied that the mobile result was good with no error and that lists now appear only when pressed. [Direct feedback and limits](galan-iphone-feedback.md). This supplies a personal reported result and links the portrait-list improvement in fd9cf3b. Exact subject/teacher/context, deployed revision, explicit reload steps and screenshots were not supplied. His completion mark is preserved; this feedback does not convert into an independent exact-combination retest.
+Galan replied that the mobile result was good with no error and that lists now appear only when pressed. [Direct feedback and limits](galan-iphone-feedback.md). This supplies a personal reported result and links the portrait-list improvement in fd9cf3b. Exact subject/teacher/context, deployed revision, explicit reload steps and an after-change persistence screenshot were not supplied; the before-change list screenshot is linked in the receipt. His completion mark is preserved; this feedback does not convert into an independent exact-combination retest.
