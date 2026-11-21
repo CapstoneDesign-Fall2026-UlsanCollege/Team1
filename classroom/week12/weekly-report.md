@@ -27,6 +27,7 @@ The exact-context completion checkbox was marked by Galan in [639810d](https://g
 | Issue and next decision | [#83](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/83), [Week 12 roadmap checkpoint](roadmap.md) |
 | Final demo and handoff route | [Shared Final Demo Roadmap, Weeks 10–16](../final-demo-roadmap.md) — planned milestones, owners, proof and fallbacks |
 | Shared ownership map | [Existing source of truth](../week10/ai-use-and-code-ownership-audit.md#codebase-area-map--current-source-of-truth), [Week 11 review](../week11/ai-use-and-code-ownership-audit.md) — no stewardship change asserted |
+| Week 12 AI-use and understanding review | [Current weekly audit](ai-use-and-code-ownership-audit.md) — actual assistance, individual slices and explanation/support gaps; shared area map remains linked |
 
 ## Individual entries — confirmation status explicit
 
