@@ -53,3 +53,7 @@ The exact-context completion checkbox was marked by Galan in [639810d](https://g
 Galan coordinates the exact-context iPhone check and links the disposition from #83 before November 25 end of day. Members add/confirm their own entries. Use the existing setup/area-map checks for the next handoff trial after the current QA boundary is resolved.
 
 Prepared with AI assistance from existing repository records and the [course Week 12 requirements](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/tree/main/week-12); not a team sign-off or a claim of newly performed human work.
+
+## Galan’s follow-up confirmation — November 21
+
+Galan replied that the mobile result was good with no error and that lists now appear only when pressed. [Direct feedback and limits](galan-iphone-feedback.md). This supplies a personal reported result and links the portrait-list improvement in fd9cf3b. Exact subject/teacher/context, deployed revision, explicit reload steps and screenshots were not supplied. His completion mark is preserved; this feedback does not convert into an independent exact-combination retest.

@@ -1,5 +1,6 @@
 # Week 12 — QA follow-through
 
+- [Galan’s no-error mobile feedback and list-toggle confirmation](galan-iphone-feedback.md)
 - [Team response to the Week 12 one-pager](one-pager.md)
 - [Week 12 work checklist — actual completion and remaining evidence](work-checklist.md)
 - [Ansh Sharma's iPhone subject-assignment persistence retest](ansh-subject-persistence-retest.md)
@@ -20,3 +21,5 @@ Ansh's iPhone check passed for its stated subject/teacher combination. The Novem
 **Before November 25 end of day:** Galan coordinates the exact-context comparison, members confirm their own report entries, and the next result is linked to #83. Personal explanations and new human tests cannot be completed by proxy.
 
 **November 21 status reconciliation:** Galan's GitHub edit 639810d marks the exact-context comparison complete. That mark is preserved. Its actual result and direct evidence are not yet linked in the current records; the [one-pager](one-pager.md) identifies what must be attached. Earlier pending wording above describes the previous evidence state, not a reversal of his reported completion.
+
+**Subsequent feedback:** Galan reported a good result with no error. His [personal feedback note](galan-iphone-feedback.md) now records it; exact-context evidence limits remain explicit.
