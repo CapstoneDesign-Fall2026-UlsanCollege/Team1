@@ -1,0 +1,14 @@
+[
+  {
+    "step": "default closed",
+    "hidden": true
+  },
+  {
+    "step": "show button",
+    "visible": true
+  },
+  {
+    "step": "hide button",
+    "hidden": true
+  }
+]

@@ -1,0 +1,37 @@
+
+> frontend@0.0.0 test
+> node --test tests/*.test.mjs
+
+✔ weekday selector stays within Sunday-start week across month/year boundaries (4.432ms)
+✔ saved names fill prices only for an exact normalized match; new names stay editable (0.6238ms)
+✔ drag scrolling is neutral in the middle/outside and accelerates towards either edge (1.6613ms)
+✔ holding the cursor still at the bottom keeps scrolling until drop/cancel stops all frames (0.9442ms)
+✔ page scrolling takes priority, then the timetable scrolls vertically and sideways at its limits (0.5557ms)
+✔ leaving the edge stops movement, outside pointers do nothing, and restarting does not duplicate loops (0.3375ms)
+✔ old stored keyword is ignored and clearing the input reloads unfiltered jobs (5.6858ms)
+✔ Refresh clears a submitted keyword and availability and returns to the full first page (2.2279ms)
+✔ favourites show saved details without the catalogue keyword or availability restrictions (1.0196ms)
+✔ a late keyword response cannot replace a cleared search or its page count (1.0316ms)
+✔ Korean schedules parse conservatively (4.868ms)
+✔ every known day and entire shift must fit; unknowns are optional (0.938ms)
+✔ class conflicts include overnight spillover and boundary times (0.6508ms)
+✔ other-class teaching blocks only overlapping lessons within term (1.4503ms)
+✔ supervising own class is allowed; another room booking still blocks (0.3815ms)
+✔ missing or invalid times are not advertised as available (0.1704ms)
+✔ empty data cannot claim class, lesson or teacher-login readiness from zero missing counts (2.5113ms)
+✔ saved setup advances through the next missing task and back when a required record is removed (1.1436ms)
+✔ guide navigation matches actual admin panels, does not mutate counts or require parent data (0.509ms)
+✔ QR PNG decodes to the same site and opaque fragment without student/contact data (128.2934ms)
+✔ admission year, grade and section produce five fixed digits with padded sequence (3.9197ms)
+✔ unsupported labels, impossible dates and invalid student numbers fail instead of colliding (0.5513ms)
+✔ same Sunday-Friday routine is shown once; IDs and source order do not split it (15.9741ms)
+✔ subject, time, room or teacher exceptions each stay separate (0.6152ms)
+✔ empty days and Saturday schedules remain explicit without inventing lessons (1.6334ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1111.1427

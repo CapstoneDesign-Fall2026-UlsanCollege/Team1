@@ -1,0 +1,272 @@
+[
+  {
+    "file": "07-classroom-assigned.jpg",
+    "description": "Grade 6 A assigned to usual room 101 with separate science lab",
+    "capturedAt": "2026-11-21T19:05:59.786Z"
+  },
+  {
+    "file": "08-subject-library-created.jpg",
+    "description": "Moral Education created in Grade 6 subject library",
+    "capturedAt": "2026-11-21T19:06:17.174Z"
+  },
+  {
+    "file": "09-teacher-record-created.jpg",
+    "description": "Teacher with specific teaching subject saved",
+    "capturedAt": "2026-11-21T19:06:25.869Z"
+  },
+  {
+    "file": "10-teacher-login-created.jpg",
+    "description": "Teacher login linked to the teacher record; form cleared",
+    "capturedAt": "2026-11-21T19:06:39.476Z"
+  },
+  {
+    "file": "11-subject-assignment-form.jpg",
+    "description": "Moral Education with fictional teacher ready to confirm",
+    "capturedAt": "2026-11-21T19:06:48.764Z"
+  },
+  {
+    "file": "12-subject-saved.jpg",
+    "description": "Class subject and teacher saved",
+    "capturedAt": "2026-11-21T19:06:50.349Z"
+  },
+  {
+    "file": "13-subject-after-reload.jpg",
+    "description": "Moral Education assignment still present after actual page reload",
+    "capturedAt": "2026-11-21T19:06:52.445Z"
+  },
+  {
+    "file": "14-weekly-routine-saved.jpg",
+    "description": "Sunday-Friday 10-11 routine saved",
+    "capturedAt": "2026-11-21T19:07:01.505Z"
+  },
+  {
+    "file": "15-student-created.jpg",
+    "description": "Fictional student enrolled with generated login 26061001",
+    "capturedAt": "2026-11-21T19:07:29.798Z"
+  },
+  {
+    "file": "16-canteen-account-created.jpg",
+    "description": "Canteen head account created by admin",
+    "capturedAt": "2026-11-21T19:07:42.303Z"
+  },
+  {
+    "file": "17-booking-readback.jpg",
+    "description": "Saved same-day lab booking visible after refreshed room data",
+    "capturedAt": "2026-11-21T19:07:51.579Z"
+  },
+  {
+    "file": "18-overlap-prevented.jpg",
+    "description": "Second request at saved time has no available supervisor and save disabled",
+    "capturedAt": "2026-11-21T19:08:00.549Z"
+  },
+  {
+    "file": "19-admin-activity-log.jpg",
+    "description": "Audit lists actions performed in the new fictional school",
+    "capturedAt": "2026-11-21T19:08:01.503Z"
+  },
+  {
+    "file": "20-teacher-schedule.jpg",
+    "description": "Teacher first login shows Sunday-Friday class schedule",
+    "capturedAt": "2026-11-21T19:08:02.624Z"
+  },
+  {
+    "file": "21-teacher-roster.jpg",
+    "description": "Teacher sees enrolled student in the assigned class",
+    "capturedAt": "2026-11-21T19:08:08.736Z"
+  },
+  {
+    "file": "22-homework-assigned.jpg",
+    "description": "Teacher homework saved for Grade 6 A",
+    "capturedAt": "2026-11-21T19:08:26.872Z"
+  },
+  {
+    "file": "23-attendance-saved.jpg",
+    "description": "Teacher saved O present for November 22 and refreshed register",
+    "capturedAt": "2026-11-21T19:08:41.006Z"
+  },
+  {
+    "file": "24-student-home.jpg",
+    "description": "New student signs in to own school dashboard",
+    "capturedAt": "2026-11-21T19:08:42.137Z"
+  },
+  {
+    "file": "25-student-class.jpg",
+    "description": "Student sees own homeroom teacher, class and room",
+    "capturedAt": "2026-11-21T19:08:42.619Z"
+  },
+  {
+    "file": "26-student-timetable.jpg",
+    "description": "Student timetable uses grouped Sunday-Friday routine",
+    "capturedAt": "2026-11-21T19:08:49.710Z"
+  },
+  {
+    "file": "27-student-homework.jpg",
+    "description": "Student sees homework assigned by teacher",
+    "capturedAt": "2026-11-21T19:08:50.465Z"
+  },
+  {
+    "file": "28-student-menu-empty.jpg",
+    "description": "Student sees no published menu before canteen setup",
+    "capturedAt": "2026-11-21T19:08:50.900Z"
+  },
+  {
+    "file": "29-canteen-first-login.jpg",
+    "description": "Canteen head first login with empty menu",
+    "capturedAt": "2026-11-21T19:08:58.104Z"
+  },
+  {
+    "file": "30-canteen-hours-published.jpg",
+    "description": "Canteen identity and Sunday-Friday hours saved and published",
+    "capturedAt": "2026-11-21T19:09:16.601Z"
+  },
+  {
+    "file": "31-canteen-draft-saved.jpg",
+    "description": "Menu saved as draft with fictional food at NPR 80",
+    "capturedAt": "2026-11-21T19:09:27.687Z"
+  },
+  {
+    "file": "32-student-draft-hidden.jpg",
+    "description": "Student cannot see the saved unpublished menu",
+    "capturedAt": "2026-11-21T19:09:29.193Z"
+  },
+  {
+    "file": "33-canteen-menu-published.jpg",
+    "description": "Canteen head publishes the saved menu",
+    "capturedAt": "2026-11-21T19:09:41.825Z"
+  },
+  {
+    "file": "34-student-published-menu.jpg",
+    "description": "Student sees published QA Vegetable Momo at NPR 80",
+    "capturedAt": "2026-11-21T19:09:43.291Z"
+  },
+  {
+    "file": "35-canteen-sold-out.jpg",
+    "description": "Canteen saves published item as sold out",
+    "capturedAt": "2026-11-21T19:09:55.408Z"
+  },
+  {
+    "file": "36-student-sold-out.jpg",
+    "description": "Student sees sold-out label without losing name and price",
+    "capturedAt": "2026-11-21T19:09:56.784Z"
+  },
+  {
+    "file": "37-canteen-availability-restored.jpg",
+    "description": "Canteen restores availability",
+    "capturedAt": "2026-11-21T19:10:00.086Z"
+  },
+  {
+    "file": "38-student-availability-restored.jpg",
+    "description": "Student sees restored available item",
+    "capturedAt": "2026-11-21T19:10:01.485Z"
+  },
+  {
+    "file": "39-parent-created.jpg",
+    "description": "Fictional guardian linked to the child with admin verification",
+    "capturedAt": "2026-11-21T19:10:28.678Z"
+  },
+  {
+    "file": "40-parent-first-login-gate.jpg",
+    "description": "Parent first login requires password change before viewing child",
+    "capturedAt": "2026-11-21T19:10:29.844Z"
+  },
+  {
+    "file": "40-parent-first-login-gate.jpg",
+    "description": "Parent first login requires password change before viewing child",
+    "capturedAt": "2026-11-21T19:10:34.736Z"
+  },
+  {
+    "file": "41-parent-overview.jpg",
+    "description": "Parent sees only linked fictional child after required password transition",
+    "capturedAt": "2026-11-21T19:10:54.379Z"
+  },
+  {
+    "file": "42-parent-attendance.jpg",
+    "description": "Parent monthly attendance shows saved O present and totals",
+    "capturedAt": "2026-11-21T19:11:07.199Z"
+  },
+  {
+    "file": "43-parent-homework.jpg",
+    "description": "Parent sees teacher homework for linked child",
+    "capturedAt": "2026-11-21T19:11:07.664Z"
+  },
+  {
+    "file": "44-parent-timetable.jpg",
+    "description": "Parent sees linked child timetable",
+    "capturedAt": "2026-11-21T19:11:08.067Z"
+  },
+  {
+    "file": "45-parent-canteen-observed.jpg",
+    "description": "Observed parent canteen state during cross-role check",
+    "capturedAt": "2026-11-21T19:11:15.617Z"
+  },
+  {
+    "file": "46-canteen-withdrawn.jpg",
+    "description": "Canteen unpublishes menu back to draft",
+    "capturedAt": "2026-11-21T19:11:26.932Z"
+  },
+  {
+    "file": "47-student-withdrawn-hidden.jpg",
+    "description": "Withdrawn menu disappears from student view",
+    "capturedAt": "2026-11-21T19:11:28.400Z"
+  },
+  {
+    "file": "48-parent-withdrawn-hidden.jpg",
+    "description": "Withdrawn menu also hidden from parent",
+    "capturedAt": "2026-11-21T19:11:30.422Z"
+  },
+  {
+    "file": "49-parent-account.jpg",
+    "description": "Parent account screen limited to own contact details",
+    "capturedAt": "2026-11-21T19:11:48.454Z"
+  },
+  {
+    "file": "50-admin-notice-published.jpg",
+    "description": "Admin publishes fictional school notice for today",
+    "capturedAt": "2026-11-21T19:12:05.484Z"
+  },
+  {
+    "file": "51-parent-notice-readback.jpg",
+    "description": "Parent sees admin-published notice",
+    "capturedAt": "2026-11-21T19:12:07.001Z"
+  },
+  {
+    "file": "52-student-profile.jpg",
+    "description": "Student profile shows fictional identity and card actions",
+    "capturedAt": "2026-11-21T19:12:08.445Z"
+  },
+  {
+    "file": "53-student-qr.jpg",
+    "description": "Student QR dialog generated for own identity",
+    "capturedAt": "2026-11-21T19:12:08.946Z"
+  },
+  {
+    "file": "54-second-class-created.jpg",
+    "description": "Second class Grade 7 B added without disturbing Grade 6 A",
+    "capturedAt": "2026-11-21T19:12:46.840Z"
+  },
+  {
+    "file": "55-mobile-list-collapsed.jpg",
+    "description": "New school Grade 6 extra-subject list starts collapsed at 390px",
+    "capturedAt": "2026-11-21T19:12:58.323Z"
+  },
+  {
+    "file": "56-mobile-list-expanded.jpg",
+    "description": "Explicit Show list reveals QA Science from another grade",
+    "capturedAt": "2026-11-21T19:12:59.872Z"
+  },
+  {
+    "file": "57-mobile-list-hidden-again.jpg",
+    "description": "Hide list closes the extra catalogue again",
+    "capturedAt": "2026-11-21T19:13:01.436Z"
+  },
+  {
+    "file": "58-admin-final-overview.jpg",
+    "description": "Final admin overview after full new-school role walkthrough",
+    "capturedAt": "2026-11-21T19:13:02.039Z"
+  },
+  {
+    "file": "59-after-server-restart.jpg",
+    "description": "Admin signs in after server restart with saved school data still present",
+    "capturedAt": "2026-11-21T19:14:28.842Z"
+  }
+]

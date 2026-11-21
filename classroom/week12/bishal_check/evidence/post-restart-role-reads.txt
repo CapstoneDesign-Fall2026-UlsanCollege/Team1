@@ -1,0 +1,13 @@
+PASS anonymous administrator read rejected: HTTP 401
+PASS teacher sign-in: HTTP 200; administrator read denied: HTTP 403
+PASS teacher own workspace read: HTTP 200
+PASS student sign-in: HTTP 200; administrator read denied: HTTP 403
+PASS student own workspace read: HTTP 200
+PASS student teacher-workspace read denied: HTTP 403
+PASS canteen sign-in: HTTP 200; administrator read denied: HTTP 403
+PASS canteen own workspace read: HTTP 200
+PASS canteen teacher-workspace read denied: HTTP 403
+PASS parent sign-in: HTTP 200; administrator read denied: HTTP 403
+PASS parent own workspace read: HTTP 200
+PASS parent teacher-workspace read denied: HTTP 403
+RESULT: selected read-only role boundaries passed. No record mutations or broad security certification.

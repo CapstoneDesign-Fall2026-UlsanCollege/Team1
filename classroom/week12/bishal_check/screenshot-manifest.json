@@ -1,0 +1,493 @@
+{
+  "note": "Original browser JPEGs; timestamps are file modification metadata. Prechecks used a separate seeded fixture before the empty-school request.",
+  "screenshots": [
+    {
+      "path": "evidence/01-admin-empty-start.jpg",
+      "bytes": 146240,
+      "width": 1265,
+      "height": 1954,
+      "sha256": "85E3B3791F0733ABF4463BB3F7FD8542F040F3AF9441E1ADD12EC45253AC6B24",
+      "fileModifiedUtc": "2026-11-21T06:33:05.7849628Z"
+    },
+    {
+      "path": "evidence/02-school-saved.jpg",
+      "bytes": 67292,
+      "width": 1265,
+      "height": 1171,
+      "sha256": "11BD8611FCC20F553D75060FC63782AE55B2067A20243980BA2078F30AAE0337",
+      "fileModifiedUtc": "2026-11-21T06:33:20.1457997Z"
+    },
+    {
+      "path": "evidence/03-academic-year-saved.jpg",
+      "bytes": 78639,
+      "width": 1265,
+      "height": 1298,
+      "sha256": "540E0A147BE7934750C8795232DCAC292FDD409C8714412193B4165CC9DC7672",
+      "fileModifiedUtc": "2026-11-21T06:33:26.9338240Z"
+    },
+    {
+      "path": "evidence/04-term-saved.jpg",
+      "bytes": 74331,
+      "width": 1265,
+      "height": 1250,
+      "sha256": "D9A799EBF181FE1FEE18FED2D9F4756516F5C313AEF24199F9F24E2A51DF4E18",
+      "fileModifiedUtc": "2026-11-21T06:33:32.9169124Z"
+    },
+    {
+      "path": "evidence/05-class-created.jpg",
+      "bytes": 76192,
+      "width": 1265,
+      "height": 1191,
+      "sha256": "48B847D94E28213039D0A2A09D3738822A43C4C512D7D277A6A8EC293028B3DD",
+      "fileModifiedUtc": "2026-11-21T06:33:39.1021334Z"
+    },
+    {
+      "path": "evidence/06-floor-and-rooms.jpg",
+      "bytes": 94354,
+      "width": 1265,
+      "height": 1333,
+      "sha256": "C24B802226DA7658B8EE16568132BC44B37458365ED32CF3B1FFD33DA4F35742",
+      "fileModifiedUtc": "2026-11-21T06:33:47.0639887Z"
+    },
+    {
+      "path": "evidence/07-classroom-assigned.jpg",
+      "bytes": 96952,
+      "width": 1265,
+      "height": 1520,
+      "sha256": "07416DCC18ADEE71A61AE54ADA968CE9194590B924D0EF942E90FAFA944B6E6A",
+      "fileModifiedUtc": "2026-11-21T19:05:59.7853566Z"
+    },
+    {
+      "path": "evidence/08-subject-library-created.jpg",
+      "bytes": 135316,
+      "width": 1265,
+      "height": 1698,
+      "sha256": "A8E0C45FCBB02E6A3B940A596169E05E1982EC19D4A61681274BE6B81273B015",
+      "fileModifiedUtc": "2026-11-21T19:06:17.1738443Z"
+    },
+    {
+      "path": "evidence/09-teacher-record-created.jpg",
+      "bytes": 72929,
+      "width": 1265,
+      "height": 1042,
+      "sha256": "4F638DA2D70BAACAE62EE0CE1725597AA86B257AF3210C91B0C5419BC90F91CA",
+      "fileModifiedUtc": "2026-11-21T19:06:25.8689406Z"
+    },
+    {
+      "path": "evidence/10-teacher-login-created.jpg",
+      "bytes": 73598,
+      "width": 1265,
+      "height": 1106,
+      "sha256": "C7704636CABBDB5C03C2B27E0D028078A7982E3B2E540FB2E3F5EB1E8D0C9A01",
+      "fileModifiedUtc": "2026-11-21T19:06:39.4767290Z"
+    },
+    {
+      "path": "evidence/11-subject-assignment-form.jpg",
+      "bytes": 96528,
+      "width": 1265,
+      "height": 1593,
+      "sha256": "A240D09BC3FD8EF87FD014715F82F2E5685A1D0B46B5417BE56C2657921030CE",
+      "fileModifiedUtc": "2026-11-21T19:06:48.7643401Z"
+    },
+    {
+      "path": "evidence/12-subject-saved.jpg",
+      "bytes": 135024,
+      "width": 1265,
+      "height": 1744,
+      "sha256": "4823C6E9719E034752A6467615F751E45DD0BE2AF6B22525202989ABB821C14D",
+      "fileModifiedUtc": "2026-11-21T19:06:50.3490066Z"
+    },
+    {
+      "path": "evidence/13-subject-after-reload.jpg",
+      "bytes": 129142,
+      "width": 1265,
+      "height": 1677,
+      "sha256": "AB65BCC118ABE698EDADE87E668B56761C2D52D322E965641636993AE3C7F6F1",
+      "fileModifiedUtc": "2026-11-21T19:06:52.4447800Z"
+    },
+    {
+      "path": "evidence/14-weekly-routine-saved.jpg",
+      "bytes": 138695,
+      "width": 1265,
+      "height": 1744,
+      "sha256": "D9A5B36B9C9837D4709E62A503A13F7D7C00ECEA23BA7FAB1D7611F820F37450",
+      "fileModifiedUtc": "2026-11-21T19:07:01.5043093Z"
+    },
+    {
+      "path": "evidence/15-student-created.jpg",
+      "bytes": 77937,
+      "width": 1265,
+      "height": 1163,
+      "sha256": "906E922AF55125DECFE2820AC4FDF7DDFD1451CE5154C02DF067984428FD52F0",
+      "fileModifiedUtc": "2026-11-21T19:07:29.7973450Z"
+    },
+    {
+      "path": "evidence/16-canteen-account-created.jpg",
+      "bytes": 61711,
+      "width": 1265,
+      "height": 864,
+      "sha256": "AEB509C8ED9683402CAAA42FFFB198F22B0F4F5B80434145D30CFFA85EB93FB7",
+      "fileModifiedUtc": "2026-11-21T19:07:42.3020552Z"
+    },
+    {
+      "path": "evidence/17-booking-readback.jpg",
+      "bytes": 104337,
+      "width": 1265,
+      "height": 1576,
+      "sha256": "0F8E2F4DAFEE874B3DD74A0670B54A1509400F21AC7F6C8BC9CFB64BA7BBF26E",
+      "fileModifiedUtc": "2026-11-21T19:07:51.5786638Z"
+    },
+    {
+      "path": "evidence/18-overlap-prevented.jpg",
+      "bytes": 100823,
+      "width": 1265,
+      "height": 1520,
+      "sha256": "9771234AB93AF40DDF0E877BBF50F7E56EB41E03700BE012E03921476B5C0DCC",
+      "fileModifiedUtc": "2026-11-21T19:08:00.5487011Z"
+    },
+    {
+      "path": "evidence/19-admin-activity-log.jpg",
+      "bytes": 241586,
+      "width": 1265,
+      "height": 3494,
+      "sha256": "6484DE53DE97F36BC62924D3749488CA1B438416D9A7AD8817947D01502F3D9C",
+      "fileModifiedUtc": "2026-11-21T19:08:01.5032493Z"
+    },
+    {
+      "path": "evidence/20-teacher-schedule.jpg",
+      "bytes": 38038,
+      "width": 1280,
+      "height": 720,
+      "sha256": "CFA9EC6DBAA32A3CDB8D6457031FC6417C518D44DACC642F2F7EC2E2303FF0E3",
+      "fileModifiedUtc": "2026-11-21T19:08:02.6249003Z"
+    },
+    {
+      "path": "evidence/21-teacher-roster.jpg",
+      "bytes": 43544,
+      "width": 1265,
+      "height": 815,
+      "sha256": "AED9CC80DF5B505FD5791161D956DF34FEFE539C7609C9FE05CF9A8ACB946A52",
+      "fileModifiedUtc": "2026-11-21T19:08:08.7364882Z"
+    },
+    {
+      "path": "evidence/22-homework-assigned.jpg",
+      "bytes": 58507,
+      "width": 1265,
+      "height": 1021,
+      "sha256": "3BE8095CD9B82443E9C25FD5D73FA094A86C2F4A62FA8EF5E29A5CCF78CCF24B",
+      "fileModifiedUtc": "2026-11-21T19:08:26.8712603Z"
+    },
+    {
+      "path": "evidence/23-attendance-saved.jpg",
+      "bytes": 75001,
+      "width": 1265,
+      "height": 915,
+      "sha256": "B6AB577A77D34CD0B1AE78C89624F6FFD44972436C295EEF1A8B8222728B8C54",
+      "fileModifiedUtc": "2026-11-21T19:08:41.0069606Z"
+    },
+    {
+      "path": "evidence/24-student-home.jpg",
+      "bytes": 40816,
+      "width": 1280,
+      "height": 720,
+      "sha256": "D36A3E95CDFC4A8612E392D1B92B8090A3022BEC1047326E1D3F710763557E70",
+      "fileModifiedUtc": "2026-11-21T19:08:42.1375042Z"
+    },
+    {
+      "path": "evidence/25-student-class.jpg",
+      "bytes": 30443,
+      "width": 1280,
+      "height": 720,
+      "sha256": "3F6B9D0B96C684B0D935B284AD106B877191059D2D27FB734D2A3F5C71AD1DD7",
+      "fileModifiedUtc": "2026-11-21T19:08:42.6200278Z"
+    },
+    {
+      "path": "evidence/26-student-timetable.jpg",
+      "bytes": 39194,
+      "width": 1280,
+      "height": 720,
+      "sha256": "64690115D36B8EB47FE03902316B5B349A1DC4912437BF539B5C366451AB38A0",
+      "fileModifiedUtc": "2026-11-21T19:08:49.7101943Z"
+    },
+    {
+      "path": "evidence/27-student-homework.jpg",
+      "bytes": 26995,
+      "width": 1280,
+      "height": 720,
+      "sha256": "5BF352F4D682C63025CA6111D673503815EF9A0CB963982527CC4EE403265B5E",
+      "fileModifiedUtc": "2026-11-21T19:08:50.4641439Z"
+    },
+    {
+      "path": "evidence/28-student-menu-empty.jpg",
+      "bytes": 27752,
+      "width": 1280,
+      "height": 720,
+      "sha256": "53B3FF4EBF06FECC3B0322B28F03A5C88A597809581D85FC451A2BACC37C8616",
+      "fileModifiedUtc": "2026-11-21T19:08:50.9002073Z"
+    },
+    {
+      "path": "evidence/29-canteen-first-login.jpg",
+      "bytes": 46828,
+      "width": 1280,
+      "height": 720,
+      "sha256": "37BAFBBBD9517D74185CEB1DD41704D99F3586E650C6180EE5A9FF7E830003A7",
+      "fileModifiedUtc": "2026-11-21T19:08:58.1038935Z"
+    },
+    {
+      "path": "evidence/30-canteen-hours-published.jpg",
+      "bytes": 115884,
+      "width": 1265,
+      "height": 1649,
+      "sha256": "1DF32C7B7CC33E2D613302174AE0E0051C2DFF9289254CE63F62A411023790D8",
+      "fileModifiedUtc": "2026-11-21T19:09:16.6017202Z"
+    },
+    {
+      "path": "evidence/31-canteen-draft-saved.jpg",
+      "bytes": 53853,
+      "width": 1265,
+      "height": 823,
+      "sha256": "61B829B89CD48991AF978B8E31E8F05D15A0A8D3283D5564FA711621E9C5FFFB",
+      "fileModifiedUtc": "2026-11-21T19:09:27.6874329Z"
+    },
+    {
+      "path": "evidence/32-student-draft-hidden.jpg",
+      "bytes": 27752,
+      "width": 1280,
+      "height": 720,
+      "sha256": "53B3FF4EBF06FECC3B0322B28F03A5C88A597809581D85FC451A2BACC37C8616",
+      "fileModifiedUtc": "2026-11-21T19:09:29.1934483Z"
+    },
+    {
+      "path": "evidence/33-canteen-menu-published.jpg",
+      "bytes": 54416,
+      "width": 1265,
+      "height": 823,
+      "sha256": "55B8ED09915A51BF936EC778B2A37508DD06D08CD87DC8E4245D4F864F452236",
+      "fileModifiedUtc": "2026-11-21T19:09:41.8251310Z"
+    },
+    {
+      "path": "evidence/34-student-published-menu.jpg",
+      "bytes": 31240,
+      "width": 1280,
+      "height": 720,
+      "sha256": "B54F4602BA0F4106D7D09A2B09A09CA9B17A544E69A79FBA4F888A31F88230C5",
+      "fileModifiedUtc": "2026-11-21T19:09:43.2906173Z"
+    },
+    {
+      "path": "evidence/35-canteen-sold-out.jpg",
+      "bytes": 54408,
+      "width": 1265,
+      "height": 823,
+      "sha256": "B3B7A658F155574485576AD177A6AEAF96C4021CEF780B79939E08DD07AAFE46",
+      "fileModifiedUtc": "2026-11-21T19:09:55.4082011Z"
+    },
+    {
+      "path": "evidence/36-student-sold-out.jpg",
+      "bytes": 31235,
+      "width": 1280,
+      "height": 720,
+      "sha256": "26DAB8CAFAFD5BBB84E8E573F149125208909187F84C3141671461CF658F763D",
+      "fileModifiedUtc": "2026-11-21T19:09:56.7848470Z"
+    },
+    {
+      "path": "evidence/37-canteen-availability-restored.jpg",
+      "bytes": 54412,
+      "width": 1265,
+      "height": 823,
+      "sha256": "2BCC1FFCB6B7A51F280170E8F34EA9F2F881BCB16ECEA9336085F33600C766FF",
+      "fileModifiedUtc": "2026-11-21T19:10:00.0860854Z"
+    },
+    {
+      "path": "evidence/38-student-availability-restored.jpg",
+      "bytes": 31241,
+      "width": 1280,
+      "height": 720,
+      "sha256": "5E617C2F06945DA0F59B62DA5D6C1D28FABB200FB1CD30148938DB87600247CC",
+      "fileModifiedUtc": "2026-11-21T19:10:01.4853346Z"
+    },
+    {
+      "path": "evidence/39-parent-created.jpg",
+      "bytes": 73574,
+      "width": 1265,
+      "height": 961,
+      "sha256": "0A07379FF40B4E7CDC711F72994124A3E4C92295C43E3D017F4C409274C3234D",
+      "fileModifiedUtc": "2026-11-21T19:10:28.6780379Z"
+    },
+    {
+      "path": "evidence/40-parent-first-login-gate.jpg",
+      "bytes": 42523,
+      "width": 1265,
+      "height": 757,
+      "sha256": "07EE9A35CD431334B6D594B7F961D1CB63A8F1B6CD22A04695B3C52FDF2EE22F",
+      "fileModifiedUtc": "2026-11-21T19:10:34.7363308Z"
+    },
+    {
+      "path": "evidence/41-parent-overview.jpg",
+      "bytes": 48013,
+      "width": 1265,
+      "height": 842,
+      "sha256": "5B21E6C83CCDEC378F3945AF5C3F9CF7A1DCF9C60A34D6227B3EBDD6FB3E0D8F",
+      "fileModifiedUtc": "2026-11-21T19:10:54.3791271Z"
+    },
+    {
+      "path": "evidence/42-parent-attendance.jpg",
+      "bytes": 52592,
+      "width": 1280,
+      "height": 720,
+      "sha256": "E3025284F8B6FD82B0A134D4926A7FE805DABFA2831967AAB37C5855A99B240C",
+      "fileModifiedUtc": "2026-11-21T19:11:07.1991231Z"
+    },
+    {
+      "path": "evidence/43-parent-homework.jpg",
+      "bytes": 35191,
+      "width": 1280,
+      "height": 720,
+      "sha256": "BE8F1CA6EAA8D031960A1E4BD435EF47BAB4A0E57CA4F2FB0280C02D53777287",
+      "fileModifiedUtc": "2026-11-21T19:11:07.6629761Z"
+    },
+    {
+      "path": "evidence/44-parent-timetable.jpg",
+      "bytes": 43833,
+      "width": 1280,
+      "height": 720,
+      "sha256": "61D5F9FD828F19DB8F953E1EE51ACA63EE88175145A86CB0CDD2F1C4AA3C3642",
+      "fileModifiedUtc": "2026-11-21T19:11:08.0664309Z"
+    },
+    {
+      "path": "evidence/45-parent-canteen-observed.jpg",
+      "bytes": 35740,
+      "width": 1280,
+      "height": 720,
+      "sha256": "5D0F4ADBEF206755FE0575E37C20DA617055BE6C595B338502BF27A35B672E9D",
+      "fileModifiedUtc": "2026-11-21T19:11:15.6166351Z"
+    },
+    {
+      "path": "evidence/46-canteen-withdrawn.jpg",
+      "bytes": 53857,
+      "width": 1265,
+      "height": 823,
+      "sha256": "C4AE83095C8E84C8BEA1D2D6C0B67D2881AD132D81FA6E402631017D7A356173",
+      "fileModifiedUtc": "2026-11-21T19:11:26.9304967Z"
+    },
+    {
+      "path": "evidence/47-student-withdrawn-hidden.jpg",
+      "bytes": 27752,
+      "width": 1280,
+      "height": 720,
+      "sha256": "53B3FF4EBF06FECC3B0322B28F03A5C88A597809581D85FC451A2BACC37C8616",
+      "fileModifiedUtc": "2026-11-21T19:11:28.4003243Z"
+    },
+    {
+      "path": "evidence/48-parent-withdrawn-hidden.jpg",
+      "bytes": 33494,
+      "width": 1280,
+      "height": 720,
+      "sha256": "35D4420B1D80AF8AA828D6F8E0240EFC7D30FCFC997111D0460AE41D35415C80",
+      "fileModifiedUtc": "2026-11-21T19:11:30.4226508Z"
+    },
+    {
+      "path": "evidence/49-parent-account.jpg",
+      "bytes": 43167,
+      "width": 1265,
+      "height": 738,
+      "sha256": "09086B244EF4A7B560C93FF150FEBC24E9EF5C043F26F04FE96A920D8BF2E02F",
+      "fileModifiedUtc": "2026-11-21T19:11:48.4549274Z"
+    },
+    {
+      "path": "evidence/50-admin-notice-published.jpg",
+      "bytes": 52261,
+      "width": 1265,
+      "height": 819,
+      "sha256": "D42B04E133BDEA9E2F9EA407B665FC62BA6D0C354BBC1BE9DA9AF7526E530850",
+      "fileModifiedUtc": "2026-11-21T19:12:05.4837881Z"
+    },
+    {
+      "path": "evidence/51-parent-notice-readback.jpg",
+      "bytes": 33389,
+      "width": 1280,
+      "height": 720,
+      "sha256": "2474B4A0D599CCCF731F1BADDF72D8BA353870EE785219392AF8B7CB5E4CF1EC",
+      "fileModifiedUtc": "2026-11-21T19:12:07.0012716Z"
+    },
+    {
+      "path": "evidence/52-student-profile.jpg",
+      "bytes": 33503,
+      "width": 1280,
+      "height": 720,
+      "sha256": "AAA6DCC0D04D431EABE5DC46E0B9B58BD353DDBFB501890711E8F3A97AD5643F",
+      "fileModifiedUtc": "2026-11-21T19:12:08.4447886Z"
+    },
+    {
+      "path": "evidence/53-student-qr.jpg",
+      "bytes": 49282,
+      "width": 1280,
+      "height": 720,
+      "sha256": "9A493038165AFF5AD50912B8DFF7B434705EFBE7536D71F68946BA1D10E33902",
+      "fileModifiedUtc": "2026-11-21T19:12:08.9458675Z"
+    },
+    {
+      "path": "evidence/54-second-class-created.jpg",
+      "bytes": 107610,
+      "width": 1265,
+      "height": 1815,
+      "sha256": "58EC5A3F4E92C223FDBBDDB35F6817F7741083003EC436FB5A2ABA0C6C03989A",
+      "fileModifiedUtc": "2026-11-21T19:12:46.8400272Z"
+    },
+    {
+      "path": "evidence/55-mobile-list-collapsed.jpg",
+      "bytes": 120247,
+      "width": 375,
+      "height": 3059,
+      "sha256": "92FE21F3B6DF77392985F90BF6CFE83C313BC05E6E71CF96670D509CF0855DCF",
+      "fileModifiedUtc": "2026-11-21T19:12:58.3232437Z"
+    },
+    {
+      "path": "evidence/56-mobile-list-expanded.jpg",
+      "bytes": 129046,
+      "width": 375,
+      "height": 3227,
+      "sha256": "BB946984D2FEB68AD9DA8489E8340C07644916F2B4012B14E1A952BA3DF07528",
+      "fileModifiedUtc": "2026-11-21T19:12:59.8718482Z"
+    },
+    {
+      "path": "evidence/57-mobile-list-hidden-again.jpg",
+      "bytes": 120173,
+      "width": 375,
+      "height": 3044,
+      "sha256": "13B0D0586EFB4F4808CD8F0B63921BCBBE2CC53DFF03721B02A8E9A78D25B627",
+      "fileModifiedUtc": "2026-11-21T19:13:01.4348507Z"
+    },
+    {
+      "path": "evidence/58-admin-final-overview.jpg",
+      "bytes": 144868,
+      "width": 1265,
+      "height": 1859,
+      "sha256": "9AEEDDFC3F9E67C066AC2DDE4655E3AB1011F68B276A8CC57F65EBF6D9604920",
+      "fileModifiedUtc": "2026-11-21T19:13:02.0381199Z"
+    },
+    {
+      "path": "evidence/59-after-server-restart.jpg",
+      "bytes": 143445,
+      "width": 1265,
+      "height": 1822,
+      "sha256": "5CE28D80CD3BFEECE3B4653C6C6FA7BA504BB5EFBB3C6951EC60248AD3DB2EE3",
+      "fileModifiedUtc": "2026-11-21T19:14:28.8417705Z"
+    },
+    {
+      "path": "prechecks/01-mobile-list-collapsed.jpg",
+      "bytes": 111738,
+      "width": 375,
+      "height": 2736,
+      "sha256": "5B4C540EBCDE6A89EFEBF6D8E9ECEBD54799B5FD16B962509055F5B8EACC7FB2",
+      "fileModifiedUtc": "2026-11-21T06:31:54.6757628Z"
+    },
+    {
+      "path": "prechecks/02-mobile-list-expanded.jpg",
+      "bytes": 121014,
+      "width": 375,
+      "height": 2904,
+      "sha256": "55C1CD34E7290C39C6F6D4075FA0C5A7D0BD19E073F8EC4D7A0D21A5B8084176",
+      "fileModifiedUtc": "2026-11-21T06:31:56.2355738Z"
+    }
+  ]
+}

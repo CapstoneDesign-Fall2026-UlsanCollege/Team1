@@ -2,7 +2,7 @@
 
 **Student:** Galan Bishal · **GitHub:** [@bishal482](https://github.com/bishal482)  
 **Team:** Team 1 — StudentHub · **Sprint:** 3, QA and handoff  
-**Reporting week:** November 19–25, 2026 · **Evidence updated:** November 21, 2026 (Asia/Seoul)
+**Reporting week:** November 19–25, 2026 · **Evidence updated:** November 22, 2026 (Asia/Seoul)
 
 This is my evidence index for work recorded so far this week. It connects the contribution, changed files, check results and original commits. The [individual work summary](individual_work.md) provides a shorter overview; the [shared Weekly Report](weekly-report.md) remains the single team report. Coding/test/documentation assistance is disclosed below.
 
@@ -61,6 +61,16 @@ This is my evidence index for work recorded so far this week. It connects the co
 **Proof:** [full omissions review](galan-week11-contribution-review.md), [metadata inventory](evidence/galan-week11-commit-inventory.json), [corrected Week 11 receipt](../week11/individual_work.md). All 64 referenced commit objects and local links validated during the review. The inventory's 53 author-matched commits are not 53 features or grading points.
 
 The older Railway migration, CSV/building controls, timetable tools, account/QR/parent implementation and empty-school setup retain their **Week 11 delivery dates**. This week's contribution is recovering their documentation, not claiming to implement them again.
+
+## 7. Empty-school-to-role walkthrough — November 21–22
+
+Requested a new separate empty database, admin-guided school/year/term/class setup, room and account creation, then individual-role execution with a screenshot at each stage. Codex completed the browser walkthrough and explicitly labelled API/SQL checks; the database is preserved separately for review.
+
+**Evidence:** [Full step-by-step report and all 61 picture links](bishal_check/report.md), including 59 main numbered screenshots, [initial empty counts](bishal_check/evidence/initial-counts.json), [final saved-state proof](bishal_check/evidence/final-readback.json), [post-restart role reads](bishal_check/evidence/post-restart-role-reads.txt). Admin, teacher, student, canteen head and parent workflows are separated in the report. The menu was intentionally withdrawn at the end.
+
+**Actual checks:** production builds and 25 frontend regressions passed; teacher homework/attendance read back through student/parent views, canteen publication/availability/withdrawal read back across roles, selected permissions returned expected 401/403, mobile disclosure opened/closed, and stored records remained after server restart. The parent initial-password transition was an API check, not browser-form automation. The booking overlap was prevented by an unavailable-supervisor UI guard, not submitted for server rejection in this browser run.
+
+**Scope:** assistant-run local fictional school, tested application source ca96fdd. This does not replace physical iPhone testing, an independent fresh-clone handoff, production acceptance or every feature/edge case. Older Week 11 implementation dates and classmates' evidence remain unchanged.
 
 ## Roadmap slice, ownership and assistance
 

@@ -1,0 +1,64 @@
+{
+  "database": "studenthub_fresh_w12qa_20261121_1532",
+  "checkedAt": "2026-11-21T19:14:09.098Z",
+  "counts": {
+    "users": 5,
+    "student_profiles": 1,
+    "school_profile": 1,
+    "school_years": 1,
+    "school_classes": 2,
+    "school_teachers": 1,
+    "school_rooms": 2,
+    "school_floors": 1,
+    "courses": 2,
+    "semesters": 1,
+    "school_class_offerings": 1,
+    "class_schedules": 6,
+    "school_homework": 1,
+    "school_attendance": 1,
+    "school_parent_profiles": 1,
+    "school_parent_students": 1,
+    "canteen_menus": 1,
+    "school_notices": 1
+  },
+  "roles": [
+    {
+      "role": "admin",
+      "total": 1
+    },
+    {
+      "role": "teacher",
+      "total": 1
+    },
+    {
+      "role": "student",
+      "total": 1
+    },
+    {
+      "role": "canteen_head",
+      "total": 1
+    },
+    {
+      "role": "parent",
+      "total": 1
+    }
+  ],
+  "attendance": [
+    {
+      "attendance_date": "2026-11-22",
+      "status": "present"
+    }
+  ],
+  "menu": [
+    {
+      "service_date": "2026-11-22",
+      "published": 0,
+      "currency": "NPR"
+    }
+  ],
+  "parentInitialChangeRemaining": [
+    {
+      "must_change_password": 0
+    }
+  ]
+}

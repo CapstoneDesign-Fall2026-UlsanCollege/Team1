@@ -24,6 +24,7 @@ The completion checkbox was marked by Galan in [639810d](https://github.com/Caps
 | Structured triage and peer summary | [Bug report](bug-report-83.md), [peer notes / tested-by summary](peer-test-notes.md), [change/attribution record](change-record.md) |
 | Current peer result | [Ansh's November 19 retest](ansh-subject-persistence-retest.md) — scoped pass, different subject/teacher |
 | QA checklist and proof | [Protocol](qa-checklist.md), [Galan result](galan-qa-result.md), [raw output](evidence/subject-persistence-2026-11-21.txt) — assistant-run API check passed |
+| Empty-start full role walkthrough, Nov 21–22 | [Bishal check report](bishal_check/report.md) — 59 main screenshots plus two labelled preliminary images; school setup, admin/teacher/student/canteen/parent flows, selected permissions and restart persistence. Assistant-run local evidence, not independent/production acceptance |
 | Code and test commit | [ec7392c](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/ec7392ca572aba1560d865bc4ed1c09232f37056) — test harness only, no application fix |
 | Issue and next decision | [#83](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/83), [Week 12 roadmap checkpoint](roadmap.md) |
 | Final demo and handoff route | [Shared Final Demo Roadmap, Weeks 10–16](../final-demo-roadmap.md) — planned milestones, owners, proof and fallbacks |

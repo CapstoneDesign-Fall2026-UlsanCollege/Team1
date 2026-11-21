@@ -62,3 +62,7 @@ At Galan's request, Codex compared his Week 11 receipt with published author met
 ## Whole-package completion review
 
 Codex also compared all four Week 12 course files and their linked QA, triage, peer, attribution and policy resources with this folder. The resulting [requirements coverage index](README.md#requirements-coverage), [structured bug report](bug-report-83.md), [peer notes](peer-test-notes.md) and [change record](change-record.md) add no new runtime feature or human test. They reconcile Galan’s reported success across current documents, preserve historical evidence, and retain only real acceptance/understanding gaps. Documentation-only verification uses local file-link and formatting checks; no unrelated full-MVP rerun is claimed.
+
+## User-requested empty-school walkthrough — November 21–22
+
+Galan subsequently explicitly requested broader testing from a new empty database through school setup and individual-role actions, with screenshots uploaded under `bishal_check`. Codex used the existing structure-only launcher, created only fictional records through the website, ran the noted API/SQL checks and captured the [step-by-step report](bishal_check/report.md). The 59 main screenshots, two preliminary pictures, raw checks and runner corrections are linked there. This broader run was a separate user-requested task; it does not relabel the earlier bounded Week 12 QA as a full MVP pass. Parent first-password transition was API-tested. Personal explanation, non-author review, physical iPhone and fresh-clone handoff remain separate.
