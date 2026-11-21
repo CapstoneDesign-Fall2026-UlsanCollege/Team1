@@ -3,6 +3,8 @@
 **Student:** Galan Bishal (@bishal482) · **Team:** Team 1  
 **Date:** November 21, 2026 · **Assistance:** Codex code/document generation and recorded execution disclosed below
 
+For the detailed contribution/result/commit record, see [Week 12 individual evidence](individual-evidence.md).
+
 ## Current Week 12 contributions
 
 | Work completed in Week 12 | Commit / evidence | Check and practical limit |
