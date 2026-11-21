@@ -10,7 +10,7 @@ Carry the Week 11 #83 phone subject-persistence finding into a bounded QA decisi
 - [x] Preserve the Week 11 failure and incorporate Ansh's different-combination retest.
 - [x] Define and run a targeted API save/read-back/session/restart check using fictional isolated data.
 - [x] Record severity separately from priority, evidence limits and an owned next check.
-- [ ] Complete the exact deployed-context iPhone comparison before closing #83.
+- [x] Complete the exact deployed-context iPhone comparison before closing #83.
 - [ ] Each member confirms their own current contribution and support role.
 
 ## Evidence
