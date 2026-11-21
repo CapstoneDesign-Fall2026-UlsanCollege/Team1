@@ -1,5 +1,6 @@
 # Week 11 — Team 1 MVP Verification and Freeze Gate
 
+- [Galan's individual receipt — November 21 retrospective supplement](individual_work.md)
 - [Week 11 Tested-By Note](tested-by-note.md)
 
 - [Week 11 AI Use and Code Ownership Audit](ai-use-and-code-ownership-audit.md)

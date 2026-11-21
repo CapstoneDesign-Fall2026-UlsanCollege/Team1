@@ -1,0 +1,536 @@
+{
+  "review_date": "2026-11-21",
+  "selection": "Commits reachable from HEAD, author identity Galan/bishal482, authored Nov12–19 inclusive in Asia/Seoul. Metadata only; not a count of independent features or human tests.",
+  "commits": [
+    {
+      "sha": "09f7da38b77b7aa70a3e6c408635bd903a1cba22",
+      "author_date": "2026-11-18T12:20:47+09:00",
+      "committer_date": "2026-11-18T12:20:47+09:00",
+      "date_kst": "2026-11-18T12:20:47+09:00",
+      "author": "bishal482",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Update individual evidence receipt with this week's commits",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/09f7da38b77b7aa70a3e6c408635bd903a1cba22"
+    },
+    {
+      "sha": "2fc44c61973be446143b572099115deff3bb52fc",
+      "author_date": "2026-11-18T12:19:00+09:00",
+      "committer_date": "2026-11-18T12:19:00+09:00",
+      "date_kst": "2026-11-18T12:19:00+09:00",
+      "author": "bishal482",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Create individual work documentation for Week 11",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/2fc44c61973be446143b572099115deff3bb52fc"
+    },
+    {
+      "sha": "87255da469ecc0f174b6147cfc91ba7a244c2e99",
+      "author_date": "2026-11-17T16:21:03+09:00",
+      "committer_date": "2026-11-17T16:21:03+09:00",
+      "date_kst": "2026-11-17T16:21:03+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Replace remaining room-board drag arrows with class-name holding",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/87255da469ecc0f174b6147cfc91ba7a244c2e99"
+    },
+    {
+      "sha": "5548ded803de203b623497d0e1b9a3586696696b",
+      "author_date": "2026-11-17T16:15:59+09:00",
+      "committer_date": "2026-11-17T16:15:59+09:00",
+      "date_kst": "2026-11-17T16:15:59+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Drag subjects by holding their names and keep class teachers in one row",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/5548ded803de203b623497d0e1b9a3586696696b"
+    },
+    {
+      "sha": "57988fdcb5382f330fd910933773c070700ec719",
+      "author_date": "2026-11-17T16:04:23+09:00",
+      "committer_date": "2026-11-17T16:04:32+09:00",
+      "date_kst": "2026-11-17T16:04:23+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Improve mobile layouts across school workspaces and record role audit",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/57988fdcb5382f330fd910933773c070700ec719"
+    },
+    {
+      "sha": "15b0d25de2bf280d1367147377caf065c847b6f6",
+      "author_date": "2026-11-17T01:18:46+09:00",
+      "committer_date": "2026-11-17T01:18:46+09:00",
+      "date_kst": "2026-11-17T01:18:46+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Record next-step guide and mobile controls Railway verification",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/15b0d25de2bf280d1367147377caf065c847b6f6"
+    },
+    {
+      "sha": "2dcc8dfb2c03d932df39041f874e40c66b9df4fb",
+      "author_date": "2026-11-17T01:17:04+09:00",
+      "committer_date": "2026-11-17T01:17:04+09:00",
+      "date_kst": "2026-11-17T01:17:04+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Support mobile planning with touch handles and tap-only room assignment",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/2dcc8dfb2c03d932df39041f874e40c66b9df4fb"
+    },
+    {
+      "sha": "a4c5ac86b727ba90533c05ecd0fc44bf977a3c12",
+      "author_date": "2026-11-17T01:17:03+09:00",
+      "committer_date": "2026-11-17T01:17:03+09:00",
+      "date_kst": "2026-11-17T01:17:03+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Add data-driven next-step guide for initial school setup",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/a4c5ac86b727ba90533c05ecd0fc44bf977a3c12"
+    },
+    {
+      "sha": "4407aeea4d08e25b7cc0fd7a21673fd059f0277e",
+      "author_date": "2026-11-16T10:16:30+09:00",
+      "committer_date": "2026-11-16T10:16:30+09:00",
+      "date_kst": "2026-11-16T10:16:30+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Open lesson popup from subject name and remove redundant add button",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/4407aeea4d08e25b7cc0fd7a21673fd059f0277e"
+    },
+    {
+      "sha": "5b3a2fa6a5ebbb9c821adcc1e6109326f6dd434a",
+      "author_date": "2026-11-16T10:09:52+09:00",
+      "committer_date": "2026-11-16T10:09:52+09:00",
+      "date_kst": "2026-11-16T10:09:52+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Compact class subject cards and remove repeated timetable instructions",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/5b3a2fa6a5ebbb9c821adcc1e6109326f6dd434a"
+    },
+    {
+      "sha": "9136309f024ee4b7a668b8aae3eca52554271d66",
+      "author_date": "2026-11-16T10:06:52+09:00",
+      "committer_date": "2026-11-16T10:06:52+09:00",
+      "date_kst": "2026-11-16T10:06:52+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Place year and class setup before renamed school management navigation",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/9136309f024ee4b7a668b8aae3eca52554271d66"
+    },
+    {
+      "sha": "0a6f7d65cc004917d6903c7e16b20a0ea04fc110",
+      "author_date": "2026-11-16T09:55:54+09:00",
+      "committer_date": "2026-11-16T09:55:54+09:00",
+      "date_kst": "2026-11-16T09:55:54+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Simplify room creation with atomic floor batches and tap-to-name dialogs",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/0a6f7d65cc004917d6903c7e16b20a0ea04fc110"
+    },
+    {
+      "sha": "8e6df2ffe81dcf868cff091683b29715c52c6ef7",
+      "author_date": "2026-11-16T09:44:55+09:00",
+      "committer_date": "2026-11-16T09:44:55+09:00",
+      "date_kst": "2026-11-16T09:44:55+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Guide first-school setup through saved profile year term and class steps",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/8e6df2ffe81dcf868cff091683b29715c52c6ef7"
+    },
+    {
+      "sha": "43097115df1be6df360e239bbc2ccf15bfcf6002",
+      "author_date": "2026-11-16T03:05:40+09:00",
+      "committer_date": "2026-11-16T03:05:40+09:00",
+      "date_kst": "2026-11-16T03:05:40+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Add isolated persistent empty-school workspace with admin-only setup",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/43097115df1be6df360e239bbc2ccf15bfcf6002"
+    },
+    {
+      "sha": "c844f2efadec7fb8e56636c050f3fe640c4f285e",
+      "author_date": "2026-11-16T02:57:07+09:00",
+      "committer_date": "2026-11-16T02:57:07+09:00",
+      "date_kst": "2026-11-16T02:57:07+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Move teacher dashboard to core and parent dashboard to stretch roadmap",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/c844f2efadec7fb8e56636c050f3fe640c4f285e"
+    },
+    {
+      "sha": "23e5062a65e6517af853a23b6cc6bd323c7db862",
+      "author_date": "2026-11-16T02:51:22+09:00",
+      "committer_date": "2026-11-16T02:51:22+09:00",
+      "date_kst": "2026-11-16T02:51:22+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Verify cross-role school day with persisted homework attendance and menu publication",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/23e5062a65e6517af853a23b6cc6bd323c7db862"
+    },
+    {
+      "sha": "9b59f9618a54131320c3255e94100cad1232ae6e",
+      "author_date": "2026-11-16T02:43:41+09:00",
+      "committer_date": "2026-11-16T02:43:41+09:00",
+      "date_kst": "2026-11-16T02:43:41+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Record Galan reported parent workflow and multi-child checks",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/9b59f9618a54131320c3255e94100cad1232ae6e"
+    },
+    {
+      "sha": "472327efa78485a196dee18bd0ada5f556953997",
+      "author_date": "2026-11-16T02:34:54+09:00",
+      "committer_date": "2026-11-16T02:34:54+09:00",
+      "date_kst": "2026-11-16T02:34:54+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Explain missing parent creation steps instead of silently disabling submit",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/472327efa78485a196dee18bd0ada5f556953997"
+    },
+    {
+      "sha": "01c82b395fd1558182ba5a41eceb76d17debe6ec",
+      "author_date": "2026-11-16T02:30:12+09:00",
+      "committer_date": "2026-11-16T02:30:12+09:00",
+      "date_kst": "2026-11-16T02:30:12+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Fix parent child-search input collapsing beside full-width button",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/01c82b395fd1558182ba5a41eceb76d17debe6ec"
+    },
+    {
+      "sha": "108af31bbc60f4701aefb4cfb94f9133f15f79b6",
+      "author_date": "2026-11-16T02:25:36+09:00",
+      "committer_date": "2026-11-16T02:25:36+09:00",
+      "date_kst": "2026-11-16T02:25:36+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Record parent dashboard Railway rollout and CI verification",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/108af31bbc60f4701aefb4cfb94f9133f15f79b6"
+    },
+    {
+      "sha": "697750118a2ddde2c887fdd29cc6c18825ed49b2",
+      "author_date": "2026-11-16T02:23:41+09:00",
+      "committer_date": "2026-11-16T02:23:41+09:00",
+      "date_kst": "2026-11-16T02:23:41+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Add verified parent accounts and child-scoped school dashboard",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/697750118a2ddde2c887fdd29cc6c18825ed49b2"
+    },
+    {
+      "sha": "0d52f645fe82d26d9d8971a0944474082d455653",
+      "author_date": "2026-11-15T15:32:53+09:00",
+      "committer_date": "2026-11-15T15:32:53+09:00",
+      "date_kst": "2026-11-15T15:32:53+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Simplify student profile and move QR into an on-demand dialog",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/0d52f645fe82d26d9d8971a0944474082d455653"
+    },
+    {
+      "sha": "1188781db7e6736fe2ee8cf8d53108814184b01f",
+      "author_date": "2026-11-15T15:23:33+09:00",
+      "committer_date": "2026-11-15T15:23:33+09:00",
+      "date_kst": "2026-11-15T15:23:33+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Record hosted QR route verification and remaining phone check",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/1188781db7e6736fe2ee8cf8d53108814184b01f"
+    },
+    {
+      "sha": "425b99ccba6167161e81b03b716bbb36d182fc1e",
+      "author_date": "2026-11-15T15:21:19+09:00",
+      "committer_date": "2026-11-15T15:21:19+09:00",
+      "date_kst": "2026-11-15T15:21:19+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Add profile QR student cards with scoped staff lookup and PNG download",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/425b99ccba6167161e81b03b716bbb36d182fc1e"
+    },
+    {
+      "sha": "c2b314645141d4892656424e27e45cf4794ceeb4",
+      "author_date": "2026-11-14T15:51:54+09:00",
+      "committer_date": "2026-11-14T15:51:54+09:00",
+      "date_kst": "2026-11-14T15:51:54+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Unify list creation popups and persist teacher teaching subjects",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/c2b314645141d4892656424e27e45cf4794ceeb4"
+    },
+    {
+      "sha": "9db2dfc04052b5dd289a4d6d66877807e625fbe0",
+      "author_date": "2026-11-14T15:33:48+09:00",
+      "committer_date": "2026-11-14T15:33:48+09:00",
+      "date_kst": "2026-11-14T15:33:48+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Normalize administration spacing and verify responsive layouts",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/9db2dfc04052b5dd289a4d6d66877807e625fbe0"
+    },
+    {
+      "sha": "a728894a05b410ce5473a2ad1af4459cdb57f8c5",
+      "author_date": "2026-11-14T05:02:51+09:00",
+      "committer_date": "2026-11-14T05:02:51+09:00",
+      "date_kst": "2026-11-14T05:02:51+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Separate teacher access status and action controls",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/a728894a05b410ce5473a2ad1af4459cdb57f8c5"
+    },
+    {
+      "sha": "8defb514d179d7b98ed484a9a21f063ba0d39540",
+      "author_date": "2026-11-14T04:57:58+09:00",
+      "committer_date": "2026-11-14T04:57:58+09:00",
+      "date_kst": "2026-11-14T04:57:58+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Tighten Accounts navigation spacing and separate content cards",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/8defb514d179d7b98ed484a9a21f063ba0d39540"
+    },
+    {
+      "sha": "7f5bac0fa4291138a309b9b6f0960a4dbff35723",
+      "author_date": "2026-11-14T04:52:24+09:00",
+      "committer_date": "2026-11-14T04:52:24+09:00",
+      "date_kst": "2026-11-14T04:52:24+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Record hosted compact toolbar and edge-scrolling verification",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/7f5bac0fa4291138a309b9b6f0960a4dbff35723"
+    },
+    {
+      "sha": "9c54504ce68fc545b8676d5746714a9ef1ab755f",
+      "author_date": "2026-11-14T04:50:16+09:00",
+      "committer_date": "2026-11-14T04:50:16+09:00",
+      "date_kst": "2026-11-14T04:50:16+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Scroll at screen edges during subject drags and compact routine controls",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/9c54504ce68fc545b8676d5746714a9ef1ab755f"
+    },
+    {
+      "sha": "16b757582633fd665eeeae6e27bbf14c7c385274",
+      "author_date": "2026-11-14T04:38:46+09:00",
+      "committer_date": "2026-11-14T04:38:46+09:00",
+      "date_kst": "2026-11-14T04:38:46+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Record live Copy routine controls and endpoint verification",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/16b757582633fd665eeeae6e27bbf14c7c385274"
+    },
+    {
+      "sha": "7ed974b697594cf3c42802a5a2bfccdd24e6935f",
+      "author_date": "2026-11-14T04:36:17+09:00",
+      "committer_date": "2026-11-14T04:36:17+09:00",
+      "date_kst": "2026-11-14T04:36:17+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Copy whole daily routines with atomic conflict checks",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/7ed974b697594cf3c42802a5a2bfccdd24e6935f"
+    },
+    {
+      "sha": "849f685f3987c99bb7c4589e12a7d8839b722418",
+      "author_date": "2026-11-14T04:27:41+09:00",
+      "committer_date": "2026-11-14T04:27:41+09:00",
+      "date_kst": "2026-11-14T04:27:41+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Record live verification of Sunday-Friday lesson controls",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/849f685f3987c99bb7c4589e12a7d8839b722418"
+    },
+    {
+      "sha": "1046d86b67d719526f179e99e472158f5bc530f3",
+      "author_date": "2026-11-14T04:25:43+09:00",
+      "committer_date": "2026-11-14T04:25:43+09:00",
+      "date_kst": "2026-11-14T04:25:43+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Save and edit Sunday-Friday lesson routines atomically",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/1046d86b67d719526f179e99e472158f5bc530f3"
+    },
+    {
+      "sha": "0e1844d866a163ecffb3374d7fcc3c523ac47b51",
+      "author_date": "2026-11-14T04:18:52+09:00",
+      "committer_date": "2026-11-14T04:18:52+09:00",
+      "date_kst": "2026-11-14T04:18:52+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Expose catalogue subjects and recovery for empty grade libraries",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/0e1844d866a163ecffb3374d7fcc3c523ac47b51"
+    },
+    {
+      "sha": "b7617ffdfb56581ad78dc63c8d811fbdaf14dd3f",
+      "author_date": "2026-11-14T04:11:05+09:00",
+      "committer_date": "2026-11-14T04:11:05+09:00",
+      "date_kst": "2026-11-14T04:11:05+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Record hosted verification of main school setup navigation",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/b7617ffdfb56581ad78dc63c8d811fbdaf14dd3f"
+    },
+    {
+      "sha": "ba5fa63e05ef099dd4b5f0293f312891e96d15b2",
+      "author_date": "2026-11-14T04:08:28+09:00",
+      "committer_date": "2026-11-14T04:08:28+09:00",
+      "date_kst": "2026-11-14T04:08:28+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Move year and class setup to main navigation and overview",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/ba5fa63e05ef099dd4b5f0293f312891e96d15b2"
+    },
+    {
+      "sha": "5bb7d6c780488f68e8679c7b5bc17370ef4310aa",
+      "author_date": "2026-11-14T03:59:03+09:00",
+      "committer_date": "2026-11-14T03:59:03+09:00",
+      "date_kst": "2026-11-14T03:59:03+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Record hosted teacher creation and control-size verification",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/5bb7d6c780488f68e8679c7b5bc17370ef4310aa"
+    },
+    {
+      "sha": "03bf58d366d83249cb342d60c22316a363514570",
+      "author_date": "2026-11-14T03:56:46+09:00",
+      "committer_date": "2026-11-14T03:56:46+09:00",
+      "date_kst": "2026-11-14T03:56:46+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Add teacher creation to Accounts with direct login setup",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/03bf58d366d83249cb342d60c22316a363514570"
+    },
+    {
+      "sha": "2b6318911a647ccb28018c3d1a707da3943c4c2c",
+      "author_date": "2026-11-14T03:56:46+09:00",
+      "committer_date": "2026-11-14T03:56:46+09:00",
+      "date_kst": "2026-11-14T03:56:46+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Align admin filter controls and subject planning cards",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/2b6318911a647ccb28018c3d1a707da3943c4c2c"
+    },
+    {
+      "sha": "ad2d478073f1ac7cc9747764d85766e448670d1b",
+      "author_date": "2026-11-13T14:49:23+09:00",
+      "committer_date": "2026-11-13T14:49:23+09:00",
+      "date_kst": "2026-11-13T14:49:23+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Run school migrations in local launcher and record hosted CSV verification",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/ad2d478073f1ac7cc9747764d85766e448670d1b"
+    },
+    {
+      "sha": "42dea6e8a0b0796298acc7879a38c46d7791d5d5",
+      "author_date": "2026-11-13T14:46:25+09:00",
+      "committer_date": "2026-11-13T14:46:25+09:00",
+      "date_kst": "2026-11-13T14:46:25+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Add configurable building rooms and reviewed CSV school-data transfers",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/42dea6e8a0b0796298acc7879a38c46d7791d5d5"
+    },
+    {
+      "sha": "47a3022ba41bce5f18ceb3b8d368cf1a81e95d7b",
+      "author_date": "2026-11-12T23:17:37+09:00",
+      "committer_date": "2026-11-12T23:17:37+09:00",
+      "date_kst": "2026-11-12T23:17:37+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Record verified laptop-to-Railway school data migration",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/47a3022ba41bce5f18ceb3b8d368cf1a81e95d7b"
+    },
+    {
+      "sha": "beb609ac92d1d0c650be6c291b77ca785839d67b",
+      "author_date": "2026-11-12T16:13:44+09:00",
+      "committer_date": "2026-11-12T16:13:44+09:00",
+      "date_kst": "2026-11-12T16:13:44+09:00",
+      "author": "bishal482",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Rename classroom/week11/roadmap.md to roadmap.md",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/beb609ac92d1d0c650be6c291b77ca785839d67b"
+    },
+    {
+      "sha": "59c543b8fd9f7fbd6084d6c727f3e21d1a144b85",
+      "author_date": "2026-11-12T16:00:13+09:00",
+      "committer_date": "2026-11-12T16:00:13+09:00",
+      "date_kst": "2026-11-12T16:00:13+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Update flowchart to show Railway online with live checks remaining",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/59c543b8fd9f7fbd6084d6c727f3e21d1a144b85"
+    },
+    {
+      "sha": "fa39a22a7808fb111e4876cc78fe585b4846ae84",
+      "author_date": "2026-11-12T15:59:38+09:00",
+      "committer_date": "2026-11-12T15:59:38+09:00",
+      "date_kst": "2026-11-12T15:59:38+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Record Railway recovery and successful public HTTP checks",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/fa39a22a7808fb111e4876cc78fe585b4846ae84"
+    },
+    {
+      "sha": "33c2921ce6ace55ac2db8281e504de9874320dfa",
+      "author_date": "2026-11-12T15:55:02+09:00",
+      "committer_date": "2026-11-12T15:55:02+09:00",
+      "date_kst": "2026-11-12T15:55:02+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Make roadmap a plain-language flowchart with optional teacher dashboard",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/33c2921ce6ace55ac2db8281e504de9874320dfa"
+    },
+    {
+      "sha": "85bb86904d97c75fbb546cd19a60582866871270",
+      "author_date": "2026-11-12T15:49:23+09:00",
+      "committer_date": "2026-11-12T15:49:23+09:00",
+      "date_kst": "2026-11-12T15:49:23+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Revise Week 11 roadmap and move teacher dashboard into stretch scope",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/85bb86904d97c75fbb546cd19a60582866871270"
+    },
+    {
+      "sha": "4b63e68b14f68f5d66fcbb0ab2c35c48b477576c",
+      "author_date": "2026-11-12T15:45:39+09:00",
+      "committer_date": "2026-11-12T15:45:39+09:00",
+      "date_kst": "2026-11-12T15:45:39+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Verify full database suite and mobile subject workflow with persisted proof",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/4b63e68b14f68f5d66fcbb0ab2c35c48b477576c"
+    },
+    {
+      "sha": "73c0987c8224ca4570413c2f8db3305006e6a2aa",
+      "author_date": "2026-11-12T15:33:08+09:00",
+      "committer_date": "2026-11-12T15:33:08+09:00",
+      "date_kst": "2026-11-12T15:33:08+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Record successful GitHub test run and completed documentation checks",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/73c0987c8224ca4570413c2f8db3305006e6a2aa"
+    },
+    {
+      "sha": "772f8bc0a4defc5f1c523ca199f6cf6a47c6c5c3",
+      "author_date": "2026-11-12T15:31:53+09:00",
+      "committer_date": "2026-11-12T15:31:53+09:00",
+      "date_kst": "2026-11-12T15:31:53+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Index existing weekly issues and document pending verification gates",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/772f8bc0a4defc5f1c523ca199f6cf6a47c6c5c3"
+    },
+    {
+      "sha": "59f8d75f2c7bb8381189fea8afee89a74ecbf4a0",
+      "author_date": "2026-11-12T15:31:53+09:00",
+      "committer_date": "2026-11-12T15:31:53+09:00",
+      "date_kst": "2026-11-12T15:31:53+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Add Week 11 automated testing guide and repeatable GitHub checks",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/59f8d75f2c7bb8381189fea8afee89a74ecbf4a0"
+    },
+    {
+      "sha": "c5f6a8ce0126aa72fca36c856d2ab4b0c101b53a",
+      "author_date": "2026-11-12T15:31:52+09:00",
+      "committer_date": "2026-11-12T15:31:52+09:00",
+      "date_kst": "2026-11-12T15:31:52+09:00",
+      "author": "Galan Bishal",
+      "email": "130486472+bishal482@users.noreply.github.com",
+      "subject": "Make mobile subject assignment tap-based and reduce admin text size",
+      "url": "https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/c5f6a8ce0126aa72fca36c856d2ab4b0c101b53a"
+    }
+  ]
+}

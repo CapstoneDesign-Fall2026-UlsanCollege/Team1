@@ -72,3 +72,7 @@ P-level is work priority, not bug severity.
 - [Shared codebase area map](../week10/ai-use-and-code-ownership-audit.md)
 
 **Prepared as a shared evidence summary.** Each member is responsible for confirming the accuracy of their own contribution row. This report does not turn assistant-run tests into independent human results.
+
+## Retrospective contribution supplement — November 21
+
+The original Galan row above summarized only part of the week. A later comparison against his published author commits found omitted testing/CI, Railway recovery/migration, CSV/building configuration, teacher/account creation, timetable recurrence/copying, profile QR, parent workflows, cross-role integration and empty-school setup work delivered November 12–16. [Corrected individual receipt](individual_work.md), [full omissions review with original commits](../week12/galan-week11-contribution-review.md). This is a dated documentation correction, not a claim that the work or tests were newly performed in Week 12 or that another member's contribution belongs to Galan.

@@ -1,5 +1,7 @@
 # Week 12 — QA follow-through
 
+- [Galan's Week 12 individual work and evidence](individual_work.md)
+- [Retrospective review: missing Week 11 work, original commits and dates](galan-week11-contribution-review.md)
 - [Week 12 AI-use and code-ownership audit](ai-use-and-code-ownership-audit.md)
 - [Galan’s no-error mobile feedback and list-toggle confirmation](galan-iphone-feedback.md)
 - [Team response to the Week 12 one-pager](one-pager.md)
