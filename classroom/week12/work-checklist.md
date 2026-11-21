@@ -1,0 +1,48 @@
+# Week 12 — Team 1 work checklist
+
+**Updated:** November 21, 2026 · **Due:** November 25, end of day  
+Adapted to our actual work from the [course checklist](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/blob/main/week-12/work-checklist.md). Checked items mean the stated evidence exists, not that the whole application has passed acceptance.
+
+## 1. Carry one target forward
+
+- [x] Link [Final Demo Roadmap](../final-demo-roadmap.md), [Week 11 freeze](../week11/weekly-report.md) and original #83 finding.
+- [x] Keep the scope frozen and follow one persistence uncertainty rather than repeating the full MVP gate.
+- [x] Incorporate [current peer evidence](ansh-subject-persistence-retest.md) without discarding the original failure.
+
+## 2. Define the check
+
+- [x] State expected behavior, test conditions and steps in [QA checklist](qa-checklist.md).
+- [x] Run the bounded API check and retain [raw actual proof](evidence/subject-persistence-2026-11-21.txt).
+- [x] Explain the original/deployed vs fictional/API boundary in [QA result](galan-qa-result.md).
+
+## 3. Record peer evidence honestly
+
+- [x] Link Ansh's own deployed iPhone result beside the Week 11 failure.
+- [x] Describe the changed subject/teacher combination and preserve that limitation.
+- [x] Keep assistant-run results distinct from personal/non-author evidence.
+- [ ] Link the details/proof for Galan's newly reported exact-context comparison. The [shared report checkbox](weekly-report.md#goal-and-commitment) was marked complete in 639810d; that edit is preserved.
+- [ ] Confirm whether the relevant peer followed written steps without coaching; do not infer it from screenshots.
+
+## 4. Triage from evidence
+
+- [x] Record historical Major severity separately from current P2 follow-up and its reason.
+- [x] Link issue, affected frontend/API/storage area, owner and shared area map from [one-pager](one-pager.md).
+- [x] Distinguish a verification gap from a newly reproduced bug or genuine blocker.
+- [ ] Reconcile issue disposition with the newly reported comparison once its actual result is supplied.
+
+## 5. Choose a supported disposition
+
+- [x] Record scoped API all-clear; retain original failure rather than declare a general fix.
+- [x] Keep #83's earlier evidence visible and name Galan as coordinator for the next decision.
+- [x] Avoid an invented defect/fix PR or a new issue merely to fill a quota.
+- [ ] If the exact-context result contains a failure, repeat when safe, fix the confirmed cause and obtain a relevant retest. Conditional: no fix is claimed now.
+
+## 6. Close the evidence loop
+
+- [x] Link [Week 12 roadmap](roadmap.md), [Final Demo Roadmap](../final-demo-roadmap.md) and the existing shared area map.
+- [x] Provide one [shared Weekly Report](weekly-report.md), with recorded evidence and confirmation limits.
+- [x] Keep P1 setup/live acceptance gaps before polish and parent-dashboard stretch work.
+- [ ] Each member confirms their own current contribution and evidence.
+- [ ] Attach the reported exact-context receipt and align the issue/roadmap status to its result.
+
+See [one-pager](one-pager.md) for the actual outcome and next actions. This checklist does not require a second copy of Week 11 evidence or claim those historical checks were performed again.

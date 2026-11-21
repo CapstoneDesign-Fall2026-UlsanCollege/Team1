@@ -1,5 +1,7 @@
 # Week 12 — QA follow-through
 
+- [Team response to the Week 12 one-pager](one-pager.md)
+- [Week 12 work checklist — actual completion and remaining evidence](work-checklist.md)
 - [Ansh Sharma's iPhone subject-assignment persistence retest](ansh-subject-persistence-retest.md)
 - [Targeted QA checklist and pre-run conditions](qa-checklist.md)
 - [Galan's actual API QA result, commands and AI-use disclosure](galan-qa-result.md)
@@ -16,3 +18,5 @@ Read: [course one-pager](https://github.com/CapstoneDesign-Fall2026-UlsanCollege
 Ansh's iPhone check passed for its stated subject/teacher combination. The November 21 isolated API check also passed its save/read-back/session/restart boundary. The original combination and deployed context remain a follow-up; #83 is not declared fixed. No new feature or full MVP acceptance is claimed.
 
 **Before November 25 end of day:** Galan coordinates the exact-context comparison, members confirm their own report entries, and the next result is linked to #83. Personal explanations and new human tests cannot be completed by proxy.
+
+**November 21 status reconciliation:** Galan's GitHub edit 639810d marks the exact-context comparison complete. That mark is preserved. Its actual result and direct evidence are not yet linked in the current records; the [one-pager](one-pager.md) identifies what must be attached. Earlier pending wording above describes the previous evidence state, not a reversal of his reported completion.

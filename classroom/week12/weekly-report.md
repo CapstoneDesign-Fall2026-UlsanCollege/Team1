@@ -13,6 +13,8 @@ Carry the Week 11 #83 phone subject-persistence finding into a bounded QA decisi
 - [x] Complete the exact deployed-context iPhone comparison before closing #83.
 - [ ] Each member confirms their own current contribution and support role.
 
+The exact-context completion checkbox was marked by Galan in [639810d](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/639810d3e388d107cd44fd52d0e80aba1d141e28). It is preserved as reported completion. The result, device/revision/context and direct proof still need linking; earlier pending next-action wording below describes the preceding evidence state. See the [current one-pager](one-pager.md) and [work checklist](work-checklist.md) for reconciliation.
+
 ## Evidence
 
 | Item | Link and actual status |
