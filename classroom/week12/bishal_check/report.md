@@ -1,5 +1,7 @@
 # Bishal check — Empty-school setup and role walkthrough
 
+[Role-specific documents](README.md#documents-by-role): [Admin](admin.md) · [Teacher](teacher.md) · [Student](student.md) · [Canteen head](canteen-head.md) · [Parent](parent.md).
+
 **Dates:** November 21–22, 2026 (Asia/Seoul). Steps 1–6 began November 21; the preserved run resumed November 22.  
 **Requested by:** Galan Bishal (@bishal482) · **Executed by:** Codex using browser interaction and the specifically noted API/SQL checks. This is assistant-run evidence, not a non-author human acceptance test.  
 **Tested source:** `ca96fddc441bf6188802b560aff6dbae4979eb90`. Application source was unchanged during this run; the later evidence commit does not represent a runtime fix.
