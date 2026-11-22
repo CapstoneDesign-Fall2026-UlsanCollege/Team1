@@ -8,6 +8,7 @@
 - [Team response to the Week 12 one-pager](one-pager.md)
 - [Week 12 work checklist — actual completion and remaining evidence](work-checklist.md)
 - [Ansh Sharma's iPhone subject-assignment persistence retest](ansh-subject-persistence-retest.md)
+- [Ansh Sharma's Week 12 individual evidence receipt](ansh-week12-individual-evidence.md)
 - [Targeted QA checklist and pre-run conditions](qa-checklist.md)
 - [Galan's actual API QA result, commands and AI-use disclosure](galan-qa-result.md)
 - [Shared Weekly Report — recorded entries and remaining member confirmations](weekly-report.md)
