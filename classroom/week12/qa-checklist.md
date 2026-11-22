@@ -5,6 +5,7 @@ Prepared November 21, 2026 by Galan Bishal with coding assistance. Feature scope
 ## Carry-in and question (recorded before the assistant check)
 
 - [Week 11 freeze and priorities](../week11/weekly-report.md#freeze-decision-and-next-route).
+- [Role Screen](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/tree/a5ca40c5a3ee9b8dcf099fe068ea35885cd53238/classroom/week12/bishal_check)
 - [Original iPhone failure](../week11/ansh-iphone-subject-persistence.md): Moral Education / Hari Adhikari, Grade 6 A disappeared after refresh.
 - [Current peer retest](ansh-subject-persistence-retest.md): Discrete Mathematics / Farhan Khan, Grade 6 A persisted after refresh. This is a different combination, not proof of the original cause or its fix.
 - [Issue #83](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/83).
