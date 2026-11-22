@@ -1,8 +1,8 @@
 # Ansh Sharma — Week 12 individual evidence receipt
 
-**Student:** Ansh Sharma (`@anshsharma123`)  
-**Week:** 12 — QA follow-through  
-**Date of recorded phone test:** November 19, 2026  
+**Student:** Ansh Sharma (`@anshsharma123`)
+**Week:** 12 — QA follow-through
+**Date of recorded phone test:** November 19, 2026
 **Linked issue:** [#83 — phone subject assignment and compact mobile administration text](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/83)
 
 ## My contribution
