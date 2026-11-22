@@ -43,7 +43,7 @@ The inventory also includes the two November 18 receipt-edit commits, [2fc44c6](
 
 ## What belongs to Week 12 instead
 
-The Week 12 contribution is a **retrospective evidence correction and current QA/usability follow-through**, not moving the implementation dates. See [Galan's Week 12 individual work](individual_work.md) for the new API persistence check, portrait-list disclosure, direct mobile feedback, course responses, final-demo planning and this omissions audit.
+The Week 12 contribution is a **retrospective evidence correction and current QA/usability follow-through**, not moving the implementation dates. See [Galan's Week 12 individual work](individual-evidence.md) for the new API persistence check, portrait-list disclosure, direct mobile feedback, course responses, final-demo planning and this omissions audit.
 
 ## Attribution and assessment boundary
 

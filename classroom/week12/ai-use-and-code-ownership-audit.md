@@ -57,7 +57,7 @@ No rewrite is justified solely because a result remains unverified. Diagnose an 
 
 ## Retrospective receipt correction
 
-At Galan's request, Codex compared his Week 11 receipt with published author metadata, commit diffs and existing test/feature notes. [Review](galan-week11-contribution-review.md) and [inventory](evidence/galan-week11-commit-inventory.json) identify missing original deliveries and correct UTC dates. This adds documentation in Week 12 about older implementation without transferring its date or classmates' authorship. [Current Week 12 individual receipt](individual_work.md) separates new QA/usability/documentation work from the historical supplement. No new runtime execution or grade claim is made by this review.
+At Galan's request, Codex compared his Week 11 receipt with published author metadata, commit diffs and existing test/feature notes. [Review](galan-week11-contribution-review.md) and [inventory](evidence/galan-week11-commit-inventory.json) identify missing original deliveries and correct UTC dates. This adds documentation in Week 12 about older implementation without transferring its date or classmates' authorship. [Current Week 12 individual receipt](individual-evidence.md) separates new QA/usability/documentation work from the historical supplement. No new runtime execution or grade claim is made by this review.
 
 ## Whole-package completion review
 

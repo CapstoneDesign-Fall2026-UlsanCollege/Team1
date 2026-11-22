@@ -4,7 +4,20 @@
 **Team:** Team 1 — StudentHub · **Sprint:** 3, QA and handoff  
 **Reporting week:** November 19–25, 2026 · **Evidence updated:** November 22, 2026 (Asia/Seoul)
 
-This is my evidence index for work recorded so far this week. It connects the contribution, changed files, check results and original commits. The [individual work summary](individual_work.md) provides a shorter overview; the [shared Weekly Report](weekly-report.md) remains the single team report. Coding/test/documentation assistance is disclosed below.
+This is the single maintained individual record for my Week 12 work. It consolidates the former individual_work.md summary with the detailed contributions, changed files, check results and original commits below. The [shared Weekly Report](weekly-report.md) remains the single team report. Coding/test/documentation assistance is disclosed below; consolidating the records does not create new implementation or test claims.
+
+## Work covered in this consolidated record
+
+1. Targeted subject-assignment API verification and raw proof.
+2. Portrait-phone extra-subject list show/hide improvement.
+3. QA diagnosis, priority, issue evidence and Week 12 decision flowchart.
+4. Final Demo Roadmap, course responses and requirements coverage.
+5. AI/code-ownership audit and my personal mobile feedback/image.
+6. Retrospective recovery of omitted Week 11 work, retaining original dates.
+7. Empty-school-to-five-role walkthrough and screenshot report.
+8. Separate administrator, teacher, student, canteen-head and parent guides.
+
+The written dependency trace and repeatable harness are evidence of preparation, not proof of personal oral explanation or a newly completed independent exact-condition retest. Higher-priority setup/live acceptance gaps remain ahead of optional features. This record supports review of contributions and does not guarantee a grade.
 
 ## 1. Targeted subject-assignment persistence verification
 

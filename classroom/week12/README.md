@@ -2,7 +2,6 @@
 
 - [Bishal check — empty-school setup, five role workflows and all screenshot links](bishal_check/report.md)
 - [Galan's Week 12 individual evidence — contributions, commits and proof](individual-evidence.md)
-- [Galan's Week 12 individual work and evidence](individual_work.md)
 - [Retrospective review: missing Week 11 work, original commits and dates](galan-week11-contribution-review.md)
 - [Week 12 AI-use and code-ownership audit](ai-use-and-code-ownership-audit.md)
 - [Galan’s no-error mobile feedback and list-toggle confirmation](galan-iphone-feedback.md)
