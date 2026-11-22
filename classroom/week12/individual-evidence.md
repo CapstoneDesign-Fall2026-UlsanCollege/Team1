@@ -66,11 +66,31 @@ The older Railway migration, CSV/building controls, timetable tools, account/QR/
 
 Requested a new separate empty database, admin-guided school/year/term/class setup, room and account creation, then individual-role execution with a screenshot at each stage. Codex completed the browser walkthrough and explicitly labelled API/SQL checks; the database is preserved separately for review.
 
+**Evidence commit:** [c2b0aa2 — empty-school setup, five-role walkthrough and 61 linked pictures](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/c2b0aa2). The 61 pictures comprise 59 numbered main-walkthrough screenshots and two clearly separated preliminary seeded-fixture pictures. They are not 61 distinct tests.
+
 **Evidence:** [Full step-by-step report and all 61 picture links](bishal_check/report.md), including 59 main numbered screenshots, [initial empty counts](bishal_check/evidence/initial-counts.json), [final saved-state proof](bishal_check/evidence/final-readback.json), [post-restart role reads](bishal_check/evidence/post-restart-role-reads.txt). Admin, teacher, student, canteen head and parent workflows are separated in the report. The menu was intentionally withdrawn at the end.
 
 **Actual checks:** production builds and 25 frontend regressions passed; teacher homework/attendance read back through student/parent views, canteen publication/availability/withdrawal read back across roles, selected permissions returned expected 401/403, mobile disclosure opened/closed, and stored records remained after server restart. The parent initial-password transition was an API check, not browser-form automation. The booking overlap was prevented by an unavailable-supervisor UI guard, not submitted for server rejection in this browser run.
 
 **Scope:** assistant-run local fictional school, tested application source ca96fdd. This does not replace physical iPhone testing, an independent fresh-clone handoff, production acceptance or every feature/edge case. Older Week 11 implementation dates and classmates' evidence remain unchanged.
+
+## 8. Role-specific workflow documentation — November 22
+
+**Contribution:** requested and organized separate Markdown documents for the five roles in `classroom/week12/bishal_check`. Each explains prerequisites, steps from sign-in, actual observed results, relevant screenshot sequence and remaining limits. Cross-role evidence identifies the person/role that performed the action instead of attributing every action to the guide's role.
+
+**Commit:** [81a2e31 — role-specific workflow guides](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/81a2e31).
+
+| Role document | Documented work and evidence |
+| --- | --- |
+| [Administrator](bishal_check/admin.md) | Empty-school setup, year/term/classes, floors/rooms, subjects, teacher/student/canteen/parent account creation, routine, booking read-back, Activity Log, notice and restart review |
+| [Teacher](bishal_check/teacher.md) | Own schedule, assigned-class roster, homework creation, homeroom attendance save/refresh and receiving-role read-back |
+| [Student](bishal_check/student.md) | Own class/homeroom/room, timetable, teacher homework, menu publication/status changes, profile and QR dialog |
+| [Canteen head](bishal_check/canteen-head.md) | Hours/location, menu draft privacy, publication, sold-out/restoration and withdrawal, with student/parent read-back |
+| [Parent](bishal_check/parent.md) | Verified fictional child link, initial-login protection/API transition, child overview, attendance, homework, timetable, menu, own account and notices. Parent remains stretch scope |
+
+**Validation:** all 59 main steps are represented across the guides; their local file/screenshot links passed validation. The [folder index](bishal_check/README.md#documents-by-role) links every guide, while the [full report](bishal_check/report.md) preserves the complete chronological sequence and all picture links. [Image manifest](bishal_check/screenshot-manifest.json) retains hashes/dimensions; [raw checks](bishal_check/evidence/role-read-checks.txt) and [final SQL read-back](bishal_check/evidence/final-readback.json) remain directly available.
+
+This documentation reuses the recorded walkthrough; it is not five new test executions. Galan directed the testing and document structure; Codex performed the stated interactions/checks and drafted the files. No new product feature, teammate execution or additional independent acceptance is claimed.
 
 ## Roadmap slice, ownership and assistance
 
