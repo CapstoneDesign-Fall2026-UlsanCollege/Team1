@@ -40,6 +40,10 @@ The completion checkbox was marked by Galan in [639810d](https://github.com/Caps
 | Bal Raju (@CoderRaaju) | Carried Week 11 canteen QA forward. Codex verified the canteen flow in two local Chromium runs and all 14 isolated API checks passed. The second browser run verified publication and withdrawal through fresh student sign-ins and confirmed one unpublished database row after withdrawal. | [Individual evidence and screenshots](coderraaju-week12-individual-evidence.md#fresh-session-retest-and-visual-proof) · [Direct browser output](evidence/coderraaju-canteen-fresh-session-2026-11-24.txt). Scoped local all-clear; hosted acceptance requires an agreed fixture. |
 | Buddha Raj Giri (@BudhaRajgiri) | Prepared a scoped Week 12 own-class/homeroom QA plan and evidence worksheet with ChatGPT assistance. No code change or runtime test is claimed yet; the user must review, perform and record the checks. | [Week 12 individual evidence worksheet](budhrajgiri-week12-individual-evidence.md); [Week 11 evidence](../week11/evidence/BudhaRajgiri/BudhaRajgiri-Week11-Individual-Evidence.md) remains historical only. Personal confirmation and genuine proof are pending. |
 
+## November 25 feedback follow-up
+
+Galan, with Codex assistance, corrected #83's stale phone status, confirmed Railway active source 07b4926 from deployment Details, and checked existing Grade 6 A / Moral Education / Hari Adhikari before/after full reload. It remained saved. [Receipt and screenshots](nov25-feedback-follow-up.md). This read-only desktop check preserves production data and does not replace the original new-assignment physical-iPhone sequence; #83 stays open. Teammates' own entries above remain unchanged.
+
 ## Risks and decisions
 
 | Item | Owner | Decision / next check |

@@ -32,6 +32,13 @@ Adapted to our actual work from the [course checklist](https://github.com/Capsto
 - [x] Record the supported disposition in the [structured bug report](bug-report-83.md): current scoped passes and Galan’s positive feedback, with original-context closure limits.
 - [ ] Review final closure when any remaining original-context acceptance evidence is available.
 
+## November 25 status correction
+
+- [x] Recognize Ansh's completed different-combination physical-phone pass in #83's main checklist.
+- [x] Verify active Railway deployment source and original named context: [receipt and pictures](nov25-feedback-follow-up.md).
+- [x] Confirm existing Moral Education / Hari Adhikari / Grade 6 A survives full page reload; label it assistant-run existing-record proof.
+- [ ] Repeat the original new-assignment sequence on physical iPhone with an agreed safe fixture and exact revision; #83 remains open.
+
 ## 5. Choose a supported disposition
 
 - [x] Record scoped API all-clear; retain original failure rather than declare a general fix.

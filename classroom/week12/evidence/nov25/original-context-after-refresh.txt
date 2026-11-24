@@ -1,0 +1,3 @@
+Browser tab: 1, Title: "StudentHub", URL: "https://team1-production.up.railway.app/".
+There has been no change in the accessibility tree.
+The focused UI element is 56 button Subjects & timetable

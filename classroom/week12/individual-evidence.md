@@ -111,6 +111,10 @@ My bounded current slice is #83 planner → school API → MySQL class/offering/
 
 I supplied project requirements, UI feedback, scope decisions and the provided screenshot. Codex generated/edited code and text, inspected repository evidence and ran the automated/release checks stated above. The [audit](ai-use-and-code-ownership-audit.md) and [change record](change-record.md) distinguish those roles. Personal oral code explanation, independent review and teammates' own entries are not inferred from this receipt. Ansh, Bal Raju and Buddha retain credit for their own recorded work.
 
+## 9. Feedback follow-up — November 25
+
+With Codex assistance, verified Railway active source 07b4926 directly from deployment Details and inspected Grade 6 A / Moral Education / Hari Adhikari before and after full reload. The existing assignment remained. [Exact deployment, steps, screenshots and limits](nov25-feedback-follow-up.md). Corrected #83's stale checklist to recognize Ansh's completed different-combination physical-phone pass. No production school records changed; this assistant-run existing-record check does not replace a new-assignment physical-iPhone retest. #83 remains open with that bounded next check.
+
 ## Remaining action and limits
 
 Before November 25 end of day, reconcile any available exact-context #83 closure evidence and confirm personal explanation/support arrangements. The API/peer scoped passes and my positive feedback do not establish every device, a diagnosed original cause, clean-clone handoff or full live-role acceptance. Teacher dashboard remains core, parent dashboard stretch, and feature scope remains frozen.

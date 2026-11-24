@@ -29,6 +29,10 @@ On November 15, Ansh reported Moral Education / Hari Adhikari appearing after as
 
 **Expected:** the same assignment remains. **Reported actual:** Moral Education was absent; six other saved subjects remained. [Original note and five screenshots](../week11/ansh-iphone-subject-persistence.md). Do not assume the same revision/database/context from a later run.
 
+## November 25 follow-up
+
+[Live deployment and original named-context receipt](nov25-feedback-follow-up.md): Railway source 07b4926 confirmed from provider Details. Existing Moral Education / Hari Adhikari in Grade 6 A remained after full reload; no new assignment or physical-phone repeat was performed. #83's stale phone checklist was reconciled with Ansh's completed scoped pass. The remaining acceptance concerns the original creation sequence on physical iPhone, using an agreed safe fixture.
+
 ## Current proof and disposition
 
 | Evidence | Actual result | Limit |

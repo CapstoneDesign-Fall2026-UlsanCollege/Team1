@@ -1,0 +1,221 @@
+Browser tab: 2, Title: "Team1", URL: "https://railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44&id=26931a93-35cb-4fd3-a940-5cafa1146f51#details".
+0 AXWebArea Team1, URL: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44&id=26931a93-35cb-4fd3-a940-5cafa1146f51#details
+	1 container
+		2 container
+			3 link Description: Railway Logo, Help: Dashboard, Value: railway.com/dashboard
+			4 pop up button (collapsed) incredible-compassion, ID: radix-:rt:, Secondary Actions: Expand
+				5 text incredible-compassion
+			6 pop up button (collapsed) production, ID: radix-:rv:, Secondary Actions: Expand
+			7 button Toggle activity
+			8 pop up button (collapsed) Description: Notifications, 1 unread, warning, ID: radix-:rl:, Secondary Actions: Expand
+			9 button (collapsed) Description: Agent, Help: Open agent panel, Secondary Actions: Expand
+		10 container Project navigation
+			11 container
+				12 link Description: Architecture, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+				13 link Description: Observability, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/observability?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+				14 link Description: Logs, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/logs?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+				15 link Description: Sandboxes, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/sandboxes?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+				16 link Description: Settings, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/settings?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+			17 pop up button (collapsed) ID: radix-:r17:, Secondary Actions: Expand
+		18 container
+			19 container
+				20 container
+					21 image
+					22 container
+						23 image
+							24 button Edge from a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8 to 0a5b043f-0517-42f7-84ed-728bb9e5bec3
+						25 button Team1 team1-production.up.railway.app Online
+							26 link Description: Team1 team1-production.up.railway.app Online, ID: a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+						27 button StudentHub Cloud. Online mysql-volume-gVhV
+							28 container
+								29 link Description: StudentHub Cloud. Online, ID: 594ae9ca-ffe7-4611-93cc-ad1917babf1a, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/594ae9ca-ffe7-4611-93cc-ad1917babf1a/database?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+								30 link Description: mysql-volume-gVhV, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/volume/536d78d4-b4ff-4a16-b092-c3602ed7851e/metrics?
+						31 button MySQL Online mysql-volume
+							32 container
+								33 link Description: MySQL Online, ID: 0a5b043f-0517-42f7-84ed-728bb9e5bec3, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/0a5b043f-0517-42f7-84ed-728bb9e5bec3/database?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+								34 link Description: mysql-volume, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/volume/c892f6b9-c503-41ee-8556-88944c2b79bb/metrics?
+					35 toolbar Canvas options
+						36 pop up button (collapsed) Description: Canvas settings, ID: radix-:r1e:, Secondary Actions: Expand
+						37 container canvas action
+							38 button Zoom in
+							39 button Zoom out
+							40 button Center canvas
+						41 container canvas action
+							42 button Undo
+							43 button Redo
+						44 pop up button (collapsed) Description: Visibility layers, ID: radix-:r1m:, Secondary Actions: Expand
+					46 image
+				47 container
+					48 button
+					49 heading Team1, Value: 1
+						50 button Team1
+							51 text Team1
+					52 link railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+					53 link Description: Deployments, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+					54 link Description: Variables, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8/variables?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+					55 link Description: Metrics, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8/metrics?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+					56 link Description: Console, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8/console?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+					57 link Description: Settings, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8/settings?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44
+					58 link Description: team1-production.up.railway.app, Value: team1-production.up.railway.app/
+					59 image 24.21.0
+					60 text node @ 24.21.0
+					61 link Description: US West, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8/settings?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44#deploy-region-config
+					62 link Description: 1 Replica, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8/settings?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44#deploy-region-config
+					63 container
+						64 link Description: View deployment, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44&id=26931a93-35cb-4fd3-a940-5cafa1146f51#deploy
+						65 text ACTIVE
+						66 text Track Buddha Raj Giri Week 12 evidence and personal proof as pending
+						67 container
+							68 text 2 hours ago
+							69 text via GitHub
+						70 pop up button (collapsed) Description: Deployment actions, ID: radix-:r1t:, Secondary Actions: Expand
+						71 link Description: View logs, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44&id=26931a93-35cb-4fd3-a940-5cafa1146f51#deploy
+					72 button (collapsed) Deployment successful, ID: radix-:r1v:, Secondary Actions: Expand
+						73 text Deployment successful
+					74 button (expanded) HISTORY, ID: radix-:r21:, Secondary Actions: Collapse
+						75 text HISTORY
+					76 button Hide Skipped
+					77 container HISTORY, ID: radix-:r22:
+						78 container
+							79 link Description: View deployment, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44&id=65c3333d-d109-4a5c-abbb-01b9b07a11b4
+							80 text SKIPPED
+							81 text Record Buddha Raj Giri Week 12 scope and AI disclosure
+							82 container
+								83 text 2 hours ago
+								84 text via GitHub
+							85 pop up button (collapsed) Description: Deployment actions, ID: radix-:r23:, Secondary Actions: Expand
+							86 link Description: View logs, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44&id=65c3333d-d109-4a5c-abbb-01b9b07a11b4#deploy
+							87 text No changes to watched files
+						88 container
+							89 link Description: View deployment, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44&id=b00051e4-d487-4fd7-ba78-eec19a7d1a08
+							90 text SKIPPED
+							91 text Link Buddha Raj Giri Week 12 individual evidence in shared report
+							92 container
+								93 text 2 hours ago
+								94 text via GitHub
+							95 pop up button (collapsed) Description: Deployment actions, ID: radix-:r25:, Secondary Actions: Expand
+							96 link Description: View logs, Value: railway.com/project/f7dd465b-c31e-42db-b714-2e9ae8ae5e70/service/a2bcd9fe-fa04-41d5-8f77-5232c2bd5dc8?environmentId=4526b5c3-328b-44a7-afac-f2534edd2c44&id=b00051e4-d487-4fd7-ba78-eec19a7d1a08#deploy
+							97 text No changes to watched files
+						98 container
+							99 link Description: View deployment, Value: …
+							100 text SKIPPED
+							101 text Add Buddha Raj Giri Week 12 individual evidence worksheet
+							102 container
+								103 text 2 hours ago
+								104 text via GitHub
+							105 pop up button (collapsed) Description: Deployment actions, ID: radix-:r27:, Secondary Actions: Expand
+							106 link Description: View logs, Value: …
+							107 text No changes to watched files
+						108 container
+							109 link Description: View deployment, Value: …
+							110 text SKIPPED
+							111 text Format CoderRaaju Week 12 assignment with direct evidence links
+							112 container
+								113 text 9 hours ago
+								114 text via GitHub
+							115 pop up button (collapsed) Description: Deployment actions, ID: radix-:r29:, Secondary Actions: Expand
+							116 link Description: View logs, Value: …
+							117 text No changes to watched files
+						118 container
+							119 link Description: View deployment, Value: …
+							120 text SKIPPED
+							121 text Add Week 12 canteen fresh-session proof and QA handoff
+							122 container
+								123 text 9 hours ago
+								124 text via GitHub
+							125 pop up button (collapsed) Description: Deployment actions, ID: radix-:r2b:, Secondary Actions: Expand
+							126 link Description: View logs, Value: …
+							127 text No changes to watched files
+						128 container
+							129 link Description: View deployment, Value: …
+							130 text SKIPPED
+							131 text Record Week 12 Chromium canteen acceptance results
+							132 container
+								133 text 9 hours ago
+								134 text via GitHub
+							135 pop up button (collapsed) Description: Deployment actions, ID: radix-:r2d:, Secondary Actions: Expand
+							136 link Description: View logs, Value: …
+							137 text No changes to watched files
+						138 container
+							139 link Description: View deployment, Value: …
+							140 text SKIPPED
+							141 text Record CoderRaaju Week 12 canteen QA and handoff
+							142 container
+								143 text 9 hours ago
+								144 text via GitHub
+							145 pop up button (collapsed) Description: Deployment actions, ID: radix-:r2f:, Secondary Actions: Expand
+							146 link Description: View logs, Value: …
+							147 text No changes to watched files
+						148 container
+							149 link Description: View deployment, Value: …
+							150 text SKIPPED
+							151 text Fix formatting in Ansh Week 12 evidence receipt
+							152 container
+								153 text 2 days ago
+								154 text via GitHub
+							155 pop up button (collapsed) Description: Deployment actions, ID: radix-:r2h:, Secondary Actions: Expand
+							156 link Description: View logs, Value: …
+							157 text No changes to watched files
+						158 container
+							159 link Description: View deployment, Value: …
+							160 text SKIPPED
+							161 text Add Ansh Week 12 individual evidence receipt
+							162 container
+								163 text 2 days ago
+								164 text via GitHub
+							165 pop up button (collapsed) Description: Deployment actions, ID: radix-:r2j:, Secondary Actions: Expand
+							166 link Description: View logs, Value: …
+							167 text No changes to watched files
+				168 container
+					169 link Description: Team1, Value: …
+					170 text /
+					171 button 26931a93
+					172 text Active
+					173 pop up button (collapsed) Description: Deployment actions, ID: radix-:r2n:, Secondary Actions: Expand
+					174 text 2026-11-25 00:17 GMT+9
+					175 link …
+					176 link Description: team1-production.up.railway.app, Value: team1-production.up.railway.app/
+					177 tab group
+						178 tab (selected, settable, boolean) Details, Value: 1, ID: radix-:r2m:-trigger-details
+							182 text Details
+						179 tab (selectable, settable, boolean) Build Logs, ID: radix-:r2m:-trigger-build, Value: 0
+Build
+Logs
+						180 tab (selectable, settable, boolean) Deploy Logs, ID: radix-:r2m:-trigger-deploy, Value: 0
+Deploy
+Logs
+						181 tab (selectable, settable, boolean) Network Logs, ID: radix-:r2m:-trigger-http, Value: 0
+Network
+Logs
+					183 container Description: Details, ID: radix-:r2m:-content-details
+						184 container
+							185 button (collapsed) Deployment successful View more, ID: radix-:r3e:, Secondary Actions: Expand
+								186 text Deployment successful
+								187 text View more
+							188 button (collapsed) 7 Variables, ID: radix-:r3g:, Secondary Actions: Expand
+								211 text 7 Variables
+							190 text Deployed via GitHub
+							191 link Value: …, Description: Track Buddha Raj Giri Week 12 evidence and personal proof as pending CapstoneDesign-Fall2026-UlsanCollege/Team1 main
+							192 text Configuration
+							193 tab group
+								194 tab (selected, settable, boolean) Pretty, ID: radix-:r3j:-trigger-pretty, Value: 1
+Pretty
+								195 tab (selectable, settable, boolean) Code, ID: radix-:r3j:-trigger-code, Value: 0
+Code
+							196 container Description: Pretty, ID: radix-:r3j:-content-pretty
+								197 text Build
+								198 text Builder
+								199 text Dockerfile
+								200 text Dockerfile path
+								201 text /Dockerfile
+								202 text Deploy
+								203 text Region
+								204 text sfo
+								205 text Number of replicas
+								206 text 1
+								207 text Restart policy
+								208 text on failure
+								209 text Restart policy max retries
+								210 text 10
+
+The focused UI element is 178 tab (selected, settable, boolean) Details, Value: 1, ID: radix-:r2m:-trigger-details
