@@ -1,6 +1,6 @@
 # Week 12 — Team 1 work checklist
 
-**Updated:** November 21, 2026 · **Due:** November 25, end of day  
+**Updated:** November 25, 2026 · **Due:** November 25, end of day  
 Adapted to our actual work from the [course checklist](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/course-materials/blob/main/week-12/work-checklist.md). Checked items mean the stated evidence exists, not that the whole application has passed acceptance.
 
 ## 1. Carry one target forward
@@ -44,6 +44,8 @@ Adapted to our actual work from the [course checklist](https://github.com/Capsto
 - [x] Link [Week 12 roadmap](roadmap.md), [Final Demo Roadmap](../final-demo-roadmap.md) and the existing shared area map.
 - [x] Provide one [shared Weekly Report](weekly-report.md), with recorded evidence and confirmation limits.
 - [x] Keep P1 setup/live acceptance gaps before polish and parent-dashboard stretch work.
+- [x] Add Buddha's Week 12 individual evidence worksheet and link it from the shared report and AI-use audit.
+- [ ] Buddha reviews/confirms the worksheet, performs the checks he claims, adds genuine screenshots/results and confirms his AI-use/contribution entry.
 - [ ] Each member confirms their own current contribution and evidence.
 - [x] Link [personal receipt](galan-iphone-feedback.md), [peer notes](peer-test-notes.md), [change record](change-record.md) and [current audit](ai-use-and-code-ownership-audit.md).
 - [ ] Resolve remaining exact-context closure details; do not infer them from the before-change image.
