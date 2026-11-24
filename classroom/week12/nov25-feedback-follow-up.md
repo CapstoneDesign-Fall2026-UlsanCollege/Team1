@@ -29,6 +29,14 @@ Reload returned navigation to Overview and initially selected Grade 10 A when re
 
 No school record was added, unlinked, reassigned or deleted. The existing assignment was deliberately preserved. Therefore this proves current existing-record read-back for the original named combination, **not** a repeat of the original create/save flow, original database IDs, original failing revision, or a diagnosed fix. No new API/SQL check is claimed.
 
+## Galan's physical-iPhone follow-up
+
+On November 25, Galan followed the guided steps on his iPhone: open School management, select Grade 6 A and Subjects & timetable, confirm Moral Education / Hari Adhikari, refresh the page, reopen the same class/section and confirm it remains. He answered yes before and after refresh, then supplied [this original phone screenshot](evidence/nov25/galan-iphone-after-refresh.jpg).
+
+The image visibly shows Moral Education with Hari Adhikari and the hosted domain `team1-production.up.railway.app`. It supports his reported existing-assignment result. The selected class/year/term and reload action are not visible in this cropped view; Grade 6 A comes from the guided conversation. Safari versus Chrome and the iOS version were not confirmed. The 07b4926 deployment above was verified separately during the assistant check, not captured on his phone; no exact phone-run revision is independently established.
+
+**Result:** user-reported physical-iPhone existing-record refresh pass, with supporting screenshot. This is Galan's execution, not Codex's and not an independent non-author test. It does not repeat creation/save or establish the original failing revision/record IDs. No assignment was removed for this check.
+
 ## Disposition and next owner
 
 The [November 19 Ansh physical-phone pass](ansh-subject-persistence-retest.md) is completed for Discrete Mathematics / Farhan Khan / Grade 6 A. Correct #83's stale outstanding-phone prose while retaining its different-combination limitation.

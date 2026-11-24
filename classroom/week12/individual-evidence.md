@@ -115,6 +115,10 @@ I supplied project requirements, UI feedback, scope decisions and the provided s
 
 With Codex assistance, verified Railway active source 07b4926 directly from deployment Details and inspected Grade 6 A / Moral Education / Hari Adhikari before and after full reload. The existing assignment remained. [Exact deployment, steps, screenshots and limits](nov25-feedback-follow-up.md). Corrected #83's stale checklist to recognize Ansh's completed different-combination physical-phone pass. No production school records changed; this assistant-run existing-record check does not replace a new-assignment physical-iPhone retest. #83 remains open with that bounded next check.
 
+### Physical iPhone confirmation and picture
+
+I followed the guided Grade 6 A existing-assignment check, confirmed Moral Education / Hari Adhikari remained after refresh and supplied a phone screenshot. [Result, original picture and limits](nov25-feedback-follow-up.md#galans-physical-iphone-follow-up). The picture shows the subject/teacher and hosted domain; class selection is reported through the guided conversation, browser is unconfirmed and no new-assignment save was performed. This personal check is distinct from Codex's desktop check and is not independent non-author acceptance.
+
 ## Remaining action and limits
 
 Before November 25 end of day, reconcile any available exact-context #83 closure evidence and confirm personal explanation/support arrangements. The API/peer scoped passes and my positive feedback do not establish every device, a diagnosed original cause, clean-clone handoff or full live-role acceptance. Teacher dashboard remains core, parent dashboard stretch, and feature scope remains frozen.
