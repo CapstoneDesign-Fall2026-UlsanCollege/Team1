@@ -1,7 +1,7 @@
 # Week 12 — Shared weekly report
 
 **Team:** Team 1 — StudentHub · **Sprint:** 3, QA and handoff  
-**Updated:** November 24, 2026 · **Homework checkpoint:** November 25, end of day
+**Updated:** November 25, 2026 · **Homework checkpoint:** November 25, end of day
 
 ## Goal and commitment
 
@@ -38,7 +38,7 @@ The completion checkbox was marked by Galan in [639810d](https://github.com/Caps
 | Galan Bishal (@bishal482) | Directed Week 12 QA and usability work; with Codex assistance, added targeted persistence verification, portrait-list show/hide, triage/peer/attribution records, course responses, AI audit and final-demo roadmap. Supplied mobile feedback/image and requested the retrospective correction of omitted Week 11 work. | [Full Week 12 receipt](individual-evidence.md), [Week 11 omissions review](galan-week11-contribution-review.md), [personal feedback](galan-iphone-feedback.md). Older implementation retains Week 11 dates; assistant execution and personal code-explanation gaps remain explicit. |
 | Ansh Sharma (@anshsharma123) | His own November 19 record reports deployed iPhone save/refresh persistence for Discrete Mathematics / Farhan Khan in Grade 6 A. | [Individual evidence receipt](ansh-week12-individual-evidence.md) and [existing peer receipt](ansh-subject-persistence-retest.md). No new test is attributed to Ansh by this report. |
 | Bal Raju (@CoderRaaju) | Carried Week 11 canteen QA forward. Codex verified the canteen flow in two local Chromium runs and all 14 isolated API checks passed. The second browser run verified publication and withdrawal through fresh student sign-ins and confirmed one unpublished database row after withdrawal. | [Individual evidence and screenshots](coderraaju-week12-individual-evidence.md#fresh-session-retest-and-visual-proof) · [Direct browser output](evidence/coderraaju-canteen-fresh-session-2026-11-24.txt). Scoped local all-clear; hosted acceptance requires an agreed fixture. |
-| Buddha Raj Giri (@BudhaRajgiri) | No Week 12 individual result located in the current folder. | [Week 11 student evidence](../week11/evidence/BudhaRajgiri/BudhaRajgiri-Week11-Individual-Evidence.md) is historical context. Add own Week 12 entry and evidence. |
+| Buddha Raj Giri (@BudhaRajgiri) | Prepared a scoped Week 12 own-class/homeroom QA plan and evidence worksheet with ChatGPT assistance. No code change or runtime test is claimed yet; the user must review, perform and record the checks. | [Week 12 individual evidence worksheet](budhrajgiri-week12-individual-evidence.md); [Week 11 evidence](../week11/evidence/BudhaRajgiri/BudhaRajgiri-Week11-Individual-Evidence.md) remains historical only. Personal confirmation and genuine proof are pending. |
 
 ## Risks and decisions
 
