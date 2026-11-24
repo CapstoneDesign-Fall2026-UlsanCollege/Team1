@@ -11,6 +11,7 @@
 - [Ansh Sharma's Week 12 individual evidence receipt](ansh-week12-individual-evidence.md)
 - [Targeted QA checklist and pre-run conditions](qa-checklist.md)
 - [Galan's actual API QA result, commands and AI-use disclosure](galan-qa-result.md)
+- [Bal Raju’s Week 12 canteen QA evidence and browser handoff](coderraaju-week12-individual-evidence.md)
 - [Shared Weekly Report — recorded entries and remaining member confirmations](weekly-report.md)
 - [Week 12 flowchart: evidence, disposition and next owner](roadmap.md)
 - [Shared Final Demo Roadmap — Weeks 10–16](../final-demo-roadmap.md)

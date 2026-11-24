@@ -1,7 +1,7 @@
 # Week 12 — Shared weekly report
 
 **Team:** Team 1 — StudentHub · **Sprint:** 3, QA and handoff  
-**Updated:** November 21, 2026 · **Homework checkpoint:** November 25, end of day
+**Updated:** November 24, 2026 · **Homework checkpoint:** November 25, end of day
 
 ## Goal and commitment
 
@@ -37,7 +37,7 @@ The completion checkbox was marked by Galan in [639810d](https://github.com/Caps
 | --- | --- | --- |
 | Galan Bishal (@bishal482) | Directed Week 12 QA and usability work; with Codex assistance, added targeted persistence verification, portrait-list show/hide, triage/peer/attribution records, course responses, AI audit and final-demo roadmap. Supplied mobile feedback/image and requested the retrospective correction of omitted Week 11 work. | [Full Week 12 receipt](individual-evidence.md), [Week 11 omissions review](galan-week11-contribution-review.md), [personal feedback](galan-iphone-feedback.md). Older implementation retains Week 11 dates; assistant execution and personal code-explanation gaps remain explicit. |
 | Ansh Sharma (@anshsharma123) | His own November 19 record reports deployed iPhone save/refresh persistence for Discrete Mathematics / Farhan Khan in Grade 6 A. | [Individual evidence receipt](ansh-week12-individual-evidence.md) and [existing peer receipt](ansh-subject-persistence-retest.md). No new test is attributed to Ansh by this report. |
-| Bal Raju (@CoderRaaju) | No Week 12 individual result located in the current folder. | [Week 11 canteen work](../week11/coderraaju-individual-assignment.md) is historical context, not a new contribution. Add own Week 12 entry and evidence. |
+| Bal Raju (@CoderRaaju) | Started the Week 12 canteen acceptance handoff. At the user’s request, Codex reran the current canteen API suite at `563740a`; 14 checks passed. | [Week 12 QA evidence](coderraaju-week12-individual-evidence.md) · [Raw output](evidence/coderraaju-canteen-2026-11-24.txt). Personal confirmation and the hosted browser check remain open; Galan coordinates the fixture. |
 | Buddha Raj Giri (@BudhaRajgiri) | No Week 12 individual result located in the current folder. | [Week 11 student evidence](../week11/evidence/BudhaRajgiri/BudhaRajgiri-Week11-Individual-Evidence.md) is historical context. Add own Week 12 entry and evidence. |
 
 ## Risks and decisions
