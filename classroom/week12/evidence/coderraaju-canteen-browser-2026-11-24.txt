@@ -1,0 +1,12 @@
+StudentHub Week 12 canteen browser QA | November 24, 2026 (Asia/Seoul)
+Tested application revision: 563740a0e85413b91bccbb9b6ecdd678938d6d94
+Runner: Codex, Playwright driving headless Chromium; production frontend build, Express canteen routes, disposable MySQL 8.4.
+Browser checks used the local app and fictional test data. Temporary database container removed after the run.
+
+Chromium 156.0.8078.79 viewport 1280×800; Nepal service date 2026-11-24
+Starting state: empty canteen_menus table, fictional accounts, separate browser contexts.
+PASS draft save and privacy after student reload.
+PASS publication: student sees sample lunch, NPR 70 and Available.
+PASS sold-out status after student reload; item and price unchanged.
+PASS restored availability after student reload; item and price unchanged.
+PASS withdrawal: student sees no published menu after reload.
