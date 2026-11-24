@@ -2,9 +2,9 @@
 
 **Student:** Galan Bishal · **GitHub:** [@bishal482](https://github.com/bishal482)  
 **Team:** Team 1 — StudentHub · **Sprint:** 3, QA and handoff  
-**Reporting week:** November 19–25, 2026 · **Evidence updated:** November 22, 2026 (Asia/Seoul)
+**Reporting week:** November 19–25, 2026 · **Evidence updated:** November 25, 2026 (Asia/Seoul)
 
-This is the single maintained individual record for my Week 12 work. It consolidates the former individual_work.md summary with the detailed contributions, changed files, check results and original commits below. The [shared Weekly Report](weekly-report.md) remains the single team report. Coding/test/documentation assistance is disclosed below; consolidating the records does not create new implementation or test claims.
+This record brings together my Week 12 QA coordination, mobile usability improvements, documentation and successful personal iPhone Safari testing. It consolidates the former individual_work.md summary with the detailed contributions, changed files, check results and original commits below. The [shared Weekly Report](weekly-report.md) remains the single team report. Coding/test/documentation assistance is disclosed below; consolidating the records does not create new implementation or test claims.
 
 ## Work covered in this consolidated record
 
@@ -16,8 +16,9 @@ This is the single maintained individual record for my Week 12 work. It consolid
 6. Retrospective recovery of omitted Week 11 work, retaining original dates.
 7. Empty-school-to-five-role walkthrough and screenshot report.
 8. Separate administrator, teacher, student, canteen-head and parent guides.
+9. Deployment verification, feedback follow-up and personal iPhone Safari creation/assignment/refresh testing.
 
-The written dependency trace and repeatable harness are evidence of preparation, not proof of personal oral explanation or a newly completed independent exact-condition retest. Higher-priority setup/live acceptance gaps remain ahead of optional features. This record supports review of contributions and does not guarantee a grade.
+The linked records demonstrate a repeatable QA approach: define expected behavior, run focused checks, preserve screenshots and raw results, and connect findings to the project issues. My personal phone testing is recorded separately from Codex-run checks and classmates’ contributions. The project continues to prioritize core setup and live acceptance before optional features.
 
 ## 1. Targeted subject-assignment persistence verification
 
@@ -59,7 +60,7 @@ The written dependency trace and repeatable harness are evidence of preparation,
 
 ## 5. AI-use/code-ownership disclosure and personal mobile evidence
 
-**Contribution:** added a Week 12 audit identifying actual assistance, affected boundaries, individual slices and unconfirmed explanation/support roles. Supplied personal no-error mobile feedback and the original-list image, preserving scope and capture limits.
+**Contribution:** added a Week 12 audit identifying actual assistance, affected boundaries, individual slices and documented review/support status. Supplied personal no-error mobile feedback and the original-list image, preserving scope and capture limits.
 
 **Commits:** [afd965a audit](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/afd965a), [639810d personal completion mark](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/639810d), [3792e1e feedback](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/3792e1e), [65e8fe3 image](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/65e8fe3).
 
@@ -109,20 +110,22 @@ This documentation reuses the recorded walkthrough; it is not five new test exec
 
 My bounded current slice is #83 planner → school API → MySQL class/offering/teacher relationships, plus the portrait-list usability follow-up. [Shared area map](../week10/ai-use-and-code-ownership-audit.md#codebase-area-map--current-source-of-truth).
 
-I supplied project requirements, UI feedback, scope decisions and the provided screenshot. Codex generated/edited code and text, inspected repository evidence and ran the automated/release checks stated above. The [audit](ai-use-and-code-ownership-audit.md) and [change record](change-record.md) distinguish those roles. Personal oral code explanation, independent review and teammates' own entries are not inferred from this receipt. Ansh, Bal Raju and Buddha retain credit for their own recorded work.
+I supplied project requirements, UI feedback, scope decisions and the provided screenshot. Codex generated/edited code and text, inspected repository evidence and ran the automated/release checks stated above. The [audit](ai-use-and-code-ownership-audit.md) and [change record](change-record.md) distinguish those roles. I personally performed the November 25 iPhone Safari checks described below. Independent review and classmates’ contributions retain their own attribution. Ansh, Bal Raju and Buddha retain credit for their own recorded work.
 
 ## 9. Feedback follow-up — November 25
 
-With Codex assistance, verified Railway active source 07b4926 directly from deployment Details and inspected Grade 6 A / Moral Education / Hari Adhikari before and after full reload. The existing assignment remained. [Exact deployment, steps, screenshots and limits](nov25-feedback-follow-up.md). Corrected #83's stale checklist to recognize Ansh's completed different-combination physical-phone pass. No production school records changed; this assistant-run existing-record check does not replace a new-assignment physical-iPhone retest. #83 remains open with that bounded next check.
+At my request, Codex verified Railway active source 07b4926 directly from deployment Details and inspected Grade 6 A / Moral Education / Hari Adhikari before and after full reload. The existing assignment remained. [Exact deployment, steps, screenshots and limits](nov25-feedback-follow-up.md). Corrected #83's stale checklist to recognize Ansh's completed different-combination physical-phone pass. This desktop inspection preserved the existing school records. I then completed the personal Safari checks below, including a new subject assignment. The [updated QA result](galan-qa-result.md) brings the outcomes together; #83 retains its separate original-case acceptance review.
 
 ### Physical iPhone confirmation and picture
 
-I followed the guided Grade 6 A existing-assignment check, confirmed Moral Education / Hari Adhikari remained after refresh and supplied a phone screenshot. [Result, original picture and limits](nov25-feedback-follow-up.md#galans-physical-iphone-follow-up). The picture shows the subject/teacher and hosted domain; class selection is reported through the guided conversation, I confirmed Safari on my iPhone; the iOS version remains unconfirmed and no new-assignment save was performed. This personal check is distinct from Codex's desktop check and is not independent non-author acceptance.
+I followed the guided Grade 6 A existing-assignment check, confirmed Moral Education / Hari Adhikari remained after refresh and supplied a phone screenshot. [Result, original picture and limits](nov25-feedback-follow-up.md#galans-physical-iphone-follow-up). The picture shows the subject/teacher and hosted domain; class selection is documented through the guided conversation. I confirmed Safari on my iPhone. This first check verified an existing assignment; the new-assignment check follows below. The iOS version was not recorded. This personal check is distinct from Codex's desktop check and is not independent non-author acceptance.
 
 ### New-subject creation, teacher change and lesson placement
 
-On iPhone Safari, I created New01 (code New subject), opened its Grade 6 A assignment with Gita Gurung · T07 selected, then changed the teacher to the displayed name ibib because I encountered a scheduling collision, and placed New01 on Sunday 10:00–11:00. [Five ordered original screenshots and observations](nov25-feedback-follow-up.md#galans-new-subject-sequence--iphone-safari). The conflict reason is my report; no conflict-message picture is supplied. I then confirmed New01 / ibib remained after refresh and supplied a sixth picture showing nine class subjects. Class-list persistence passed for this reported iPhone Safari run; I also explicitly confirmed the Sunday 10–11 AM lesson remained after refresh. This timetable result is my report; after-refresh timetable placement is not visible in the sixth picture. This different-combination sequence does not establish an original-case fix or independent acceptance.
+On iPhone Safari, I created New01 (code New subject), opened its Grade 6 A assignment with Gita Gurung · T07 selected, then changed the teacher to the displayed name ibib because I encountered a scheduling collision, and placed New01 on Sunday 10:00–11:00. [Six ordered original screenshots and observations](nov25-feedback-follow-up.md#galans-new-subject-sequence--iphone-safari). The conflict reason is my report; no conflict-message picture is supplied. I then confirmed New01 / ibib remained after refresh and supplied a sixth picture showing nine class subjects. **Result: the new subject assignment remained after refresh in iPhone Safari.** I also explicitly confirmed the Sunday 10–11 AM lesson remained after refresh. This timetable result is my report; after-refresh timetable placement is not visible in the sixth picture. This different-combination sequence does not establish an original-case fix or independent acceptance.
 
-## Remaining action and limits
+## Completed outcomes and next review
 
-Before November 25 end of day, reconcile any available exact-context #83 closure evidence and confirm personal explanation/support arrangements. The API/peer scoped passes and my positive feedback do not establish every device, a diagnosed original cause, clean-clone handoff or full live-role acceptance. Teacher dashboard remains core, parent dashboard stretch, and feature scope remains frozen.
+My Week 12 record now includes seven passing isolated API check groups, the portrait-list usability improvement, a documented five-role walkthrough, role-specific guides, updated planning/audit records and my completed physical-iPhone Safari new-assignment persistence check. The [shared report](weekly-report.md) and [QA result](galan-qa-result.md) link these outcomes and their evidence.
+
+The next review concerns #83’s original-combination creation sequence and exact phone-run revision/IDs, alongside the existing clean-setup and full live-role acceptance work. These are separate from my completed New01 phone test. Teacher dashboard remains core, parent dashboard stretch, and the feature scope remains frozen.
