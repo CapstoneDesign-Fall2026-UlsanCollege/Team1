@@ -121,7 +121,7 @@ I followed the guided Grade 6 A existing-assignment check, confirmed Moral Educa
 
 ### New-subject creation, teacher change and lesson placement
 
-On iPhone Safari, I created New01 (code New subject), opened its Grade 6 A assignment with Gita Gurung · T07 selected, then changed the teacher to the displayed name ibib because I encountered a scheduling collision, and placed New01 on Sunday 10:00–11:00. [Five ordered original screenshots and observations](nov25-feedback-follow-up.md#galans-new-subject-sequence--iphone-safari). The conflict reason is my report; no conflict-message picture is supplied. New01's after-refresh persistence remains pending. This different-combination sequence does not establish an original-case fix or independent acceptance.
+On iPhone Safari, I created New01 (code New subject), opened its Grade 6 A assignment with Gita Gurung · T07 selected, then changed the teacher to the displayed name ibib because I encountered a scheduling collision, and placed New01 on Sunday 10:00–11:00. [Five ordered original screenshots and observations](nov25-feedback-follow-up.md#galans-new-subject-sequence--iphone-safari). The conflict reason is my report; no conflict-message picture is supplied. I then confirmed New01 / ibib remained after refresh and supplied a sixth picture showing nine class subjects. Class-list persistence passed for this reported iPhone Safari run; after-refresh timetable placement is not visible in that picture. This different-combination sequence does not establish an original-case fix or independent acceptance.
 
 ## Remaining action and limits
 

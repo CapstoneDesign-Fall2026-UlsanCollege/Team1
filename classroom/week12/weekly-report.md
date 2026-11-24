@@ -66,3 +66,7 @@ Prepared with AI assistance from existing repository records and the [course Wee
 ## Galan’s follow-up confirmation — November 21
 
 Galan replied that the mobile result was good with no error and that lists now appear only when pressed. [Direct feedback and limits](galan-iphone-feedback.md). This supplies a personal reported result and links the portrait-list improvement in fd9cf3b. Exact subject/teacher/context, deployed revision, explicit reload steps and an after-change persistence screenshot were not supplied; the before-change list screenshot is linked in the receipt. His completion mark is preserved; this feedback does not convert into an independent exact-combination retest.
+
+## Galan new-assignment follow-up — November 25
+
+Galan supplied a six-picture iPhone Safari sequence: New01 creation, Grade 6 A teacher selection/change, Sunday timetable placement, then a reported full refresh with New01 / ibib still visible among nine class subjects. [Ordered evidence and limits](nov25-feedback-follow-up.md#galans-new-subject-sequence--iphone-safari). This supports a personal new-assignment class-list persistence pass for a different combination; the exact phone-run revision, original-combination creation sequence and after-refresh timetable picture remain unestablished. No independent retest or original-case fix is claimed.
