@@ -119,6 +119,10 @@ With Codex assistance, verified Railway active source 07b4926 directly from depl
 
 I followed the guided Grade 6 A existing-assignment check, confirmed Moral Education / Hari Adhikari remained after refresh and supplied a phone screenshot. [Result, original picture and limits](nov25-feedback-follow-up.md#galans-physical-iphone-follow-up). The picture shows the subject/teacher and hosted domain; class selection is reported through the guided conversation, I confirmed Safari on my iPhone; the iOS version remains unconfirmed and no new-assignment save was performed. This personal check is distinct from Codex's desktop check and is not independent non-author acceptance.
 
+### New-subject creation, teacher change and lesson placement
+
+On iPhone Safari, I created New01 (code New subject), opened its Grade 6 A assignment with Gita Gurung · T07 selected, then changed the teacher to the displayed name ibib because I encountered a scheduling collision, and placed New01 on Sunday 10:00–11:00. [Five ordered original screenshots and observations](nov25-feedback-follow-up.md#galans-new-subject-sequence--iphone-safari). The conflict reason is my report; no conflict-message picture is supplied. New01's after-refresh persistence remains pending. This different-combination sequence does not establish an original-case fix or independent acceptance.
+
 ## Remaining action and limits
 
 Before November 25 end of day, reconcile any available exact-context #83 closure evidence and confirm personal explanation/support arrangements. The API/peer scoped passes and my positive feedback do not establish every device, a diagnosed original cause, clean-clone handoff or full live-role acceptance. Teacher dashboard remains core, parent dashboard stretch, and feature scope remains frozen.

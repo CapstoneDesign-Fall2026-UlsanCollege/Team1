@@ -37,6 +37,24 @@ The image visibly shows Moral Education with Hari Adhikari and the hosted domain
 
 **Result:** user-reported physical-iPhone existing-record refresh pass, with supporting screenshot. This is Galan's execution, not Codex's and not an independent non-author test. It does not repeat creation/save or establish the original failing revision/record IDs. No assignment was removed for this check.
 
+## Galan's new-subject sequence — iPhone Safari
+
+Galan supplied five sequential screenshots and explicitly confirmed this run was on iPhone Safari. This is his execution; Codex organized the evidence. The third picture identifies Grade 6 · Class A · Room 101 and School term 2026–2027.
+
+| Step / original picture | Visible observation |
+| --- | --- |
+| [1. Create subject](evidence/nov25/galan-new-subject-1.jpg) | Creation form contains subject code `New subject`, subject name `New01`; Save to grade library is available. This picture is before submission. |
+| [2. Library result](evidence/nov25/galan-new-subject-2.jpg) | Grade 6 library count is 12; searching New displays New01 with code New subject. Supports the creation result, not reload persistence. |
+| [3. Assign teacher](evidence/nov25/galan-new-subject-3.jpg) | Add class subject popup shows New01, Gita Gurung · T07 selected and Confirm subject. Selection is visible; submission is not captured. |
+| [4. Changed teacher](evidence/nov25/galan-new-subject-4.jpg) | New01 appears in class subjects with displayed teacher name `ibib`. Moral Education / Hari Adhikari remains visible. |
+| [5. Timetable placement](evidence/nov25/galan-new-subject-5.jpg) | New01 / ibib appears Sunday 10:00–11:00 in the weekly timetable. |
+
+**Galan's explanation:** Gita Gurung was unavailable due to a schedule collision, so he changed the subject teacher before placing the lesson. The images show the selected and resulting teacher names, but do not capture the conflict message; collision handling is user-reported, not independently established by these pictures.
+
+**Current result:** new catalogue subject, class assignment with changed teacher and timetable placement are supported. A full-refresh result for **New01 / ibib** has not yet been reported or pictured. Do not mark new-assignment persistence passed or close #83 from this sequence. This uses a different subject/teacher from the original Moral Education / Hari Adhikari case, and the exact phone-run deployment SHA is not established. The pictures do not show whether the existing Sunday Science lesson was moved or removed; no schedule-preservation claim is made.
+
+**Next check:** full refresh, reselect Grade 6 A / the same term, and inspect both New01 / ibib in Class subjects and Sunday 10:00–11:00 in the timetable. Record the actual result and an after-refresh picture. No further school-data change is required for this check.
+
 ## Disposition and next owner
 
 The [November 19 Ansh physical-phone pass](ansh-subject-persistence-retest.md) is completed for Discrete Mathematics / Farhan Khan / Grade 6 A. Correct #83's stale outstanding-phone prose while retaining its different-combination limitation.
