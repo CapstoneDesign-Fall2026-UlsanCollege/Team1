@@ -117,7 +117,7 @@ With Codex assistance, verified Railway active source 07b4926 directly from depl
 
 ### Physical iPhone confirmation and picture
 
-I followed the guided Grade 6 A existing-assignment check, confirmed Moral Education / Hari Adhikari remained after refresh and supplied a phone screenshot. [Result, original picture and limits](nov25-feedback-follow-up.md#galans-physical-iphone-follow-up). The picture shows the subject/teacher and hosted domain; class selection is reported through the guided conversation, browser is unconfirmed and no new-assignment save was performed. This personal check is distinct from Codex's desktop check and is not independent non-author acceptance.
+I followed the guided Grade 6 A existing-assignment check, confirmed Moral Education / Hari Adhikari remained after refresh and supplied a phone screenshot. [Result, original picture and limits](nov25-feedback-follow-up.md#galans-physical-iphone-follow-up). The picture shows the subject/teacher and hosted domain; class selection is reported through the guided conversation, I confirmed Safari on my iPhone; the iOS version remains unconfirmed and no new-assignment save was performed. This personal check is distinct from Codex's desktop check and is not independent non-author acceptance.
 
 ## Remaining action and limits
 

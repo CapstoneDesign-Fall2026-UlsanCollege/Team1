@@ -44,7 +44,7 @@ The completion checkbox was marked by Galan in [639810d](https://github.com/Caps
 
 Galan, with Codex assistance, corrected #83's stale phone status, confirmed Railway active source 07b4926 from deployment Details, and checked existing Grade 6 A / Moral Education / Hari Adhikari before/after full reload. It remained saved. [Receipt and screenshots](nov25-feedback-follow-up.md). This read-only desktop check preserves production data and does not replace the original new-assignment physical-iPhone sequence; #83 stays open. Teammates' own entries above remain unchanged.
 
-Galan subsequently confirmed the guided existing-assignment refresh check on his physical iPhone and supplied [a supporting screenshot and scoped receipt](nov25-feedback-follow-up.md#galans-physical-iphone-follow-up). Browser/version are unconfirmed, class is reported rather than visible in the crop, and creation/save was not repeated. This adds personal evidence without closing #83's remaining new-assignment comparison.
+Galan subsequently confirmed the guided existing-assignment refresh check on his physical iPhone and supplied [a supporting screenshot and scoped receipt](nov25-feedback-follow-up.md#galans-physical-iphone-follow-up). Galan confirmed iPhone Safari; the iOS version remains unconfirmed, class is reported rather than visible in the crop, and creation/save was not repeated. This adds personal evidence without closing #83's remaining new-assignment comparison.
 
 ## Risks and decisions
 
