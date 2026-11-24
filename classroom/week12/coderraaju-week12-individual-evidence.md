@@ -1,66 +1,54 @@
-# Week 12 individual QA evidence — Bal Raju (CoderRaaju)
+# CoderRaaju — Week 12 Individual Assignment
 
-**Date:** November 24, 2026 (Asia/Seoul)
-**Scope:** Canteen publication and availability, #54/#56. The team's primary Week 12 target remains [#83](bug-report-83.md).
+**Student:** Bal Raju (`CoderRaaju`)  
+**Team:** Team 1 — StudentHub  
+**Date:** November 24, 2026 (Asia/Seoul)  
+**Related issues:** [#54 — menu publication](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/54) · [#56 — item availability](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/56)
 
-## Week 11 starting state and Week 12 question
+## My Week 12 task
 
-[Week 11](../week11/coderraaju-individual-assignment.md#canteen-test-results) recorded isolated passes and hosted role reads. The hosted menu write/read-back sequence remained unverified. This check asks whether the current backend still keeps a draft private, shows published changes to the student and hides the menu after withdrawal. The [final demo roadmap](../final-demo-roadmap.md) keeps that behavior inside the frozen scope.
+Carry the Week 11 canteen check forward by verifying what a student sees after a canteen head saves, publishes, changes availability, or withdraws a menu. Week 11 established isolated API behavior and hosted role reads. Week 12 added browser evidence and checked publication and withdrawal from fresh student sign-ins. [Week 11 baseline](../week11/coderraaju-individual-assignment.md#canteen-test-results) · [Final demo roadmap](../final-demo-roadmap.md)
 
-## Conditions, steps and results
+## Frozen demo behavior being checked
 
-**Revision:** `563740a0e85413b91bccbb9b6ecdd678938d6d94` on Team1 main.
-**Runner and environment:** Codex, Linux, Node.js test runner over HTTP, disposable MySQL 8.4. No browser or physical device used.
-**Starting state:** Fresh temporary schema, fictional student and canteen-head accounts, and fixed service date set by the [existing suite](../../backend/tests/canteen-menu.test.mjs). No Railway data used.
+**Save draft → student sees no menu → publish → student sees the item → mark sold out → restore availability → withdraw → student sees no menu.**
 
-| Step | Expected | Actual |
+This assignment verifies the existing canteen flow. The team's primary Week 12 QA target is tracked separately in [the #83 bug report](bug-report-83.md).
+
+## Test environment
+
+| Field | Recorded setup | Evidence |
 | --- | --- | --- |
-| Save draft, read as student | Draft saves and student sees no menu | Save returned HTTP 200 and student read returned no menu. |
-| Publish and read as student | Menu appears on the fixture date | Publish returned HTTP 200 and the student read returned the published menu. |
-| Mark sold out, then restore | Status updates while name/price are preserved | Sold-out read preserved name and price. Restored availability survived restart. |
-| Withdraw and read as student | Student no longer sees the menu | Unpublish returned HTTP 200 and the student read returned no menu. |
+| Tested revision | Frontend and backend at [`563740a`](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/563740a0e85413b91bccbb9b6ecdd678938d6d94) | [Browser run metadata](evidence/coderraaju-canteen-fresh-session-2026-11-24.txt#L1-L8) |
+| Browser and device | Chromium 156.0.8078.79, Debian Linux, 1280 × 800 desktop viewport | [First browser run](evidence/coderraaju-canteen-browser-2026-11-24.txt) |
+| Starting state | Empty menu table in disposable MySQL 8.4, November 24 Nepal service date, fictional canteen-head and student accounts in separate browser contexts | [Fresh-session run](evidence/coderraaju-canteen-fresh-session-2026-11-24.txt#L6-L8) |
+| Runner | Codex drove the built StudentHub UI with Playwright. The existing API suite ran separately against isolated MySQL. | [API test source](../../backend/tests/canteen-menu.test.mjs) · [API output](evidence/coderraaju-canteen-2026-11-24.txt) |
 
-**Result:** Scoped API pass. Backend build passed and all 14 tests passed, zero failed or skipped. [Direct command and output](evidence/coderraaju-canteen-2026-11-24.txt).
+## Expected and actual results
 
-## Browser retest — November 24
+**Result: all five browser check groups passed on the local fixture.** The backend build and all 14 isolated API checks also passed, with zero failures or skips. The table links each result to its proof. [Browser run](evidence/coderraaju-canteen-browser-2026-11-24.txt) · [API output](evidence/coderraaju-canteen-2026-11-24.txt)
 
-**Result: pass in the local browser fixture.** Codex drove the built StudentHub UI in Chromium 156.0.8078.79 on Debian Linux at 1280×800 using two separate browser contexts. The frontend and backend matched revision `563740a0e85413b91bccbb9b6ecdd678938d6d94`. The app used real canteen routes and a fresh disposable MySQL database. The only accounts and menu data were fictional. The Nepal service date was November 24.
+### Fresh-session retest and visual proof
 
-| Browser step | Expected result | Actual result |
-| --- | --- | --- |
-| Start with an empty menu | Student view shows no published menu | Empty database was asserted and the student saw the empty-state message. |
-| Save a draft, then reload as student | The draft is hidden | Draft save returned HTTP 200. After reload, the empty state was visible and the item was absent. |
-| Publish and reload as student | Item, price and availability are visible | The student saw Week 12 QA sample lunch, NPR 70, Available. |
-| Mark sold out, then restore availability | Each reload reflects the new status and the same item and price | Student saw Sold out and then Available on successive reloads. The item and NPR 70 stayed the same. |
-| Withdraw and reload as student | Student returns to the empty state | Empty-state message returned and the item was absent. |
-
-[Browser run output](evidence/coderraaju-canteen-browser-2026-11-24.txt) · [14-check API output](evidence/coderraaju-canteen-2026-11-24.txt).
-
-## Disposition and handoff
-
-Scoped all-clear for the local canteen browser and API flows. No application defect was observed, so no fix or bug severity was assigned. Hosted acceptance remains open for #54/#56 because the shared Railway deployment has no confirmed test fixture. Galan coordinates that fixture. Once agreed, repeat the browser sequence with two approved accounts, capture the deployed revision and safe evidence, and restore the agreed fixture state.
-
-**Attribution:** Codex ran the tests and drafted the evidence at the user's request via the CoderRaaju connection. Bal Raju can review and confirm the shared report entry. This run did not include a separately observed personal test or uncoached peer trial.
-
-## Fresh-session retest and visual proof
-
-A second run started from a separate empty fixture at the same application revision and settings. After publication and withdrawal, Codex closed the student browser context, opened a clean context, signed in again and navigated to Canteen. This distinguishes a persisted publication state from data retained in the first tab.
-
-| Check | Expected | Observed | Proof |
+| Step | Expected result | Actual result | Evidence |
 | --- | --- | --- | --- |
-| Draft privacy | A student reload shows no published menu | The empty-state message appeared and the sample item was absent. | [Draft screenshot](evidence/coderraaju-browser/01-draft-hidden.jpg) |
-| Publication across sessions | A new student session sees the published menu and correct price | After a fresh sign-in, the fictional sample lunch appeared with NPR 70 and Available. | [Fresh-login publication screenshot](evidence/coderraaju-browser/02-fresh-login-published.jpg) |
-| Availability changes | After reload the item changes status and keeps its price | Sold out appeared after the first change. Available reappeared after restoration. Both reads retained the item and NPR 70. | [Sold-out screenshot](evidence/coderraaju-browser/03-sold-out.jpg) · [Output](evidence/coderraaju-canteen-fresh-session-2026-11-24.txt) |
-| Withdrawal across sessions | A new student session sees no menu and storage has no published row | A fresh sign-in showed the empty state. The database retained exactly one row for the date with publication disabled. | [Fresh-login withdrawal screenshot](evidence/coderraaju-browser/04-fresh-login-withdrawn.jpg) · [Output](evidence/coderraaju-canteen-fresh-session-2026-11-24.txt) |
+| 1. Open student Canteen before any menu exists | Student sees the empty state. | The menu table was empty and the student page showed no published menu. | [Starting-state log](evidence/coderraaju-canteen-fresh-session-2026-11-24.txt#L6-L8) |
+| 2. Save draft and reload as student | Canteen head can save the draft. Student cannot see the item. | Save returned HTTP 200. The student saw the empty state and the sample item was absent. | [Draft screenshot](evidence/coderraaju-browser/01-draft-hidden.jpg) · [Draft assertion](evidence/coderraaju-canteen-fresh-session-2026-11-24.txt#L8) |
+| 3. Publish and sign in as student in a fresh browser context | The new session sees the published item, price and availability. | The student saw **Week 12 QA sample lunch**, **NPR 70**, and **Available**. | [Published menu screenshot](evidence/coderraaju-browser/02-fresh-login-published.jpg) · [Publication assertion](evidence/coderraaju-canteen-fresh-session-2026-11-24.txt#L9) |
+| 4. Mark sold out and reload | Student sees Sold out and the item and price stay the same. | **Sold out** appeared after reload. The sample lunch still cost **NPR 70**. | [Sold-out screenshot](evidence/coderraaju-browser/03-sold-out.jpg) · [Sold-out assertion](evidence/coderraaju-canteen-fresh-session-2026-11-24.txt#L10) |
+| 5. Restore availability and reload | Student sees Available with the same item and price. | **Available** returned. The name and price stayed the same. The separate API suite also verified restored availability after server restart. | [Restoration assertion](evidence/coderraaju-canteen-fresh-session-2026-11-24.txt#L11) · [API output](evidence/coderraaju-canteen-2026-11-24.txt) |
+| 6. Withdraw and sign in as student in another fresh context | Student sees no published menu. The saved menu remains an unpublished draft. | A fresh sign-in showed the empty state. The database held exactly one unpublished row for the service date. | [Withdrawal screenshot](evidence/coderraaju-browser/04-fresh-login-withdrawn.jpg) · [Browser and database assertion](evidence/coderraaju-canteen-fresh-session-2026-11-24.txt#L12) |
 
-### Repeat the check
+## Repeatable test steps
 
-1. Run the StudentHub build on the recorded revision with a disposable database, fictional student and canteen-head accounts, and an empty menu for the Nepal service date.
-2. Start separate browser contexts for the two roles. Save a fictional item as draft and reload Canteen in the student context.
-3. Publish the draft, close the student context, sign in from a clean context and compare the item name, price and availability.
-4. Mark the item sold out, reload as student, restore availability and reload again. Compare name and price on both reads.
-5. Withdraw the menu and repeat the clean-context sign-in. Confirm that the empty-state message returns and that the isolated database has one unpublished row for the date. Remove the disposable fixture.
+1. Use the recorded StudentHub revision with an empty disposable MySQL fixture and fictional accounts for the current Nepal service date.
+2. Open separate browser contexts for canteen head and student. Create a sample item, save as draft, then reload Canteen as student.
+3. Publish the menu. Close the student context, sign in from a clean context and compare the item, price and availability.
+4. Mark the item sold out, reload as student, restore availability and reload again. Check that name and price remain correct each time.
+5. Withdraw the menu, start another clean student session and confirm the empty state. Check that the fixture has one unpublished row for the service date before removing the fixture.
 
-### Disposition from the added evidence
+## Week 12 contribution summary and disposition
 
-**Verified scoped all-clear.** The second run adds fresh-session and database evidence to the earlier reload checks. This supports keeping canteen readiness work focused on the existing hosted acceptance gate instead of changing application code. The shared production fixture was unavailable for this run, so hosted acceptance remains outside the verified scope and retains its existing priority. This is a Codex-executed retest. The course's non-author human and personal confirmation criteria require a separately attributable result.
+**Verified local all-clear.** The fresh sign-ins confirmed that publication and withdrawal survive beyond the original student tab. The database check confirmed that withdrawal hides the menu while retaining the draft. The observed result supports keeping the existing hosted acceptance priority for #54/#56. It produced no confirmed defect to fix or severity to assign. [Shared weekly report](weekly-report.md#individual-entries--confirmation-status-explicit) · [Peer handoff notes](peer-test-notes.md#canteen-qa-handoff--november-24)
+
+The Railway browser repeat requires an agreed fixture because production menus are shared by date. Galan coordinates the fixture and the deployed revision for that check. The result above covers the local browser and API runs. Codex performed those runs and drafted this receipt at the user's request through the CoderRaaju connection. [Week 12 AI-use audit](ai-use-and-code-ownership-audit.md)
