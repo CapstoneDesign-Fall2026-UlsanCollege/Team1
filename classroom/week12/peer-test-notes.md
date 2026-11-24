@@ -33,3 +33,7 @@ The claimed working behavior is limited to Ansh's recorded combination and devic
 ## Week 13 handoff trial — not yet run
 
 Galan prepares the documented access/setup path; non-author tester must confirm participation. Planned check: fresh clone at an identified commit, private configuration, isolated empty DB and first-admin login, then one written task without coaching. Record first failure or success and missing instructions in planned `classroom/week13/handoff-trial.md`. [#77](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/77), [Final Demo Roadmap](../final-demo-roadmap.md). Existing iPhone use does not substitute for that trial.
+
+## Canteen QA handoff — November 24
+
+[CoderRaaju's evidence and repeat steps](coderraaju-week12-individual-evidence.md#fresh-session-retest-and-visual-proof) cover the canteen editor, persisted menu row and student read. A fresh student session saw the published menu, and another fresh session saw the empty state after withdrawal. The database held one unpublished menu. Codex ran these checks in local Chromium with a disposable fixture. The evidence supports a scoped all-clear and gives the next reviewer a repeatable sequence with expected and actual results.
