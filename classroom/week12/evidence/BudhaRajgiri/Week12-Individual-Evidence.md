@@ -1,55 +1,73 @@
 # Week 12 Individual Evidence — Buddha Raj Giri
 
 **GitHub:** [@BudhaRajgiri](https://github.com/BudhaRajgiri)  
-**Project:** StudentHub · **Week:** 12 · **Prepared:** November 25, 2026  
+**Project:** StudentHub · **Week:** 12 · **Evidence updated:** November 25, 2026  
 **Personal review area:** Student My Class / homeroom display
 
-> **Evidence status:** This file records the work prepared for Week 12 and the checks still to be completed. It does not claim that runtime tests or code changes have already been made. Add genuine screenshots and actual observations after performing the checks.
+> **Evidence status:** The PNG files listed below are now linked from this receipt. Their filenames identify the submitted scenarios, but the test-result table remains conservative: a screenshot alone does not establish every step, environment, account scope, or privacy guarantee. Confirm the observations and fill in test date/device/revision before claiming a test passed.
 
 ## 1. My Week 12 work
 
 - Reviewed the existing Week 12 project records and identified a focused personal review area: the signed-in student's own-class and homeroom experience.
 - Mapped the review to the My Class UI in `frontend/src/components/StudentSchool.vue` and the Student My Class API boundary in `backend/src/school-planning.ts`.
 - Prepared a scoped test plan covering assigned-class display, refresh/retry, timetable consistency, empty and missing-teacher states, privacy boundaries, and responsive layout.
+- Collected and organized the PNG evidence files listed below.
 - Prepared this evidence record and related documentation with ChatGPT assistance.
 
 **Code changes:** No Week 12 code change is claimed here.  
-**Runtime tests:** No Week 12 runtime test is claimed here.  
+**Runtime test attribution:** The screenshots are linked as submitted evidence. Personal test details and the observed outcomes still need the user's confirmation in the table below.  
 **Ownership boundary:** This personal review is separate from Galan's #83 subject-persistence implementation and tests. Their work is not claimed as mine.
 
-## 2. Test plan and results to fill in
+## 2. Screenshot evidence
 
-| Check | Procedure | Expected result | Actual result / status |
-| --- | --- | --- | --- |
-| Assigned-class display | Sign in using an authorized student demo account and open My Class | Only that student's assigned school/year/class/room/teacher context appears | **Pending personal test** |
-| Refresh / retry | Refresh the page and use the refresh control if available | The same authorized class context reloads correctly | **Pending personal test** |
-| Timetable consistency | Open the timetable in the same signed-in session | Timetable matches the student's effective class context | **Pending personal test** |
-| No-class state | Use an intentionally unassigned test account supplied by the team | A clear no-class state appears; no unrelated data is shown | **Pending suitable test account** |
-| Missing-teacher state | Use an approved test class with no active homeroom teacher | A clear missing-teacher state appears; no stale/unrelated teacher is shown | **Pending suitable fixture** |
-| Privacy boundary | Follow a safe test procedure approved by the project owner; do not probe real student records | A student cannot retrieve another student's class data by changing a client-side identifier | **Pending authorized verification** |
-| Responsive layout | Review My Class at phone and laptop widths | Text and controls remain readable and usable | **Pending personal test** |
+All files are stored in this folder: [BudhaRajgiri Week 12 evidence folder](./).
 
-For each completed check, record the date, browser/device, local or deployed environment, app revision if known, account role (never the password), steps, expected result, actual result, and pass/fail status. If a check cannot be run safely, mark it **Not tested** and explain why.
+### My Class / student card
+- [Student card](student%20card.png)
+- [Student card download capture](downloading%20%20the%20%20student%20card.png)
+- [My Class after five refreshes](my%20class%20after%205%20refresh.png)
+- [Interface before refresh](interface%20before%20refresh%20.png)
 
-## 3. Screenshots / proof to add
+### Timetable
+- [Weekly timetable](weekly-timetable.png)
+- [Timetable after five refreshes](timetable%20after%205%20refreshes.png)
 
-- [ ] Assigned-class My Class screen.
-- [ ] My Class screen after a full refresh.
-- [ ] Timetable showing the same student's class context.
-- [ ] No-class screen, only if an approved test account is provided.
-- [ ] Missing-teacher screen, only if an approved fixture is provided.
-- [ ] Phone and laptop responsive views, if checked.
+### Subject and homework refresh comparisons
+- [Subject before refresh](subject%20before%20refresh.png)
+- [Subject after refresh](subject%20after%20refresh.png)
+- [Homework before refresh](homework%20before%20refreshes.png)
+- [Homework after refresh](homework%20after%20refreshes.png)
 
-Place the genuine image files in this folder and replace this checklist item with links to the uploaded images. Hide passwords and any private student information.
+### Privacy-related capture
+- [Student privacy screenshot](student_privacy.png)
+
+These are linked as supporting images only. The subject/homework comparisons are not treated as proof of the separate My Class privacy boundary.
+
+## 3. Test plan and results to confirm
+
+| Check | Evidence | Actual result / status |
+| --- | --- | --- |
+| Assigned-class / student-card display | [Student card](student%20card.png), [download capture](downloading%20%20the%20%20student%20card.png) | **Screenshot supplied; user confirmation of account/class details pending** |
+| My Class refresh | [Before refresh](interface%20before%20refresh%20.png), [after five refreshes](my%20class%20after%205%20refresh.png) | **Before/after screenshots supplied; user confirmation of steps and unchanged data pending** |
+| Timetable consistency / refresh | [Weekly timetable](weekly-timetable.png), [after five refreshes](timetable%20after%205%20refreshes.png) | **Screenshots supplied; confirm timetable belongs to the same signed-in student and remained consistent** |
+| Subject persistence | [Before](subject%20before%20refresh.png), [after](subject%20after%20refresh.png) | **Supporting before/after screenshots supplied; confirm exact steps and context** |
+| Homework persistence | [Before](homework%20before%20refreshes.png), [after](homework%20after%20refreshes.png) | **Supporting before/after screenshots supplied; confirm exact steps and context** |
+| Privacy boundary | [Student privacy screenshot](student_privacy.png) | **Screenshot supplied; does not alone prove another student's data is inaccessible. Authorized privacy test pending** |
+| No-class state | No matching screenshot identified | **Not evidenced / pending suitable test account** |
+| Missing-teacher state | No matching screenshot identified | **Not evidenced / pending suitable fixture** |
+| Responsive layout | No clearly labelled phone/laptop pair identified | **Pending confirmation** |
+
+For each check you personally performed, add the date, browser/device, local or deployed environment, app revision if known, account role (never the password), exact steps, expected result, actual result, and pass/fail status. If a check cannot be run safely, mark it **Not tested** and explain why.
 
 ## 4. AI-use disclosure and explanation
 
-ChatGPT helped review existing repository records and draft this evidence plan and related documentation at my request. I must review the content, correct anything that does not match my actual work, personally perform or confirm any test I claim, and be able to explain the relevant UI/API boundary.
+ChatGPT helped review existing repository records, organize the supplied screenshot filenames into this evidence receipt, and draft the documentation at my request. I must review the content, correct anything that does not match my actual work, personally confirm the test steps and outcomes I claim, and be able to explain the relevant UI/API boundary.
 
 I should be able to explain:
 1. How the signed-in student's identity scopes the My Class request.
 2. How the interface distinguishes a student with no assigned class from a class with no assigned homeroom teacher.
 3. What an authorized test would demonstrate that one student cannot read another student's class data.
+4. Which before/after screenshots correspond to the exact refresh sequence I performed.
 
 ## 5. Prior work
 
@@ -58,8 +76,9 @@ My [Week 11 individual evidence](../../../week11/evidence/BudhaRajgiri/BudhaRajg
 ## 6. Personal confirmation
 
 - [ ] I reviewed this file and confirm it accurately describes my Week 12 work.
+- [ ] I confirm the account, class, device, date and refresh steps represented by the screenshots.
 - [ ] I completed and recorded the checks that I claim as passed.
-- [ ] I added genuine screenshots or clearly marked unavailable checks as not tested.
+- [x] The supplied PNG files are linked in this evidence receipt.
 - [ ] I can explain the UI/API boundary and the limits of my tests.
 
 **Personal confirmation date:** Pending  
