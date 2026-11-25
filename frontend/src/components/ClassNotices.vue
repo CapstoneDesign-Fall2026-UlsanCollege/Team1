@@ -1,0 +1,29 @@
+<script setup lang="ts">
+import {computed,onMounted,reactive,ref,watch} from 'vue'
+import {scheduleApi} from '../schedules'
+import {dismissAfterFourSeconds} from '../temporary-message'
+const props=defineProps<{classes?:any[];today?:string;manage?:boolean}>()
+const emit=defineEmits<{busy:[value:boolean]}>()
+const classId=ref(0),items=ref<any[]>([]),teacherId=ref(0),loading=ref(false),saving=ref(false),error=ref(''),message=ref(''),editing=ref(false)
+let readVersion=0
+dismissAfterFourSeconds(message)
+const form=reactive({id:0,title:'',message:'',starts_on:'',ends_on:'',published:true,version:0})
+const selected=computed(()=>props.classes?.find(c=>c.class_id===classId.value))
+function reset(){Object.assign(form,{id:0,title:'',message:'',starts_on:props.today??'',ends_on:props.today??'',published:true,version:0});editing.value=false}
+async function load(){const version=++readVersion;loading.value=true;error.value='';items.value=[];try{if(props.manage&&!classId.value)return;const result=await scheduleApi(props.manage?'teacher/classes/'+classId.value+'/notices':'student/class-notices');if(version===readVersion){items.value=result.notices;teacherId.value=result.teacher_id??0}}catch(e){if(version===readVersion)error.value=e instanceof Error?e.message:'Unable to load class notices.'}finally{if(version===readVersion)loading.value=false}}
+function edit(item:any){Object.assign(form,item);editing.value=true}
+function create(){reset();editing.value=true}
+async function save(){if(saving.value)return;saving.value=true;emit('busy',true);error.value='';try{message.value=(await scheduleApi('teacher/classes/'+classId.value+'/notices'+(form.id?'/'+form.id:''),form.id?'PUT':'POST',{...form})).message;reset();await load()}catch(e){error.value=e instanceof Error?e.message:'Unable to save notice.'}finally{saving.value=false;emit('busy',false)}}
+watch(classId,()=>{reset();void load()})
+onMounted(()=>{if(props.manage&&props.classes?.length)classId.value=props.classes[0].class_id;else void load()})
+</script>
+<template><section class="class-notices"><div class="notice-heading"><h2>Class notice board</h2><div class="notice-actions"><button v-if="manage" type="button" :disabled="!classId||saving||loading" @click="create">Create notice</button><button type="button" class="secondary" :disabled="saving||loading" @click="load">Refresh notices</button></div></div>
+<label v-if="manage">Class<select v-model="classId" :disabled="saving"><option :value="0" disabled>Choose a class</option><option v-for="c in classes" :key="c.class_id" :value="c.class_id">Grade {{c.grade_label}} · Class {{c.class_name}}</option></select></label>
+<p v-if="manage" class="muted">Post updates for {{selected?'Grade '+selected.grade_label+' · Class '+selected.class_name:'your assigned classes'}}. Students see published notices during their display dates. You can edit your own notices.</p>
+<p v-if="error" class="error" role="alert">{{error}}</p><p v-if="message" class="success" role="status">{{message}}</p>
+<form v-if="manage&&editing" class="notice-form" @submit.prevent="save"><fieldset :disabled="saving"><h3>{{form.id?'Edit class notice':'New class notice'}}</h3><label>Title<input v-model="form.title" required maxlength="150"></label><label>Message<textarea v-model="form.message" required maxlength="4000" rows="4"></textarea></label><div class="notice-dates"><label>Show from<input v-model="form.starts_on" type="date" required></label><label>Show until<input v-model="form.ends_on" type="date" :min="form.starts_on" required></label></div><label class="publish"><input v-model="form.published" type="checkbox">Publish to this class</label><div class="notice-actions"><button>{{saving?'Saving…':'Save notice'}}</button><button type="button" class="secondary" @click="reset">Cancel</button></div></fieldset></form>
+<p v-if="loading" role="status">Loading class notices…</p><p v-else-if="!error&&!items.length" class="muted">No {{manage?'saved':'current published'}} class notices.</p>
+<article v-for="item in items" :key="item.id"><div class="notice-heading"><h3>{{item.title}}</h3><button v-if="manage&&item.teacher_id===teacherId" type="button" class="secondary" :disabled="saving" @click="edit(item)">Edit</button></div><small>{{item.teacher_name}} · {{item.starts_on}} — {{item.ends_on}}<template v-if="manage"> · {{item.published?'Published':'Draft'}}</template></small><p class="notice-message">{{item.message}}</p></article></section></template>
+<style scoped>
+.class-notices{min-width:0}.notice-heading,.notice-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.notice-actions{justify-content:flex-start}h2{font-size:20px;margin:0}h3{font-size:16px;margin:0}button{width:auto;margin:0;font-size:13px;padding:10px 14px;min-height:44px}label{display:block;margin:14px 0;font-size:13px}input:not([type=checkbox]),select,textarea{display:block;width:100%;min-width:0;box-sizing:border-box;margin-top:6px;padding:10px;border:1px solid #c4d4ca;border-radius:8px;font:inherit}fieldset{border:0;margin:0;padding:0;min-width:0}.notice-form{background:#f4f8f5;padding:16px;border:1px solid #dce6df;border-radius:10px;margin-top:16px}.notice-dates{display:grid;grid-template-columns:1fr 1fr;gap:12px}.publish{display:flex;align-items:center;gap:8px}.publish input{width:18px;height:18px;margin:0}article{padding:16px 0;border-bottom:1px solid #dce6df}small{display:block;color:#62776a;font-size:12px;margin-top:8px}.notice-message{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}.muted{font-size:13px;line-height:1.6}@media(max-width:500px){.notice-dates{grid-template-columns:1fr;gap:0}}
+</style>

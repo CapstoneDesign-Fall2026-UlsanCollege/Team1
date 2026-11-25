@@ -7,6 +7,14 @@ import {schoolDate,schoolId,schoolText} from './school-planning.js';
 import {isMenuDate} from './canteen-menu.js';
 
 export const teacherSchema=[
+ `CREATE TABLE IF NOT EXISTS school_class_notices (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, class_id INT UNSIGNED NOT NULL,
+  teacher_id INT UNSIGNED NOT NULL, title VARCHAR(150) NOT NULL, message TEXT NOT NULL,
+  starts_on DATE NOT NULL, ends_on DATE NOT NULL, published TINYINT NOT NULL DEFAULT 0,
+  version INT UNSIGNED NOT NULL DEFAULT 1,
+  FOREIGN KEY(class_id) REFERENCES school_classes(id), FOREIGN KEY(teacher_id) REFERENCES school_teachers(id),
+  INDEX(class_id,published,starts_on,ends_on)
+ ) ENGINE=InnoDB`,
  `CREATE TABLE IF NOT EXISTS school_teacher_accounts (
   user_id INT UNSIGNED PRIMARY KEY, teacher_id INT UNSIGNED NOT NULL UNIQUE,
   FOREIGN KEY(user_id) REFERENCES users(id), FOREIGN KEY(teacher_id) REFERENCES school_teachers(id)
@@ -119,6 +127,39 @@ export function teacherWorkspaceRouter(pool:Pool,invalidate:(id:number)=>void,to
   const id=schoolId(Number(req.params.id)),date=today(),t=res.locals.teacher;
   if(!(await assignments(pool,t.id,date)).some(a=>a.class_id===id)&&!(await homerooms(pool,t.id,date)).some(a=>a.class_id===id))throw new ScheduleError(403,'This class is not assigned to you.');
   res.json({students:await roster(pool,id,date),date});
+ });
+ async function noticeClass(db:DB,teacherId:number,classId:number,date:string){
+  if(!(await assignments(db,teacherId,date)).some(a=>a.class_id===classId)&&!(await homerooms(db,teacherId,date)).some(a=>a.class_id===classId))throw new ScheduleError(403,'This class is not assigned to you.');
+ }
+ router.get('/teacher/classes/:id/notices',async(req,res)=>{
+  const classId=schoolId(Number(req.params.id));await noticeClass(pool,res.locals.teacher.id,classId,today());
+  res.json({notices:await rows(pool,`SELECT n.id,n.class_id,n.teacher_id,n.title,n.message,n.published,n.version,
+   DATE_FORMAT(n.starts_on,'%Y-%m-%d') starts_on,DATE_FORMAT(n.ends_on,'%Y-%m-%d') ends_on,t.name teacher_name
+   FROM school_class_notices n JOIN school_teachers t ON t.id=n.teacher_id WHERE n.class_id=? ORDER BY n.starts_on DESC,n.id DESC LIMIT 100`,[classId]),teacher_id:res.locals.teacher.id});
+ });
+ async function writeClassNotice(req:any,res:any,edit:boolean){
+  const input=req.body??{},classId=schoolId(Number(req.params.id)),title=schoolText(input.title,150,'a notice title'),message=schoolText(input.message,4000,'a notice message'),start=dateOf(input.starts_on),end=dateOf(input.ends_on);
+  if(start>end)throw new ScheduleError(400,'The end date must be on or after the start date.');
+  if(typeof input.published!=='boolean')throw new ScheduleError(400,'Choose draft or published.');
+  await transaction(pool,async c=>{
+   const t=await teacher(c,res.locals.user.id);await noticeClass(c,t.id,classId,today());
+   const [cl]=await rows(c,"SELECT DATE_FORMAT(y.start_date,'%Y-%m-%d') start_date,DATE_FORMAT(y.end_date,'%Y-%m-%d') end_date FROM school_classes cl JOIN school_years y ON y.id=cl.year_id WHERE cl.id=?",[classId]);
+   if(!cl||start<cl.start_date||end>cl.end_date)throw new ScheduleError(400,'Keep notice dates within the class academic year.');
+   if(edit){
+    const id=schoolId(Number(req.params.noticeId)),version=schoolId(input.version);
+    const [result]=await c.execute<ResultSetHeader>('UPDATE school_class_notices SET title=?,message=?,starts_on=?,ends_on=?,published=?,version=version+1 WHERE id=? AND class_id=? AND teacher_id=? AND version=?',[title,message,start,end,input.published?1:0,id,classId,t.id,version]);
+    if(!result.affectedRows)throw new ScheduleError(409,'Notice changed or is not yours. Refresh before saving.');
+   }else await c.execute('INSERT INTO school_class_notices(class_id,teacher_id,title,message,starts_on,ends_on,published) VALUES(?,?,?,?,?,?,?)',[classId,t.id,title,message,start,end,input.published?1:0]);
+  });res.status(edit?200:201).json({message:input.published?'Class notice published.':'Class notice saved as draft.'});
+ }
+ router.post('/teacher/classes/:id/notices',(req,res)=>writeClassNotice(req,res,false));
+ router.put('/teacher/classes/:id/notices/:noticeId',(req,res)=>writeClassNotice(req,res,true));
+ router.get('/student/class-notices',async(_req,res)=>{
+  const date=today();res.json({notices:await rows(pool,`SELECT n.id,n.title,n.message,DATE_FORMAT(n.starts_on,'%Y-%m-%d') starts_on,DATE_FORMAT(n.ends_on,'%Y-%m-%d') ends_on,t.name teacher_name,cl.grade_label,cl.name class_name
+   FROM school_class_notices n JOIN school_teachers t ON t.id=n.teacher_id JOIN school_classes cl ON cl.id=n.class_id JOIN school_years y ON y.id=cl.year_id
+   WHERE n.published=1 AND n.starts_on<=? AND n.ends_on>=? AND cl.is_active=1 AND y.start_date<=? AND y.end_date>=?
+   AND EXISTS(SELECT 1 FROM school_memberships m WHERE m.class_id=n.class_id AND m.student_user_id=? AND m.starts_on<=? AND (m.ends_on IS NULL OR m.ends_on>?))
+   ORDER BY n.starts_on DESC,n.id DESC LIMIT 100`,[date,date,date,date,res.locals.user.id,date,date])});
  });
  router.get('/teacher/homework',async(_req,res)=>{
   res.json({homework:await rows(pool,`SELECT h.*,DATE_FORMAT(h.assigned_on,'%Y-%m-%d') assigned_on,DATE_FORMAT(h.due_on,'%Y-%m-%d') due_on FROM school_homework h WHERE h.teacher_id=? ORDER BY h.due_on DESC,h.id DESC LIMIT 100`,[res.locals.teacher.id])});
