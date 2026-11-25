@@ -89,7 +89,7 @@ For each check you personally performed, add the date, browser/device, local or 
 
 ## 5. AI-use disclosure and explanation
 
-ChatGPT helped review existing repository records, organize the supplied screenshot filenames into this evidence receipt, and draft the documentation at my request. I must review the content, correct anything that does not match my actual work, personally confirm the test steps and outcomes I claim, and be able to explain the relevant UI/API boundary.
+ChatGPT helped review existing repository records. I must review the content, correct anything that does not match my actual work, personally confirm the test steps and outcomes I claim, and be able to explain the relevant UI/API boundary.
 
 I should be able to explain:
 1. How the signed-in student's identity scopes the My Class request.
