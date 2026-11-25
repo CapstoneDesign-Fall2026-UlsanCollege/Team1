@@ -52,3 +52,11 @@ This assignment verifies the existing canteen flow. The team's primary Week 12 Q
 **Verified local all-clear.** The fresh sign-ins confirmed that publication and withdrawal survive beyond the original student tab. The database check confirmed that withdrawal hides the menu while retaining the draft. The observed result supports keeping the existing hosted acceptance priority for #54/#56. It produced no confirmed defect to fix or severity to assign. [Shared weekly report](weekly-report.md#individual-entries--confirmation-status-explicit) · [Peer handoff notes](peer-test-notes.md#canteen-qa-handoff--november-24)
 
 The Railway browser repeat requires an agreed fixture because production menus are shared by date. Galan coordinates the fixture and the deployed revision for that check. The result above covers the local browser and API runs. Codex performed those runs and drafted this receipt at the user's request through the CoderRaaju connection. [Week 12 AI-use audit](ai-use-and-code-ownership-audit.md)
+
+## November 25 — reported personal iPhone Safari check
+
+Galan supplied nine screenshots and confirmed that Bal Raju performed the hosted canteen sequence on iPhone Safari: account Bal_can creation, menu entry, publication, price editing and copying-day selection. [Step-by-step report and all nine pictures](coderraaju-iphone-canteen-2026-11-25.md).
+
+The selected November 25 menu starts as an empty draft and later shows Published with three available items. Student visibility, saved price change and completed copying are reported in the supplied explanation; their final result views are not present among these nine pictures. Exact phone-run deployment revision and fixture agreement were not captured. The receipt includes expected/actual results and a bounded Definition of Done for the remaining proof.
+
+This personal run is attributed to Bal Raju based on Galan’s confirmation, separately from the November 24 Codex-run local checks above. Codex drafted and published this documentation through the authorized CoderRaaju connection; screenshots were uploaded through the existing repository connection. No independent operator authentication or full hosted acceptance is claimed.
