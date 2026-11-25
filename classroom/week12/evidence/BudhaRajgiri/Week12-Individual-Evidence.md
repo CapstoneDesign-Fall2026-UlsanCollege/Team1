@@ -103,11 +103,11 @@ My [Week 11 individual evidence](../../../week11/evidence/BudhaRajgiri/BudhaRajg
 
 ## 7. Personal confirmation
 
-- [ ] I reviewed this file and confirm it accurately describes my Week 12 work.
+- [x] I reviewed this file and confirm it accurately describes my Week 12 work.
 - [ ] I confirm the account, class, device, date and refresh steps represented by the screenshots.
 - [ ] I completed and recorded the checks that I claim as passed.
 - [x] The supplied PNG files are linked in this evidence receipt.
 - [ ] I can explain the UI/API boundary and the limits of my tests.
 
-**Personal confirmation date:** Pending  
+**Personal confirmation date:** November 25, 2026 (user-confirmed)  
 **Peer reviewer:** Pending personal agreement; no reviewer is assigned on my behalf.
