@@ -22,8 +22,8 @@ function next(delta:number){page.value+=delta;void load()}
 </script>
 <template>
 <section v-if="cl" class="class-details" :class="{'teacher-view':view==='teachers'}">
- <div v-if="view==='teachers'" class="teacher-toolbar"><strong>Grade {{cl.grade_label}} · Class {{cl.name}}</strong><label>School term<select v-model="termId"><option :value="0">No linked term</option><option v-for="t in terms" :key="t.id" :value="t.id">{{t.name}}</option></select></label><button class="secondary" :disabled="loading" @click="load">Refresh</button></div>
- <template v-else> <div class="class-heading"><div><p class="eyebrow">CLASS WORKSPACE</p><h3>Grade {{cl.grade_label}} · Class {{cl.name}}</h3><p class="muted">{{year?.name}} · {{cl.is_active?'Active':'Inactive'}}</p></div><button class="secondary" :disabled="loading" @click="load">Refresh class</button></div>
+ <div v-if="view==='teachers'" class="teacher-toolbar"><strong>Grade {{cl.grade_label}}<template v-if="cl.name"> · Class {{cl.name}}</template></strong><label>School term<select v-model="termId"><option :value="0">No linked term</option><option v-for="t in terms" :key="t.id" :value="t.id">{{t.name}}</option></select></label><button class="secondary" :disabled="loading" @click="load">Refresh</button></div>
+ <template v-else> <div class="class-heading"><div><p class="eyebrow">CLASS WORKSPACE</p><h3>Grade {{cl.grade_label}}<template v-if="cl.name"> · Class {{cl.name}}</template></h3><p class="muted">{{year?.name}} · {{cl.is_active?'Active':'Inactive'}}</p></div><button class="secondary" :disabled="loading" @click="load">Refresh class</button></div>
  <div class="context"><label>View on date<input v-model="date" type="date" :min="year?.start_date" :max="year?.end_date" @change="changeDate"></label><label>School term<select v-model="termId"><option :value="0">No linked term</option><option v-for="t in terms" :key="t.id" :value="t.id">{{t.name}}</option></select></label></div>
  </template>
  <p v-if="error" class="error" role="alert">{{error}}</p><p v-if="loading" role="status">Loading class details…</p>

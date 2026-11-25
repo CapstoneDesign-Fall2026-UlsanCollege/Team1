@@ -160,7 +160,7 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
     });res.json({message:'Academic year updated.'});
   });
   async function saveClass(input:any,id?:number) {
-    const yearId=schoolId(input?.year_id),grade=schoolText(input?.grade_label,30,'a grade'),name=schoolText(input?.name,50,'a class label');
+    const yearId=schoolId(input?.year_id),grade=schoolText(input?.grade_label,30,'a grade'),name=input?.name==null||input.name===''||typeof input.name==='string'&&!input.name.trim()?'':schoolText(input.name,50,'a class label');
     if(typeof input.is_active!=='boolean')throw new ScheduleError(400,'Choose active or inactive.');
     return mutate(pool,input.revision,async c=>{
       await year(c,yearId);
