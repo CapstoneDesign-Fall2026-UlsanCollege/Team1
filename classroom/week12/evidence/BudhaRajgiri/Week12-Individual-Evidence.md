@@ -40,9 +40,10 @@ All files are stored in this folder: [BudhaRajgiri Week 12 evidence folder](./).
 - [Homework after refresh](homework%20after%20refreshes.png)
 
 ### Privacy-related capture
-- [Student privacy screenshot](student_privacy.png)
+- [IMG_2067 — QR scan opens the StudentHub website and requires sign-in](IMG_2067.png)
+- [Additional student privacy capture](student_privacy.png)
 
-These are linked as supporting images only. The subject/homework comparisons are not treated as proof of the separate My Class privacy boundary.
+**IMG_2067 privacy/access-control explanation:** The QR code on the student card directs the scanner to the StudentHub website. The visitor must sign in using login credentials assigned by the administrator before entering the student system. This demonstrates the QR destination and the sign-in gate; it does not, by itself, prove that one authenticated student cannot access another student's records. The subject/homework comparisons are not treated as proof of that separate data-isolation boundary.
 
 ## 3. Empty-state checks previously performed
 
@@ -80,7 +81,8 @@ The user confirms these two My Class states were checked earlier and the applica
 | Timetable consistency / refresh | [Weekly timetable](weekly-timetable.png), [after five refreshes](timetable%20after%205%20refreshes.png) | **Screenshots supplied; confirm timetable belongs to the same signed-in student and remained consistent** |
 | Subject persistence | [Before](subject%20before%20refresh.png), [after](subject%20after%20refresh.png) | **Supporting before/after screenshots supplied; confirm exact steps and context** |
 | Homework persistence | [Before](homework%20before%20refreshes.png), [after](homework%20after%20refreshes.png) | **Supporting before/after screenshots supplied; confirm exact steps and context** |
-| Privacy boundary | [Student privacy screenshot](student_privacy.png) | **Screenshot supplied; does not alone prove another student's data is inaccessible. Authorized privacy test pending** |
+| QR access / sign-in gate | [IMG_2067](IMG_2067.png) | **User confirms QR scan opens the StudentHub website and requires administrator-assigned login credentials before sign-in. Supports the authentication/access gate.** |
+| Cross-student data isolation | [Additional capture](student_privacy.png) | **Not fully proven by the QR/login screenshot. A separate authorized check is needed to show one signed-in student cannot view another student's records.** |
 | No-class state | User confirmation of previously performed check | **Checked previously: the app displayed “You are not assigned to any class.” No screenshot is currently linked.** |
 | Missing-teacher state | User confirmation of previously performed check | **Checked previously: the app displayed “You are not assigned a homeroom teacher.” No screenshot is currently linked.** |
 | Responsive layout | No clearly labelled phone/laptop pair identified | **Pending confirmation** |
@@ -95,7 +97,8 @@ I should be able to explain:
 1. How the signed-in student's identity scopes the My Class request.
 2. How the interface distinguishes a student with no assigned class from a class with no assigned homeroom teacher.
 3. What an authorized test would demonstrate that one student cannot read another student's class data.
-4. Which before/after screenshots correspond to the exact refresh sequence I performed.
+4. How the student-card QR code routes to StudentHub and why administrator-assigned credentials are required before sign-in.
+5. Which before/after screenshots correspond to the exact refresh sequence I performed.
 
 ## 6. Prior work
 
