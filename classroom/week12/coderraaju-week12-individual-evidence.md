@@ -1,9 +1,24 @@
-# CoderRaaju — Week 12 Individual Assignment
+# Individual Evidence — Bal Raju, Week 12
 
 **Student:** Bal Raju (`CoderRaaju`)  
 **Team:** Team 1 — StudentHub  
-**Date:** November 24, 2026 (Asia/Seoul)  
+**Reporting dates:** November 24–25, 2026 (Asia/Seoul)  
 **Related issues:** [#54 — menu publication](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/54) · [#56 — item availability](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/56)
+
+
+## Contribution summary
+
+Bal Raju’s Week 12 canteen slice brings together a reported physical-iPhone Safari walkthrough and the separately attributed local automated checks. The personal phone sequence covers canteen account creation, dashboard access, menu entry/publication, price editing and copy-day selection. Galan supplied nine original pictures and confirmed Bal Raju as the tester. Codex organized and drafted the documentation through the authorized CoderRaaju connection.
+
+| Contribution / result | Direct evidence |
+| --- | --- |
+| Reported personal hosted test on iPhone Safari | [November 25 step-by-step receipt](coderraaju-iphone-canteen-2026-11-25.md) |
+| Canteen account creation and access | [Creation form](evidence/coderraaju-iphone-2026-11-25/01.jpg), [active account](evidence/coderraaju-iphone-2026-11-25/02.jpg), [Bal_can dashboard](evidence/coderraaju-iphone-2026-11-25/03.jpg) |
+| Menu items, rupee prices and published status | [Item entry](evidence/coderraaju-iphone-2026-11-25/04.jpg), [menu review](evidence/coderraaju-iphone-2026-11-25/05.jpg), [published three-item menu](evidence/coderraaju-iphone-2026-11-25/06.jpg) |
+| Price edit and multi-day selection | [Mandu price field changed to NPR 100](evidence/coderraaju-iphone-2026-11-25/07.jpg), [copy calendar](evidence/coderraaju-iphone-2026-11-25/08.jpg), [Friday/Saturday selected](evidence/coderraaju-iphone-2026-11-25/09.jpg) |
+| Separate local regression evidence | November 24 browser and API results below retain Codex as runner and their exact revision |
+
+**Completed documentation:** individual contribution summary, starting state, expected/actual table, browser/device, all nine picture links, assistance attribution and follow-up ownership. The phone run supports active account creation and menu publication. Saved price change, copied drafts and student visibility are reported outcomes; their final result pictures and exact phone-run revision remain the next hosted-acceptance evidence to supply. This preserves the distinction between completed personal work and additional verification.
 
 ## My Week 12 task
 
@@ -59,4 +74,4 @@ Galan supplied nine screenshots and confirmed that Bal Raju performed the hosted
 
 The selected November 25 menu starts as an empty draft and later shows Published with three available items. Student visibility, saved price change and completed copying are reported in the supplied explanation; their final result views are not present among these nine pictures. Exact phone-run deployment revision and fixture agreement were not captured. The receipt includes expected/actual results and a bounded Definition of Done for the remaining proof.
 
-This personal run is attributed to Bal Raju based on Galan’s confirmation, separately from the November 24 Codex-run local checks above. Codex drafted and published this documentation through the authorized CoderRaaju connection; screenshots were uploaded through the existing repository connection. No independent operator authentication or full hosted acceptance is claimed.
+This personal run is attributed to Bal Raju based on Galan’s confirmation, separately from the November 24 Codex-run local checks above. Codex drafted and published this documentation through the authorized CoderRaaju connection; screenshots were uploaded through the existing repository connection. The reported personal run and earlier automated checks remain separately attributed; full hosted acceptance awaits the specific evidence listed in the receipt.
