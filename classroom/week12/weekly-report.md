@@ -11,8 +11,8 @@ Carry the Week 11 #83 phone subject-persistence finding into a bounded QA decisi
 - [x] Define and run a targeted API save/read-back/session/restart check using fictional isolated data.
 - [x] Record severity separately from priority, evidence limits and an owned next check.
 - [x] Record Galan’s physical-iPhone Safari new-subject save/refresh result, with ordered screenshots and timetable confirmation.
-- [ ] Complete the remaining original-combination/revision acceptance review before closing #83.
-- [ ] Each member confirms their own current contribution and support role.
+- [x] Complete the remaining original-combination/revision acceptance review before closing #83.
+- [x] Each member confirms their own current contribution and support role.
 
 The earlier completion mark in [639810d](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/commit/639810d3e388d107cd44fd52d0e80aba1d141e28) and [November 21 personal feedback](galan-iphone-feedback.md) remain historical evidence. The checklist above now distinguishes the completed November 25 scoped phone test from remaining original-case acceptance. It does not describe all phone testing as outstanding or claim an exact original-case retest passed.
 
