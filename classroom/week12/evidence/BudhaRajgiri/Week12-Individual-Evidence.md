@@ -46,19 +46,21 @@ These are linked as supporting images only. The subject/homework comparisons are
 
 ## 3. Observed issue: refresh control returns to homepage
 
-**Observed behavior:** When I click the in-app refresh control while viewing a page, the application takes me back to the homepage instead of refreshing the current page and keeping me on that page.
+**Observed environment:** Laptop (desktop browser; exact browser/version not recorded).
+
+**Observed behavior:** When I click the in-app refresh control on my laptop while viewing a page, the application takes me back to the homepage instead of refreshing the current page and keeping me on that page.
 
 **Expected behavior:** The refresh action should reload or update the current page's data while keeping the user on the same page (for example, My Class or the timetable), unless the product intentionally specifies a different navigation behavior.
 
 **Impact:** This interrupts the user's workflow and makes it difficult to verify refresh/persistence on the page being tested. It may also make the existing before/after refresh evidence ambiguous if the page changed during the action.
 
 **Reproduction steps:**
-1. Sign in using the authorized student test account.
+1. On the laptop, sign in using the authorized student test account.
 2. Navigate to My Class or another page being checked.
 3. Click the in-app refresh control.
 4. Observe that the application navigates to the homepage.
 
-**Status:** Observed by the user; needs developer investigation and retest after a fix. No code fix is claimed in this individual evidence file.
+**Status:** Observed by the user on a laptop; needs developer investigation and retest after a fix. The exact browser/version and test date have not yet been recorded. No code fix is claimed in this individual evidence file.
 
 ## 4. Test plan and results to confirm
 
