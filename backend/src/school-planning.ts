@@ -128,6 +128,8 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
       teachers:await rows(pool,'SELECT * FROM school_teachers ORDER BY name,id'),
       grade_subjects:await rows(pool,'SELECT * FROM school_grade_subjects'),
       subject_teachers:await rows(pool,'SELECT * FROM school_offering_teachers'),
+      teacher_subjects:await rows(pool,'SELECT teacher_id,course_id FROM school_teacher_subjects'),
+      bookings:await rows(pool,"SELECT teacher_id,day_of_week,start_time,end_time,is_cancelled,DATE_FORMAT(starts_on,'%Y-%m-%d') starts_on,DATE_FORMAT(ends_on,'%Y-%m-%d') ends_on FROM school_room_bookings WHERE is_cancelled=0"),
       catalog:await rows(pool,'SELECT id,course_code,course_name FROM courses ORDER BY course_code'),
       meetings:await rows(pool,'SELECT * FROM class_schedules ORDER BY day_of_week,start_time,id'),
     });

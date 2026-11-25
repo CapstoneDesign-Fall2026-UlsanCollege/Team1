@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, reactive, ref, useId, watch } from 'vue'
+import {plannerTeacherReason,subjectTeacherIds} from '../planner-teachers'
 import { days } from '../schedules'
 import {browserDragScroller} from '../drag-scroll'
 const props = defineProps<{ state: any; classId: number; yearId: number; busy: boolean; error?: string; classLabel?: string; save: (path: string, method: string, value: object) => Promise<any> }>()
@@ -86,6 +87,10 @@ onBeforeUnmount(() => {cleanupDrag?.();dragScroller.stop()})
 const pendingSlot = ref<{day:number;hour:number}|null>(null)
 const popup = ref<HTMLDialogElement | null>(null), popupMode = ref(''), popupError = ref('')
 const draft = reactive({ course_id:0, offering_id:0, meeting_id:0, teacher_id:0, day_of_week:7, start_time:'10:00', end_time:'11:00', location:'' })
+const popupCourseId=computed(()=>popupMode.value==='subject'?draft.course_id:subject(draft.offering_id)?.course_id??0)
+const teacherSlots=computed(()=>pendingSlot.value?[{day_of_week:pendingSlot.value.day,start_time:time(pendingSlot.value.hour),end_time:time(pendingSlot.value.hour+1)}]:props.state.meetings.filter((m:any)=>popupMode.value==='teacher'&&m.course_offering_id===draft.offering_id))
+const teacherChoices=computed(()=>{const ids=subjectTeacherIds(popupCourseId.value,props.state);return teachers.value.filter((t:any)=>ids.has(t.id)).map((t:any)=>({...t,status:plannerTeacherReason(t.id,termId.value,teacherSlots.value,props.state,popupMode.value==='teacher'?draft.offering_id:0)}))})
+const selectedTeacherStatus=computed(()=>teacherChoices.value.find((t:any)=>t.id===draft.teacher_id)?.status??'')
 const popupSubject = computed(() => popupMode.value === 'subject' ? props.state.catalog.find((c:any)=>c.id===draft.course_id)?.course_name : subject(draft.offering_id)?.course_name)
 function closePopup() { if (!props.busy) { popup.value?.close(); popupMode.value=''; popupError.value='';pendingSlot.value=null } }
 async function showPopup(mode:string) { popupMode.value=mode;popupError.value='';await nextTick();if(popup.value && !popup.value.open)popup.value.showModal() }
@@ -112,6 +117,7 @@ async function editLesson(m:any){if(props.busy||suppressClick)return;Object.assi
 async function openTeacher(id:number){if(props.busy)return;Object.assign(draft,{offering_id:id,teacher_id:teacherFor(id)});await showPopup('teacher')}
 async function confirmPopup(){
   if(props.busy)return
+  if((popupMode.value==='subject'||popupMode.value==='teacher')&&(!teacherChoices.value.some((t:any)=>t.id===draft.teacher_id)||selectedTeacherStatus.value.startsWith('Unavailable'))){popupError.value='Choose an available teacher linked to this subject.';return}
   popupError.value='';let result
   try{
     if(popupMode.value==='subject')result=await props.save('subjects','POST',{class_id:props.classId,course_id:draft.course_id,semester_id:termId.value,teacher_id:draft.teacher_id})
@@ -161,9 +167,9 @@ watch(()=>props.busy,value=>{if(value)cleanupDrag?.()})
     <p class="popup-subject">{{popupSubject}}</p><p v-if="pendingSlot" class="hint">Step 1: confirm this subject and teacher. Next, review the lesson for {{days[pendingSlot.day-1]}} at {{time(pendingSlot.hour)}}. Each step saves only after confirmation.</p>
     <p v-if="popupError" class="popup-error" role="alert">{{popupError}}</p>
     <form @submit.prevent="confirmPopup"><fieldset :disabled="busy">
-      <template v-if="popupMode==='subject' || popupMode==='teacher'"><label>Subject teacher<select v-model="draft.teacher_id" required><option :value="0" disabled>Choose a teacher</option><option v-for="t in teachers" :key="t.id" :value="t.id">{{t.name}} · {{t.staff_code}}</option></select></label><p v-if="!teachers.length" class="hint">Add a teacher using the library’s Add a teacher section first.</p><p v-if="popupMode==='teacher'" class="hint">This changes the teacher for all lessons of this subject offering, including its Sunday homeroom responsibility.</p></template>
+      <template v-if="popupMode==='subject' || popupMode==='teacher'"><label>Subject teacher<select v-model="draft.teacher_id" required><option :value="0" disabled>Choose a teacher</option><option v-for="t in teacherChoices" :key="t.id" :value="t.id" :disabled="t.status.startsWith('Unavailable')">{{t.name}} · {{t.staff_code}} — {{t.status}}</option></select></label><p v-if="!teacherChoices.length" class="hint">No active teachers are linked to this subject. Create or update a teacher’s teaching subject in Accounts → Teacher list.</p><p v-else class="hint">{{selectedTeacherStatus || (teacherSlots.length?'Availability is checked across this term. Unavailable teachers cannot be selected.':'Choose a timetable slot to check teacher availability.')}}</p><p v-if="popupMode==='teacher'" class="hint">This changes the teacher for all lessons of this subject offering, including its Sunday homeroom responsibility.</p></template>
       <template v-else><p class="hint">Teacher: {{subject(draft.offering_id)?.professor || 'Not assigned'}} · Nepal time (NPT)</p><div class="popup-fields"><label>Day<select v-model="draft.day_of_week"><option :value="0" :disabled="!!draft.meeting_id && meetings.find((m:any)=>m.id===draft.meeting_id)?.day_of_week===6">Sunday–Friday (same time daily)</option><option v-for="day in [7,1,2,3,4,5,6]" :key="day" :value="day">{{days[day-1]}}</option></select></label><label>Start time<input v-model="draft.start_time" type="time" required></label><label>End time<input v-model="draft.end_time" type="time" required></label></div><p v-if="draft.day_of_week===0" class="hint">Applies to Sunday through Friday at the same time. Updates matching lessons from this routine and adds missing days. Other lessons and Saturday stay unchanged. A conflict on any day prevents the whole save.</p><label>Location note (optional)<input v-model="draft.location" maxlength="150" placeholder="For example, usual classroom"></label><p class="hint">Repeats weekly in this subject’s term. Shared offerings update every linked class. Shared-room bookings are managed separately in Rooms.</p></template>
-      <div class="popup-actions"><button :disabled="(popupMode==='subject'||popupMode==='teacher') && !draft.teacher_id">{{busy?'Saving…':popupMode==='subject'?'Confirm subject':popupMode==='teacher'?'Save teacher':draft.day_of_week===0?'Save Sunday–Friday':'Save lesson'}}</button><button type="button" class="text-button" @click="closePopup">Cancel</button></div>
+      <div class="popup-actions"><button :disabled="(popupMode==='subject'||popupMode==='teacher') && (!draft.teacher_id || selectedTeacherStatus.startsWith('Unavailable') || !teacherChoices.some((t:any)=>t.id===draft.teacher_id))">{{busy?'Saving…':popupMode==='subject'?'Confirm subject':popupMode==='teacher'?'Save teacher':draft.day_of_week===0?'Save Sunday–Friday':'Save lesson'}}</button><button type="button" class="text-button" @click="closePopup">Cancel</button></div>
     </fieldset></form>
   </dialog>
 
