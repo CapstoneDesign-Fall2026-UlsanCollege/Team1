@@ -107,3 +107,13 @@
   #app .admin-workspace > .admin-section > .card { padding: 14px; }
   #app .admin-workspace dialog { padding: 16px; }
 }
+
+/* Let desktop administration use the monitor instead of a fixed 1180px column.
+   Keep a small responsive gutter and preserve the existing phone rules. */
+@media (min-width: 1180px) {
+  #app .admin-page-frame {
+    width: 100%;
+    max-width: none;
+    padding-inline: clamp(24px, 2.5vw, 64px);
+  }
+}

@@ -138,8 +138,8 @@ onMounted(async () => {
   <TeacherWorkspace v-else-if="user?.role === 'teacher'" :login-id="user.login_id" :busy="busy" :error="error" @logout="logout" />
   <CanteenWorkspace v-else-if="user?.role === 'canteen_head'" :login-id="user.login_id" :busy="busy" :error="error" @logout="logout" />
   <template v-else>
-  <header><a class="brand" href="/">S<span>StudentHub</span></a><span class="tag">Your school, connected.</span></header>
-  <main>
+  <header :class="{'admin-page-frame':user?.role==='admin'}"><a class="brand" href="/">S<span>StudentHub</span></a><span class="tag">Your school, connected.</span></header>
+  <main :class="{'admin-page-frame':user?.role==='admin'}">
     <p v-if="loading" role="status">Checking your session…</p>
     <section v-else-if="!user" class="login-layout">
       <div class="intro">
@@ -189,7 +189,7 @@ onMounted(async () => {
       </template>
     </section>
   </main>
-  <footer>StudentHub · Student Life Platform</footer>
+  <footer :class="{'admin-page-frame':user?.role==='admin'}">StudentHub · Student Life Platform</footer>
   </template>
 </template>
 
