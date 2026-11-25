@@ -4,7 +4,7 @@
 **Browser / device:** Safari on iPhone, as supplied in the conversation  
 **Site:** https://team1-production.up.railway.app/  
 **Menu date:** November 25, 2026  
-**Attribution:** Galan supplied these nine original screenshots and identified Bal Raju as the person who performed the steps. This is a reported personal run, not a Codex-executed browser run. Codex organized the supplied evidence and drafted this documentation. The report does not independently authenticate the operator.
+**Attribution:** Galan supplied these nine original screenshots and identified Bal Raju as the person who performed the steps. This is a reported personal run, not a Codex-executed browser run. Codex organized the supplied evidence and drafted this documentation. Tester attribution is based on that confirmation.
 
 ## Starting state and bounded objective
 
@@ -36,13 +36,25 @@ The supplied explanation reports adding menu/prices, changing prices, copying to
 
 **User-reported, without direct result picture:** saved price change, completed copies and student visibility. None of these nine images shows the student dashboard. Preserve the reported result without presenting it as screenshot-verified fresh-session acceptance. Draft privacy, withdrawal, sold-out behavior and persistence after reload were not demonstrated by this phone sequence.
 
-## Definition of Done and next evidence
+## Documentation Definition of Done — completed
 
 - [x] Record starting menu state, device/browser, selected date and nine direct picture links.
 - [x] Preserve the reported tester identity and clearly distinguish human-reported execution from documentation assistance.
 - [x] Show active account and menu Published status.
-- [ ] Capture exact deployed revision and confirmed fixture conditions.
-- [ ] Show saved NPR 100 after reload and the student Canteen view in a fresh sign-in, comparing date/item/price.
-- [ ] If claiming copy completion, show destination November 27/28 drafts after saving; otherwise retain it as demonstrated selection only.
+- [x] Document expected versus actual behavior for every supplied picture.
+- [x] Record reported student visibility, price saving and copying separately from screenshot-supported outcomes.
+- [x] Link this receipt from Bal Raju’s individual evidence and shared report.
+
+## Hosted acceptance evidence — still required
+
+These are verification tasks, not unfinished document writing. They remain open because the supplied pictures do not establish them.
+
+| Evidence needed | Current status | Next owner / action |
+| --- | --- | --- |
+| Exact phone-run deployed revision and fixture conditions | Not captured; do not substitute a later source commit | Bal Raju records the active revision and agreed menu/date before a repeat |
+| Saved NPR 100 and fresh student view | Reported successful; result view not supplied | Bal Raju reloads the saved menu and captures the student Canteen page with matching date/item/price |
+| Completed destination copies | Copying reported; pictures show selection before submission | Bal Raju captures November 27/28 draft results if retaining this acceptance claim |
+
+Completing the documentation does not convert these missing observations into passed tests.
 
 No runtime change or full hosted acceptance is claimed. These targeted follow-ups stay within the frozen canteen demo path. Earlier local automated checks retain their original runner and revision in the [individual evidence](coderraaju-week12-individual-evidence.md).
