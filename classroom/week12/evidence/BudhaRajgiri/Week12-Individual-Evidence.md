@@ -16,7 +16,7 @@
 - Prepared this evidence record and related documentation with ChatGPT assistance.
 
 **Code changes:** No Week 12 code change is claimed here.  
-**Runtime test attribution:** The screenshots are linked as submitted evidence. Personal test details and the observed outcomes still need the user's confirmation in the table below.  
+**Runtime test attribution:** The screenshots are linked as submitted evidence. The user has also confirmed the previously performed no-class and missing-homeroom-teacher checks, and the laptop refresh redirect is recorded as Issue #109.  
 **Ownership boundary:** This personal review is separate from Galan's #83 subject-persistence implementation and tests. Their work is not claimed as mine.
 
 ## 2. Screenshot evidence
@@ -69,20 +69,20 @@ The user confirms these two My Class states were checked earlier and the applica
 3. Click the in-app refresh control.
 4. Observe that the application navigates to the homepage.
 
-**Status:** Observed by the user on a laptop; needs developer investigation and retest after a fix. The exact browser/version and test date have not yet been recorded. No code fix is claimed in this individual evidence file.
+**Tracking issue:** [#109 — Fix in-app refresh redirecting users to the homepage](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/109). **Status:** Observed by the user on a laptop; needs developer investigation and retest after a fix. The exact browser/version and test date have not yet been recorded. No code fix is claimed in this individual evidence file.
 
 ## 4. Test plan and results to confirm
 
 | Check | Evidence | Actual result / status |
 | --- | --- | --- |
 | Assigned-class / student-card display | [Student card](student%20card.png), [download capture](downloading%20%20the%20%20student%20card.png) | **Screenshot supplied; user confirmation of account/class details pending** |
-| My Class refresh | [Before refresh](interface%20before%20refresh%20.png), [after five refreshes](my%20class%20after%205%20refresh.png) | **Issue observed: clicking the in-app refresh control navigates to the homepage instead of retaining the current page. Refresh/persistence on the same page is therefore not passed; investigate and retest.** |
+| My Class refresh | [Before refresh](interface%20before%20refresh%20.png), [after five refreshes](my%20class%20after%205%20refresh.png), [Issue #109](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/109) | **Issue observed: clicking the in-app refresh control navigates to the homepage instead of retaining the current page. Refresh/persistence on the same page is therefore not passed; investigate and retest.** |
 | Timetable consistency / refresh | [Weekly timetable](weekly-timetable.png), [after five refreshes](timetable%20after%205%20refreshes.png) | **Screenshots supplied; confirm timetable belongs to the same signed-in student and remained consistent** |
 | Subject persistence | [Before](subject%20before%20refresh.png), [after](subject%20after%20refresh.png) | **Supporting before/after screenshots supplied; confirm exact steps and context** |
 | Homework persistence | [Before](homework%20before%20refreshes.png), [after](homework%20after%20refreshes.png) | **Supporting before/after screenshots supplied; confirm exact steps and context** |
 | Privacy boundary | [Student privacy screenshot](student_privacy.png) | **Screenshot supplied; does not alone prove another student's data is inaccessible. Authorized privacy test pending** |
-| No-class state | No matching screenshot identified | **Not evidenced / pending suitable test account** |
-| Missing-teacher state | No matching screenshot identified | **Not evidenced / pending suitable fixture** |
+| No-class state | User confirmation of previously performed check | **Checked previously: the app displayed “You are not assigned to any class.” No screenshot is currently linked.** |
+| Missing-teacher state | User confirmation of previously performed check | **Checked previously: the app displayed “You are not assigned a homeroom teacher.” No screenshot is currently linked.** |
 | Responsive layout | No clearly labelled phone/laptop pair identified | **Pending confirmation** |
 
 For each check you personally performed, add the date, browser/device, local or deployed environment, app revision if known, account role (never the password), exact steps, expected result, actual result, and pass/fail status. Track the refresh-navigation behavior above as an issue until a developer investigates it and the same-page refresh is retested. If a check cannot be run safely, mark it **Not tested** and explain why.
