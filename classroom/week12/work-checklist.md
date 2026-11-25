@@ -51,7 +51,7 @@ Adapted to our actual work from the [course checklist](https://github.com/Capsto
 - [x] Link [Week 12 roadmap](roadmap.md), [Final Demo Roadmap](../final-demo-roadmap.md) and the existing shared area map.
 - [x] Provide one [shared Weekly Report](weekly-report.md), with recorded evidence and confirmation limits.
 - [x] Keep P1 setup/live acceptance gaps before polish and parent-dashboard stretch work.
-- [x] Add Buddha's Week 12 individual evidence worksheet and link it from the shared report and AI-use audit.
+- [x] Add Buddha's Week 12 individual evidence file and link it from the shared report and AI-use audit.
 - [ ] Buddha reviews/confirms the worksheet, performs the checks he claims, adds genuine screenshots/results and confirms his AI-use/contribution entry.
 - [ ] Each member confirms their own current contribution and evidence.
 - [x] Link [personal receipt](galan-iphone-feedback.md), [peer notes](peer-test-notes.md), [change record](change-record.md) and [current audit](ai-use-and-code-ownership-audit.md).
