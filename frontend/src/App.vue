@@ -118,7 +118,7 @@ async function login() {
 }
 async function logout() {
   busy.value = true; error.value = ''
-  try { await api('/auth/logout', {}); user.value = null }
+  try { await api('/auth/logout', {}); loginId.value = ''; password.value = ''; resetPage.value = false; user.value = null }
   catch (e) { error.value = e instanceof Error ? e.message : 'Unable to log out.' }
   finally { busy.value = false }
 }
