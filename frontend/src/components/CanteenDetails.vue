@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed,onBeforeUnmount,onMounted,ref,watch} from 'vue'
 import {scheduleApi} from '../schedules'
-const props=defineProps<{manage?:boolean;compact?:boolean}>()
+const props=defineProps<{manage?:boolean;compact?:boolean;reader?:'student'|'teacher'}>()
 const emit=defineEmits<{busy:[value:boolean]}>()
 type Hour={day:number;state:'unknown'|'open'|'closed';opens:string;closes:string}
 type Info={name:string;location:string;hours:Hour[];notice_date:string|null;notice:string;closed_for_notice:boolean;published:boolean;version:number;updated_at?:string}
@@ -16,7 +16,7 @@ let timer:ReturnType<typeof setTimeout>|undefined
 watch(message,value=>{clearTimeout(timer);if(value)timer=setTimeout(()=>message.value='',4000)})
 onBeforeUnmount(()=>clearTimeout(timer))
 async function load(force=false){if(dirty.value&&!force&&!window.confirm('Discard unsaved canteen details and reload?'))return;loading.value=true;error.value='';ready.value=false
- try{const result=await scheduleApi(props.manage?'canteen/info':'student/canteen/info');form.value=result.info??empty();exists.value=Boolean(result.info);today.value=result.today;baseline.value=JSON.stringify(form.value);ready.value=true}catch(e){error.value=e instanceof Error?e.message:'Unable to load canteen details.';exists.value=false}finally{loading.value=false}}
+ try{const result=await scheduleApi(props.manage?'canteen/info':`${props.reader??'student'}/canteen/info`);form.value=result.info??empty();exists.value=Boolean(result.info);today.value=result.today;baseline.value=JSON.stringify(form.value);ready.value=true}catch(e){error.value=e instanceof Error?e.message:'Unable to load canteen details.';exists.value=false}finally{loading.value=false}}
 async function save(){if(!ready.value||saving.value)return;saving.value=true;emit('busy',true);error.value='';message.value='';try{const result=await scheduleApi('canteen/info','PUT',form.value);await load(true);if(!error.value)message.value=result.message}catch(e){error.value=e instanceof Error?e.message:'Unable to save. Your changes remain in the form.'}finally{saving.value=false;emit('busy',false)}}
 function useSchoolHours(){form.value.hours=weekdays.map(d=>({day:d.id,state:d.id===6?'closed':'open',opens:d.id===6?'':'10:00',closes:d.id===6?'':'16:00'}))}
 onMounted(()=>load())

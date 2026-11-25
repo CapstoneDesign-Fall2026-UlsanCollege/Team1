@@ -64,8 +64,8 @@ export function canteenMenuRouter(pool: Pool, today: () => string = campusDate) 
     if (res.locals.user.role !== 'canteen_head') { res.status(403).json({ message: 'Canteen head only.' }); return; }
     next();
   });
-  router.get('/student/canteen', async (_req, res) => {
-    if (res.locals.user.role !== 'student') throw new ScheduleError(403, 'Students only.');
+  router.get(['/student/canteen','/teacher/canteen'], async (_req, res) => {
+    if (!['student','teacher'].includes(res.locals.user.role)) throw new ScheduleError(403, 'Students and teachers only.');
     const date = today();
     const [rows] = await pool.execute<RowDataPacket[]>(
       `SELECT ${columns} FROM canteen_menus WHERE service_date=? AND published=1`, [date]);

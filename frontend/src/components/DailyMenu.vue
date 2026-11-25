@@ -4,7 +4,7 @@ import {weekdayDate,recommendedPrice} from '../canteen-menu-tools'
 import CanteenDetails from './CanteenDetails.vue'
 import { scheduleApi } from '../schedules'
 
-const props = defineProps<{ manage?: boolean; preview?: boolean }>()
+const props = defineProps<{ manage?: boolean; preview?: boolean; reader?: 'student' | 'teacher' }>()
 const emit=defineEmits<{busy:[value:boolean]}>()
 type Item = { id?: string; name: string; price: number; status:'unknown'|'available'|'sold_out' }
 const campusDate = () => new Intl.DateTimeFormat('en-CA', {
@@ -68,7 +68,7 @@ async function load(confirmDiscard=false) {
   // Do not leave the previous date's food visible during a failed load.
   items.value = []; updated.value = ''; hasMenu.value = false
   try {
-    const data = await scheduleApi(props.manage ? 'canteen/menu?date=' + requestedDate : 'student/canteen')
+    const data = await scheduleApi(props.manage ? 'canteen/menu?date=' + requestedDate : `${props.reader??'student'}/canteen`)
     if (current !== request) return
     date.value = props.manage ? data.date : data.today
     loadedDate.value = date.value; version.value = data.menu?.version ?? 0
@@ -131,7 +131,7 @@ onMounted(()=>{void load();void loadRecommendations()})
     </template>
     <dialog ref="daysDialog" class="new-menu-dialog"><form @submit.prevent="applyDays"><fieldset :disabled="saving"><h3>Apply menu to selected days</h3><p class="muted">Copy the items and prices currently in this form. Your source menu stays unchanged. Copies are unpublished drafts with availability not confirmed.</p><label>Week containing<input v-model="copyWeek" type="date" min="2000-01-01" max="2200-12-31" required @change="copyDays=[]"></label><div class="copy-days"><label v-for="(day,i) in dayNames" :key="day" class="copy-day"><input v-model="copyDays" type="checkbox" :value="i" :disabled="!dateForDay(i)||dateForDay(i)===loadedDate"><span>{{day}}<small>{{dateForDay(i)}}{{dateForDay(i)===loadedDate?' · source menu':''}}</small></span></label></div><p v-if="targetDates.length" class="muted">{{targetDates.length}} dates selected. Dates with existing menus will be skipped. Drafts will be created for the remaining dates.</p><p v-if="copyError" class="error" role="alert">{{copyError}}</p><div class="dialog-actions"><button type="button" class="secondary" @click="daysDialog?.close()">Cancel</button><button :disabled="!targetDates.length||saving">{{saving?'Saving drafts…':'Create selected drafts'}}</button></div></fieldset></form></dialog>
     <dialog ref="newMenuDialog" class="new-menu-dialog"><form @submit.prevent="startNewMenu"><h3>Create a new daily menu</h3><p class="muted">Start with an empty draft. Existing menus will stay saved.</p><label>New menu date<input v-model="newDate" type="date" min="2000-01-01" max="2200-12-31" required></label><p v-if="newMenuError" class="error" role="alert">{{newMenuError}}</p><div class="dialog-actions"><button type="button" class="secondary" :disabled="startingMenu" @click="newMenuDialog?.close()">Cancel</button><button :disabled="startingMenu">{{startingMenu?'Checking date…':'Start draft'}}</button></div></form></dialog>
-    <details v-if="!manage&&!preview" class="student-service-details"><summary>Hours & location</summary><CanteenDetails compact /></details>
+    <details v-if="!manage&&!preview" class="student-service-details"><summary>Hours & location</summary><CanteenDetails compact :reader="reader" /></details>
     <p v-if="updated && !loading && !error" class="muted">Last updated {{ displayTime(updated) }} (Nepal time)</p>
   </section>
 </template>

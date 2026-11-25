@@ -42,8 +42,8 @@ export function canteenInfoRouter(pool:Pool,today:()=>string=campusDate){
    await c.execute('UPDATE canteen_info SET name=?,location=?,hours=?,notice_date=?,notice=?,closed_for_notice=?,published=?,version=version+1 WHERE id=1',[input.name,input.location,JSON.stringify(input.hours),input.notice_date,input.notice,input.closed_for_notice?1:0,input.published?1:0]);await c.commit();res.json({message:input.published?'Canteen details published.':'Canteen draft saved.',version:input.version+1});
   }catch(e){await c.rollback();throw e}finally{c.release()}
  });
- router.get('/student/canteen/info',async(_req,res)=>{
-  if(res.locals.user.role!=='student')throw new ScheduleError(403,'Students only.');
+ router.get(['/student/canteen/info','/teacher/canteen/info'],async(_req,res)=>{
+  if(!['student','teacher'].includes(res.locals.user.role))throw new ScheduleError(403,'Students and teachers only.');
   const date=today();const [rows]=await pool.execute<RowDataPacket[]>(`SELECT ${cols} FROM canteen_info WHERE id=1 AND published=1`);
   const info=unpack(rows[0]);if(info && info.notice_date!==date){info.notice='';info.notice_date=null;info.closed_for_notice=false}
   res.json({today:date,info});
