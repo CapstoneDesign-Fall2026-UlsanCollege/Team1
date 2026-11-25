@@ -44,6 +44,15 @@ All files are stored in this folder: [BudhaRajgiri Week 12 evidence folder](./).
 
 These are linked as supporting images only. The subject/homework comparisons are not treated as proof of the separate My Class privacy boundary.
 
+## 3. Empty-state checks previously performed
+
+The user confirms these two My Class states were checked earlier and the application displayed the following messages:
+
+- **No-class state:** “You are not assigned to any class.” This is the expected guidance when the student has no class assignment.
+- **Missing-homeroom-teacher state:** “You are not assigned a homeroom teacher.” This is the expected guidance when the student has no homeroom teacher assignment.
+
+**Evidence status:** Marked as previously observed and confirmed by the user. No new screenshot or independent retest is claimed in this update; attach the original screenshots or repeat the checks if the instructor requires visual proof.
+
 ## 3. Observed issue: refresh control returns to homepage
 
 **Observed environment:** Laptop (desktop browser; exact browser/version not recorded).
