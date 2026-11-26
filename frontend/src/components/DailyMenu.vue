@@ -4,12 +4,15 @@ import {weekdayDate,recommendedPrice} from '../canteen-menu-tools'
 import CanteenDetails from './CanteenDetails.vue'
 import { scheduleApi } from '../schedules'
 
-const props = defineProps<{ manage?: boolean; preview?: boolean; reader?: 'student' | 'teacher' }>()
+const props = defineProps<{ manage?: boolean; preview?: boolean; reader?: 'student' | 'teacher' | 'parent' }>()
 const emit=defineEmits<{busy:[value:boolean]}>()
 type Item = { id?: string; name: string; price: number; status:'unknown'|'available'|'sold_out' }
 const campusDate = () => new Intl.DateTimeFormat('en-CA', {
   timeZone: 'Asia/Kathmandu', year: 'numeric', month: '2-digit', day: '2-digit',
 }).format(new Date())
+const readerToday=ref(campusDate())
+const readerDays=computed(()=>Array.from({length:5},(_,i)=>{const d=new Date(readerToday.value+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+i);return {date:d.toISOString().slice(0,10),label:i===0?'Today':new Intl.DateTimeFormat('en',{weekday:'short',timeZone:'UTC'}).format(d)}}))
+async function selectReaderDay(value:string){date.value=value;await load()}
 const date = ref(campusDate()), loadedDate = ref(''), version = ref(0)
 const items = ref<Item[]>([]), published = ref(false), hasMenu = ref(false)
 const currency=ref('NPR'),baseline=ref(''),savedPublished=ref(false)
@@ -68,9 +71,10 @@ async function load(confirmDiscard=false) {
   // Do not leave the previous date's food visible during a failed load.
   items.value = []; updated.value = ''; hasMenu.value = false
   try {
-    const data = await scheduleApi(props.manage ? 'canteen/menu?date=' + requestedDate : `${props.reader??'student'}/canteen`)
+    const data = await scheduleApi(props.manage ? 'canteen/menu?date=' + requestedDate : `${props.reader??'student'}/canteen?date=${requestedDate}`)
     if (current !== request) return
-    date.value = props.manage ? data.date : data.today
+    if(!props.manage)readerToday.value=data.today
+    date.value = data.date ?? data.today
     loadedDate.value = date.value; version.value = data.menu?.version ?? 0
     items.value = data.menu?.items ?? []; published.value = data.menu?.published ?? false
     savedPublished.value=data.menu?.published??false;hasMenu.value = Boolean(data.menu); updated.value = data.menu?.updated_at ?? '';currency.value=data.menu?.currency??'NPR';baseline.value=JSON.stringify({items:items.value,published:published.value})
@@ -97,9 +101,10 @@ onMounted(()=>{void load();void loadRecommendations()})
 
 <template>
   <section class="daily-menu" :class="{'manage-menu':manage}">
-    <div v-if="!manage" class="menu-heading"><div><h2>{{preview?'School Canteen':'Today’s menu'}}</h2></div>
+    <div v-if="!manage" class="menu-heading"><div><h2>{{preview?'School Canteen':'Canteen menu'}}</h2></div>
       <button type="button" class="secondary" :disabled="loading || saving" @click="load(true)">Refresh</button>
     </div>
+    <nav v-if="!manage&&!preview" class="reader-days" aria-label="Menu dates"><button v-for="d in readerDays" :key="d.date" type="button" :aria-pressed="date===d.date" :class="{selected:date===d.date}" :disabled="loading" @click="selectReaderDay(d.date)"><span>{{d.label}}</span><small>{{d.date.slice(5)}}</small></button></nav>
     <p v-if="error" class="error" role="alert">{{ error }} <button type="button" class="secondary" :disabled="loading || saving" @click="load(true)">Reload saved data</button></p>
     <p v-if="message" class="success" role="status">{{ message }}</p>
     <div v-if="manage&&copyResult" class="copy-result" role="status"><strong>{{copyResult.created.length}} drafts created · {{copyResult.skipped.length}} dates skipped</strong><p v-if="copyResult.created.length">Created: {{copyResult.created.join(', ')}}</p><p v-if="copyResult.skipped.length">Existing menus kept: {{copyResult.skipped.join(', ')}}</p><button type="button" class="secondary" @click="copyResult=null">Dismiss summary</button></div>
@@ -131,12 +136,14 @@ onMounted(()=>{void load();void loadRecommendations()})
     </template>
     <dialog ref="daysDialog" class="new-menu-dialog"><form @submit.prevent="applyDays"><fieldset :disabled="saving"><h3>Apply menu to selected days</h3><p class="muted">Copy the items and prices currently in this form. Your source menu stays unchanged. Copies are unpublished drafts with availability not confirmed.</p><label>Week containing<input v-model="copyWeek" type="date" min="2000-01-01" max="2200-12-31" required @change="copyDays=[]"></label><div class="copy-days"><label v-for="(day,i) in dayNames" :key="day" class="copy-day"><input v-model="copyDays" type="checkbox" :value="i" :disabled="!dateForDay(i)||dateForDay(i)===loadedDate"><span>{{day}}<small>{{dateForDay(i)}}{{dateForDay(i)===loadedDate?' · source menu':''}}</small></span></label></div><p v-if="targetDates.length" class="muted">{{targetDates.length}} dates selected. Dates with existing menus will be skipped. Drafts will be created for the remaining dates.</p><p v-if="copyError" class="error" role="alert">{{copyError}}</p><div class="dialog-actions"><button type="button" class="secondary" @click="daysDialog?.close()">Cancel</button><button :disabled="!targetDates.length||saving">{{saving?'Saving drafts…':'Create selected drafts'}}</button></div></fieldset></form></dialog>
     <dialog ref="newMenuDialog" class="new-menu-dialog"><form @submit.prevent="startNewMenu"><h3>Create a new daily menu</h3><p class="muted">Start with an empty draft. Existing menus will stay saved.</p><label>New menu date<input v-model="newDate" type="date" min="2000-01-01" max="2200-12-31" required></label><p v-if="newMenuError" class="error" role="alert">{{newMenuError}}</p><div class="dialog-actions"><button type="button" class="secondary" :disabled="startingMenu" @click="newMenuDialog?.close()">Cancel</button><button :disabled="startingMenu">{{startingMenu?'Checking date…':'Start draft'}}</button></div></form></dialog>
-    <details v-if="!manage&&!preview" class="student-service-details"><summary>Hours & location</summary><CanteenDetails compact :reader="reader" /></details>
+    <details v-if="!manage&&!preview&&reader!=='parent'" class="student-service-details"><summary>Hours & location</summary><CanteenDetails compact :reader="reader" /></details>
     <p v-if="updated && !loading && !error" class="muted">Last updated {{ displayTime(updated) }} (Nepal time)</p>
   </section>
 </template>
 
 <style scoped>
+.reader-days{display:flex;gap:8px;overflow-x:auto;margin:16px 0;padding-bottom:4px}.reader-days button{flex:1;min-width:74px;width:auto;margin:0;padding:10px;background:#edf4ef;color:#355f4c;border:1px solid #d5e3da;border-radius:9px;min-height:48px}.reader-days button.selected{background:#35644e;color:white}.reader-days span,.reader-days small{display:block}.reader-days small{margin-top:4px;font-size:12px;color:inherit}
+
 .daily-menu{overflow-wrap:anywhere}.menu-heading,.menu-item{display:flex;align-items:center;justify-content:space-between;gap:16px}.menu-heading h2,.menu-item h3{margin:0}.menu-heading>button{width:auto;flex-shrink:0;white-space:nowrap}.date-field{display:block;max-width:220px;margin:20px 0}.daily-menu select{width:100%;padding:11px;border:1px solid #c4d4c9;border-radius:8px;font:inherit;background:white;color:#263e33;margin-top:6px}.daily-menu input{width:100%;box-sizing:border-box;margin-top:6px}.daily-menu fieldset{border:0;padding:0;min-width:0}.daily-menu .card{margin:16px 0}.menu-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(85px,.7fr) minmax(130px,1fr) auto;align-items:end;gap:12px;padding-bottom:18px;border-bottom:1px solid #dce5df;margin-bottom:18px}.menu-row label{margin:0}.publish{display:flex;align-items:center;gap:10px;margin-top:20px}.publish input{width:18px;height:18px;margin:0;flex-shrink:0}.daily-menu form button{width:auto;margin:8px 8px 0 0}.daily-menu .muted{font-size:14px;line-height:1.6}.menu-item strong{white-space:nowrap}.menu-item h3{overflow-wrap:anywhere;min-width:0}@media(max-width:600px){.menu-row{grid-template-columns:minmax(0,1fr) auto}.menu-row label:first-child{grid-column:1/-1}.menu-item{align-items:flex-start}.menu-heading{align-items:flex-start}}
 .menu-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.menu-stats>div{background:#edf4ef;border:1px solid #dbe7de;border-radius:12px;padding:14px}.menu-stats strong,.menu-stats span{display:block}.menu-stats strong{font-size:20px;color:#345b46}.menu-stats span{font-size:11px;color:#6f8275;margin-top:6px}.food-details{display:flex;align-items:end;flex-direction:column;gap:7px}.food-status{font-size:11px;padding:5px 8px;border-radius:12px;background:#edf1ef;color:#65766c}.food-status.available{background:#e3f1e7;color:#2e6643}.food-status.sold_out{background:#fbe8e4;color:#a34332}@media(max-width:600px){.menu-stats{grid-template-columns:1fr 1fr}.menu-stats strong{font-size:17px}.menu-row{grid-template-columns:1fr 1fr}.menu-row button{justify-self:start}}
 .menu-filters{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin:16px 0}.menu-filters label{font-size:13px;font-weight:600;min-width:150px;flex:1}.menu-filters .date-field{margin:0;max-width:none}.menu-filters>button{width:auto;margin:0;white-space:nowrap}.new-menu-dialog{max-height:calc(100vh - 32px);overflow:auto;border:1px solid #d4e1d8;border-radius:16px;padding:24px;width:min(440px,calc(100vw - 32px));box-sizing:border-box;color:#2d4839}.new-menu-dialog::backdrop{background:#153c2a70}.new-menu-dialog h3{margin-top:0}.dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}.dialog-actions button{width:auto}@media(max-width:600px){.menu-filters label{min-width:120px}.menu-filters>button{width:100%}}

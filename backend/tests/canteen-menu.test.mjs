@@ -7,7 +7,7 @@ import {randomBytes} from 'node:crypto';
 import {Router} from 'express';
 import {canteenInfoSchema,canteenInfoRouter,validateInfo,emptyHours} from '../dist/canteen-info.js';
 import {createApp} from '../dist/app.js';
-import {canteenMenuSchema, ensureCanteenMenuSchema, canteenMenuRouter, campusDate, isMenuDate, menuItems} from '../dist/canteen-menu.js';
+import {canteenMenuSchema, ensureCanteenMenuSchema, canteenMenuRouter, campusDate, isMenuDate, menuItems, readerMenuDate} from '../dist/canteen-menu.js';
 
 test('menu dates use Nepal time and reject impossible calendar dates', () => {
   assert.equal(campusDate(new Date('2026-11-01T18:14:59Z')), '2026-11-01');
@@ -173,4 +173,11 @@ test('isolated MySQL daily menu lifecycle', {skip:process.env.RUN_MENU_DB_TESTS 
     await stop();await pool?.end();
     try{await admin.query('DROP DATABASE IF EXISTS `'+db+'`');}finally{await admin.end();}
   }
+});
+
+test('reader menu dates cover today plus four calendar days only',()=>{
+ assert.equal(readerMenuDate(undefined,'2026-11-28'),'2026-11-28');
+ assert.equal(readerMenuDate('2026-12-02','2026-11-28'),'2026-12-02');
+ assert.equal(readerMenuDate('2027-01-02','2026-12-29'),'2027-01-02');
+ for(const date of ['2026-11-27','2026-12-03','2026-02-30',[],{}])assert.throws(()=>readerMenuDate(date,'2026-11-28'),/next four days/);
 });

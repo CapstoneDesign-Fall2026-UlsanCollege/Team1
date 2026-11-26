@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed,onBeforeUnmount,onMounted,ref,watch} from 'vue'
 import {scheduleApi} from '../schedules'
-const props=defineProps<{manage?:boolean;compact?:boolean;reader?:'student'|'teacher'}>()
+const props=defineProps<{manage?:boolean;compact?:boolean;reader?:'student'|'teacher'|'parent'}>()
 const emit=defineEmits<{busy:[value:boolean]}>()
 type Hour={day:number;state:'unknown'|'open'|'closed';opens:string;closes:string}
 type Info={name:string;location:string;hours:Hour[];notice_date:string|null;notice:string;closed_for_notice:boolean;published:boolean;version:number;updated_at?:string}

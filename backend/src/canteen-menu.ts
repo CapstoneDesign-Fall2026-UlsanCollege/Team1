@@ -16,6 +16,12 @@ export function campusDate(now = new Date()) {
     timeZone: 'Asia/Kathmandu', year: 'numeric', month: '2-digit', day: '2-digit',
   }).format(now);
 }
+export function readerMenuDate(value:unknown,today:string){
+ const end=new Date(today+'T00:00:00Z');end.setUTCDate(end.getUTCDate()+4);
+ const date=value===undefined?today:value;
+ if(!isMenuDate(date)||date<today||date>end.toISOString().slice(0,10))throw new ScheduleError(400,'Choose today or one of the next four days.');
+ return date;
+}
 export function isMenuDate(value: unknown): value is string {
   return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) &&
     value >= '2000-01-01' && value <= '2200-12-31' &&
@@ -64,12 +70,12 @@ export function canteenMenuRouter(pool: Pool, today: () => string = campusDate) 
     if (res.locals.user.role !== 'canteen_head') { res.status(403).json({ message: 'Canteen head only.' }); return; }
     next();
   });
-  router.get(['/student/canteen','/teacher/canteen'], async (_req, res) => {
+  router.get(['/student/canteen','/teacher/canteen'], async (req, res) => {
     if (!['student','teacher'].includes(res.locals.user.role)) throw new ScheduleError(403, 'Students and teachers only.');
-    const date = today();
+    const currentDate=today(),date = readerMenuDate(req.query.date,currentDate);
     const [rows] = await pool.execute<RowDataPacket[]>(
       `SELECT ${columns} FROM canteen_menus WHERE service_date=? AND published=1`, [date]);
-    res.json({ today: date, menu: unpack(rows[0]) });
+    res.json({ today: currentDate, date, menu: unpack(rows[0]) });
   });
   router.get('/canteen/menu/items',async(_req,res)=>{
     const [rows]=await pool.execute<RowDataPacket[]>(`SELECT items FROM canteen_menus WHERE currency='NPR' ORDER BY updated_at DESC,service_date DESC LIMIT 90`);
