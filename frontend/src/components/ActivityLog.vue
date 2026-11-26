@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import EnglishDateInput from './EnglishDateInput.vue'
 import {onMounted,ref} from 'vue'
 import {apiFetch} from '../api'
 type Entry={id:string;actor_login:string;actor_role:string;action:string;record_type:string;record_key:string;occurred_at:string;changed_fields:string[];before_values:Record<string,unknown>|null;after_values:Record<string,unknown>|null}
@@ -26,7 +27,7 @@ onMounted(load)
   <label>Person<select v-model="actor" :disabled="busy"><option value="">All staff</option><option v-for="p in actors" :key="p.id" :value="String(p.id)">{{p.login_id}}</option></select></label>
   <label>Action<select v-model="action" :disabled="busy"><option value="">All actions</option><option value="create">Created</option><option value="update">Updated</option><option value="delete">Deleted</option></select></label>
   <label>Record type<select v-model="area" :disabled="busy"><option value="">All records</option><option v-for="a in areas" :key="a.id" :value="a.id">{{a.label}}</option></select></label>
-  <label>From<input v-model="from" type="date" :disabled="busy"></label><label>Until<input v-model="until" type="date" :min="from" :disabled="busy"></label>
+  <label>From<EnglishDateInput v-model="from" type="date" :disabled="busy" /></label><label>Until<EnglishDateInput v-model="until" type="date" :min="from" :disabled="busy" /></label>
   <div class="buttons"><button :disabled="busy">Apply</button><button class="secondary" type="button" :disabled="busy" @click="reset">Reset</button></div>
  </form>
  <p v-if="error" class="error" role="alert">{{error}} <button :disabled="busy" @click="load">Retry</button></p>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import EnglishDateInput from './EnglishDateInput.vue'
 
 import { computed, onMounted, onBeforeUnmount, reactive, ref, watch } from 'vue'
 
@@ -270,7 +271,7 @@ onMounted(load)
         <section v-if="guidedSetup&&setupStage===5" class="card setup-complete"><h3>Your school basics are ready</h3><p>The school, academic year, term and first class are saved.</p><p class="muted">Next, configure rooms, add subjects and teachers, then create student accounts. You can add more years, terms and classes here later.</p><button type="button" @click="guidedSetup=false;emit('next')">See my next step</button><button type="button" class="secondary" @click="guidedSetup=false;tab='class';emit('ready')">Open school management</button><button type="button" class="secondary" @click="guidedSetup=false;tab='structure'">Add more classes or review setup</button></section>
         <template v-if="(tab === 'structure'||guidedSetup)&&(!guidedSetup||setupStage<5)">
 
-          <form v-if="!guidedSetup||setupStage===2" class="card" @submit.prevent="saveYear"><fieldset :disabled="busy"><h3>{{ yearForm.id ? 'Edit academic year' : 'Create academic year' }}</h3><div class="fields"><label>Year label<input v-model="yearForm.name" required maxlength="80" placeholder="2026–2027"></label><label>Starts<input v-model="yearForm.start_date" type="date" required></label><label>Ends<input v-model="yearForm.end_date" type="date" required></label></div><button>{{guidedSetup?'Save year and continue':'Save academic year'}}</button><button v-if="selectedYear" type="button" class="secondary" @click="Object.assign(yearForm, selectedYear)">Edit selected year</button><button v-if="yearForm.id" type="button" class="secondary" @click="Object.assign(yearForm, { id: 0, name: '', start_date: '', end_date: '' })">Cancel edit</button></fieldset></form>
+          <form v-if="!guidedSetup||setupStage===2" class="card" @submit.prevent="saveYear"><fieldset :disabled="busy"><h3>{{ yearForm.id ? 'Edit academic year' : 'Create academic year' }}</h3><div class="fields"><label>Year label<input v-model="yearForm.name" required maxlength="80" placeholder="2026–2027"></label><label>Starts<EnglishDateInput v-model="yearForm.start_date" type="date" required /></label><label>Ends<EnglishDateInput v-model="yearForm.end_date" type="date" required /></label></div><button>{{guidedSetup?'Save year and continue':'Save academic year'}}</button><button v-if="selectedYear" type="button" class="secondary" @click="Object.assign(yearForm, selectedYear)">Edit selected year</button><button v-if="yearForm.id" type="button" class="secondary" @click="Object.assign(yearForm, { id: 0, name: '', start_date: '', end_date: '' })">Cancel edit</button></fieldset></form>
 
           <template v-if="selectedYear">
 
@@ -280,7 +281,7 @@ onMounted(load)
 
               <label v-if="termForm.mode === 'map'">Existing unmapped term<select v-model="termForm.semester_id" required><option :value="0" disabled>Choose a term</option><option v-for="term in legacyTerms" :key="term.id" :value="term.id">{{ term.name }} · {{ term.start_date }} – {{ term.end_date }}</option></select></label>
 
-              <div v-else class="fields"><label>Term name<input v-model="termForm.name" required maxlength="100"></label><label>Starts<input v-model="termForm.start_date" type="date" :min="selectedYear.start_date" :max="selectedYear.end_date" required></label><label>Ends<input v-model="termForm.end_date" type="date" :min="selectedYear.start_date" :max="selectedYear.end_date" required></label></div><button>{{guidedSetup?'Save term and continue':'Save term link'}}</button></fieldset></form>
+              <div v-else class="fields"><label>Term name<input v-model="termForm.name" required maxlength="100"></label><label>Starts<EnglishDateInput v-model="termForm.start_date" type="date" :min="selectedYear.start_date" :max="selectedYear.end_date" required /></label><label>Ends<EnglishDateInput v-model="termForm.end_date" type="date" :min="selectedYear.start_date" :max="selectedYear.end_date" required /></label></div><button>{{guidedSetup?'Save term and continue':'Save term link'}}</button></fieldset></form>
 
           </template>
 
@@ -298,7 +299,7 @@ onMounted(load)
 
               <label>Find student<input v-model="search" maxlength="150" placeholder="Name or login ID"></label>
 
-              <label>Effective date<input v-model="effective" type="date" :min="selectedYear.start_date" :max="selectedYear.end_date" :disabled="busy" required></label>
+              <label>Effective date<EnglishDateInput v-model="effective" type="date" :min="selectedYear.start_date" :max="selectedYear.end_date" :disabled="busy" required /></label>
 
               <button :disabled="busy">Search</button>
 
