@@ -1,3 +1,4 @@
+import {publishedNotices} from './published-notices.js';
 import {Router} from 'express';
 import {ensureParentSchema} from './parent-schema.js';
 import bcrypt from 'bcryptjs';
@@ -154,6 +155,7 @@ export function teacherWorkspaceRouter(pool:Pool,invalidate:(id:number)=>void,to
  }
  router.post('/teacher/classes/:id/notices',(req,res)=>writeClassNotice(req,res,false));
  router.put('/teacher/classes/:id/notices/:noticeId',(req,res)=>writeClassNotice(req,res,true));
+ router.get('/student/notices',async(_req,res)=>res.json({notices:await publishedNotices(pool,res.locals.user.id,'student',today())}));
  router.get('/student/class-notices',async(_req,res)=>{
   const date=today();res.json({notices:await rows(pool,`SELECT n.id,n.title,n.message,DATE_FORMAT(n.starts_on,'%Y-%m-%d') starts_on,DATE_FORMAT(n.ends_on,'%Y-%m-%d') ends_on,t.name teacher_name,cl.grade_label,cl.name class_name
    FROM school_class_notices n JOIN school_teachers t ON t.id=n.teacher_id JOIN school_classes cl ON cl.id=n.class_id JOIN school_years y ON y.id=cl.year_id

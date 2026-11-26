@@ -1,3 +1,4 @@
+import {publishedNotices} from './published-notices.js';
 import {Router} from 'express';
 import bcrypt from 'bcryptjs';
 import type {Pool,PoolConnection,RowDataPacket,ResultSetHeader} from 'mysql2/promise';
@@ -79,7 +80,7 @@ export function parentsRouter(pool:Pool,invalidate:(id:number)=>void,today:()=>s
   const [todayMark]=current?await rows(pool,'SELECT status FROM school_attendance WHERE student_user_id=? AND attendance_date=? AND class_id=?',[id,date,current.class_id]):[];
   res.json({child,current,homeroom,today:date,attendance:{month,days:marks,totals:attendanceTotals(records.map(r=>r.status),eligible.length),today_status:todayMark?.status??''},homework,timetable,bookings});
  });
- router.get('/parent/notices',async(_req,res)=>{if(!(await children(res.locals.user.id)).length){res.json({notices:[]});return;}res.json({notices:await rows(pool,"SELECT id,title,message,DATE_FORMAT(starts_on,'%Y-%m-%d') starts_on,DATE_FORMAT(ends_on,'%Y-%m-%d') ends_on FROM school_notices WHERE published=1 AND starts_on<=? AND ends_on>=? ORDER BY starts_on DESC,id DESC",[today(),today()])});});
+ router.get('/parent/notices',async(_req,res)=>{if(!(await children(res.locals.user.id)).length){res.json({notices:[]});return;}res.json({notices:await publishedNotices(pool,res.locals.user.id,'parent',today())});});
  router.get('/parent/canteen',async(req,res)=>{const currentDate=today(),date=readerMenuDate(req.query.date,currentDate);if(!(await children(res.locals.user.id)).length){res.json({today:currentDate,date,menu:null,info:null});return;}const [menu]=await rows(pool,"SELECT service_date,currency,items FROM canteen_menus WHERE service_date=? AND published=1",[date]);const [info]=await rows(pool,'SELECT name,location,hours FROM canteen_info WHERE id=1 AND published=1');res.json({today:currentDate,date,menu:menu?{...menu,items:typeof menu.items==='string'?JSON.parse(menu.items):menu.items}:null,info:info?{...info,hours:typeof info.hours==='string'?JSON.parse(info.hours):info.hours}:null});});
  router.use('/admin/notices',(_req,res,next)=>{if(res.locals.user.role!=='admin'){res.status(403).json({message:'Administrators only.'});return;}next()});
  router.get('/admin/notices',async(_req,res)=>res.json({notices:await rows(pool,"SELECT id,title,message,DATE_FORMAT(starts_on,'%Y-%m-%d') starts_on,DATE_FORMAT(ends_on,'%Y-%m-%d') ends_on,published,version FROM school_notices ORDER BY starts_on DESC,id DESC LIMIT 200")}));

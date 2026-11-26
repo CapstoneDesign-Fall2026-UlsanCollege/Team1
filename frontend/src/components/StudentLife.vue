@@ -8,10 +8,11 @@ import SchoolCanteen from './DailyMenu.vue'
 import StudentTimetable from './StudentTimetable.vue'
 import StudentSchool from './StudentSchool.vue'
 import StudentHomework from './StudentHomework.vue'
+import NoticeBoard from './NoticeBoard.vue'
 import StudentHome from './StudentHome.vue'
 defineProps<{ loginId: string; busy: boolean; error: string }>()
 defineEmits<{ logout: [] }>()
-type Page = 'homework' | 'life' | 'profile' | 'semester' | 'course' | 'schedule' | 'jobs' | 'home' | 'settings' | 'eat' | 'school'
+type Page = 'notices' | 'homework' | 'life' | 'profile' | 'semester' | 'course' | 'schedule' | 'jobs' | 'home' | 'settings' | 'eat' | 'school'
 const page = ref<Page>('home')
 const schoolInfo=ref<{name:string;level:string}|null>(null)
 const schoolMode=computed(()=>Boolean(schoolInfo.value))
@@ -56,6 +57,7 @@ async function saveProfile() {
   finally { saving.value = false }
 }
 const sections = computed<{page:Page;title:string;icon:string}[]>(()=>[
+  { page: 'notices', title: 'Notice board', icon: 'course' },
   { page: 'homework', title: 'Homework', icon: 'course' },
   { page: 'school', title: 'My Class', icon: 'semester' },
   { page: 'profile', title: 'Student Profile', icon: 'profile' },
@@ -97,7 +99,7 @@ async function loadCourses(){ courseLoading.value=true; courseError.value=''; co
         </template>
         <JobFinder v-else-if="page === 'jobs'" :login-id="loginId" />
         <div v-else-if="page==='eat'" class="student-canteen"><SchoolCanteen/></div>
-        <StudentHomework v-else-if="page==='homework'" />
+        <NoticeBoard v-else-if="page==='notices'" reader="student" /><StudentHomework v-else-if="page==='homework'" />
         <StudentSchool v-else-if="page === 'school'" @open="go" @context="schoolInfo=$event" />
 
         <section v-else-if="page === 'settings'" class="student-panel settings-panel"><h2>Account</h2><p>Signed in as {{ loginId }}</p><p class="student-muted">For account or password changes, contact your administrator.</p><button class="student-primary" :disabled="busy" @click="$emit('logout')">{{ busy ? 'Logging out…' : 'Log out' }}</button></section>
