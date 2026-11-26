@@ -129,6 +129,18 @@ export function teacherWorkspaceRouter(pool:Pool,invalidate:(id:number)=>void,to
   if(!(await assignments(pool,t.id,date)).some(a=>a.class_id===id)&&!(await homerooms(pool,t.id,date)).some(a=>a.class_id===id))throw new ScheduleError(403,'This class is not assigned to you.');
   res.json({students:await roster(pool,id,date),date});
  });
+ router.get('/teacher/classes/:id/students/:studentId',async(req,res)=>{
+  const classId=schoolId(Number(req.params.id)),studentId=schoolId(Number(req.params.studentId)),date=today();
+  await noticeClass(pool,res.locals.teacher.id,classId,date);
+  const [student]=await rows(pool,`SELECT u.id,u.login_id,p.full_name,p.university school,cl.grade_label,cl.name class_name,y.name academic_year,r.room_number,DATE_FORMAT(m.starts_on,'%Y-%m-%d') joined_on
+   FROM school_memberships m JOIN users u ON u.id=m.student_user_id JOIN student_profiles p ON p.user_id=u.id
+   JOIN school_classes cl ON cl.id=m.class_id JOIN school_years y ON y.id=cl.year_id
+   LEFT JOIN school_class_rooms cr ON cr.class_id=cl.id AND cr.year_id=y.id LEFT JOIN school_rooms r ON r.id=cr.room_id
+   WHERE m.class_id=? AND m.student_user_id=? AND m.starts_on<=? AND (m.ends_on IS NULL OR m.ends_on>?)
+   AND u.role='student' AND u.is_active=1 AND cl.is_active=1 AND y.start_date<=? AND y.end_date>=? LIMIT 1`,[classId,studentId,date,date,date,date]);
+  if(!student)throw new ScheduleError(404,'This student is not currently enrolled in this class.');
+  res.json({student,checked_on:date});
+ });
  async function noticeClass(db:DB,teacherId:number,classId:number,date:string){
   if(!(await assignments(db,teacherId,date)).some(a=>a.class_id===classId)&&!(await homerooms(db,teacherId,date)).some(a=>a.class_id===classId))throw new ScheduleError(403,'This class is not assigned to you.');
  }
@@ -142,16 +154,19 @@ export function teacherWorkspaceRouter(pool:Pool,invalidate:(id:number)=>void,to
   const input=req.body??{},classId=schoolId(Number(req.params.id)),title=schoolText(input.title,150,'a notice title'),message=schoolText(input.message,4000,'a notice message'),start=dateOf(input.starts_on),end=dateOf(input.ends_on);
   if(start>end)throw new ScheduleError(400,'The end date must be on or after the start date.');
   if(typeof input.published!=='boolean')throw new ScheduleError(400,'Choose draft or published.');
+  const classIds=edit?[classId]:(input.class_ids??[classId]);
+  if(!Array.isArray(classIds)||!classIds.length||classIds.length>100||classIds.some((id:any)=>!Number.isSafeInteger(id)||id<1)||new Set(classIds).size!==classIds.length)throw new ScheduleError(400,'Choose 1–100 different assigned classes.');
   await transaction(pool,async c=>{
-   const t=await teacher(c,res.locals.user.id);await noticeClass(c,t.id,classId,today());
-   const [cl]=await rows(c,"SELECT DATE_FORMAT(y.start_date,'%Y-%m-%d') start_date,DATE_FORMAT(y.end_date,'%Y-%m-%d') end_date FROM school_classes cl JOIN school_years y ON y.id=cl.year_id WHERE cl.id=?",[classId]);
-   if(!cl||start<cl.start_date||end>cl.end_date)throw new ScheduleError(400,'Keep notice dates within the class academic year.');
+   const t=await teacher(c,res.locals.user.id);
+   for(const targetId of classIds){await noticeClass(c,t.id,targetId,today());
+   const [cl]=await rows(c,"SELECT DATE_FORMAT(y.start_date,'%Y-%m-%d') start_date,DATE_FORMAT(y.end_date,'%Y-%m-%d') end_date FROM school_classes cl JOIN school_years y ON y.id=cl.year_id WHERE cl.id=?",[targetId]);
+   if(!cl||start<cl.start_date||end>cl.end_date)throw new ScheduleError(400,'Keep notice dates within the class academic year.');}
    if(edit){
     const id=schoolId(Number(req.params.noticeId)),version=schoolId(input.version);
     const [result]=await c.execute<ResultSetHeader>('UPDATE school_class_notices SET title=?,message=?,starts_on=?,ends_on=?,published=?,version=version+1 WHERE id=? AND class_id=? AND teacher_id=? AND version=?',[title,message,start,end,input.published?1:0,id,classId,t.id,version]);
     if(!result.affectedRows)throw new ScheduleError(409,'Notice changed or is not yours. Refresh before saving.');
-   }else await c.execute('INSERT INTO school_class_notices(class_id,teacher_id,title,message,starts_on,ends_on,published) VALUES(?,?,?,?,?,?,?)',[classId,t.id,title,message,start,end,input.published?1:0]);
-  });res.status(edit?200:201).json({message:input.published?'Class notice published.':'Class notice saved as draft.'});
+   }else for(const targetId of classIds)await c.execute('INSERT INTO school_class_notices(class_id,teacher_id,title,message,starts_on,ends_on,published) VALUES(?,?,?,?,?,?,?)',[targetId,t.id,title,message,start,end,input.published?1:0]);
+  });res.status(edit?200:201).json({message:edit?'Class notice updated.':`Notice ${input.published?'published':'saved as draft'} for ${classIds.length} class(es).`});
  }
  router.post('/teacher/classes/:id/notices',(req,res)=>writeClassNotice(req,res,false));
  router.put('/teacher/classes/:id/notices/:noticeId',(req,res)=>writeClassNotice(req,res,true));
