@@ -460,6 +460,14 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
        assert.equal((await request('/teacher/homework','POST',{...body,class_id:classB,offering_id:2},'teacher')).status,403);
        assert.equal((await request('/teacher/homework','POST',{...body,due_on:'2026-02-30'},'teacher')).status,400);
        assert.equal((await request('/teacher/homework','POST',{...body,due_on:'2027-01-01'},'teacher')).status,400);
+       const tracking='/teacher/homework/'+homeworkId+'/progress';
+       assert.equal((await request(tracking,'GET',undefined,'otherTeacher')).status,403);
+       const progress=await data(tracking,'teacher');assert.ok(progress.students.some(s=>s.id===2&&s.status==='pending'));
+       assert.equal((await request(tracking+'/2','PUT',{status:'submitted',version:0},'teacher')).status,200);
+       assert.equal((await request(tracking+'/2','PUT',{status:'missing',version:0},'teacher')).status,409);
+       assert.equal((await request(tracking+'/2','PUT',{status:'reviewed',version:1},'teacher')).status,200);
+       assert.equal((await data('/student/homework','alice')).homework.find(h=>h.id===homeworkId).progress_status,'reviewed');
+       assert.equal((await data(tracking,'teacher')).students.find(s=>s.id===2).version,2);
        const edit={...body,version:1,is_active:false};
        assert.equal((await request('/teacher/homework/'+homeworkId,'PUT',edit,'otherTeacher')).status,403);
        assert.equal((await request('/teacher/homework/'+homeworkId,'PUT',edit,'teacher')).status,200);
@@ -728,7 +736,8 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
        const homework=await request('/teacher/homework','POST',{class_id:classA,offering_id:assignment.offering_id,title:'Daily workflow practice',instructions:'Complete the fictional practice exercise.',due_on:today},'teacher');assert.equal(homework.status,201);const homeworkId=(await homework.json()).id;
        const attendancePath='/teacher/classes/'+classA+'/attendance';const sheet=await data(attendancePath+'?date='+today,'teacher');
        assert.equal((await request(attendancePath,'PUT',{date:today,version:sheet.version,records:[{student_user_id:pupil,status:'present'}]},'teacher')).status,200);
-       const child=await data('/parent/children/'+pupil,'parent');assert.equal(child.current.class_id,classA);assert.equal(child.homeroom,studentHome.homeroom_teacher.name);assert.equal(child.attendance.today_status,'present');assert.ok(child.homework.some(h=>h.id===homeworkId));
+       assert.equal((await request('/teacher/homework/'+homeworkId+'/progress/'+pupil,'PUT',{status:'reviewed',version:0},'teacher')).status,200);
+       const child=await data('/parent/children/'+pupil,'parent');assert.equal(child.current.class_id,classA);assert.equal(child.homeroom,studentHome.homeroom_teacher.name);assert.equal(child.attendance.today_status,'present');assert.equal(child.homework.find(h=>h.id===homeworkId).progress_status,'reviewed');
        assert.ok((await data('/student/homework','daily')).homework.some(h=>h.id===homeworkId));assert.ok(!(await data('/student/homework','bob')).homework.some(h=>h.id===homeworkId));
        assert.equal((await request('/parent/children/'+pupil,'GET',undefined,'otherTeacher')).status,403);
        await pool.query(canteenInfoSchema);
@@ -772,6 +781,20 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
        const exported=await request('/admin/school/transfer/export');const files=unzipSync(new Uint8Array(await exported.arrayBuffer()));assert.ok(!files['school_parent_students.csv']&&!files['school_parent_profiles.csv']);assert.ok(!strFromU8(files['users.csv']).includes('Palice'));
        const audit=await sql("SELECT * FROM activity_logs WHERE record_type IN('school_parent_students','school_parent_profiles','school_notices')");assert.ok(audit.some(a=>a.record_type==='school_parent_students'&&a.action==='update'));const text=JSON.stringify(audit);for(const secret of [body.password,body.email,'reset-parent-password',notice.message])assert.ok(!text.includes(secret));
       });
+    });
+    await t.test('year rollover previews without writes and preserves historical memberships and school records',async()=>{
+      const input={source_year_id:yearId,target_year_id:nextYear,mappings:[{source_class_id:classA,target_class_id:nextClass}],revision:(await data('/admin/school')).revision};
+      const previewResponse=await request('/admin/school/rollover/preview','POST',input);const preview=await previewResponse.json();assert.equal(previewResponse.status,200,JSON.stringify(preview));
+      const ready=preview.students.find(s=>s.status==='ready');assert.ok(ready);
+      const before=await sql('SELECT * FROM school_memberships WHERE student_user_id=? ORDER BY id',[ready.student_user_id]);
+      const homeworkBefore=await sql('SELECT * FROM school_homework ORDER BY id'),attendanceBefore=await sql('SELECT * FROM school_attendance ORDER BY class_id,attendance_date,student_user_id');
+      assert.equal((await request('/admin/school/rollover','POST',{...input,student_ids:[ready.student_user_id],digest:'stale',confirmed:true})).status,409);
+      assert.deepEqual(await sql('SELECT * FROM school_memberships WHERE student_user_id=? ORDER BY id',[ready.student_user_id]),before);
+      assert.equal((await request('/admin/school/rollover','POST',{...input,student_ids:[ready.student_user_id],digest:preview.digest,confirmed:true})).status,200);
+      const after=await sql('SELECT * FROM school_memberships WHERE student_user_id=? ORDER BY id',[ready.student_user_id]);assert.equal(after.length,before.length+1);assert.equal(after.at(-1).class_id,nextClass);
+      const old=after.find(m=>m.id===ready.membership_id);assert.equal(old.starts_on.getTime(),before.find(m=>m.id===ready.membership_id).starts_on.getTime());assert.ok(old.ends_on);
+      assert.deepEqual(await sql('SELECT * FROM school_homework ORDER BY id'),homeworkBefore);assert.deepEqual(await sql('SELECT * FROM school_attendance ORDER BY class_id,attendance_date,student_user_id'),attendanceBefore);
+      const again=await request('/admin/school/rollover/preview','POST',{...input,revision:(await data('/admin/school')).revision});assert.equal((await again.json()).students.find(s=>s.student_user_id===ready.student_user_id).status,'already_enrolled');
     });
   }finally{
     if(server){server.closeAllConnections();await new Promise(r=>server.close(r));}await pool?.end();

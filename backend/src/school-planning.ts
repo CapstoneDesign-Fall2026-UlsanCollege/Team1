@@ -1,4 +1,5 @@
 import {schoolNextSteps} from './school-next-steps.js';
+import {schoolRolloverRouter} from './school-rollover.js';
 import {schoolTransferRouter} from './school-transfer.js';
 import bcrypt from 'bcryptjs';
 import {validateStudent} from './students.js';
@@ -79,6 +80,7 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
     next();
   });
   router.use(schoolTransferRouter(pool));
+  router.use(schoolRolloverRouter(pool,(revision,run)=>mutate(pool,revision,run)));
   router.use(schoolRoomRouter(pool,(revision,run)=>mutate(pool,revision,run)));
   // School enrollment creates all three records under the planning lock.
   router.post('/admin/school/students',async(req,res)=>{
@@ -157,7 +159,7 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
       await year(c,id);
       if((await rows(c,'SELECT id FROM school_years WHERE id<>? AND start_date<=? AND end_date>=?',[id,end,start])).length) throw new ScheduleError(409,'Academic year dates overlap an existing year.');
       if((await rows(c,'SELECT s.id FROM school_terms st JOIN semesters s ON s.id=st.semester_id WHERE st.year_id=? AND (s.start_date<? OR s.end_date>?)',[id,start,end])).length ||
-        (await rows(c,'SELECT id FROM school_memberships WHERE year_id=? AND (starts_on<? OR starts_on>? OR ends_on>?)',[id,start,end,end])).length) throw new ScheduleError(409,'The new dates would exclude saved terms or class-membership history.');
+        (await rows(c,'SELECT id FROM school_memberships WHERE year_id=? AND (starts_on<? OR starts_on>? OR ends_on>DATE_ADD(?,INTERVAL 1 DAY))',[id,start,end,end])).length) throw new ScheduleError(409,'The new dates would exclude saved terms or class-membership history.');
       await c.execute('UPDATE school_years SET name=?,start_date=?,end_date=? WHERE id=?',[name,start,end,id]);
     });res.json({message:'Academic year updated.'});
   });

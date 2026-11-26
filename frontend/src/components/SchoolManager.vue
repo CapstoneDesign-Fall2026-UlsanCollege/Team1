@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AcademicRollover from './AcademicRollover.vue'
 import EnglishDateInput from './EnglishDateInput.vue'
 
 import { computed, onMounted, onBeforeUnmount, reactive, ref, watch } from 'vue'
@@ -286,6 +287,8 @@ onMounted(load)
           </template>
 
         </template>
+
+        <AcademicRollover v-if="tab==='structure'&&!guidedSetup&&state.profile" :years="state.years" :classes="state.classes" :revision="state.revision" :initial-year-id="yearId" @busy="busy=$event;emit('saving',$event)" @saved="load" />
 
         <template v-if="tab === 'members'">
 
