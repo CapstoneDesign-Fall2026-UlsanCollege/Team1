@@ -28,6 +28,15 @@ export const teacherSchema=[
   FOREIGN KEY(class_id) REFERENCES school_classes(id), FOREIGN KEY(offering_id) REFERENCES course_offerings(id),
   FOREIGN KEY(teacher_id) REFERENCES school_teachers(id), FOREIGN KEY(created_by) REFERENCES users(id)
  ) ENGINE=InnoDB`,
+ `CREATE TABLE IF NOT EXISTS school_homework_progress (
+  homework_id INT UNSIGNED NOT NULL, student_user_id INT UNSIGNED NOT NULL,
+  status ENUM('pending','submitted','missing','reviewed') NOT NULL DEFAULT 'pending',
+  version INT UNSIGNED NOT NULL DEFAULT 1, recorded_by INT UNSIGNED NOT NULL,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY(homework_id,student_user_id),
+  FOREIGN KEY(homework_id) REFERENCES school_homework(id), FOREIGN KEY(student_user_id) REFERENCES users(id),
+  FOREIGN KEY(recorded_by) REFERENCES users(id)
+ ) ENGINE=InnoDB`,
  `CREATE TABLE IF NOT EXISTS school_attendance_sheets (
   class_id INT UNSIGNED NOT NULL, attendance_date DATE NOT NULL, version INT UNSIGNED NOT NULL DEFAULT 0,
   updated_by INT UNSIGNED NOT NULL, PRIMARY KEY(class_id,attendance_date),
@@ -200,13 +209,38 @@ export function teacherWorkspaceRouter(pool:Pool,invalidate:(id:number)=>void,to
  }
  router.post('/teacher/homework',(req,res)=>writeHomework(req,res,false));
  router.put('/teacher/homework/:id',(req,res)=>writeHomework(req,res,true));
+ async function progressScope(db:DB,userId:number,id:number){
+  const t=await teacher(db,userId),date=today();
+  const [h]=await rows(db,'SELECT id,class_id,offering_id,teacher_id,title,is_active FROM school_homework WHERE id=?',[id]);
+  if(!h||h.teacher_id!==t.id)throw new ScheduleError(403,'You can track only your own homework.');
+  if(!(await assignments(db,t.id,date)).some(a=>a.class_id===h.class_id&&a.offering_id===h.offering_id))throw new ScheduleError(403,'Homework tracking requires your current class subject assignment.');
+  return {homework:h,students:await roster(db,h.class_id,date)};
+ }
+ router.get('/teacher/homework/:id/progress',async(req,res)=>{
+  const id=schoolId(Number(req.params.id)),scope=await progressScope(pool,res.locals.user.id,id);
+  const marks=await rows(pool,'SELECT student_user_id,status,version FROM school_homework_progress WHERE homework_id=?',[id]);
+  res.json({homework:scope.homework,students:scope.students.map(s=>({...s,...(marks.find(m=>m.student_user_id===s.id)??{status:'pending',version:0})}))});
+ });
+ router.put('/teacher/homework/:id/progress/:studentId',async(req,res)=>{
+  const id=schoolId(Number(req.params.id)),studentId=schoolId(Number(req.params.studentId)),{status,version}=req.body??{};
+  if(!['pending','submitted','missing','reviewed'].includes(status)||!Number.isInteger(version)||version<0)throw new ScheduleError(400,'Choose a valid homework status and version.');
+  await transaction(pool,async c=>{
+   const scope=await progressScope(c,res.locals.user.id,id);
+   if(!scope.students.some(s=>s.id===studentId))throw new ScheduleError(403,'This student is not in the homework class.');
+   const [old]=await rows(c,'SELECT version FROM school_homework_progress WHERE homework_id=? AND student_user_id=?',[id,studentId]);
+   if((old?.version??0)!==version)throw new ScheduleError(409,'This student’s status changed. Refresh before saving.');
+   if(old)await c.execute('UPDATE school_homework_progress SET status=?,version=version+1,recorded_by=? WHERE homework_id=? AND student_user_id=?',[status,res.locals.user.id,id,studentId]);
+   else await c.execute('INSERT INTO school_homework_progress(homework_id,student_user_id,status,recorded_by) VALUES(?,?,?,?)',[id,studentId,status,res.locals.user.id]);
+  });res.json({status,version:version+1});
+ });
  router.get('/student/homework',async(_req,res)=>{
   const date=today();
-  const homework=await rows(pool,`SELECT h.id,h.title,h.instructions,DATE_FORMAT(h.assigned_on,'%Y-%m-%d') assigned_on,DATE_FORMAT(h.due_on,'%Y-%m-%d') due_on,c.course_name,t.name teacher_name FROM school_homework h
+  const homework=await rows(pool,`SELECT h.id,h.title,h.instructions,DATE_FORMAT(h.assigned_on,'%Y-%m-%d') assigned_on,DATE_FORMAT(h.due_on,'%Y-%m-%d') due_on,c.course_name,t.name teacher_name,COALESCE(hp.status,'pending') progress_status FROM school_homework h
+  LEFT JOIN school_homework_progress hp ON hp.homework_id=h.id AND hp.student_user_id=?
   JOIN school_classes cl ON cl.id=h.class_id JOIN school_years y ON y.id=cl.year_id
   JOIN course_offerings co ON co.id=h.offering_id JOIN semesters s ON s.id=co.semester_id JOIN courses c ON c.id=co.course_id JOIN school_teachers t ON t.id=h.teacher_id
   WHERE h.is_active=1 AND h.assigned_on<=? AND ${active} AND EXISTS(SELECT 1 FROM school_memberships m WHERE m.class_id=h.class_id AND m.student_user_id=? AND m.starts_on<=? AND (m.ends_on IS NULL OR m.ends_on>?))
-  ORDER BY h.due_on DESC,h.id DESC LIMIT 100`,[date,date,date,date,date,res.locals.user.id,date,date]);
+  ORDER BY h.due_on DESC,h.id DESC LIMIT 100`,[res.locals.user.id,date,date,date,date,date,res.locals.user.id,date,date]);
   res.json({homework,today:date});
  });
  async function attendanceScope(db:DB,userId:number,classId:number,date:string){

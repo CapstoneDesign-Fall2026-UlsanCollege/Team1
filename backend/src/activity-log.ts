@@ -42,6 +42,7 @@ export const activityAreas:Record<string,Area>={
  school_notices:{keys:['id'],fields:['starts_on','ends_on','published','version','updated_by'],hidden:['title','message'],label:'School notices'},
  school_floors:{keys:['floor_number'],fields:['label'],label:'Building floors'},
  school_teacher_accounts:{keys:['user_id'],fields:['teacher_id'],label:'Teacher login links'},
+ school_homework_progress:{keys:['homework_id','student_user_id'],fields:['status','version','recorded_by'],label:'Homework progress'},
  school_homework:{keys:['id'],fields:['class_id','offering_id','teacher_id','created_by','assigned_on','due_on','is_active','version'],hidden:['title','instructions'],label:'Class homework'},
  school_attendance_sheets:{keys:['class_id','attendance_date'],fields:['version','updated_by'],label:'Attendance sheets'},
  school_attendance:{keys:['class_id','attendance_date','student_user_id'],fields:['recorded_by'],hidden:['status'],label:'Student attendance'},
