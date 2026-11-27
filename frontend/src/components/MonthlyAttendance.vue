@@ -2,7 +2,7 @@
 import AttendanceSummary from './AttendanceSummary.vue'
 import {attendanceSummary,combinedAttendance,attendanceRateMatches} from '../attendance-summary'
 import EnglishDateInput from './EnglishDateInput.vue'
-import {computed,onMounted,onUnmounted,ref,watch,useId} from 'vue'
+import {computed,onMounted,onUnmounted,ref,watch,useId,nextTick} from 'vue'
 import {scheduleApi,days} from '../schedules'
 const props=defineProps<{classes:any[];today:string}>()
 const emit=defineEmits<{busy:[value:boolean]}>()
@@ -16,10 +16,21 @@ const followup=ref(''),showPercentages=ref(false),rateFilter=ref('all'),summaryI
 watch(showPercentages,()=>{rateFilter.value='all'})
 const summaryTotals=computed(()=>combinedAttendance(data.value?.students??[]))
 const filtered=computed(()=>data.value?.students.filter((s:any)=>(s.full_name+' '+s.login_id).toLowerCase().includes(search.value.trim().toLowerCase())&&(!followup.value||(followup.value==='absence'?s.totals.adjustedAbsences>0:s.totals.unmarked>0))&&(!showPercentages.value||attendanceRateMatches(s.totals,rateFilter.value)))??[])
+const registerScroll=ref<HTMLDivElement>(),registerHeight=ref<number>()
+let registerObserver:ResizeObserver|undefined
+function sizeRegister(){
+ const box=registerScroll.value,rows=box?.querySelectorAll<HTMLTableRowElement>('tbody tr')
+ if(!box||!rows||rows.length<=10){registerHeight.value=undefined;return}
+ const tenth=rows[9]!
+ const chrome=box.offsetHeight-box.clientHeight-box.clientTop
+ registerHeight.value=Math.floor(tenth.getBoundingClientRect().bottom-box.getBoundingClientRect().top+box.scrollTop+chrome)
+}
+watch(registerScroll,box=>{registerObserver?.disconnect();if(box){if(typeof ResizeObserver!=='undefined'){registerObserver=new ResizeObserver(sizeRegister);const table=box.querySelector('table');if(table)registerObserver.observe(table)}void nextTick(sizeRegister)}})
+watch(filtered,()=>{if(registerScroll.value)registerScroll.value.scrollTop=0;void nextTick(sizeRegister)})
 let timer:ReturnType<typeof setTimeout>|undefined,request=0
 watch([saving,dirty],()=>emit('busy',saving.value||dirty.value))
 watch(message,v=>{clearTimeout(timer);if(v)timer=setTimeout(()=>message.value='',4000)})
-onUnmounted(()=>{request++;clearTimeout(timer);emit('busy',false)})
+onUnmounted(()=>{registerObserver?.disconnect();request++;clearTimeout(timer);emit('busy',false)})
 function resetDraft(){draft.value=Object.fromEntries((data.value?.students??[]).map((s:any)=>[s.id,s.marks[selectedDate.value]??'']))}
 function selectDate(date:string){if(dirty.value||saving.value)return;selectedDate.value=date;resetDraft()}
 async function load(){
@@ -54,7 +65,7 @@ onMounted(load)
 <template v-if="data"><div class="attendance-options"><label class="percentage-toggle"><input v-model="showPercentages" type="checkbox" role="switch" :aria-controls="summaryId">Attendance percentages</label><label v-if="showPercentages" class="summary-filter">Attendance rate<select v-model="rateFilter"><option value="all">All percentages</option><option value="below90">Below 90%</option><option value="below75">Below 75%</option><option value="none">No recorded days</option></select></label><label class="summary-filter">Review students<select v-model="followup"><option value="">All students</option><option value="absence">With adjusted absences</option><option value="unmarked">With unmarked days</option></select></label></div><AttendanceSummary v-if="showPercentages" :id="summaryId" :totals="summaryTotals" group /><p v-if="showPercentages" class="muted">The summary includes the whole class; the table follows your filters. Percentage filters are viewing aids, not school policy.</p>
 <p class="editing-hint"><strong>Editing {{selectedDate}}</strong> · {{dirty?'Unsaved changes — save or discard before switching.':'Click a date heading to edit that day.'}}</p>
 <p class="formula">Adjusted X = X + ⌊Late ÷ 3⌋. Three late marks count as one absence within this month. Totals use saved marks; originals stay unchanged.</p>
-<div class="register-scroll" tabindex="0" aria-label="Monthly attendance table, scroll horizontally for all dates and totals"><table><caption>{{month}} · {{filtered.length}} students · Nepal calendar dates</caption><thead><tr><th scope="col" class="student-col">Student</th><th v-for="d in data.days" :key="d.date" scope="col" :class="{selected:d.date===selectedDate,saturday:d.day===6}"><button :disabled="!d.editable||saving||(dirty&&d.date!==selectedDate)" :aria-label="'Edit attendance for '+d.date" :aria-pressed="d.date===selectedDate" @click="selectDate(d.date)">{{Number(d.date.slice(-2))}}<small>{{days[d.day-1].slice(0,2)}}</small></button></th><th v-if="showPercentages" scope="col" title="Saved adjusted attendance excluding excused and unmarked days">Attendance %</th><th scope="col" title="Present">O</th><th scope="col" title="Raw absent marks">X</th><th scope="col" title="Late marks">-</th><th scope="col" title="Excused">E</th><th scope="col" title="Days with a saved mark">Marked</th><th scope="col" title="Absences converted from late marks">Late → X</th><th scope="col" title="Raw absences plus one per three late marks">Adjusted X</th></tr></thead>
+<p v-if="filtered.length>10" class="muted">Up to 10 students are visible. Scroll down for more students; scroll sideways for dates and totals.</p><div ref="registerScroll" class="register-scroll" :style="registerHeight?{maxHeight:`min(65vh, ${registerHeight}px)`}:undefined" tabindex="0" aria-label="Monthly attendance table, scroll vertically for more students and horizontally for dates and totals"><table><caption>{{month}} · {{filtered.length}} students · Nepal calendar dates</caption><thead><tr><th scope="col" class="student-col">Student</th><th v-for="d in data.days" :key="d.date" scope="col" :class="{selected:d.date===selectedDate,saturday:d.day===6}"><button :disabled="!d.editable||saving||(dirty&&d.date!==selectedDate)" :aria-label="'Edit attendance for '+d.date" :aria-pressed="d.date===selectedDate" @click="selectDate(d.date)">{{Number(d.date.slice(-2))}}<small>{{days[d.day-1].slice(0,2)}}</small></button></th><th v-if="showPercentages" scope="col" title="Saved adjusted attendance excluding excused and unmarked days">Attendance %</th><th scope="col" title="Present">O</th><th scope="col" title="Raw absent marks">X</th><th scope="col" title="Late marks">-</th><th scope="col" title="Excused">E</th><th scope="col" title="Days with a saved mark">Marked</th><th scope="col" title="Absences converted from late marks">Late → X</th><th scope="col" title="Raw absences plus one per three late marks">Adjusted X</th></tr></thead>
 <tbody><tr v-for="s in filtered" :key="s.id"><th scope="row" class="student-col"><strong>{{s.full_name}}</strong><small>{{s.login_id}}</small></th>
 <td v-for="d in data.days" :key="d.date" :class="[mark(s,d.date),{selected:d.date===selectedDate,unavailable:!eligible(s,d.date)}]" :title="d.date+': '+meaning(s,d.date)">
 <select v-if="d.date===selectedDate&&d.editable&&eligible(s,d.date)" v-model="draft[s.id]" :disabled="saving" :aria-label="s.full_name+' attendance '+d.date"><option value="" disabled>·</option><option value="present">O</option><option value="absent">X</option><option value="late">-</option><option value="excused">E</option></select>
