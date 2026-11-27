@@ -161,6 +161,12 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       await mutate('/admin/school/students/2/membership','PUT',{year_id:yearId,class_id:classA,starts_on:'2026-10-01'},409);
       await mutate('/admin/school/students/2/membership','PUT',{year_id:yearId,class_id:null,starts_on:'2026-11-03'});
       today='2026-11-03';assert.equal((await data('/student/courses','alice')).courses.length,0);
+      const previous=await data('/student/schedule?date=2026-11-01','alice');assert.equal(previous.date,'2026-11-01');assert.ok(previous.schedules.some(m=>m.course_code==='MATH'));assert.ok(!previous.schedules.some(m=>m.course_code==='SCI'));
+      const transferred=await data('/student/schedule?date=2026-11-02&student_user_id=3','alice');assert.ok(transferred.schedules.some(m=>m.course_code==='SCI'));assert.ok(!transferred.schedules.some(m=>m.course_code==='MATH'));
+      assert.equal((await data('/student/schedule?date=2026-11-03','alice')).schedules.length,0);
+      assert.equal((await request('/student/schedule?date=2026-02-30','GET',undefined,'alice')).status,400);
+      assert.equal((await request('/student/semesters?date=invalid','GET',undefined,'alice')).status,400);
+
       assert.equal((await data('/student/school','alice')).membership,null);
       const history=(await data('/admin/school/students?search=alice')).memberships;assert.equal(history.length,2);assert.ok(history.every(m=>m.ends_on));
       await mutate('/admin/school/students/2/membership','PUT',{year_id:nextYear,class_id:nextClass,starts_on:'2027-03-01'});

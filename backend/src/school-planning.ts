@@ -403,14 +403,16 @@ export function schoolPlanningRouter(pool: Pool, today: () => string = schoolDat
     res.json({school,today:date,membership,room,homeroom_teacher:homeroomTeacher,homeroom_status:homeroomStatus,lessons});
   });
   for(const route of ['courses','schedule','semesters'] as const){
-    router.get('/student/'+route,async(_req,res,next)=>{
+    router.get('/student/'+route,async(req,res,next)=>{
       if(res.locals.user.role!=='student')throw new ScheduleError(403,'Students only.');
       if(!await profile(pool)){next();return;}
-      const values=scope(res.locals.user.id,today());let result:RowDataPacket[];
-      if(route==='courses')result=await rows(pool,`SELECT c.id,c.course_code,c.course_name,c.credits,co.id offering_id,co.semester_id,co.professor,co.section,NULL major FROM course_offerings co JOIN courses c ON c.id=co.course_id WHERE ${activeOffering} ORDER BY c.course_code`,values);
-      else if(route==='schedule')result=await rows(pool,`SELECT cs.*,co.semester_id,co.professor,co.section,NULL major,c.course_code,c.course_name,s.name semester_name,s.academic_year FROM class_schedules cs JOIN course_offerings co ON co.id=cs.course_offering_id JOIN courses c ON c.id=co.course_id JOIN semesters s ON s.id=co.semester_id WHERE ${activeOffering} ORDER BY cs.day_of_week,cs.start_time,cs.id`,values);
+      const date=req.query.date===undefined?today():req.query.date;if(!isMenuDate(date))throw new ScheduleError(400,'Choose a valid timetable date.');
+      const values=scope(res.locals.user.id,date);let result:RowDataPacket[];
+      if(route==='courses')result=await rows(pool,`SELECT c.id,c.course_code,c.course_name,c.credits,co.id offering_id,co.semester_id,COALESCE(t.name,co.professor) professor,co.section,NULL major FROM course_offerings co JOIN courses c ON c.id=co.course_id LEFT JOIN school_offering_teachers ot ON ot.offering_id=co.id LEFT JOIN school_teachers t ON t.id=ot.teacher_id WHERE ${activeOffering} ORDER BY c.course_code`,values);
+      else if(route==='schedule')result=await rows(pool,`SELECT cs.*,co.semester_id,COALESCE(t.name,co.professor) professor,co.section,NULL major,c.course_code,c.course_name,s.name semester_name,s.academic_year FROM class_schedules cs JOIN course_offerings co ON co.id=cs.course_offering_id JOIN courses c ON c.id=co.course_id JOIN semesters s ON s.id=co.semester_id LEFT JOIN school_offering_teachers ot ON ot.offering_id=co.id LEFT JOIN school_teachers t ON t.id=ot.teacher_id WHERE ${activeOffering} ORDER BY cs.day_of_week,cs.start_time,cs.id`,values);
       else result=await rows(pool,`SELECT DISTINCT s.id,s.name,s.academic_year,DATE_FORMAT(s.start_date,'%Y-%m-%d') start_date,DATE_FORMAT(s.end_date,'%Y-%m-%d') end_date FROM school_terms st JOIN semesters s ON s.id=st.semester_id JOIN school_classes cl ON cl.year_id=st.year_id JOIN school_memberships m ON m.class_id=cl.id JOIN school_years y ON y.id=cl.year_id WHERE m.student_user_id=? AND m.starts_on<=? AND (m.ends_on IS NULL OR m.ends_on>?) AND y.start_date<=? AND y.end_date>=? ORDER BY start_date DESC`,values);
-      res.json({[route==='schedule'?'schedules':route]:result,school_mode:true});
+      const room=route==='schedule'?(await rows(pool,`SELECT r.room_number FROM school_memberships m JOIN school_classes cl ON cl.id=m.class_id JOIN school_years y ON y.id=cl.year_id JOIN school_class_rooms cr ON cr.class_id=cl.id AND cr.year_id=y.id JOIN school_rooms r ON r.id=cr.room_id WHERE m.student_user_id=? AND m.starts_on<=? AND (m.ends_on IS NULL OR m.ends_on>?) AND y.start_date<=? AND y.end_date>=? ORDER BY m.starts_on DESC,m.id DESC LIMIT 1`,values))[0]?.room_number:null;
+      res.json({[route==='schedule'?'schedules':route]:result,school_mode:true,today:today(),date,usual_room:room?'Room '+room:null});
     });
   }
   // Do not let legacy academic writers change mapped records behind the new

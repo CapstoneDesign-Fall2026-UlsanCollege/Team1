@@ -2,7 +2,12 @@ import type {Meeting} from './schedules'
 const names=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
 const time=(value:string)=>value.length===5?value+':00':value
 // IDs and input ordering differ between weekdays; compare the actual routine.
-export function groupWeeklyRoutine(meetings:Meeting[],school:boolean){
+export function routineLocation(location:string|null|undefined,usualRoom?:string){
+ const text=(location??'').trim()
+ return /^(?:not specified|not assigned|room not specified|unspecified|n\/a|-)?$/i.test(text)?(usualRoom?.trim()||''):text
+}
+export function groupWeeklyRoutine(meetings:Meeting[],school:boolean,usualRoom?:string){
+ if(school)meetings=meetings.map(m=>({...m,professor:m.professor?.trim()||null,location:routineLocation(m.location,usualRoom)}))
  const dayOrder=school?[7,1,2,3,4,5,...(meetings.some(m=>m.day_of_week===6)?[6]:[])]:[1,2,3,4,5,6,7]
  const signature=(m:Meeting)=>JSON.stringify([time(m.start_time),time(m.end_time),m.course_code,m.course_name,m.professor??'',m.location??'',school?'':m.section])
  const groups=new Map<string,{days:number[];meetings:Meeting[]}>()

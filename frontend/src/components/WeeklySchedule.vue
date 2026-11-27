@@ -3,17 +3,18 @@ import {groupWeeklyRoutine} from '../weekly-routine'
 import {computed} from 'vue'
 import StudentIcon from './StudentIcon.vue'
 import { days, type Meeting } from '../schedules'
-const props=defineProps<{ meetings: Meeting[]; editable?: boolean; busy?: boolean; school?:boolean; compact?:boolean }>()
+const props=defineProps<{ meetings: Meeting[]; editable?: boolean; busy?: boolean; school?:boolean; compact?:boolean; day?:number; usualRoom?:string }>()
 const displayDays=computed(()=> (props.school?[7,1,2,3,4,5,...(props.meetings.some(m=>m.day_of_week===6)?[6]:[])]:[1,2,3,4,5,6,7]).map(id=>({id,name:days[id-1]})))
-const routines=computed(()=>groupWeeklyRoutine(props.meetings,Boolean(props.school)))
+const routines=computed(()=>groupWeeklyRoutine(props.meetings,Boolean(props.school),props.usualRoom).filter(r=>!props.day||r.days.includes(props.day)))
 
 defineEmits<{ edit: [meeting: Meeting]; remove: [meeting: Meeting] }>()
 </script>
 <template>
   <div v-if="compact&&!editable" class="routine-groups">
-    <p class="routine-help">Days with the same lessons share one routine. Different schedules are shown separately.</p>
+    <p class="routine-help">Matching days share one timetable. Different teachers, rooms or times appear separately.</p>
+    <p v-if="!routines.length" class="free">No classes scheduled for this day.</p>
     <section v-for="routine in routines" :key="routine.days.join('-')" class="routine-group">
-      <div class="routine-heading"><h3>{{routine.label}}</h3><span>{{routine.meetings.length?routine.meetings.length+' lessons per day':'No lessons'}}</span></div>
+      <div class="routine-heading"><h3>{{routine.label}}</h3><span>{{routine.meetings.length?routine.meetings.length+(routine.meetings.length===1?' lesson per day':' lessons per day'):'No lessons'}}</span></div>
       <p v-if="!routine.meetings.length" class="free">No classes scheduled.</p>
       <ol v-else class="routine-lessons"><li v-for="m in routine.meetings" :key="m.id"><time>{{m.start_time.slice(0,5)}}–{{m.end_time.slice(0,5)}}</time><div><strong>{{m.course_name}}</strong><small>{{m.professor||(school?'Teacher not assigned':'Professor not assigned')}}<span v-if="m.location"> · {{m.location}}</span><span v-if="!school"> · Section {{m.section}}</span></small></div></li></ol>
       <p v-if="school&&routine.meetings.length" class="routine-break">Tiffin · 1–2 PM</p>

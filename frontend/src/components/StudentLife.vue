@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { apiFetch } from '../api'
-import { computed, ref } from 'vue'
+import { computed, ref, nextTick } from 'vue'
 import StudentIcon from './StudentIcon.vue'
 import StudentIdCard from './StudentIdCard.vue'
 import JobFinder from './JobFinder.vue'
 import SchoolCanteen from './DailyMenu.vue'
 import StudentTimetable from './StudentTimetable.vue'
+import StudentSubjects from './StudentSubjects.vue'
 import StudentSchool from './StudentSchool.vue'
 import StudentHomework from './StudentHomework.vue'
 import NoticeBoard from './NoticeBoard.vue'
@@ -14,6 +15,9 @@ defineProps<{ loginId: string; busy: boolean; error: string }>()
 defineEmits<{ logout: [] }>()
 type Page = 'notices' | 'homework' | 'life' | 'profile' | 'semester' | 'course' | 'schedule' | 'jobs' | 'home' | 'settings' | 'eat' | 'school'
 const page = ref<Page>('home')
+type ClassTab='overview'|'timetable'|'subjects'
+const classTab=ref<ClassTab>('overview'),studentContent=ref<HTMLElement>()
+function openClassTab(tab:ClassTab){classTab.value=tab;void nextTick(()=>studentContent.value?.scrollTo({top:0}))}
 const schoolInfo=ref<{name:string;level:string}|null>(null)
 const schoolMode=computed(()=>Boolean(schoolInfo.value))
 const menu = ref(false)
@@ -23,8 +27,6 @@ const profileLoading = ref(false)
 const profileError = ref('')
 const semesters = ref<{id:number;name:string;academic_year:number;start_date:string;end_date:string}[]>([])
 const semesterLoading = ref(false), semesterError = ref('')
-const courses = ref<{course_code:string;course_name:string;credits:number;professor:string|null;section:string;offering_id:number}[]>([])
-const courseLoading = ref(false), courseError = ref(''), courseSchoolMode = ref(false)
 const editing = ref(false)
 const saving = ref(false)
 const editForm = ref({ email: '', phone_number: '', address: '' })
@@ -66,12 +68,13 @@ const sections = computed<{page:Page;title:string;icon:string}[]>(()=>[
   { page: 'schedule', title: 'Timetable', icon: 'schedule' },
   { page: 'jobs', title: 'Job search', icon: 'jobs' },
   { page: 'eat', title: 'School Canteen', icon: 'canteen' },
-].filter(item=>!(schoolMode.value&&item.page==='semester')&&!(schoolInfo.value?.level==='middle'&&item.page==='jobs')) as {page:Page;title:string;icon:string}[])
+].filter(item=>!(schoolMode.value&&['semester','schedule','course'].includes(item.page))&&!(schoolInfo.value?.level==='middle'&&item.page==='jobs')) as {page:Page;title:string;icon:string}[])
 const title = computed(() => sections.value.find(item => item.page === page.value)?.title ?? ({ life: 'Student Life', home: 'Home', settings: 'Settings' } as Record<string, string>)[page.value])
-function displayDate(value: string) { return new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) }
-function go(next: Page) { page.value = next; menu.value = false; if (next === 'profile') void loadProfile(); if (next === 'semester') void loadSemesters(); if (next === 'course') void loadCourses() }
+function displayDate(value: string) { return new Date(value).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) }
+function go(next:Page){menu.value=false;if(schoolMode.value&&['school','schedule','course'].includes(next)){page.value='school';openClassTab(next==='schedule'?'timetable':next==='course'?'subjects':'overview')}else{page.value=next;if(next==='profile')void loadProfile();if(next==='semester')void loadSemesters();void nextTick(()=>studentContent.value?.scrollTo({top:0}))}}
+
 async function loadSemesters(){ semesterLoading.value=true; semesterError.value=''; semesters.value=[]; try { const r=await apiFetch('/api/student/semesters'); const d=await r.json(); if(!r.ok) throw new Error(d.message || 'Unable to load terms.'); semesters.value=d.semesters } catch(e) { semesterError.value=e instanceof Error?e.message:'Unable to load terms.' } finally { semesterLoading.value=false } }
-async function loadCourses(){ courseLoading.value=true; courseError.value=''; courses.value=[]; try { const r=await apiFetch('/api/student/courses'); const d=await r.json(); if(!r.ok) throw new Error(d.message || 'Unable to load subjects.'); courses.value=d.courses; courseSchoolMode.value=Boolean(d.school_mode) } catch(e) { courseError.value=e instanceof Error?e.message:'Unable to load subjects.' } finally { courseLoading.value=false } }
+
 </script>
 
 <template>
@@ -87,7 +90,7 @@ async function loadCourses(){ courseLoading.value=true; courseError.value=''; co
         <button @click="go('settings')">Account settings</button>
         <button :disabled="busy" @click="$emit('logout')">{{ busy ? 'Logging out…' : 'Log out' }}</button>
       </nav>
-      <main class="student-content">
+      <main ref="studentContent" class="student-content">
         <p v-if="error" class="error" role="alert">{{ error }}</p>
         <StudentHome v-if="page==='home'||page==='life'" :items="sections" @open="go" @context="schoolInfo=$event" />
         <template v-else-if="page === 'profile'">
@@ -100,14 +103,14 @@ async function loadCourses(){ courseLoading.value=true; courseError.value=''; co
         <JobFinder v-else-if="page === 'jobs'" :login-id="loginId" />
         <div v-else-if="page==='eat'" class="student-canteen"><SchoolCanteen/></div>
         <NoticeBoard v-else-if="page==='notices'" reader="student" /><StudentHomework v-else-if="page==='homework'" />
-        <StudentSchool v-else-if="page === 'school'" @open="go" @context="schoolInfo=$event" />
+        <section v-else-if="page==='school'" class="my-class-workspace"><nav class="class-subtabs" aria-label="My Class sections"><button v-for="([id,label]) in [['overview','Class overview'],['timetable','Timetable'],['subjects','Subjects']]" :key="id" type="button" :aria-current="classTab===id?'page':undefined" @click="openClassTab(id as ClassTab)">{{label}}</button></nav><StudentSchool v-if="classTab==='overview'" :navigation="false" @open="go" @context="schoolInfo=$event" /><StudentTimetable v-else-if="classTab==='timetable'" /><StudentSubjects v-else /></section>
 
         <section v-else-if="page === 'settings'" class="student-panel settings-panel"><h2>Account</h2><p>Signed in as {{ loginId }}</p><p class="student-muted">For account or password changes, contact your administrator.</p><button class="student-primary" :disabled="busy" @click="$emit('logout')">{{ busy ? 'Logging out…' : 'Log out' }}</button></section>
         <section v-else-if="page === 'semester'" class="student-panel semester-list"><h2>Your semesters</h2><p v-if="semesterLoading">Loading…</p><p v-else-if="semesterError" class="error" role="alert">{{ semesterError }} <button type="button" @click="loadSemesters">Retry</button></p><p v-else-if="!semesters.length" class="student-muted">You have not been assigned to a semester yet.</p><div v-for="item in semesters" :key="item.id" class="semester-row"><strong>{{item.name}} {{item.academic_year}}</strong><span>{{displayDate(item.start_date)}} – {{displayDate(item.end_date)}}</span></div></section>
-        <section v-else-if="page === 'course'" class="student-panel semester-list"><h2>{{ courseSchoolMode ? 'Subjects mapped to your class' : 'Courses in your semester' }}</h2><p v-if="courseLoading">Loading…</p><p v-else-if="courseError" class="error" role="alert">{{ courseError }} <button type="button" @click="loadCourses">Retry</button></p><p v-else-if="!courses.length" class="student-muted">No subjects are available for your current academic assignment. Contact your administrator if you need help.</p><div v-for="item in courses" :key="item.offering_id" class="semester-row"><div><strong>{{item.course_code}} · {{item.course_name}}</strong><small>{{schoolMode?'Class subject':item.credits+' credits · Section '+item.section}}</small></div><span>{{item.professor || 'Teacher not assigned'}}</span></div></section>
+        <StudentSubjects v-else-if="page==='course'" />
         <StudentTimetable v-else-if="page === 'schedule'" />
       </main>
-      <nav class="student-bottom" aria-label="Main navigation"><button :class="{selected:page==='home'}" :aria-current="page==='home'?'page':undefined" @click="go('home')"><StudentIcon name="home"/><span>Home</span></button><button :class="{selected:page==='schedule'}" :aria-current="page==='schedule'?'page':undefined" @click="go('schedule')"><StudentIcon name="schedule"/><span>Timetable</span></button><button :class="{selected:page==='eat'}" :aria-current="page==='eat'?'page':undefined" @click="go('eat')"><StudentIcon name="canteen"/><span>Canteen</span></button><button :class="{selected:page==='profile'}" :aria-current="page==='profile'?'page':undefined" @click="go('profile')"><StudentIcon name="profile"/><span>Profile</span></button></nav>
+      <nav class="student-bottom" aria-label="Main navigation"><button :class="{selected:page==='home'}" :aria-current="page==='home'?'page':undefined" @click="go('home')"><StudentIcon name="home"/><span>Home</span></button><button :class="{selected:schoolMode?page==='school':page==='schedule'}" :aria-current="(schoolMode?page==='school':page==='schedule')?'page':undefined" @click="go(schoolMode?'school':'schedule')"><StudentIcon :name="schoolMode?'semester':'schedule'"/><span>{{schoolMode?'My Class':'Timetable'}}</span></button><button :class="{selected:page==='eat'}" :aria-current="page==='eat'?'page':undefined" @click="go('eat')"><StudentIcon name="canteen"/><span>Canteen</span></button><button :class="{selected:page==='profile'}" :aria-current="page==='profile'?'page':undefined" @click="go('profile')"><StudentIcon name="profile"/><span>Profile</span></button></nav>
     </div>
   </div>
 </template>
@@ -124,4 +127,5 @@ async function loadCourses(){ courseLoading.value=true; courseError.value=''; co
 .student-content>*{min-width:0}.student-panel dd,.semester-row{overflow-wrap:anywhere}.student-bottom button{min-width:0;min-height:44px}.icon-button{min-width:44px;min-height:44px}.top-spacer{width:44px}.student-content input,.student-content textarea{font-size:16px}@media(max-width:400px){.student-panel dl>div{flex-direction:column;gap:6px}.student-panel dd{text-align:left}.student-bottom button{padding:7px 10px}}
 .student-view{background:#edf3ef;color:#243e33}.student-shell{max-width:900px;border-color:#d4e2d8}.student-top{background:#f7faf7;border-color:#dce7df}.student-bottom{border-color:#dce7df}.student-bottom button{padding:8px 12px;flex:1}.student-bottom .selected{background:#eaf3ed;color:#356a4c}.student-tile{min-height:105px;background:#f2f7f3;border-color:#d1e0d5;color:#31523d}.student-tile.wide{grid-column:auto;min-height:105px}.student-menu{background:#f5f9f5;border-color:#dce7df}.student-menu button{color:#31523d}.student-primary{background:#35644e}.student-canteen{display:grid;gap:24px}.student-canteen :deep(.menu-item){box-shadow:none}.student-view h2{color:inherit}
 .contact-panel{border:0;border-radius:0}.contact-panel .panel-heading{padding:0 0 12px;background:transparent;border-bottom:1px solid #dce6df}.contact-panel dl{padding:0}.contact-panel dl>div{padding:12px 0}.contact-panel .edit-form{padding:8px 0 0}
+.class-subtabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0 0 18px;padding:5px;border:1px solid #dce6df;border-radius:10px;background:#edf4ef}.class-subtabs button{width:100%;min-height:44px;margin:0;padding:10px 8px;border-radius:7px;background:transparent;color:#365b49;font-size:13px;line-height:1.4}.class-subtabs button[aria-current=page]{background:#38624f;color:white}.my-class-workspace{min-width:0}@media(max-width:400px){.class-subtabs{gap:3px;padding:4px}.class-subtabs button{font-size:12px;padding:9px 4px}}
 </style>

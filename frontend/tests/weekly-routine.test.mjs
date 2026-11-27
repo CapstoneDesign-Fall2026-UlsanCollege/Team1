@@ -22,3 +22,15 @@ test('empty days and Saturday schedules remain explicit without inventing lesson
  assert.ok(groups.some(g=>g.days.includes(7)&&!g.meetings.length));assert.deepEqual(groupWeeklyRoutine([],true)[0].days,[7,1,2,3,4,5]);
  const legacy=groupWeeklyRoutine([lesson(1),lesson(2,{section:'B'})],false);assert.notEqual(legacy.find(g=>g.days.includes(1)),legacy.find(g=>g.days.includes(2)));
 });
+
+test('saved usual classroom groups unspecified notes without hiding genuine room changes',()=>{
+ const input=[7,1,2,3,4,5].map(day=>lesson(day,{location:day===7?'Not specified':'Room 203'}));const before=JSON.stringify(input);
+ assert.equal(groupWeeklyRoutine(input,true,'Room 203').length,1);assert.equal(groupWeeklyRoutine(input,true,'Room 203')[0].label,'Sunday–Friday');assert.equal(JSON.stringify(input),before);
+ assert.equal(groupWeeklyRoutine(input,true).length,2);
+ input[2].location='Science lab';assert.equal(groupWeeklyRoutine(input,true,'Room 203').length,2);
+});
+test('empty room notes and whitespace are normalized only for school routine display',()=>{
+ const input=[lesson(7,{location:'',professor:' Teacher A '}),lesson(1,{location:' Not specified ',professor:'Teacher A'})];
+ const group=groupWeeklyRoutine(input,true,'Room 101').find(g=>g.days.includes(7));assert.deepEqual(group.days,[7,1]);assert.equal(group.meetings[0].location,'Room 101');
+ assert.notEqual(groupWeeklyRoutine(input,false).find(g=>g.days.includes(7)),groupWeeklyRoutine(input,false).find(g=>g.days.includes(1)));
+});
