@@ -2,13 +2,13 @@
 
 ## Homework
 
-Teacher: open **Homework & notices**, find an assignment, then choose **Track homework**. Find a student, select Pending, Submitted, Missing or Reviewed, and press Save. Summary counts and filters use saved statuses. Refresh reloads the stored marks; closing or refreshing warns about unsaved choices.
+Teacher: open **Homework & notices**, find an assignment, then choose **Track homework**. Find a student, select Pending, Submitted, Missing or Reviewed, and press **Save all changes**. All changed students are saved together, including rows hidden by filters; if a row is stale the whole batch is rejected. Summary counts and filters use saved statuses. Refresh reloads the stored marks; closing or refreshing warns about unsaved choices.
 
 Only the assigning teacher with a current assignment to that class subject can change progress. Students and verified linked parents see their own saved status in Homework. Pending work past its due date is labelled Overdue; it is not automatically marked Missing. This tracks work received by the teacher; it does not upload student files or accept student self-reported submissions. Archived homework keeps its progress records.
 
 ## Attendance
 
-The teacher’s monthly homeroom register and the parent’s Attendance tab show adjusted attendance, adjusted absences and recording completeness. Teachers can filter students with adjusted absences or unmarked days and see percentages beside the register.
+The parent’s Attendance tab shows adjusted attendance, adjusted absences and recording completeness. In the teacher’s monthly register, enable **Attendance percentages** below the aligned controls to show the class summary and student percentage column. These start collapsed. Filters include All percentages, Below 90%, Below 75%, and No recorded days; these are viewing aids, not school policy. Hiding percentages clears the rate filter. The class summary always includes the whole class; the table follows the selected filters. Teachers can also filter students with adjusted absences or unmarked days.
 
 - Adjusted absences = absent marks + floor(late marks / 3), per student per month.
 - Adjusted attendance = (present + late + absent - adjusted absences) / (present + late + absent), as a percentage.

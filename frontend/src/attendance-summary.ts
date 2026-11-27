@@ -7,3 +7,11 @@ export function attendanceSummary(t:AttendanceCounts){
 export function combinedAttendance(students:{totals:AttendanceCounts}[]):AttendanceCounts {
   return students.reduce((sum,s)=>Object.fromEntries(Object.keys(sum).map(key=>[key,sum[key as keyof AttendanceCounts]+s.totals[key as keyof AttendanceCounts]])) as AttendanceCounts,{present:0,absent:0,late:0,excused:0,unmarked:0,lateAbsences:0,adjustedAbsences:0})
 }
+
+export function attendanceRateMatches(t:AttendanceCounts,filter:string){
+  const rate=attendanceSummary(t).rate
+  if(filter==='none')return rate===null
+  if(filter==='below90')return rate!==null&&rate<90
+  if(filter==='below75')return rate!==null&&rate<75
+  return true
+}

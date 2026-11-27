@@ -221,17 +221,32 @@ export function teacherWorkspaceRouter(pool:Pool,invalidate:(id:number)=>void,to
   const marks=await rows(pool,'SELECT student_user_id,status,version FROM school_homework_progress WHERE homework_id=?',[id]);
   res.json({homework:scope.homework,students:scope.students.map(s=>({...s,...(marks.find(m=>m.student_user_id===s.id)??{status:'pending',version:0})}))});
  });
- router.put('/teacher/homework/:id/progress/:studentId',async(req,res)=>{
-  const id=schoolId(Number(req.params.id)),studentId=schoolId(Number(req.params.studentId)),{status,version}=req.body??{};
-  if(!['pending','submitted','missing','reviewed'].includes(status)||!Number.isInteger(version)||version<0)throw new ScheduleError(400,'Choose a valid homework status and version.');
+ type ProgressMark={student_user_id:number;status:string;version:number};
+ async function saveProgress(userId:number,id:number,records:ProgressMark[]){
+  if(!Array.isArray(records)||!records.length||records.length>500||new Set(records.map(r=>r?.student_user_id)).size!==records.length||records.some(r=>!r||!Number.isSafeInteger(r.student_user_id)||r.student_user_id<1||!['pending','submitted','missing','reviewed'].includes(r.status)||!Number.isSafeInteger(r.version)||r.version<0))throw new ScheduleError(400,'Choose unique students with valid statuses and versions (maximum 500 updates).');
   await transaction(pool,async c=>{
-   const scope=await progressScope(c,res.locals.user.id,id);
-   if(!scope.students.some(s=>s.id===studentId))throw new ScheduleError(403,'This student is not in the homework class.');
-   const [old]=await rows(c,'SELECT version FROM school_homework_progress WHERE homework_id=? AND student_user_id=?',[id,studentId]);
-   if((old?.version??0)!==version)throw new ScheduleError(409,'This student’s status changed. Refresh before saving.');
-   if(old)await c.execute('UPDATE school_homework_progress SET status=?,version=version+1,recorded_by=? WHERE homework_id=? AND student_user_id=?',[status,res.locals.user.id,id,studentId]);
-   else await c.execute('INSERT INTO school_homework_progress(homework_id,student_user_id,status,recorded_by) VALUES(?,?,?,?)',[id,studentId,status,res.locals.user.id]);
-  });res.json({status,version:version+1});
+   const scope=await progressScope(c,userId,id),existing=new Set<number>();
+   // Validate every row before writing any of the batch.
+   for(const r of records){
+    if(!scope.students.some(s=>s.id===r.student_user_id))throw new ScheduleError(403,'A student is not in the homework class. No updates were saved.');
+    const [old]=await rows(c,'SELECT version FROM school_homework_progress WHERE homework_id=? AND student_user_id=?',[id,r.student_user_id]);
+    if((old?.version??0)!==r.version)throw new ScheduleError(409,'A student’s status changed elsewhere. No updates were saved. Refresh before saving again.');
+    if(old)existing.add(r.student_user_id);
+   }
+   for(const r of records){
+    if(existing.has(r.student_user_id))await c.execute('UPDATE school_homework_progress SET status=?,version=version+1,recorded_by=? WHERE homework_id=? AND student_user_id=?',[r.status,userId,id,r.student_user_id]);
+    else await c.execute('INSERT INTO school_homework_progress(homework_id,student_user_id,status,recorded_by) VALUES(?,?,?,?)',[id,r.student_user_id,r.status,userId]);
+   }
+  });
+  return records.map(r=>({...r,version:r.version+1}));
+ }
+ router.put('/teacher/homework/:id/progress',async(req,res)=>{
+  const records=await saveProgress(res.locals.user.id,schoolId(Number(req.params.id)),req.body?.records);
+  res.json({records,message:`Saved ${records.length} homework status update(s).`});
+ });
+ router.put('/teacher/homework/:id/progress/:studentId',async(req,res)=>{
+  const records=await saveProgress(res.locals.user.id,schoolId(Number(req.params.id)),[{student_user_id:schoolId(Number(req.params.studentId)),status:req.body?.status,version:req.body?.version}]);
+  res.json({status:records[0]!.status,version:records[0]!.version});
  });
  router.get('/student/homework',async(_req,res)=>{
   const date=today();

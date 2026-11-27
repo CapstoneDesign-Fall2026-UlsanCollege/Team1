@@ -468,6 +468,13 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
        assert.equal((await request(tracking+'/2','PUT',{status:'reviewed',version:1},'teacher')).status,200);
        assert.equal((await data('/student/homework','alice')).homework.find(h=>h.id===homeworkId).progress_status,'reviewed');
        assert.equal((await data(tracking,'teacher')).students.find(s=>s.id===2).version,2);
+       const other=progress.students.find(s=>s.id!==2);assert.ok(other);
+       const batch=[{student_user_id:2,status:'submitted',version:2},{student_user_id:other.id,status:'missing',version:0}];
+       assert.equal((await request(tracking,'PUT',{records:batch},'teacher')).status,200);
+       const afterBatch=await data(tracking,'teacher');assert.equal(afterBatch.students.find(s=>s.id===2).version,3);assert.equal(afterBatch.students.find(s=>s.id===other.id).status,'missing');
+       assert.equal((await request(tracking,'PUT',{records:[{student_user_id:2,status:'reviewed',version:3},{student_user_id:other.id,status:'reviewed',version:0}]},'teacher')).status,409);
+       assert.equal((await data(tracking,'teacher')).students.find(s=>s.id===2).status,'submitted');
+
        const edit={...body,version:1,is_active:false};
        assert.equal((await request('/teacher/homework/'+homeworkId,'PUT',edit,'otherTeacher')).status,403);
        assert.equal((await request('/teacher/homework/'+homeworkId,'PUT',edit,'teacher')).status,200);
@@ -629,7 +636,7 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
     await t.test('CSV export/preview/apply is additive, atomic, stale-safe and excludes credentials',async()=>{
       const r=await request('/admin/school/transfer/export');assert.equal(r.status,200);
       const files=unzipSync(new Uint8Array(await r.arrayBuffer()));assert.ok(!files['school_student_cards.csv']);const manifest=JSON.parse(strFromU8(files['manifest.json']));
-      assert.equal(manifest.format,'studenthub-csv-v1');assert.ok(files['school_rooms.csv']);
+      assert.equal(manifest.format,'studenthub-csv-v1');assert.ok(files['school_rooms.csv']);for(const name of ['school_homework','school_homework_progress','school_attendance','school_attendance_sheets','school_notices','school_class_notices'])assert.ok(files[name+'.csv']);
       const users=decodeCsv(strFromU8(files['users.csv']));assert.deepEqual(users[0],['id','login_id','role']);assert.ok(!users.slice(1).some(r=>r[2]==='admin'));
       assert.ok(!Object.keys(files).some(f=>/password|reset|activity/.test(f)));
       const packed=f=>Buffer.from(zipSync(f)).toString('base64');
@@ -639,19 +646,24 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       const subset={'manifest.json':files['manifest.json'],'school_floors.csv':strToU8(encodeCsv(floors))};
       const prepared=await preview(subset);assert.equal((await sql('SELECT COUNT(*) n FROM school_floors WHERE floor_number=9'))[0].n,0);
       const unchangedUsers=await sql('SELECT * FROM users ORDER BY id');
-      const applied=await request('/admin/school/transfer/apply','POST',{token:prepared.token});assert.equal(applied.status,200,JSON.stringify(await applied.clone().json()));
+      assert.equal((await request('/admin/school/transfer/apply','POST',{token:prepared.token,recovery_downloaded:true})).status,400);
+      const recovery=await request('/admin/school/transfer/recovery/'+prepared.token);assert.equal(recovery.status,200);const savedBefore=unzipSync(new Uint8Array(await recovery.arrayBuffer()));assert.ok(!decodeCsv(strFromU8(savedBefore['school_floors.csv'])).some(row=>row[0]==='9'));
+      assert.equal((await request('/admin/school/transfer/recovery/'+prepared.token,'GET',undefined,'alice')).status,403);
+      const applied=await request('/admin/school/transfer/apply','POST',{token:prepared.token,recovery_downloaded:true});assert.equal(applied.status,200,JSON.stringify(await applied.clone().json()));
       assert.equal((await sql('SELECT COUNT(*) n FROM school_floors WHERE floor_number=9'))[0].n,1);assert.deepEqual(await sql('SELECT * FROM users ORDER BY id'),unchangedUsers);
       assert.equal((await sql('SELECT COUNT(*) n FROM school_rooms'))[0].n,42);
-      assert.equal((await request('/admin/school/transfer/apply','POST',{token:prepared.token})).status,409);
-      const stale=await preview(subset);await mutate('/admin/school/floors/9','PUT',{label:'Changed elsewhere'});
-      assert.equal((await request('/admin/school/transfer/apply','POST',{token:stale.token})).status,409);
+      assert.equal((await request('/admin/school/transfer/apply','POST',{token:prepared.token,recovery_downloaded:true})).status,409);
+      const stale=await preview(subset);assert.equal((await request('/admin/school/transfer/recovery/'+stale.token)).status,200);await mutate('/admin/school/floors/9','PUT',{label:'Changed elsewhere'});
+      assert.equal((await request('/admin/school/transfer/apply','POST',{token:stale.token,recovery_downloaded:true})).status,409);
+      const invalid={'manifest.json':files['manifest.json'],'school_floors.csv':strToU8(encodeCsv([['floor_number','label'],['not-number','Invalid'],['-1','Invalid too']]))};
+      const invalidResponse=await request('/admin/school/transfer/preview','POST',{package:packed(invalid)});assert.equal(invalidResponse.status,400);const errors=(await invalidResponse.json()).errors;assert.equal(errors.length,2);assert.equal(errors[0].file,'school_floors.csv');assert.equal(errors[0].row,2);assert.equal(errors[0].field,'floor_number');
       const bad={...subset,'school_rooms.csv':strToU8(encodeCsv([['id','room_number','floor_number','position_number','kind','name'],[9001,'BAD',99,1,'regular','Invalid floor']]))};
       assert.equal((await request('/admin/school/transfer/preview','POST',{package:packed(bad)})).status,400);
       assert.equal((await sql('SELECT COUNT(*) n FROM school_rooms WHERE room_number=?',['BAD']))[0].n,0);
       assert.equal((await request('/admin/school/transfer/export','GET',undefined,'alice')).status,403);
       assert.equal((await request('/admin/school/transfer/preview','POST',{package:packed(subset)},'canteen')).status,403);
       const external={'manifest.json':strToU8(JSON.stringify({...manifest,source:'another-school'})),'users.csv':strToU8(encodeCsv([['id','login_id','role'],[7001,'new_import_student','student']])),'student_profiles.csv':strToU8(encodeCsv([['user_id','full_name','university','major','year_of_study','email','phone_number','address'],[7001,'Imported Fictional Student','Fictional School',null,null,null,'0123456789',null]]))};
-      const p=await preview(external);assert.equal((await request('/admin/school/transfer/apply','POST',{token:p.token})).status,200);
+      const p=await preview(external);assert.equal((await request('/admin/school/transfer/recovery/'+p.token)).status,200);assert.equal((await request('/admin/school/transfer/apply','POST',{token:p.token,recovery_downloaded:true})).status,200);
       const [newUser]=await sql("SELECT u.*,p.full_name,p.phone_number FROM users u JOIN student_profiles p ON p.user_id=u.id WHERE login_id='new_import_student'");assert.equal(newUser.is_active,0);assert.equal(newUser.role,'student');assert.equal(newUser.phone_number,'0123456789');assert.ok(newUser.password_hash);
       const escalation={...external,'users.csv':strToU8(encodeCsv([['id','login_id','role'],[7001,'admin','admin']]))};assert.equal((await request('/admin/school/transfer/preview','POST',{package:packed(escalation)})).status,400);
     });
@@ -795,6 +807,22 @@ test('isolated MySQL school structure, mapping and student scope',{skip:process.
       const old=after.find(m=>m.id===ready.membership_id);assert.equal(old.starts_on.getTime(),before.find(m=>m.id===ready.membership_id).starts_on.getTime());assert.ok(old.ends_on);
       assert.deepEqual(await sql('SELECT * FROM school_homework ORDER BY id'),homeworkBefore);assert.deepEqual(await sql('SELECT * FROM school_attendance ORDER BY class_id,attendance_date,student_user_id'),attendanceBefore);
       const again=await request('/admin/school/rollover/preview','POST',{...input,revision:(await data('/admin/school')).revision});assert.equal((await again.json()).students.find(s=>s.student_user_id===ready.student_user_id).status,'already_enrolled');
+    });
+    await t.test('academic recovery restores changed values and missing progress, retains unlisted rows and refuses stale copies',async()=>{
+      const exported=await request('/admin/school/transfer/export');assert.equal(exported.status,200);const bytes=new Uint8Array(await exported.arrayBuffer()),original=unzipSync(bytes);
+      const [homework]=await sql('SELECT id,title FROM school_homework ORDER BY id LIMIT 1');assert.ok(homework);
+      const progress=await sql('SELECT * FROM school_homework_progress ORDER BY homework_id,student_user_id LIMIT 1');assert.ok(progress.length);
+      await sql('UPDATE school_homework SET title=? WHERE id=?',['Accidental edit',homework.id]);await sql('DELETE FROM school_homework_progress WHERE homework_id=? AND student_user_id=?',[progress[0].homework_id,progress[0].student_user_id]);
+      await sql("INSERT INTO school_floors(floor_number,label) VALUES(98,'Unlisted new floor')");
+      const accountBefore=await sql('SELECT id,password_hash,is_active FROM users ORDER BY id');
+      const previewResponse=await request('/admin/school/transfer/preview','POST',{package:Buffer.from(bytes).toString('base64')});const p=await previewResponse.json();assert.equal(previewResponse.status,200,JSON.stringify(p));
+      assert.equal((await sql('SELECT title FROM school_homework WHERE id=?',[homework.id]))[0].title,'Accidental edit');
+      const change=p.changes.find(c=>c.file==='school_homework.csv'&&c.action==='update');assert.ok(change.fields.some(f=>f.field==='title'&&f.before==='Accidental edit'&&f.after===homework.title));assert.ok(p.summary.find(s=>s.table==='school_floors').retained>=1);
+      const recovery=await request('/admin/school/transfer/recovery/'+p.token);assert.equal(recovery.status,200);const pre=unzipSync(new Uint8Array(await recovery.arrayBuffer()));assert.ok(strFromU8(pre['school_homework.csv']).includes('Accidental edit'));
+      const restored=await request('/admin/school/transfer/apply','POST',{token:p.token,recovery_downloaded:true});assert.equal(restored.status,200,JSON.stringify(await restored.clone().json()));
+      assert.equal((await sql('SELECT title FROM school_homework WHERE id=?',[homework.id]))[0].title,homework.title);assert.equal((await sql('SELECT status FROM school_homework_progress WHERE homework_id=? AND student_user_id=?',[progress[0].homework_id,progress[0].student_user_id]))[0].status,progress[0].status);
+      assert.equal((await sql('SELECT label FROM school_floors WHERE floor_number=98'))[0].label,'Unlisted new floor');assert.deepEqual(await sql('SELECT id,password_hash,is_active FROM users ORDER BY id'),accountBefore);
+      assert.ok(original['school_attendance.csv']);assert.ok(original['school_notices.csv']);assert.ok(!original['school_parent_students.csv']);
     });
   }finally{
     if(server){server.closeAllConnections();await new Promise(r=>server.close(r));}await pool?.end();

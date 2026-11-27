@@ -1,6 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import bcrypt from 'bcryptjs';
+import express from 'express';
 import {createApp} from '../dist/app.js';
 import {teacherWorkspaceRouter} from '../dist/teacher-workspace.js';
 
@@ -38,4 +39,29 @@ test('homework progress persists with ownership, membership, stale-write and rol
   assert.equal((await(await req('/student/homework','student')).json()).homework[0].progress_status,'reviewed');
   assigned=false;assert.equal((await req(path+'/2','teacher','PUT',{status:'missing',version:2})).status,403);
  }finally{server.closeAllConnections();await new Promise(r=>server.close(r));}
+});
+
+test('save-all validates the full batch before any write and rejects duplicate or foreign students',async()=>{
+ const marks=new Map([[2,{status:'submitted',version:1}],[3,{status:'pending',version:1}]]);let writes=0;
+ const db={beginTransaction:async()=>{},commit:async()=>{},rollback:async()=>{},release:()=>{},getConnection:async()=>db,execute:async(sql,a=[])=>{
+  if(sql.includes('school_planning_lock'))return [[]];
+  if(sql.includes('school_teacher_accounts a JOIN'))return [[{id:10}]];
+  if(sql.startsWith('SELECT id,class_id'))return [[{id:1,class_id:20,offering_id:30,teacher_id:10}]];
+  if(sql.includes('FROM school_offering_teachers ot'))return [[{class_id:20,offering_id:30}]];
+  if(sql.includes('FROM school_memberships m JOIN users'))return [[{id:2},{id:3}]];
+  if(sql.startsWith('SELECT version FROM school_homework_progress'))return [[{version:marks.get(a[1]).version}]];
+  if(sql.startsWith('UPDATE school_homework_progress')){writes++;const m=marks.get(a[3]);m.status=a[0];m.version++;return [{affectedRows:1}];}
+  throw Error(sql);
+ }};
+ const app=express();app.use(express.json());app.use((req,res,next)=>{res.locals.user={id:1,role:'teacher'};next()});app.use(teacherWorkspaceRouter(db,()=>{},()=> '2026-11-27'));app.use((e,req,res,next)=>res.status(e.status??500).json({message:e.message}));
+ const server=app.listen(0,'127.0.0.1');await new Promise(r=>server.once('listening',r));
+ const save=records=>fetch('http://127.0.0.1:'+server.address().port+'/teacher/homework/1/progress',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({records})});
+ try{
+  const good={student_user_id:2,status:'reviewed',version:1},second={student_user_id:3,status:'missing',version:1};
+  assert.equal((await save([good,{...second,version:0}])).status,409);assert.equal(writes,0);assert.equal(marks.get(2).status,'submitted');
+  assert.equal((await save([good,{...second,student_user_id:999}])).status,403);assert.equal(writes,0);
+  assert.equal((await save([good,good])).status,400);assert.equal(writes,0);
+  assert.equal((await save([])).status,400);
+  const r=await save([good,second]);assert.equal(r.status,200);assert.equal((await r.json()).records.length,2);assert.equal(writes,2);assert.equal(marks.get(2).status,'reviewed');assert.equal(marks.get(3).status,'missing');
+ }finally{server.closeAllConnections();await new Promise(r=>server.close(r))}
 });

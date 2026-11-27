@@ -1,6 +1,8 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import ts from 'typescript';
 const js=ts.transpileModule(readFileSync(new URL('../src/attendance-summary.ts',import.meta.url),'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText;
-const {attendanceSummary,combinedAttendance}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));
+const {attendanceSummary,combinedAttendance,attendanceRateMatches}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));
 const base={present:5,absent:1,late:3,excused:2,unmarked:3,lateAbsences:1,adjustedAbsences:2};
 test('adjusted percentage excludes excused and unmarked days and reports recording coverage',()=>{assert.deepEqual(attendanceSummary(base),{counted:9,marked:11,eligible:14,rate:77.8,coverage:79});assert.equal(attendanceSummary({...base,present:0,absent:0,late:0,adjustedAbsences:0}).rate,null)});
 test('class summaries preserve per-student late conversions rather than combining leftover lates',()=>{const t={present:0,absent:0,late:2,excused:0,unmarked:0,lateAbsences:0,adjustedAbsences:0};const combined=combinedAttendance([{totals:t},{totals:t}]);assert.equal(combined.late,4);assert.equal(combined.adjustedAbsences,0);assert.equal(attendanceSummary(combined).rate,100);assert.equal(attendanceSummary(combinedAttendance([])).rate,null)});
+
+test('percentage filters keep unrecorded days separate and use strict thresholds',()=>{assert.equal(attendanceRateMatches(base,'below90'),true);assert.equal(attendanceRateMatches(base,'below75'),false);const empty={present:0,absent:0,late:0,excused:0,unmarked:5,lateAbsences:0,adjustedAbsences:0};assert.equal(attendanceRateMatches(empty,'none'),true);assert.equal(attendanceRateMatches(empty,'below90'),false);assert.equal(attendanceRateMatches({...base,present:9,absent:1,late:0,adjustedAbsences:1},'below90'),false)});
