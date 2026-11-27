@@ -49,7 +49,9 @@ These are assistant-run checks. No real school students were rolled over as part
 
 
 ### Homework register update
-Track homework opens a class register for the signed-in teacher's own assignments. Columns use actual assigned dates and homework titles, not every calendar date. Two assignments on one date remain separate. O means done (or reviewed), X means not done, - means teacher-recorded late submission, and an unmarked cell remains distinct. Existing reviewed records are preserved. Search filters students without discarding edits. Save all changes saves each assignment's changed student marks with existing ownership and version checks; if a later assignment fails, earlier saved columns remain saved and remaining edits stay visible. This is not one transaction across assignments. The register uses the existing latest-100 teacher homework response and current authorized roster.
+Each assignment keeps its own Track homework popup and Save all changes control. O means done, X means not done, and - means teacher-recorded late submission. Unmarked and reviewed records are preserved.
+
+A separate Homework register navigation tab provides a class filter and a read-only overview. Students are rows; only actual homework creation dates are columns. Hovering, focusing or tapping a date shows homework names. Several assignments on one date use separate numbered marks in that date's column, following the displayed name order. Edit marks in the individual assignment popup, then refresh the register. The register uses the existing latest-100 teacher homework feed and authorized current rosters, not a lifetime archive.
 
 Students can optionally open homework history at the right on desktop or below current work on narrow screens. Past-due and reviewed work moves there; unfinished overdue work still has a reminder. This is the current authorized homework feed, not a lifetime archive.
 
