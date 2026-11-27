@@ -37,7 +37,9 @@ test('homework progress persists with ownership, membership, stale-write and rol
   assert.equal((await req(path+'/2','teacher','PUT',{status:'missing',version:0})).status,409);assert.equal(mark.status,'submitted');
   assert.equal((await req(path+'/2','teacher','PUT',{status:'reviewed',version:1})).status,200);
   assert.equal((await(await req('/student/homework','student')).json()).homework[0].progress_status,'reviewed');
-  assigned=false;assert.equal((await req(path+'/2','teacher','PUT',{status:'missing',version:2})).status,403);
+  assert.equal((await req(path+'/2','teacher','PUT',{status:'late',version:2})).status,200);
+  assert.equal((await(await req('/student/homework','student')).json()).homework[0].progress_status,'late');
+  assigned=false;assert.equal((await req(path+'/2','teacher','PUT',{status:'missing',version:3})).status,403);
  }finally{server.closeAllConnections();await new Promise(r=>server.close(r));}
 });
 

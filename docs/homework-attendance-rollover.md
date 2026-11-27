@@ -46,3 +46,11 @@ Login IDs, passwords, parent links, homework, attendance and notices are preserv
 - [x] Assistant browser checks on fictional local fixtures cover homework save/refresh, rollover selection/confirmation, summary labels and a 390-pixel layout.
 
 These are assistant-run checks. No real school students were rolled over as part of testing. The MySQL suite uses a randomly named temporary database and removes that database afterward. Physical iPhone acceptance is still a human check.
+
+
+### Homework register update
+Track homework opens a class register for the signed-in teacher's own assignments. Columns use actual assigned dates and homework titles, not every calendar date. Two assignments on one date remain separate. O means done (or reviewed), X means not done, - means teacher-recorded late submission, and an unmarked cell remains distinct. Existing reviewed records are preserved. Search filters students without discarding edits. Save all changes saves each assignment's changed student marks with existing ownership and version checks; if a later assignment fails, earlier saved columns remain saved and remaining edits stay visible. This is not one transaction across assignments. The register uses the existing latest-100 teacher homework response and current authorized roster.
+
+Students can optionally open homework history at the right on desktop or below current work on narrow screens. Past-due and reviewed work moves there; unfinished overdue work still has a reminder. This is the current authorized homework feed, not a lifetime archive.
+
+Timetable term choices are remembered per login in tab session storage. Refresh retains a valid explicit choice; defaults prefer an active term with actual lessons. Date changes replace a choice only when it no longer covers the selected date.

@@ -30,7 +30,7 @@ export const teacherSchema=[
  ) ENGINE=InnoDB`,
  `CREATE TABLE IF NOT EXISTS school_homework_progress (
   homework_id INT UNSIGNED NOT NULL, student_user_id INT UNSIGNED NOT NULL,
-  status ENUM('pending','submitted','missing','reviewed') NOT NULL DEFAULT 'pending',
+  status ENUM('pending','submitted','missing','reviewed','late') NOT NULL DEFAULT 'pending',
   version INT UNSIGNED NOT NULL DEFAULT 1, recorded_by INT UNSIGNED NOT NULL,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(homework_id,student_user_id),
@@ -59,6 +59,8 @@ export async function ensureTeacherSchema(pool:Pool){
   await pool.query("ALTER TABLE users MODIFY COLUMN role ENUM('admin','student','canteen_head','teacher') NOT NULL DEFAULT 'student'");
  }
  for(const sql of teacherSchema)await pool.query(sql);
+ const [progressColumns]=await pool.query<RowDataPacket[]>("SHOW COLUMNS FROM school_homework_progress LIKE 'status'");
+ if(!String(progressColumns[0]?.Type).includes("'late'"))await pool.query("ALTER TABLE school_homework_progress MODIFY COLUMN status ENUM('pending','submitted','missing','reviewed','late') NOT NULL DEFAULT 'pending'");
  await ensureParentSchema(pool);
 }
 type DB=Pick<Pool,'execute'>;
@@ -223,7 +225,7 @@ export function teacherWorkspaceRouter(pool:Pool,invalidate:(id:number)=>void,to
  });
  type ProgressMark={student_user_id:number;status:string;version:number};
  async function saveProgress(userId:number,id:number,records:ProgressMark[]){
-  if(!Array.isArray(records)||!records.length||records.length>500||new Set(records.map(r=>r?.student_user_id)).size!==records.length||records.some(r=>!r||!Number.isSafeInteger(r.student_user_id)||r.student_user_id<1||!['pending','submitted','missing','reviewed'].includes(r.status)||!Number.isSafeInteger(r.version)||r.version<0))throw new ScheduleError(400,'Choose unique students with valid statuses and versions (maximum 500 updates).');
+  if(!Array.isArray(records)||!records.length||records.length>500||new Set(records.map(r=>r?.student_user_id)).size!==records.length||records.some(r=>!r||!Number.isSafeInteger(r.student_user_id)||r.student_user_id<1||!['pending','submitted','missing','reviewed','late'].includes(r.status)||!Number.isSafeInteger(r.version)||r.version<0))throw new ScheduleError(400,'Choose unique students with valid statuses and versions (maximum 500 updates).');
   await transaction(pool,async c=>{
    const scope=await progressScope(c,userId,id),existing=new Set<number>();
    // Validate every row before writing any of the batch.

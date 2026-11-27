@@ -1,11 +1,15 @@
 <script setup lang="ts">
+import {chooseTimetableTerm,rememberedTimetableTerm,rememberTimetableTerm} from '../timetable-term'
 import EnglishDateInput from './EnglishDateInput.vue'
 import {nepalCalendarToday} from '../english-calendar'
 import {days} from '../schedules'
 import { computed, onMounted, ref } from 'vue'
 import { scheduleApi, type Meeting, type Semester } from '../schedules'
 import WeeklySchedule from './WeeklySchedule.vue'
-const terms = ref<Semester[]>([]), meetings = ref<Meeting[]>([]), semester = ref(0)
+const props=defineProps<{loginId?:string}>()
+function remembered(){try{return props.loginId?rememberedTimetableTerm(sessionStorage,props.loginId):0}catch{return 0}}
+function rememberSemester(){try{if(props.loginId)rememberTimetableTerm(sessionStorage,props.loginId,semester.value)}catch{/* Storage is optional. */}}
+const terms = ref<Semester[]>([]), meetings = ref<Meeting[]>([]), semester = ref(remembered())
 const loading = ref(true), error = ref(''), schoolMode = ref(false)
 const date=ref(nepalCalendarToday()),day=ref(0),usualRoom=ref('')
 const selectedWeekday=computed(()=>new Date(date.value+'T00:00:00Z').getUTCDay()||7)
@@ -17,7 +21,7 @@ async function load(forDate=false) {
   try {
     const [a,b] = await Promise.all([scheduleApi('student/semesters?date='+encodeURIComponent(date.value)), scheduleApi('student/schedule?date='+encodeURIComponent(date.value))])
     terms.value = a.semesters; meetings.value = b.schedules; schoolMode.value = Boolean(a.school_mode);usualRoom.value=b.usual_room??''
-    if(forDate||!terms.value.some(t=>t.id===semester.value)){const active=schoolMode.value?terms.value.find(t=>(t as any).start_date<=date.value&&(t as any).end_date>=date.value):undefined;semester.value=active?.id??(forDate&&schoolMode.value?0:terms.value[0]?.id??0)}
+    semester.value=chooseTimetableTerm(terms.value,meetings.value,semester.value,date.value,schoolMode.value,forDate);rememberSemester()
   } catch(e) { error.value = e instanceof Error ? e.message : 'Unable to load your timetable.' }
   finally { loading.value = false }
 }
@@ -31,7 +35,7 @@ onMounted(load)
     <p v-else-if="error" class="error" role="alert">{{ error }}</p>
     <template v-else>
       <p v-if="!terms.length">{{ schoolMode ? 'No school terms are available for your current class membership. Contact your administrator.' : 'You have not been assigned to a semester yet.' }}</p>
-      <template v-else><label for="student-schedule-term">{{schoolMode?'School term':'Semester'}}</label><select id="student-schedule-term" v-model="semester"><option v-if="!semester" :value="0" disabled>No active term on this date</option><option v-for="t in terms" :key="t.id" :value="t.id">{{ t.name }}{{schoolMode?'':' '+t.academic_year}}</option></select>
+      <template v-else><label for="student-schedule-term">{{schoolMode?'School term':'Semester'}}</label><select id="student-schedule-term" v-model="semester" @change="rememberSemester"><option v-if="!semester" :value="0" disabled>No active term on this date</option><option v-for="t in terms" :key="t.id" :value="t.id">{{ t.name }}{{schoolMode?'':' '+t.academic_year}}</option></select>
       <p class="note">{{ visible.length }} class meetings each week<span v-if="visible[0]?.major"> · {{visible[0].major}}</span></p><p v-if="!visible.length">{{ schoolMode ? (!semester?'No school term is active on this date. Choose a term to review its weekly routine.':'No meetings are linked to your class in this term yet.') : 'No classes are scheduled for your major in this semester.' }}</p><template v-else><div class="day-tabs" role="group" aria-label="Timetable day"><button type="button" :aria-pressed="day===0" @click="day=0">All days</button><button v-for="d in dayChoices" :key="d" type="button" :aria-pressed="day===d" @click="day=d">{{days[d-1]}}</button></div><p v-if="day" class="note">Showing {{days[day-1]}}. Matching days share this timetable.</p><WeeklySchedule :meetings="visible" :school="schoolMode" :day="day" :usual-room="usualRoom" compact /></template></template>
     </template>
   </section>
