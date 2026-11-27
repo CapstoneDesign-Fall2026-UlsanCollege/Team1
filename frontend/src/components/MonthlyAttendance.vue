@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import MarkLegend from './MarkLegend.vue'
 import AttendanceSummary from './AttendanceSummary.vue'
 import {attendanceSummary,combinedAttendance,attendanceRateMatches} from '../attendance-summary'
 import EnglishDateInput from './EnglishDateInput.vue'
@@ -58,7 +59,7 @@ function meaning(s:any,date:string){return !eligible(s,date)?'Outside enrollment
 onMounted(load)
 </script>
 <template><section class="monthly-attendance">
-<div class="toolbar"><div><h2>Monthly attendance register</h2><p>O Present · X Absent · - Late · E Excused · · Unmarked</p></div></div>
+<div class="toolbar"><div><h2>Monthly attendance register</h2></div></div><MarkLegend kind="attendance" />
 <p v-if="!classes.length" class="muted">No homeroom is assigned to you. Your administrator can review Sunday’s 10 AM teacher.</p>
 <p v-if="loading" role="status">Loading monthly attendance…</p><p v-if="error" class="error" role="alert">{{error}}</p><p v-if="message" class="success" role="status">{{message}}</p>
 <div class="register-actions"><label>Class<select v-model="classId" :disabled="loading||saving||dirty" @change="load"><option v-for="c in classes" :key="c.class_id" :value="c.class_id">Grade {{c.grade_label}} · Class {{c.class_name}}</option></select></label><label>Month<EnglishDateInput v-model="month" type="month" :max="today.slice(0,7)" :disabled="loading||saving||dirty" @change="load" /></label><label class="student-search">Find a student<input v-model="search" type="search" placeholder="Name or student ID" :disabled="!data||loading"></label><button :disabled="saving||!dirty" @click="save">{{saving?'Saving…':'Save selected day'}}</button><button class="secondary" :disabled="saving||loading||!classId" @click="load()">{{dirty?'Discard & reload':'Refresh register'}}</button></div>
