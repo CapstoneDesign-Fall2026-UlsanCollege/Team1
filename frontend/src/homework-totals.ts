@@ -1,0 +1,1 @@
+export function homeworkTotals(statuses:string[]){const total=statuses.length,done=statuses.filter(s=>s==='submitted'||s==='reviewed').length,late=statuses.filter(s=>s==='late').length;return {total,done,late,percent:total?Math.round((done+late)/total*100):null}}

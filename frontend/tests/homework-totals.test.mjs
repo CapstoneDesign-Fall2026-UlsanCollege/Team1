@@ -1,0 +1,4 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import ts from 'typescript';
+const js=ts.transpileModule(readFileSync(new URL('../src/homework-totals.ts',import.meta.url),'utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText;
+const {homeworkTotals}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));
+test('homework percent counts late submissions as completed, preserves unmarked denominator and individual assignments',()=>{assert.deepEqual(homeworkTotals(['submitted','reviewed','late','missing','pending']),{total:5,done:2,late:1,percent:60});assert.deepEqual(homeworkTotals(['pending','pending']),{total:2,done:0,late:0,percent:0});assert.deepEqual(homeworkTotals([]),{total:0,done:0,late:0,percent:null})});
