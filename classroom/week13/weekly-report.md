@@ -26,3 +26,7 @@ Other members add their own actual Week 13 work, exact login and direct proof. N
 Permanent baseline/first-admin artifacts remain absent despite historical #77 closure. Disposable fictional demo is available but is not a permanent-install fallback. Independent reader trial and latest-release human role acceptance remain pending. No permanent-install fallback verified. [Definitions of Done/reminders](issues-and-reminders.md).
 
 Earlier QA: [Galan result](../week12/galan-qa-result.md), [Week 12 report](../week12/weekly-report.md). Documentation PR review and actual non-author trial are separate from prepared documents.
+
+## Publication result
+
+[PR #113](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/pull/113) merged; Railway Active and deployment successful for merge 65b92bf; public login page loaded. Both GitHub checks passed. [Direct revision/run links and observation limits](release.md). #110 closed; #111/#112 remain open for actual handoff/setup evidence.

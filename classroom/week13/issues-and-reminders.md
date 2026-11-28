@@ -33,3 +33,5 @@ Definition of Done: locate/link the claimed baseline and clean-install proof, or
 - [#112 permanent bootstrap evidence reconciliation](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/112)
 
 Each issue has completion criteria. #111 and #112 remain open until actual evidence satisfies them.
+
+Publication: [PR #113](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/pull/113) merged; #110 closed. [Successful release receipt](release.md). Independent trial and permanent setup reconciliation remain open in #111/#112.
