@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { apiFetch } from '../api'
-import { computed, ref, nextTick } from 'vue'
+import { computed, ref, nextTick, watch } from 'vue'
 import StudentIcon from './StudentIcon.vue'
 import StudentIdCard from './StudentIdCard.vue'
 import JobFinder from './JobFinder.vue'
@@ -21,6 +21,9 @@ function openClassTab(tab:ClassTab){classTab.value=tab;void nextTick(()=>student
 const schoolInfo=ref<{name:string;level:string}|null>(null)
 const schoolMode=computed(()=>Boolean(schoolInfo.value))
 const menu = ref(false)
+const navigationDialog=ref<HTMLDialogElement>()
+watch(menu,async open=>{await nextTick();if(open&&!navigationDialog.value?.open)navigationDialog.value?.showModal();else if(!open&&navigationDialog.value?.open)navigationDialog.value.close()})
+function dismissBackdrop(event:MouseEvent){const box=navigationDialog.value?.getBoundingClientRect();if(box&&(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom))menu.value=false}
 type Profile = { full_name: string; university: string; major: string | null; year_of_study: number | null; email: string | null; phone_number: string | null; address: string | null }
 const profile = ref<Profile | null>(null)
 const profileLoading = ref(false)
@@ -81,15 +84,11 @@ async function loadSemesters(){ semesterLoading.value=true; semesterError.value=
   <div class="student-view">
     <div class="student-shell">
       <header class="student-top">
-        <button v-if="['life', 'home', 'settings'].includes(page)" class="icon-button" aria-label="Open navigation" :aria-expanded="menu" aria-controls="student-menu" @click="menu = !menu"><StudentIcon name="menu" /></button>
+        <button v-if="['life', 'home', 'settings'].includes(page)" class="icon-button" aria-label="Open navigation" :aria-expanded="menu" aria-controls="student-menu" aria-haspopup="dialog" @click="menu = !menu"><StudentIcon name="menu" /></button>
         <button v-else class="icon-button" aria-label="Back to home" @click="go('home')"><StudentIcon name="back" /></button>
         <h1>{{ title }}</h1><span class="top-spacer"></span>
       </header>
-      <nav v-if="menu" id="student-menu" class="student-menu" aria-label="Student menu">
-        <button v-for="item in sections" :key="item.page" @click="go(item.page)">{{ item.title }}</button>
-        <button @click="go('settings')">Account settings</button>
-        <button :disabled="busy" @click="$emit('logout')">{{ busy ? 'Logging out…' : 'Log out' }}</button>
-      </nav>
+      <dialog ref="navigationDialog" id="student-menu" class="student-navigation" aria-labelledby="student-navigation-title" @cancel.prevent="menu=false" @close="menu=false" @click="dismissBackdrop"><div class="navigation-heading"><div><h2 id="student-navigation-title">Your workspace</h2><p>{{schoolInfo?.name||loginId}}</p></div><button type="button" class="navigation-close" aria-label="Close navigation" @click="menu=false"><StudentIcon name="cancel" /></button></div><nav aria-label="Student menu" class="navigation-links"><button type="button" class="navigation-item" :class="{'is-current':page==='home'||page==='life'}" :aria-current="page==='home'||page==='life'?'page':undefined" @click="go('home')"><StudentIcon name="home"/><span>Home</span></button><button v-for="item in sections" :key="item.page" type="button" class="navigation-item" :class="{'is-current':page===item.page}" :aria-current="page===item.page?'page':undefined" @click="go(item.page)"><StudentIcon :name="item.icon"/><span>{{item.title}}</span></button></nav><div class="navigation-account"><button type="button" class="navigation-item" :class="{'is-current':page==='settings'}" @click="go('settings')"><StudentIcon name="settings"/><span>Account settings</span></button><button type="button" class="navigation-item" :disabled="busy" @click="$emit('logout')"><StudentIcon name="logout"/><span>{{busy?'Logging out…':'Log out'}}</span></button></div></dialog>
       <main ref="studentContent" class="student-content">
         <p v-if="error" class="error" role="alert">{{ error }}</p>
         <StudentHome v-if="page==='home'||page==='life'" :items="sections" @open="go" @context="schoolInfo=$event" />
@@ -128,4 +127,5 @@ async function loadSemesters(){ semesterLoading.value=true; semesterError.value=
 .student-view{background:#edf3ef;color:#243e33}.student-shell{max-width:900px;border-color:#d4e2d8}.student-top{background:#f7faf7;border-color:#dce7df}.student-bottom{border-color:#dce7df}.student-bottom button{padding:8px 12px;flex:1}.student-bottom .selected{background:#eaf3ed;color:#356a4c}.student-tile{min-height:105px;background:#f2f7f3;border-color:#d1e0d5;color:#31523d}.student-tile.wide{grid-column:auto;min-height:105px}.student-menu{background:#f5f9f5;border-color:#dce7df}.student-menu button{color:#31523d}.student-primary{background:#35644e}.student-canteen{display:grid;gap:24px}.student-canteen :deep(.menu-item){box-shadow:none}.student-view h2{color:inherit}
 .contact-panel{border:0;border-radius:0}.contact-panel .panel-heading{padding:0 0 12px;background:transparent;border-bottom:1px solid #dce6df}.contact-panel dl{padding:0}.contact-panel dl>div{padding:12px 0}.contact-panel .edit-form{padding:8px 0 0}
 .class-subtabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0 0 18px;padding:5px;border:1px solid #dce6df;border-radius:10px;background:#edf4ef}.class-subtabs button{width:100%;min-height:44px;margin:0;padding:10px 8px;border-radius:7px;background:transparent;color:#365b49;font-size:13px;line-height:1.4}.class-subtabs button[aria-current=page]{background:#38624f;color:white}.my-class-workspace{min-width:0}@media(max-width:400px){.class-subtabs{gap:3px;padding:4px}.class-subtabs button{font-size:12px;padding:9px 4px}}
+.student-navigation{position:fixed;inset:0 auto 0 0;margin:0;width:min(320px,calc(100% - 24px));height:100dvh;max-height:100dvh;max-width:none;padding:20px 16px;border:0;border-right:1px solid var(--student-rule);border-radius:0;background:var(--student-paper);color:var(--student-ink);overflow-y:auto;overscroll-behavior:contain;box-sizing:border-box}.student-navigation::backdrop{background:var(--student-overlay)}.navigation-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 8px 20px;border-bottom:1px solid var(--student-rule)}.student-view .navigation-heading h2{font-size:18px;margin:0}.navigation-heading p{font-size:12px;line-height:1.5;color:var(--student-muted);margin:6px 0 0;overflow-wrap:anywhere}.student-navigation .navigation-close{display:grid;place-items:center;flex-shrink:0;width:44px;height:44px;margin:0;padding:10px;border:1px solid var(--student-rule);border-radius:8px;background:var(--student-paper);color:var(--student-ink)}.navigation-close svg{width:20px;height:20px}.navigation-links{display:grid;gap:4px;padding:16px 0}.student-navigation .navigation-item{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;margin:0;padding:10px 12px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--student-ink);font-size:14px;font-weight:500;text-align:left}.navigation-item svg{width:21px;height:21px;flex-shrink:0;color:var(--student-muted)}.student-navigation .navigation-item:hover{background:var(--student-soft)}.student-navigation .navigation-item.is-current{background:var(--student-hover);border-color:var(--student-rule);color:var(--student-accent)}.navigation-item.is-current svg{color:var(--student-accent)}.navigation-account{display:grid;gap:4px;border-top:1px solid var(--student-rule);padding-top:12px}.student-navigation button:focus-visible{outline:2px solid var(--student-focus);outline-offset:2px}.student-navigation button:disabled{color:var(--student-muted);background:var(--student-soft);cursor:not-allowed;opacity:.55}
 </style>
