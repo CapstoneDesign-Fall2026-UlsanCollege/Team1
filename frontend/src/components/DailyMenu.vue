@@ -6,7 +6,7 @@ import CanteenDetails from './CanteenDetails.vue'
 import { scheduleApi } from '../schedules'
 
 const props = defineProps<{ manage?: boolean; preview?: boolean; reader?: 'student' | 'teacher' | 'parent' }>()
-const emit=defineEmits<{busy:[value:boolean]}>()
+const emit=defineEmits<{busy:[value:boolean];dirty:[value:boolean]}>()
 type Item = { id?: string; name: string; price: number; status:'unknown'|'available'|'sold_out' }
 const campusDate = () => new Intl.DateTimeFormat('en-CA', {
   timeZone: 'Asia/Kathmandu', year: 'numeric', month: '2-digit', day: '2-digit',
@@ -18,6 +18,8 @@ const date = ref(campusDate()), loadedDate = ref(''), version = ref(0)
 const items = ref<Item[]>([]), published = ref(false), hasMenu = ref(false)
 const currency=ref('NPR'),baseline=ref(''),savedPublished=ref(false)
 const dirty=computed(()=>hasMenu.value || items.value.length ? JSON.stringify({items:items.value,published:published.value})!==baseline.value:false)
+watch(dirty,value=>emit('dirty',value))
+onBeforeUnmount(()=>emit('dirty',false))
 const available=computed(()=>items.value.filter(i=>i.status==='available').length)
 const soldOut=computed(()=>items.value.filter(i=>i.status==='sold_out').length)
 const updated = ref(''), loading = ref(false), saving = ref(false)

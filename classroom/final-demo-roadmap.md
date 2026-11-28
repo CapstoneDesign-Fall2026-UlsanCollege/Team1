@@ -116,3 +116,7 @@ P-level is work order; severity describes an observed defect. Verification gaps 
 - [ ] Required independent/live checks and handoff have passed for the final release.
 
 **AI-use note:** Codex read the course template and existing repository records and drafted this roadmap at Galan's request. Future commitments, human checks, dates of execution and team sign-off are not invented. Update the route when new evidence changes risk, fallback or the next action.
+
+## Week 13 checkpoint — November 28, 2026
+
+The promise remains unchanged. [Reader package](week13/README.md), [feature status](week13/final-feature-list.md) and [verification](week13/verification.md) now link current scope. Independent non-author trial remains pending in [Peer Test Notes](week13/peer-test-notes.md). Permanent baseline/first-admin route is absent from this checkout despite historical #77 closure; no permanent-install fallback is verified. Galan coordinates evidence reconciliation and a reader result by December 2 end of day. [Actions/Definitions of Done](week13/issues-and-reminders.md).

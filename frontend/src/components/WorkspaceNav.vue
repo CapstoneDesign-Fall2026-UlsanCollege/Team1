@@ -1,0 +1,11 @@
+<script setup lang="ts">
+import StudentIcon from './StudentIcon.vue'
+defineProps<{items:{id:string;label:string;icon?:string;badge?:number}[];current:string;label:string;disabled?:boolean}>()
+const emit=defineEmits<{select:[id:string]}>()
+</script>
+<template><nav class="workspace-tabs" :aria-label="label"><button v-for="item in items" :key="item.id" type="button" :disabled="disabled" :aria-current="item.id===current?'page':undefined" @click="emit('select',item.id)"><StudentIcon v-if="item.icon" :name="item.icon"/><span>{{item.label}}</span><span v-if="item.badge" class="workspace-tab-count">{{item.badge}}</span></button></nav></template>
+<style scoped>
+/* Hallmark · shape: app screen · genre: modern-minimal · theme: brand · states: active focus disabled · v2.0.0 */
+/* Hallmark · pre-emit critique: one navigation recipe for workspaces, names remain explicit. */
+.workspace-tabs{display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin:16px 0 20px;padding:4px;border:1px solid var(--ui-rule);border-radius:var(--ui-radius);background:var(--ui-soft);min-width:0}.workspace-tabs button{display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;min-height:var(--ui-control);width:auto;padding:8px 12px;margin:0;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--ui-muted);font-family:var(--ui-font);font-size:13px;font-weight:600;line-height:1.4;white-space:nowrap}.workspace-tabs button[aria-current=page]{background:var(--ui-surface);border-color:var(--ui-rule);color:var(--ui-accent)}.workspace-tabs button:hover{color:var(--ui-ink);background:var(--ui-surface)}.workspace-tabs button:active{background:var(--ui-soft)}.workspace-tabs button:focus-visible{outline:2px solid var(--ui-focus);outline-offset:1px}.workspace-tabs button:disabled{opacity:.55;cursor:not-allowed;background:var(--ui-soft);color:var(--ui-muted)}.workspace-tabs svg{width:18px;height:18px;flex-shrink:0}.workspace-tab-count{font-size:11px;min-width:20px;padding:2px 4px;border:1px solid var(--ui-rule);border-radius:4px;font-variant-numeric:tabular-nums}@media(max-width:700px){.workspace-tabs{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain}.workspace-tabs button{min-height:44px}}
+</style>

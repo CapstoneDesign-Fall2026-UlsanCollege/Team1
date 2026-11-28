@@ -1,0 +1,15 @@
+/* Hallmark · shape: app screen · genre: modern-minimal · theme: brand · redesign: full · signature: shared role controls · states: focus disabled error empty · v2.0.0 */
+/* Hallmark · pre-emit critique: common primitives, component-owned table geometry. */
+html,body{overflow-x:clip}body{font-family:var(--ui-font);background:var(--ui-canvas);color:var(--ui-ink)}
+:where(button,a,input,select,textarea,summary):focus-visible{outline:2px solid var(--ui-focus);outline-offset:3px}button:disabled{cursor:not-allowed}::selection{background:var(--ui-soft);color:var(--ui-ink)}input,textarea{caret-color:var(--ui-accent)}
+[data-workspace]{font-family:var(--ui-font);color:var(--ui-ink);min-width:0;--workspace-gap:var(--ui-gap)}
+[data-workspace] :where(h1,h2,h3){min-width:0;overflow-wrap:break-word;letter-spacing:0;text-wrap:balance}
+[data-workspace] :where(button,input,select,textarea){font-family:var(--ui-font)}
+[data-workspace] :where(.panel,.card){border-color:var(--ui-rule);border-radius:var(--ui-panel-radius);box-shadow:none}
+[data-workspace] :where(.secondary){background:var(--ui-soft);color:var(--ui-accent)}
+[data-workspace] :where(.error){background:var(--ui-danger-bg);color:var(--ui-danger);border:1px solid var(--ui-rule);font-size:13px;line-height:1.6}
+[data-workspace] :where(.success){background:var(--ui-success-bg);color:var(--ui-success);font-size:13px;line-height:1.6}
+[data-workspace] :where(.workspace-context){font-size:12px;color:var(--ui-muted);font-weight:500;letter-spacing:0;text-transform:none;margin:0 0 8px}
+.workspace-retry{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0}.workspace-retry button{width:auto;min-height:44px;margin:0;padding:8px 12px;border:1px solid var(--ui-rule);border-radius:var(--ui-radius);background:var(--ui-surface);color:var(--ui-accent);font-size:13px}.workspace-retry button:focus-visible{outline:2px solid var(--ui-focus);outline-offset:2px}.workspace-retry button:disabled{background:var(--ui-soft);color:var(--ui-muted);cursor:not-allowed;opacity:.55}
+.workspace-inline-warning{padding:12px;background:var(--ui-warning-bg);color:var(--ui-warning);border-radius:var(--ui-radius);font-size:13px;line-height:1.6}.workspace-inline-warning button{min-height:44px;background:transparent;color:var(--ui-accent);padding:8px;text-decoration:underline;text-underline-offset:3px}.workspace-inline-warning button:focus-visible{outline:2px solid var(--ui-focus);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
