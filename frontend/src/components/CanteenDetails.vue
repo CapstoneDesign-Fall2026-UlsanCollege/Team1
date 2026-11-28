@@ -3,13 +3,15 @@ import EnglishDateInput from './EnglishDateInput.vue'
 import {computed,onBeforeUnmount,onMounted,ref,watch} from 'vue'
 import {scheduleApi} from '../schedules'
 const props=defineProps<{manage?:boolean;compact?:boolean;reader?:'student'|'teacher'|'parent'}>()
-const emit=defineEmits<{busy:[value:boolean]}>()
+const emit=defineEmits<{busy:[value:boolean];dirty:[value:boolean]}>()
 type Hour={day:number;state:'unknown'|'open'|'closed';opens:string;closes:string}
 type Info={name:string;location:string;hours:Hour[];notice_date:string|null;notice:string;closed_for_notice:boolean;published:boolean;version:number;updated_at?:string}
 const empty=():Info=>({name:'',location:'',hours:Array.from({length:7},(_,i)=>({day:i+1,state:'unknown',opens:'',closes:''})),notice_date:null,notice:'',closed_for_notice:false,published:false,version:0})
 const form=ref<Info>(empty()),exists=ref(false),loading=ref(false),saving=ref(false),ready=ref(false),error=ref(''),message=ref(''),today=ref(''),baseline=ref('')
 const weekdays=[{id:7,name:'Sunday'},{id:1,name:'Monday'},{id:2,name:'Tuesday'},{id:3,name:'Wednesday'},{id:4,name:'Thursday'},{id:5,name:'Friday'},{id:6,name:'Saturday'}]
 const dirty=computed(()=>ready.value && JSON.stringify(form.value)!==baseline.value)
+watch(dirty,value=>emit('dirty',value))
+onBeforeUnmount(()=>emit('dirty',false))
 const hours=computed(()=>weekdays.map(d=>({...d,hour:form.value.hours.find(h=>h.day===d.id)!})))
 const dayId=computed(()=>today.value?(new Date(today.value+'T00:00:00Z').getUTCDay()||7):0)
 const todayHour=computed(()=>form.value.hours.find(h=>h.day===dayId.value))
