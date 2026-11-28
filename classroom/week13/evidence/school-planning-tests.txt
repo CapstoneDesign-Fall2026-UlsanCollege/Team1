@@ -1,0 +1,62 @@
+✔ structured student identity validates admission details and pads the eight-digit login (3.0763ms)
+✔ monthly attendance retains raw marks and converts each three late marks into one absence (1.3806ms)
+✔ room recurrence overlap checks actual weekdays and date-range boundaries (0.4528ms)
+✔ school dates follow Nepal midnight rather than the server or Korea timezone (24.6172ms)
+✔ school planning rejects invalid dates, identifiers and blank labels (0.7247ms)
+▶ isolated MySQL school structure, mapping and student scope
+  ✔ every visible workspace read endpoint is wired through the production app factory (438.2475ms)
+  ✔ legacy records remain readable before explicit school-mode activation (92.692ms)
+  ✔ explicit school setup and years preserve records and reject invalid overlap (501.8544ms)
+  ✔ same class label works across grades and years, not within the same grade/year (283.0525ms)
+  ✔ terms and legacy subjects require explicit valid school mapping (431.6342ms)
+  ✔ student academic scope follows explicit class membership, not legacy major or forged IDs (270.2126ms)
+  ✔ dated transfer and ending membership preserve history with no major fallback (366.7101ms)
+  ✔ new school subjects and meetings use class conflicts and adjacent boundaries (304.6226ms)
+  ✔ concurrent membership changes require a fresh revision and keep one open record (66.251ms)
+  ✔ data survives restart and users/profile credentials stay unchanged (820.7099ms)
+  ✔ teacher creation persists a catalog subject before any timetable assignment (132.1925ms)
+  ✔ grade library, stable teachers and timetable drops reject duplicate, stale and cross-class clashes (1186.4597ms)
+  ✔ account directory filters grade before limiting and isolates teacher timetable reads (1702.687ms)
+  ✔ 40-room layout, yearly classroom moves and recurring lab bookings are isolated and conflict-safe (1324.6579ms)
+  ✔ #72 same-day save survives read-back, overlap leaves no row, adjacent slot succeeds (318.6223ms)
+  ℹ VALID: HTTP 201; separate GET matches saved fields; SQL count increased by one. Fixture: {"room_id":207,"class_id":2,"offering_id":2,"teacher_id":3,"day_of_week":7,"start_time":"14:00","end_time":"15:00","starts_on":"2026-11-15","ends_on":"2026-11-15","repeats_weekly":false}
+  ℹ CONFLICT: HTTP 409; SQL count unchanged; original GET record and planning revision unchanged.
+  ℹ BOUNDARY: adjacent 15:00–16:00 returns HTTP 201 and survives separate GET.
+  ✔ student dashboard scopes homeroom, room and daily lessons to effective membership and active term (361.2254ms)
+API request failed: Fixture membership failure
+  ✔ school enrollment atomically creates account/profile/membership and supports paged class rosters (8174.6269ms)
+  ▶ teacher accounts, scoped rosters, homework and homeroom attendance
+    ✔ profile QR references are stable, private and limited to active assigned staff (321.186ms)
+    ✔ admin links teacher accounts atomically; duplicate link rolls back user insert and every role is isolated (941.5296ms)
+    ✔ schedule and roster follow linked teacher, effective membership and current term, ignoring forged teacher IDs (117.3341ms)
+    ✔ homework persists, scopes student reads, rejects foreign subjects and enforces edit revisions/archive (478.833ms)
+    ✔ attendance is homeroom-only, initially unmarked, date/membership validated, atomic and revision protected (365.0644ms)
+    ✔ monthly attendance scopes each day/membership, counts raw and adjusted totals and rejects other teachers (283.1317ms)
+    ✔ ambiguous or inactive homeroom and deactivated accounts do not retain access (861.2069ms)
+  ✔ teacher accounts, scoped rosters, homework and homeroom attendance (6390.9369ms)
+  ✔ individual student identity preserves records/password, rejects collisions and revokes old sessions (1407.4051ms)
+  ✔ Sunday-Friday routine saves and edits atomically, preserves other periods and rejects late-day conflicts (925.9637ms)
+  ✔ copy-day copies a whole class routine, skips identical lessons and rolls back all target-day conflicts (1347.2398ms)
+  ✔ configurable floors and room numbers preserve links, reject duplicates and survive bootstrap (350.7784ms)
+  ✔ CSV export/preview/apply is additive, atomic, stale-safe and excludes credentials (2100.3036ms)
+  ✔ quick floor creation saves its rooms atomically and preserves existing layouts (448.7445ms)
+  ✔ next-step guide is admin-only, year-scoped and exposes counts without personal data (289.9531ms)
+  ▶ parent provisioning, first-password gate, child scope, resets, notices and audit are enforced
+    ✔ only admin creates verified links; failures are atomic and P login suggestions avoid collisions (2762.4862ms)
+    ✔ initial password gates every child route, then invalidates sessions after change (4330.9157ms)
+    ✔ parents see only linked children and read records without writing academic data (344.3463ms)
+    ✔ daily workflow carries admin enrollment, teacher records and canteen publication to student and parent (2025.0426ms)
+    ✔ unlinking and disabling take effect immediately; stale link edits are refused (864.8804ms)
+    ✔ published notices only, own contact updates, resets and CSV keep guardian access private (1795.7207ms)
+  ✔ parent provisioning, first-password gate, child scope, resets, notices and audit are enforced (12218.6615ms)
+  ✔ year rollover previews without writes and preserves historical memberships and school records (168.3154ms)
+  ✔ academic recovery restores changed values and missing progress, retains unlisted rows and refuses stale copies (662.7997ms)
+✔ isolated MySQL school structure, mapping and student scope (46270.1973ms)
+ℹ tests 47
+ℹ suites 0
+ℹ pass 47
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 46964.1249

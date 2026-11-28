@@ -1,0 +1,61 @@
+
+> frontend@0.0.0 test
+> node --test tests/*.test.mjs
+
+✔ adjusted percentage excludes excused and unmarked days and reports recording coverage (13.2745ms)
+✔ class summaries preserve per-student late conversions rather than combining leftover lates (0.5473ms)
+✔ percentage filters keep unrecorded days separate and use strict thresholds (0.917ms)
+✔ weekday selector stays within Sunday-start week across month/year boundaries (4.3613ms)
+✔ saved names fill prices only for an exact normalized match; new names stay editable (0.511ms)
+✔ drag scrolling is neutral in the middle/outside and accelerates towards either edge (1.574ms)
+✔ holding the cursor still at the bottom keeps scrolling until drop/cancel stops all frames (1.1119ms)
+✔ page scrolling takes priority, then the timetable scrolls vertically and sideways at its limits (0.5521ms)
+✔ leaving the edge stops movement, outside pointers do nothing, and restarting does not duplicate loops (0.3696ms)
+✔ Gregorian dates reject impossible dates and accept leap days including century rules (1.5218ms)
+✔ calendar grids align Sunday and handle month lengths and temporarily invalid year input (1.3201ms)
+✔ date limits are inclusive and month limits work across year boundaries (0.5386ms)
+✔ homework percent counts late submissions as completed, preserves unmarked denominator and individual assignments (2.373ms)
+✔ old stored keyword is ignored and clearing the input reloads unfiltered jobs (7.4942ms)
+✔ Refresh clears a submitted keyword and availability and returns to the full first page (3.0025ms)
+✔ favourites show saved details without the catalogue keyword or availability restrictions (1.6559ms)
+✔ a late keyword response cannot replace a cleared search or its page count (1.209ms)
+✔ Korean schedules parse conservatively (3.6046ms)
+✔ every known day and entire shift must fit; unknowns are optional (0.8434ms)
+✔ class conflicts include overnight spillover and boundary times (0.6413ms)
+✔ subject filtering uses explicit specialization and historical subject assignments (2.7469ms)
+✔ weekly availability respects term overlap, same weekday, boundaries and excluded offering (2.4192ms)
+✔ room bookings block only actual occurrences and cancelled bookings do not block (0.4036ms)
+✔ other-class teaching blocks only overlapping lessons within term (1.5402ms)
+✔ supervising own class is allowed; another room booking still blocks (0.4174ms)
+✔ missing or invalid times are not advertised as available (0.2056ms)
+✔ stalled reads time out with a useful message and never retry (19.4226ms)
+✔ caller cancellation remains cancellation and successful reads preserve credentials (49.2069ms)
+✔ writes are not auto-aborted or replayed because a saved result could be uncertain (25.918ms)
+✔ empty data cannot claim class, lesson or teacher-login readiness from zero missing counts (1.796ms)
+✔ saved setup advances through the next missing task and back when a required record is removed (0.7062ms)
+✔ guide navigation matches actual admin panels, does not mutate counts or require parent data (0.4718ms)
+✔ QR PNG decodes to the same site and opaque fragment without student/contact data (143.3635ms)
+✔ student subject and due-day filters combine without mutating homework or leaking across subjects (3.9872ms)
+✔ English day labels handle year rollover without computer locale or timezone (46.3962ms)
+✔ past-due and reviewed work move to history without treating overdue pending work as complete (16.7364ms)
+✔ current work is ordered nearest due first and today is not overdue (0.4618ms)
+✔ admission year, grade and section produce five fixed digits with padded sequence (4.3591ms)
+✔ unsupported labels, impossible dates and invalid student numbers fail instead of colliding (0.5943ms)
+✔ teacher homework filters combine search and due date without calling archived work due or pending (1.1154ms)
+✔ overlapping volunteering term does not replace a term with actual lessons as the default (1.2292ms)
+✔ manual choices survive refresh and valid date changes, including an intentionally empty term (0.2869ms)
+✔ unavailable or date-ineligible terms fall back to an eligible term without leaking old class choices (0.2497ms)
+✔ remembered term is account-scoped and invalid or unavailable browser storage is harmless (0.5968ms)
+✔ same Sunday-Friday routine is shown once; IDs and source order do not split it (15.6999ms)
+✔ subject, time, room or teacher exceptions each stay separate (0.5219ms)
+✔ empty days and Saturday schedules remain explicit without inventing lessons (1.3203ms)
+✔ saved usual classroom groups unspecified notes without hiding genuine room changes (0.3088ms)
+✔ empty room notes and whitespace are normalized only for school routine display (0.2942ms)
+ℹ tests 49
+ℹ suites 0
+ℹ pass 49
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1619.7414

@@ -1,122 +1,61 @@
 # StudentHub
 
-StudentHub supports Nepal-style middle/high-school administration: class enrollment, subjects/teachers, weekly timetables, room allocations/bookings, student accounts and school canteen information.
+A connected school workspace for Nepal middle and high schools. Administrators organise school records; teachers manage classes, homework and attendance; students find their lessons and published school information.
 
-**Current evidence:** [Week 10 index](classroom/week10/README.md), [class workspace and enrollment](classroom/week10/school-workspace-usability.md), [student dashboard](classroom/week10/student-dashboard-check.md), [Activity Log](docs/activity-log.md). Earlier Week 9 planning documents describe the pivot's history.
+[Open StudentHub](https://team1-production.up.railway.app/) | [Start locally](docs/setup-guide.md) | [Week 13 evidence](classroom/week13/README.md) | [Final demo promise](classroom/final-demo-roadmap.md)
 
-## Implemented and locally checked
+## Connected roles
 
-- Administrators manage academic years, classes, student enrollment/transfers, specialist teacher assignments, subject/timetable planning, usual classrooms and special-room bookings.
-- Student Home provides compact feature tabs. My Class shows their effective class, homeroom teacher and room; Timetable shows grouped weekly routines; School Canteen shows published menu/information. Profile and subjects remain accessible.
-- Canteen heads manage dated menus, prices, availability, copy-to-days, publication, hours/location and notices. Students see only published information; an unpublished menu remains hidden.
-- Account support includes administrator-reviewed password resets; private password delivery is manual.
-- Admin-only Activity Log records authenticated staff changes with private-value redaction.
-- Seoul job search and favourites remain available as an optional high-school direction; complete policy enforcement is separate work.
+| Role | Current workflow |
+| --- | --- |
+| Administrator | School/year/class setup, accounts, enrollment, subject/teacher assignments, timetables, floors/rooms, notices, activity log and data recovery |
+| Teacher | Daily schedule, class roster, notices, homework/progress register, homeroom attendance/monthly summaries and canteen |
+| Student | My Class with timetable/subjects, notices, current homework/history, canteen, profile and student card |
+| Canteen head | Dated menus, prices, availability, drafts/publication, copy to days, hours/location |
+| Parent - stretch | Verified child links, child homework/attendance/timetable and published notices/menu |
 
-These are local/automated/browser results, not a claim of current hosted release verification. Existing college records are retained behind explicit school mapping.
+Teacher dashboard is core. Parent access and jobs remain stretch/optional. Week 13 keeps the final demo promise fixed.
 
-## Setup status - read before following the older commands below
+## Evidence and current limits
 
-The setup section below is incomplete for a new empty database. Migrations currently begin at 002; the base tables and first-admin bootstrap need a canonical versioned procedure. Personal-machine paths below are historical examples. A successful build on the author's populated database does not prove a fresh clone can run.
+- [Feature readiness](classroom/week13/final-feature-list.md), [current verification](classroom/week13/verification.md)
+- [Earlier role screenshots](classroom/week12/bishal_check/README.md): historical evidence, not pictures of this release
+- [Architecture/checks](docs/architecture.md), [single area map](classroom/week10/ai-use-and-code-ownership-audit.md#codebase-area-map--current-source-of-truth)
 
-[Setup repair and clean-database verification #77](https://github.com/CapstoneDesign-Fall2026-UlsanCollege/Team1/issues/77) tracks the missing baseline, complete migration order, configuration, first account and repeatable checks. Do not use a private production dump as a public setup fixture.
+Local passing checks do not prove full live or physical-iPhone acceptance. A permanent empty-database baseline/first-admin procedure is absent from this checkout; the disposable demo is documented separately. An independent Week 13 reader trial remains required. [Actions and reminders](classroom/week13/issues-and-reminders.md).
 
-## Project structure
+## Run and test
 
-```text
-Team1/
-├── backend/       Express + TypeScript API and MySQL access
-│   ├── src/       API routes and database services
-│   └── tests/     Backend tests
-├── frontend/      Vue 3 + Vite interface
-│   └── src/        Components and styles
-├── database/      SQL migrations and seed files
-├── classroom/     Reports, wireframes, and weekly evidence
-└── README.md
-```
-
-## Requirements
-
-- Node.js and npm
-- MySQL or MariaDB
-- A database named `studenthub`
-
-The current local setup uses MySQL on port `3307`. Change the environment values if using another port.
-
-## First-time setup
-
-From the repository root:
+Use PowerShell in the cloned repository root. Prerequisites: Git, Node.js 24/npm and local MySQL. The disposable demo needs permission to create/drop its own random database.
 
 ```powershell
-cd backend
-npm.cmd install
-Copy-Item .env.example .env
+npm.cmd ci --prefix backend
+npm.cmd ci --prefix frontend
+npm.cmd run build --prefix backend
+npm.cmd run build --prefix frontend
+npm.cmd test --prefix frontend
 ```
 
-Open `backend/.env` and set the database password. Do not commit `.env` or put its password in documentation.
+Follow the [setup guide](docs/setup-guide.md) for private configuration, a disposable demonstration, or two-terminal development with a provisioned database. No universal administrator password is published.
 
-Apply the database migrations in order from your MySQL client:
+## Architecture
 
-```sql
-SOURCE database/migrations/002_student_semesters.sql;
-SOURCE database/migrations/003_major_course_offerings.sql;
+```mermaid
+flowchart LR
+    U[Vue role workspace] --> A[Express API and role checks]
+    A --> D[(MySQL school records)]
+    T[Isolated fictional-data tests] --> A
 ```
 
-Install frontend packages:
+Railway builds the frontend/API into one service. Development Vite proxies `/api` to port 3000. [Dependencies and boundaries](docs/architecture.md).
 
-```powershell
-cd ..\frontend
-npm.cmd install
-```
+| Location | Purpose |
+| --- | --- |
+| `frontend/src` | Vue workspaces and shared controls/styles |
+| `backend/src` | API, authorization, transactions and schema helpers |
+| `backend/tests`, `frontend/tests` | Automated checks |
+| `database/migrations` | Historical migrations, not a full first-install baseline |
+| `docs` | Current setup, architecture and feature guides |
+| `classroom/week13` | Handoff report, evidence and reminders |
 
-## Run locally
-
-Use two VS Code terminals.
-
-Backend:
-
-```powershell
-cd "C:\Users\galan\team1Studenthub\Team1\backend"
-npm.cmd run dev
-```
-
-The API runs at `http://127.0.0.1:3000`.
-
-Frontend:
-
-```powershell
-cd "C:\Users\galan\team1Studenthub\Team1\frontend"
-npm.cmd run dev
-```
-
-Open the Vite address shown in the terminal, normally `http://localhost:5173`.
-
-Both terminals must be running for login and database features to work.
-
-## Verification
-
-```powershell
-cd frontend
-npm.cmd run build
-
-cd ..\backend
-npm.cmd test
-```
-
-## Security and deployment notes
-
-- Never commit `backend/.env`.
-- Never place database passwords or API keys in frontend code.
-- Student passwords are stored as bcrypt hashes.
-- Students cannot create accounts or use administrator endpoints.
-- GitHub Pages can host the built frontend, but it cannot run the Express backend or MySQL database. A public full application needs separate hosting for the API and database.
-
-## Development workflow
-
-1. Confirm the GitHub issue for the feature slice.
-2. Build the backend endpoint and frontend control together.
-3. Run the frontend build and backend tests.
-4. Test the flow as administrator and student.
-5. Commit with a clear message and push to the team repository.
-
-The repository is a development MVP. School features have local checks; independent human and live verification remain separate. Railway recovery is tracked in #65. The owner plans to revisit its purchase on November 10; keep fallback hosting and private backups until recovery is verified.
+Keep `.env`, passwords, private exports and real student records out of GitHub. Use fictional demo data. [Deployment/recovery](docs/deployment.md).
